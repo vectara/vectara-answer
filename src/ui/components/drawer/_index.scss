@@ -1,0 +1,62 @@
+@use "sass:map";
+
+$drawerWidth: 500px;
+
+@keyframes drawerIn {
+  0% {
+    right: -$drawerWidth;
+  }
+
+  100% {
+    right: 0;
+  }
+}
+
+.vuiDrawer {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: $drawerWidth;
+  background-color: $colorEmptyShade;
+  border-left: 1px solid $borderColor;
+  z-index: $drawerZIndex;
+  animation: drawerIn $transitionSpeed cubic-bezier(0, 1, 0, 1);
+}
+
+.vuiDrawerHeader {
+  padding: $sizeL $sizeL;
+}
+
+.vuiDrawerContent {
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+}
+
+.vuiDrawerContent__inner {
+  padding: $sizeL $sizeL;
+}
+
+// Color
+$color: (
+  primary: (
+    "background-color": $colorPrimaryLight,
+    "color": $colorText
+  ),
+  danger: (
+    "background-color": $colorDangerLight,
+    "color": $colorDanger
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiDrawer--#{$colorName} {
+    .vuiDrawerHeader {
+      background-color: #{map.get($colorValue, "background-color")};
+      color: #{map.get($colorValue, "color")};
+    }
+  }
+}

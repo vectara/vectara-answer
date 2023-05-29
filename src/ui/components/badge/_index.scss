@@ -1,0 +1,58 @@
+@use "sass:map";
+
+.vuiBadge {
+  display: inline-block;
+  font-size: $fontSizeXxs;
+  line-height: 1;
+  padding: $sizeXxs $sizeXs;
+  border-radius: $sizeS;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.vuiBadge--clickable {
+  cursor: pointer;
+}
+
+// Color
+$color: (
+  accent: (
+    "color": $colorAccent,
+    "background-color": transparentize($colorAccent, 0.9),
+    "border-color": transparentize($colorAccent, 0.9)
+  ),
+  primary: (
+    "color": $colorPrimary,
+    "background-color": transparentize($colorPrimary, 0.9),
+    "border-color": transparentize($colorPrimary, 0.9)
+  ),
+  success: (
+    "color": $colorSuccess,
+    "background-color": transparentize($colorSuccess, 0.9),
+    "border-color": transparentize($colorSuccess, 0.9)
+  ),
+  danger: (
+    "color": $colorDanger,
+    "background-color": transparentize($colorDanger, 0.9),
+    "border-color": transparentize($colorDanger, 0.9)
+  ),
+  normal: (
+    "color": $colorText,
+    "background-color": $colorLightShade,
+    "border-color": transparentize($colorText, 0.9)
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiBadge--#{$colorName} {
+    color: #{map.get($colorValue, "color")} !important;
+    background-color: #{map.get($colorValue, "background-color")};
+    border: 1px solid #{map.get($colorValue, "border-color")};
+    transition: all $transitionSpeed;
+
+    &.vuiBadge--clickable:hover {
+      border-color: #{map.get($colorValue, "color")};
+      text-decoration: none;
+    }
+  }
+}

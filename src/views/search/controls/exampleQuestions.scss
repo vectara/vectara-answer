@@ -1,0 +1,15 @@
+@import "../../../App.scss";
+
+.prompt {
+  min-width: 400px;
+}
+
+@media screen and (max-width: $breakpointExampleQuestionsAreCramped) {
+  .promptList {
+    flex-direction: column !important;
+  }
+
+  .prompt {
+    min-width: auto;
+  }
+}

@@ -1,0 +1,13 @@
+@import "../../../ui/globalStyling/index.scss";
+@import "../../../App.scss";
+
+.searchResultSiteCategory {
+  overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: $breakpointTitleIsWrapped) {
+  .searchResultFilterGroup {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}

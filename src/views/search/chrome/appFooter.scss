@@ -1,0 +1,30 @@
+@import "../../../ui/globalStyling/index.scss";
+@import "../../../App.scss";
+
+.appFooter {
+  background-color: transparentize($colorAccent, 0.9);
+  width: 100%;
+}
+
+.appFooterContent {
+  padding: $sizeXxl * 3 $sizeXxl * 2 $sizeXxl * 3;
+  max-width: $pageWidth;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: $breakpointContentIsCramped) {
+  .appFooterContent {
+    padding: $sizeXxl * 2 $sizeXxl $sizeXxl * 2;
+  }
+
+  .appFooterContent__layout {
+    flex-direction: column !important;
+  }
+}
+
+@media screen and (max-width: $breakpointFooterIsHeavy) {
+  .appFooterContent {
+    padding: $sizeXxl $sizeXxl $sizeXxl;
+  }
+}

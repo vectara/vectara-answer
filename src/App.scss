@@ -1,0 +1,19 @@
+@import "./ui/globalStyling/reset";
+@import "./ui/index";
+
+$pageWidth: 1000px;
+$breakpointExampleQuestionsAreCramped: 975px;
+$breakpointContentIsCramped: 860px;
+$breakpointFooterIsHeavy: 700px;
+$breakpointTitleIsWrapped: 524px;
+$breakpointTitleIsWrappedThreeLines: 407px;
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.grecaptcha-badge,
+.grecaptcha-badge * {
+  display: none !important;
+}

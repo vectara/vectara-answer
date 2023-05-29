@@ -1,0 +1,74 @@
+@use "sass:map";
+
+$modalWidth: 500px;
+
+@keyframes modalIn {
+  0% {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.vuiModalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: modalIn $transitionSpeed cubic-bezier(0, 1, 1, 1);
+  pointer-events: none;
+}
+
+.vuiModal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $modalWidth;
+  max-height: calc(100vh - 200px);
+  background-color: $colorEmptyShade;
+  border: 1px solid $borderColor;
+  z-index: $modalZIndex;
+  pointer-events: all;
+}
+
+.vuiModalHeader {
+  padding: $sizeM;
+}
+
+.vuiModalContent {
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+}
+
+.vuiModalContent__inner {
+  padding: $sizeL $sizeM $sizeXxl;
+}
+
+// Color
+$color: (
+  primary: (
+    "background-color": $colorPrimaryLight,
+    "color": $colorText
+  ),
+  danger: (
+    "background-color": $colorDangerLight,
+    "color": $colorDanger
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiModal--#{$colorName} {
+    .vuiModalHeader {
+      background-color: #{map.get($colorValue, "background-color")};
+      color: #{map.get($colorValue, "color")};
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "questions": [
+        "what is a conditional prompt?",
+        "Which embeddings providers are supported?",
+        "can you build a chatbot with LangChain?",
+        "How do Text splitters work with a vector database?"
+    ]
+}

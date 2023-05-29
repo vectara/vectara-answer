@@ -1,0 +1,216 @@
+import { createContext, useContext, ReactNode, useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
+import { DeserializedSearchResult, SearchResponse } from "../views/search/types";
+import { useConfigContext } from "./ConfigurationContext";
+import { sendSearchRequest } from "../views/search/results/sendSearchRequest";
+import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";
+import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
+
+interface SearchContextType {
+  filterValue: string;
+  setFilterValue: (source: string) => void;
+  searchValue: string;
+  setSearchValue: (value: string) => void;
+  onSearch: ({ value, filter, isPersistable }: { value?: string; filter?: string; isPersistable?: boolean }) => void;
+  reset: () => void;
+  isSearching: boolean;
+  searchError: any;
+  searchResults: DeserializedSearchResult[] | undefined;
+  isSummarizing: boolean;
+  summarizationError: any;
+  summarizationResponse: SearchResponse | undefined;
+  history: HistoryItem[];
+  clearHistory: () => void;
+  searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
+  selectedSearchResultPosition: number | undefined;
+  selectSearchResultAt: (position: number) => void;
+}
+
+const SearchContext = createContext<SearchContextType | undefined>(undefined);
+
+type Props = {
+  children: ReactNode;
+};
+
+let searchCount = 0;
+
+export const SearchContextProvider = ({ children }: Props) => {
+  const { search } = useConfigContext();
+
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [filterValue, setFilterValue] = useState("");
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // History
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+
+  // Basic search
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchError, setSearchError] = useState<any>();
+  const [searchResponse, setSearchResponse] = useState<SearchResponse>();
+
+  // Summarization
+  const [isSummarizing, setIsSummarizing] = useState(false);
+  const [summarizationError, setSummarizationError] = useState<any>();
+  const [summarizationResponse, setSummarizationResponse] = useState<SearchResponse>();
+
+  // Citation selection
+  const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
+  const [selectedSearchResultPosition, setSelectedSearchResultPosition] = useState<number>();
+
+  useEffect(() => {
+    setHistory(retrieveHistory());
+  }, []);
+
+  const searchResults = deserializeSearchResponse(searchResponse);
+
+  useEffect(() => {
+    if (searchResults) {
+      searchResultsRef.current = searchResultsRef.current.slice(0, searchResults.length);
+    } else {
+      searchResultsRef.current = [];
+    }
+  }, [searchResults]);
+
+  const clearHistory = () => {
+    setHistory([]);
+    deleteHistory();
+  };
+
+  const selectSearchResultAt = (position: number) => {
+    if (!searchResultsRef.current[position] || selectedSearchResultPosition === position) {
+      // Reset selected position.
+      setSelectedSearchResultPosition(undefined);
+    } else {
+      setSelectedSearchResultPosition(position);
+      // Scroll to the selected search result.
+      window.scrollTo({ top: searchResultsRef.current[position]!.offsetTop - 78, behavior: "smooth" });
+    }
+  };
+
+  const onSearch = async ({
+    value = searchValue,
+    filter = filterValue,
+    isPersistable = true
+  }: {
+    value?: string;
+    filter?: string;
+    isPersistable?: boolean;
+  }) => {
+    const searchId = ++searchCount;
+
+    setSearchValue(value);
+    setFilterValue(filter);
+
+    if (value?.trim()) {
+      // Save to history.
+      setHistory(addHistoryItem({ query: value, filter }, history));
+
+      // Persist to URL.
+      if (isPersistable) {
+        setSearchParams(
+          new URLSearchParams(`?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(filter)}`)
+        );
+      }
+
+      // First call - only search results - should come back quicky while we wait for summarization
+      setIsSearching(true);
+      setIsSummarizing(true);
+      setSelectedSearchResultPosition(undefined);
+
+      try {
+        const response = await sendSearchRequest({
+          filter,
+          query_str: value,
+          customerId: search.customerId!,
+          corpusId: search.corpusId!,
+          endpoint: search.endpoint!,
+          apiKey: search.apiKey!
+        });
+        // If we send multiple requests in rapid succession, we only want to
+        // display the results of the most recent request.
+        if (searchId === searchCount) {
+          setIsSearching(false);
+          setSearchError(undefined);
+          setSearchResponse(response);
+        }
+      } catch (error) {
+        setIsSearching(false);
+        setSearchError(error);
+        setSearchResponse(undefined);
+      }
+
+      // Second call - search and summarize; this may take a while to return results
+      try {
+        const response = await sendSearchRequest({
+          filter,
+          query_str: value,
+          includeSummary: true,
+          customerId: search.customerId!,
+          corpusId: search.corpusId!,
+          endpoint: search.endpoint!,
+          apiKey: search.apiKey!
+        });
+
+        // If we send multiple requests in rapid succession, we only want to
+        // display the results of the most recent request.
+        if (searchId === searchCount) {
+          setIsSummarizing(false);
+          setSummarizationError(undefined);
+          setSummarizationResponse(response);
+        }
+      } catch (error) {
+        setIsSummarizing(false);
+        setSummarizationError(error);
+        setSummarizationResponse(undefined);
+      }
+    } else {
+      // Persist to URL.
+      if (isPersistable) setSearchParams(new URLSearchParams(""));
+
+      setSearchResponse(undefined);
+      setSummarizationResponse(undefined);
+      setIsSearching(false);
+      setIsSummarizing(false);
+    }
+  };
+
+  const reset = () => {
+    onSearch({ value: "", filter: "" });
+  };
+
+  return (
+    <SearchContext.Provider
+      value={{
+        filterValue,
+        setFilterValue,
+        searchValue,
+        setSearchValue,
+        onSearch,
+        reset,
+        isSearching,
+        searchError,
+        searchResults,
+        isSummarizing,
+        summarizationError,
+        summarizationResponse,
+        history,
+        clearHistory,
+        searchResultsRef,
+        selectedSearchResultPosition,
+        selectSearchResultAt
+      }}
+    >
+      {children}
+    </SearchContext.Provider>
+  );
+};
+
+export const useSearchContext = () => {
+  const context = useContext(SearchContext);
+  if (context === undefined) {
+    throw new Error("useSearchContext must be used within a SearchContextProvider");
+  }
+  return context;
+};

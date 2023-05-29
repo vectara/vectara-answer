@@ -1,0 +1,46 @@
+@import "../../ui/globalStyling/index.scss";
+@import "../../App.scss";
+
+$appHeaderHeight: 52px;
+
+.appSpinner {
+  height: calc(100vh - 120px);
+}
+
+.searchView {
+  // Give some breathing room between the header and the content.
+  padding-top: $appHeaderHeight + 40px;
+}
+
+.searchControlsContainer {
+  max-width: $pageWidth;
+  width: 100%;
+}
+
+.searchContent {
+  padding: $sizeL $sizeXxl * 2;
+  max-width: $pageWidth;
+  width: 100%;
+  min-height: calc(100vh - 280px);
+}
+
+@media screen and (max-width: $breakpointContentIsCramped) {
+  .searchContent {
+    padding: $sizeL $sizeXxl;
+    min-height: calc(100vh - 248px);
+  }
+
+  .searchView {
+    padding-top: $appHeaderHeight + 8px;
+  }
+}
+
+@media screen and (max-width: $breakpointTitleIsWrappedThreeLines) {
+  .searchContent {
+    min-height: calc(100vh - 268px);
+  }
+
+  .searchView {
+    padding-top: $appHeaderHeight + 28px;
+  }
+}

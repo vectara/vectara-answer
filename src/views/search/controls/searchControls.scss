@@ -1,0 +1,20 @@
+@import "../../../ui/globalStyling/index.scss";
+@import "../../../App.scss";
+
+.searchControls {
+  padding: $sizeL $sizeXxl * 2 0;
+}
+
+@media screen and (max-width: $breakpointContentIsCramped) {
+  .searchControls {
+    padding: $sizeL $sizeXxl 0;
+  }
+}
+
+.filtersBar {
+  height: 34px;
+}
+
+.no-underline {
+  text-decoration: none;
+}

@@ -1,0 +1,27 @@
+.vuiTitle {
+  color: $colorText;
+}
+
+$size: (
+  xxs: $fontSize * 0.875,
+  xs: $sizeM,
+  s: $sizeM * 1.125,
+  m: $sizeM * 1.25,
+  l: $sizeL,
+  xl: $sizeXl,
+  xxl: $sizeXxl
+);
+
+@each $sizeName, $sizeValue in $size {
+  .vuiTitle--#{$sizeName} {
+    font-size: $sizeValue;
+  }
+}
+
+$align: left, center, right;
+
+@each $alignValue in $align {
+  .vuiTitle--#{$alignValue} {
+    text-align: #{$alignValue};
+  }
+}

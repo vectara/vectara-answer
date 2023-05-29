@@ -1,0 +1,16 @@
+.vuiFlexItem {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 0%;
+}
+
+@for $i from 0 through 10 {
+  .vuiFlexItem--flexGrow#{$i} {
+    flex-grow: $i;
+  }
+}
+
+.vuiFlexItem--flexGrowNone {
+  flex-basis: auto;
+  flex-grow: 0;
+}

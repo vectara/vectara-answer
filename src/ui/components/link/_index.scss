@@ -1,0 +1,8 @@
+.vuiLink {
+  color: $colorPrimary !important;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

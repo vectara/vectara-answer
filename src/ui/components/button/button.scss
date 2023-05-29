@@ -1,0 +1,83 @@
+@use "sass:map";
+
+.vuiButton {
+  white-space: nowrap;
+  border-radius: $sizeXxs;
+  padding: $sizeXs $size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  box-shadow: $shadowSmallStart;
+  transition: all $transitionSpeed;
+
+  &:hover {
+    box-shadow: $shadowSmallEnd;
+  }
+}
+
+.vuiButtonLink {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.vuiButton--fullWidth {
+  width: 100%;
+}
+
+.vuiButton__iconContainer {
+  margin-right: $sizeXs;
+  // Ensures custom icons and vertically centered.
+  line-height: 0;
+}
+
+// Size
+.vuiButton--xs {
+  font-size: $fontSizeXxs;
+  padding: $sizeXxs * 0.5 $sizeXs;
+}
+
+.vuiButton--s {
+  font-size: $fontSizeXs;
+  padding: $sizeXxs $sizeXs;
+}
+
+.vuiButton--m {
+  font-size: $fontSizeS;
+  padding: $sizeXs $size;
+}
+
+// Color
+$color: (
+  accent: (
+    "color": #ffffff,
+    "background-color": $colorAccent
+  ),
+  primary: (
+    "color": #ffffff,
+    "background-color": $colorPrimary
+  ),
+  danger: (
+    "color": #ffffff,
+    "background-color": $colorDanger
+  ),
+  warning: (
+    "color": #ffffff,
+    "background-color": $colorWarning
+  ),
+  normal: (
+    "color": $colorText,
+    "background-color": transparentize($colorText, 0.9)
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiButton--#{$colorName} {
+    color: #{map.get($colorValue, "color")};
+    background-color: #{map.get($colorValue, "background-color")};
+    border: 1px solid #{map.get($colorValue, "background-color")};
+  }
+}

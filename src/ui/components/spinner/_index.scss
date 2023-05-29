@@ -1,0 +1,21 @@
+$size: (
+  xs: $sizeXs * 2,
+  s: $sizeS * 2,
+  m: $sizeM * 2,
+  l: $sizeL * 2,
+  xl: $sizeXl * 2,
+  xxl: $sizeXxl * 2,
+  xxxl: $sizeXxl * 2.5
+);
+
+@each $sizeName, $sizeValue in $size {
+  .vuiSpinner--#{$sizeName} {
+    width: $sizeValue;
+    height: $sizeValue;
+  }
+}
+
+.vuiSpinner__animation {
+  width: 100%;
+  height: 100%;
+}

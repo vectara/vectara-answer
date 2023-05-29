@@ -1,0 +1,36 @@
+@mixin defineTextStyles($factor) {
+  color: $colorText;
+  font-size: $fontSize * $factor;
+  line-height: 1.4;
+
+  p {
+    font-size: $fontSize * $factor;
+    line-height: 1.4;
+    margin-bottom: 0;
+  }
+
+  p + p {
+    margin-top: $sizeS * $factor;
+  }
+}
+
+$size: (
+  xs: 0.75,
+  s: 0.875,
+  m: 1,
+  l: 1.125
+);
+
+@each $sizeName, $sizeFactor in $size {
+  .vuiText--#{$sizeName} {
+    @include defineTextStyles($sizeFactor);
+  }
+}
+
+$align: left, center, right;
+
+@each $alignValue in $align {
+  .vuiText--#{$alignValue} {
+    text-align: #{$alignValue};
+  }
+}

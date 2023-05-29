@@ -1,0 +1,19 @@
+.vuiSpacer {
+  flex-shrink: 0;
+}
+
+$size: (
+  xxs: $sizeXxs,
+  xs: $sizeXs,
+  s: $sizeS,
+  m: $sizeM,
+  l: $sizeL,
+  xl: $sizeXl,
+  xxl: $sizeXxl
+);
+
+@each $sizeName, $sizeValue in $size {
+  .vuiSpacer--#{$sizeName} {
+    height: $sizeValue;
+  }
+}

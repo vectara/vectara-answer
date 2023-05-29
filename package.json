@@ -1,0 +1,64 @@
+{
+  "name": "vectara-answer",
+  "version": "1.0",
+  "private": true,
+  "dependencies": {
+    "@react-oauth/google": "^0.10.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.12",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "axios": "^0.27.2",
+    "classnames": "^2.3.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-focus-on": "^3.8.1",
+    "react-ga4": "^2.1.0",
+    "react-icons": "^4.7.1",
+    "react-router-dom": "^6.8.2",
+    "react-scripts": "^5.0.1",
+    "underscore": "^1.13.6",
+    "url": "^0.11.0",
+    "web-vitals": "^2.1.4"
+  },
+  "overrides": {
+    "react-error-overlay": "6.0.9"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "inline-source-cli": "^2.0.0",
+    "prettier": "2.8.3",
+    "pretty-quick": "^3.1.3",
+    "sass": "^1.58.0",
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "start": "PORT=4444 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "serve": "node server/index.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
