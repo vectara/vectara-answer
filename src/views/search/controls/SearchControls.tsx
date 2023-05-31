@@ -10,7 +10,7 @@ import {
   VuiText,
   VuiBadge,
   VuiIcon,
-  VuiButtonEmpty
+  VuiButtonEmpty,
 } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
@@ -22,8 +22,13 @@ type Props = {
   hasQuery: boolean;
 };
 
-export const SearchControls = ({ isHistoryOpen, onToggleHistory, hasQuery }: Props) => {
-  const { filterValue, searchValue, setSearchValue, onSearch, reset } = useSearchContext();
+export const SearchControls = ({
+  isHistoryOpen,
+  onToggleHistory,
+  hasQuery,
+}: Props) => {
+  const { filterValue, searchValue, setSearchValue, onSearch, reset } =
+    useSearchContext();
   const { searchHeader, filters } = useConfigContext();
 
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +45,7 @@ export const SearchControls = ({ isHistoryOpen, onToggleHistory, hasQuery }: Pro
   if (filters.isEnabled) {
     filterOptions.push({
       text: "All sources",
-      value: ""
+      value: "",
     });
 
     filters.sources.forEach(({ value, label }) => {
@@ -57,9 +62,15 @@ export const SearchControls = ({ isHistoryOpen, onToggleHistory, hasQuery }: Pro
               <VuiFlexItem>
                 <a
                   href={searchHeader.logo.link ?? "/"}
-                  target={searchHeader.logo.link !== undefined ? "_blank" : "_self"}
+                  target={
+                    searchHeader.logo.link !== undefined ? "_blank" : "_self"
+                  }
                 >
-                  <img src={searchHeader.logo.src} alt={searchHeader.logo.alt} height={searchHeader.logo.height} />
+                  <img
+                    src={searchHeader.logo.src}
+                    alt={searchHeader.logo.alt}
+                    height={searchHeader.logo.height}
+                  />
                 </a>
               </VuiFlexItem>
             )}
@@ -120,55 +131,66 @@ export const SearchControls = ({ isHistoryOpen, onToggleHistory, hasQuery }: Pro
         autoFocus
       />
 
-      {filters.isEnabled && (
-        <>
-          <VuiSpacer size="m" />
+      <VuiSpacer size="m" />
 
-          <VuiFlexContainer alignItems="center" justifyContent="spaceBetween">
-            <VuiFlexItem grow={false}>
-              <fieldset>
-                <VuiFlexContainer alignItems="center" wrap={true} spacing="xs" className="filtersBar">
-                  <VuiFlexItem grow={false}>
-                    <legend>
-                      <VuiText>
-                        <VuiTextColor color="subdued">
-                          <p>Filter by source</p>
-                        </VuiTextColor>
-                      </VuiText>
-                    </legend>
-                  </VuiFlexItem>
+      <VuiFlexContainer alignItems="center" justifyContent="spaceBetween">
+        {filters.isEnabled && (
+          <VuiFlexItem grow={false}>
+            <fieldset>
+              <VuiFlexContainer
+                alignItems="center"
+                wrap={true}
+                spacing="xs"
+                className="filtersBar"
+              >
+                <VuiFlexItem grow={false}>
+                  <legend>
+                    <VuiText>
+                      <VuiTextColor color="subdued">
+                        <p>Filter by source</p>
+                      </VuiTextColor>
+                    </VuiText>
+                  </legend>
+                </VuiFlexItem>
 
-                  <VuiFlexItem grow={1}>
-                    <VuiFlexContainer alignItems="center" wrap={true} spacing="xxs">
-                      {filterOptions.map((option) => {
-                        const isSelected = option.value === filterValue;
-                        return (
-                          <VuiFlexItem key={option.value}>
-                            <VuiBadge
-                              color={isSelected ? "primary" : "normal"}
-                              onClick={() => onSearch({ filter: isSelected ? "" : option.value })}
-                            >
-                              {option.text}
-                            </VuiBadge>
-                          </VuiFlexItem>
-                        );
-                      })}
-                    </VuiFlexContainer>
-                  </VuiFlexItem>
-                </VuiFlexContainer>
-              </fieldset>
-            </VuiFlexItem>
+                <VuiFlexItem grow={1}>
+                  <VuiFlexContainer
+                    alignItems="center"
+                    wrap={true}
+                    spacing="xxs"
+                  >
+                    {filterOptions.map((option) => {
+                      const isSelected = option.value === filterValue;
+                      return (
+                        <VuiFlexItem key={option.value}>
+                          <VuiBadge
+                            color={isSelected ? "primary" : "normal"}
+                            onClick={() =>
+                              onSearch({
+                                filter: isSelected ? "" : option.value,
+                              })
+                            }
+                          >
+                            {option.text}
+                          </VuiBadge>
+                        </VuiFlexItem>
+                      );
+                    })}
+                  </VuiFlexContainer>
+                </VuiFlexItem>
+              </VuiFlexContainer>
+            </fieldset>
+          </VuiFlexItem>
+        )}
 
-            {hasQuery && (
-              <VuiFlexItem grow={false}>
-                <VuiButtonEmpty color="normal" size="s" onClick={() => reset()}>
-                  Start over
-                </VuiButtonEmpty>
-              </VuiFlexItem>
-            )}
-          </VuiFlexContainer>
-        </>
-      )}
+        {hasQuery && (
+          <VuiFlexItem grow={false}>
+            <VuiButtonEmpty color="normal" size="s" onClick={() => reset()}>
+              Start over
+            </VuiButtonEmpty>
+          </VuiFlexItem>
+        )}
+      </VuiFlexContainer>
     </div>
   );
 };
