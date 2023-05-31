@@ -23,6 +23,7 @@ type Props = {
 export const VuiModal = ({ className, color = "primary", title, children, isOpen, onClose, ...rest }: Props) => {
   const returnFocusElRef = useRef<HTMLElement | null>(null);
 
+  // Return focus on unmount.
   useEffect(() => {
     if (isOpen) {
       returnFocusElRef.current = document.activeElement as HTMLElement;
@@ -32,13 +33,20 @@ export const VuiModal = ({ className, color = "primary", title, children, isOpen
     }
   }, [isOpen]);
 
+  // Allow contents to respond to blur events before unmounting.
+  const onCloseDelayed = () => {
+    window.setTimeout(() => {
+      onClose?.();
+    }, 0);
+  };
+
   const classes = classNames("vuiModal", `vuiModal--${color}`, className);
 
   return (
     <VuiPortal>
       {isOpen && (
         <VuiScreenBlock>
-          <FocusOn onEscapeKey={onClose} onClickOutside={onClose} returnFocus={true}>
+          <FocusOn onEscapeKey={onCloseDelayed} onClickOutside={onCloseDelayed} returnFocus={true}>
             <div className="vuiModalContainer">
               <div className={classes} {...rest}>
                 <div className="vuiModalHeader">
@@ -48,7 +56,7 @@ export const VuiModal = ({ className, color = "primary", title, children, isOpen
                     {onClose && (
                       <VuiFlexItem>
                         <VuiButtonIcon
-                          onClick={onClose}
+                          onClick={onCloseDelayed}
                           color="normal"
                           icon={
                             <VuiIcon size="m" color="normal">

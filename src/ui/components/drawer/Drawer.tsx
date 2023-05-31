@@ -23,6 +23,7 @@ type Props = {
 export const VuiDrawer = ({ className, color = "primary", title, children, isOpen, onClose, ...rest }: Props) => {
   const returnFocusElRef = useRef<HTMLElement | null>(null);
 
+  // Return focus on unmount.
   useEffect(() => {
     if (isOpen) {
       returnFocusElRef.current = document.activeElement as HTMLElement;
@@ -32,13 +33,20 @@ export const VuiDrawer = ({ className, color = "primary", title, children, isOpe
     }
   }, [isOpen]);
 
+  // Allow contents to respond to blur events before unmounting.
+  const onCloseDelayed = () => {
+    window.setTimeout(() => {
+      onClose?.();
+    }, 0);
+  };
+
   const classes = classNames("vuiDrawer", `vuiDrawer--${color}`, className);
 
   return (
     <VuiPortal>
       {isOpen && (
         <VuiScreenBlock>
-          <FocusOn onEscapeKey={onClose} onClickOutside={onClose} returnFocus={false}>
+          <FocusOn onEscapeKey={onCloseDelayed} onClickOutside={onCloseDelayed} returnFocus={false}>
             <div className={classes} {...rest}>
               <div className="vuiDrawerHeader">
                 <VuiFlexContainer justifyContent="spaceBetween" alignItems="center">
@@ -47,7 +55,7 @@ export const VuiDrawer = ({ className, color = "primary", title, children, isOpe
                   {onClose && (
                     <VuiFlexItem>
                       <VuiButtonIcon
-                        onClick={onClose}
+                        onClick={onCloseDelayed}
                         color="normal"
                         icon={
                           <VuiIcon size="m" color="normal">

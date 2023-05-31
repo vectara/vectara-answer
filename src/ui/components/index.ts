@@ -7,8 +7,10 @@ import { VuiCode } from "./code/Code";
 import { VuiDrawer } from "./drawer/Drawer";
 import { VuiFlexContainer } from "./flex/FlexContainer";
 import { VuiFlexItem } from "./flex/FlexItem";
+import { VuiFormGroup } from "./formGroup/FormGroup";
 import { VuiHorizontalRule } from "./horizontalRule/HorizontalRule";
 import { VuiIcon } from "./icon/Icon";
+import { VuiLabel, VuiSelect } from "./form";
 import { VuiLink } from "./link/Link";
 import { VuiMenu } from "./menu/Menu";
 import { VuiMenuItem } from "./menu/MenuItem";
@@ -18,7 +20,6 @@ import { VuiPrompt } from "./prompt/Prompt";
 import { VuiScreenBlock } from "./screenBlock/ScreenBlock";
 import { VuiSearchInput } from "./searchInput/SearchInput";
 import { VuiSearchResult } from "./searchResult/SearchResult";
-import { VuiSelect } from "./select/Select";
 import { VuiSetting } from "./setting/Setting";
 import { VuiSpacer } from "./spacer/Spacer";
 import { VuiSpinner } from "./spinner/Spinner";
@@ -40,8 +41,10 @@ export {
   VuiDrawer,
   VuiFlexContainer,
   VuiFlexItem,
+  VuiFormGroup,
   VuiHorizontalRule,
   VuiIcon,
+  VuiLabel,
   VuiLink,
   VuiMenu,
   VuiMenuItem,
