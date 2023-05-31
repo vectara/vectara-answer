@@ -13,8 +13,9 @@ export const extractCitations = (summary: string) => {
     const index = match.index;
     const reference = match[1];
     const text = summary.slice(lastIndex, index).trim();
-    // Handle citations that are in the form of [1, 2, 3]
-    citations.push({ text, references: reference.split(", ") });
+    // Handle citations that are in the form of [1, 2, 3] or [1,2,3]
+    // so normalize to the latter.
+    citations.push({ text, references: reference.replace(/\s/g, "").split(",") });
     lastIndex = index + match[0].length;
   }
 

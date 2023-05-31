@@ -12,7 +12,7 @@ type Props = {
   label: string;
   badge?: string;
   helpUrl?: string;
-  description?: string;
+  description?: React.ReactNode;
   isEnabled?: boolean;
   onToggle?: () => void;
   children?: React.ReactNode;
@@ -78,7 +78,7 @@ export const VuiSetting = ({
 
       {isEnabled && children && (
         <>
-          <VuiSpacer size="xs" />
+          <VuiSpacer size="s" />
           {children}
         </>
       )}

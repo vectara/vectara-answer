@@ -7,12 +7,17 @@ const TEXT_ALIGN = ["left", "center", "right"] as const;
 
 type Props = {
   className?: string;
+  id?: string;
   children?: ReactNode;
   size?: (typeof SIZE)[number];
   align?: (typeof TEXT_ALIGN)[number];
 };
 
-export const VuiText = ({ children, className, size = "s", align = "left" }: Props) => {
+export const VuiText = ({ children, className, id, size = "s", align = "left" }: Props) => {
   const classes = classNames("vuiText", `vuiText--${size}`, `vuiText--${align}`, className);
-  return <div className={classes}>{children}</div>;
+  return (
+    <div className={classes} id={id}>
+      {children}
+    </div>
+  );
 };

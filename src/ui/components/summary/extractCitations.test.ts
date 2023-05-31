@@ -28,13 +28,17 @@ describe("extractCitations", () => {
   });
 
   test("extracts multiple comma-delimited citations", () => {
-    const summary = "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7].";
+    const summary = "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7] and without spaces [1,2,3].";
 
     expect(extractCitations(summary)).toEqual([
       { text: "Two citations", references: ["1", "2"] },
       {
         text: "and seven citations",
         references: ["1", "2", "3", "4", "5", "6", "7"]
+      },
+      {
+        text: "and without spaces",
+        references: ["1", "2", "3"]
       },
       { text: "." }
     ]);

@@ -1,11 +1,12 @@
 import classNames from "classnames";
-import { VuiIcon } from "../icon/Icon";
+import { VuiIcon } from "../../icon/Icon";
 import { BiChevronDown } from "react-icons/bi";
 
 const SIZE = ["m", "l"] as const;
 
 type Props = {
   className?: string;
+  id?: string;
   options: {
     text: string;
     value: string;
@@ -20,7 +21,7 @@ const sizeToIconSizeMap = {
   l: "l"
 } as const;
 
-export const VuiSelect = ({ className, options, value, size = "m", onChange, ...rest }: Props) => {
+export const VuiSelect = ({ className, id, options, value, size = "m", onChange, ...rest }: Props) => {
   const classes = classNames("vuiSelect", `vuiSelect--${size}`, className);
 
   const renderedOptions = options.map((option, index) => {
@@ -34,7 +35,7 @@ export const VuiSelect = ({ className, options, value, size = "m", onChange, ...
 
   return (
     <div className={classes}>
-      <select value={value} onChange={onChange} {...rest}>
+      <select id={id} value={value} onChange={onChange} {...rest}>
         {renderedOptions}
       </select>
       <div className="vuiSelect__caret">
