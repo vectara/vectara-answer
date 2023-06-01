@@ -1,0 +1,14 @@
+{
+  "short_name": "",
+  "name": "",
+  "icons": [
+    {
+      "src": "vectara-favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    }
+  ],
+  "start_url": "/?utm_source=homescreen",
+  "background_color": "#fafafa",
+  "theme_color": "#fafafa"
+}
