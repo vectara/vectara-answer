@@ -1,7 +1,15 @@
 import ReactGA from "react-ga4";
 import { useAuthenticationContext } from "../../../contexts/AuthenticationContext";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
-import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiTextColor, VuiButtonEmpty, VuiButton, VuiText } from "../../../ui";
+import {
+  VuiFlexContainer,
+  VuiFlexItem,
+  VuiTitle,
+  VuiTextColor,
+  VuiButtonEmpty,
+  VuiButton,
+  VuiText,
+} from "../../../ui";
 import "./appHeader.scss";
 
 export const AppHeader = () => {
@@ -15,7 +23,11 @@ export const AppHeader = () => {
         <VuiFlexItem grow={1}>
           <VuiFlexContainer alignItems="center" wrap={true} spacing="xxs">
             <VuiFlexItem>
-              <a href={appHeader.logo.link ?? "https://vectara.com/"} target="_blank" className="appHeaderLogo">
+              <a
+                href={appHeader.logo.link ?? "https://vectara.com/"}
+                target="_blank"
+                className="appHeaderLogo"
+              >
                 <img
                   src={appHeader.logo.src ?? "images/vectara_logo.png"}
                   alt={appHeader.logo.alt ?? "Vectara logo"}
@@ -28,7 +40,7 @@ export const AppHeader = () => {
             <VuiFlexItem grow={1}>
               <VuiTitle size="xs" align="left">
                 <VuiTextColor color="subdued">
-                  <h1>Conversational search demo</h1>
+                  <h1>Sample app</h1>
                 </VuiTextColor>
               </VuiTitle>
             </VuiFlexItem>
@@ -52,6 +64,26 @@ export const AppHeader = () => {
               </>
             )}
 
+            {appHeader.learnMore.link && (
+              <VuiFlexItem>
+                <VuiButtonEmpty
+                  color="accent"
+                  size="m"
+                  href={appHeader.learnMore.link}
+                  target="_blank"
+                  onClick={() => {
+                    ReactGA.event({
+                      category: "Outbound link",
+                      action: "click",
+                      label: "Learn more",
+                    });
+                  }}
+                >
+                  {appHeader.learnMore.text ?? "About"}
+                </VuiButtonEmpty>
+              </VuiFlexItem>
+            )}
+
             <VuiFlexItem>
               <VuiButton
                 color="accent"
@@ -62,7 +94,7 @@ export const AppHeader = () => {
                   ReactGA.event({
                     category: "Outbound link",
                     action: "click",
-                    label: "Try Vectara"
+                    label: "Try Vectara",
                   });
                 }}
               >

@@ -1,4 +1,10 @@
-import { createContext, useEffect, useContext, ReactNode, useState } from "react";
+import {
+  createContext,
+  useEffect,
+  useContext,
+  ReactNode,
+  useState,
+} from "react";
 import axios from "axios";
 
 interface Config {
@@ -18,6 +24,8 @@ interface Config {
   config_app_header_logo_src?: string;
   config_app_header_logo_alt?: string;
   config_app_header_logo_height?: string;
+  config_app_header_learn_more_link?: string;
+  config_app_header_learn_more_text?: string;
 
   // Filters
   config_enable_source_filters?: string;
@@ -44,7 +52,12 @@ type ConfigProp = keyof Config;
 
 const requiredConfigVars = ["corpus_id", "customer_id", "api_key", "endpoint"];
 
-type Search = { endpoint?: string; corpusId?: string; customerId?: string; apiKey?: string };
+type Search = {
+  endpoint?: string;
+  corpusId?: string;
+  customerId?: string;
+  apiKey?: string;
+};
 
 type App = {
   isHeaderEnabled: boolean;
@@ -59,10 +72,18 @@ type AppHeader = {
     alt?: string;
     height?: string;
   };
+  learnMore: {
+    link?: string;
+    text?: string;
+  };
 };
 
 type Source = { value: string; label: string };
-type Filters = { isEnabled: boolean; sources: Source[]; sourceValueToLabelMap?: Record<string, string> };
+type Filters = {
+  isEnabled: boolean;
+  sources: Source[];
+  sourceValueToLabelMap?: Record<string, string>;
+};
 
 type SearchHeader = {
   logo: {
@@ -103,8 +124,8 @@ const fetchConfig = async () => {
   const headers = {
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json"
-    }
+      Accept: "application/json",
+    },
   };
   const result = await axios.post("/config", undefined, headers);
   return result;
@@ -113,10 +134,10 @@ const fetchConfig = async () => {
 const fetchQueries = async () => {
   try {
     const result = await fetch("queries.json", {
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
     });
     const data = await result.json();
     return data;
@@ -127,7 +148,10 @@ const fetchQueries = async () => {
 
 const isTrue = (value: string | undefined) => value === "True";
 
-const prefixConfig = (config: Record<string, string | undefined>, existingPrefix = "") => {
+const prefixConfig = (
+  config: Record<string, string | undefined>,
+  existingPrefix = ""
+) => {
   const prefixedConfig = Object.keys(config).reduce((accum, key) => {
     if (key.startsWith(existingPrefix)) {
       const unprefixedKey = key.replace(existingPrefix, "config_");
@@ -145,11 +169,24 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);
   const [missingConfigProps, setMissingConfigProps] = useState<string[]>([]);
   const [search, setSearch] = useState<Search>({});
-  const [app, setApp] = useState<App>({ isHeaderEnabled: false, isFooterEnabled: false, title: "" });
-  const [appHeader, setAppHeader] = useState<AppHeader>({ logo: {} });
-  const [filters, setFilters] = useState<Filters>({ isEnabled: false, sources: [], sourceValueToLabelMap: {} });
+  const [app, setApp] = useState<App>({
+    isHeaderEnabled: false,
+    isFooterEnabled: false,
+    title: "",
+  });
+  const [appHeader, setAppHeader] = useState<AppHeader>({
+    logo: {},
+    learnMore: {},
+  });
+  const [filters, setFilters] = useState<Filters>({
+    isEnabled: false,
+    sources: [],
+    sourceValueToLabelMap: {},
+  });
   const [searchHeader, setSearchHeader] = useState<SearchHeader>({ logo: {} });
-  const [exampleQuestions, setExampleQuestions] = useState<ExampleQuestions>([]);
+  const [exampleQuestions, setExampleQuestions] = useState<ExampleQuestions>(
+    []
+  );
   const [auth, setAuth] = useState<Auth>({ isEnabled: false });
   const [analytics, setAnalytics] = useState<Analytics>({});
 
@@ -157,12 +194,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
     const loadConfig = async () => {
       let config: Config;
 
-      if (process.env.NODE_ENV === "production") {
-        const result = await fetchConfig();
-        config = prefixConfig(result.data);
-      } else {
-        config = prefixConfig(process.env, "REACT_APP_");
-      }
+      const result = await fetchConfig();
+      config = prefixConfig(result.data);
+
       const queriesResponse = await fetchQueries();
       if (queriesResponse) {
         const questions = queriesResponse.questions;
@@ -173,10 +207,14 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       setIsConfigLoaded(true);
 
-      const missingConfigProps = requiredConfigVars.reduce((accum, configVarName) => {
-        if (config[`config_${configVarName}` as ConfigProp] === undefined) accum.push(configVarName);
-        return accum;
-      }, [] as string[]);
+      const missingConfigProps = requiredConfigVars.reduce(
+        (accum, configVarName) => {
+          if (config[`config_${configVarName}` as ConfigProp] === undefined)
+            accum.push(configVarName);
+          return accum;
+        },
+        [] as string[]
+      );
       setMissingConfigProps(missingConfigProps);
 
       const {
@@ -200,6 +238,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_app_header_logo_src,
         config_app_header_logo_alt,
         config_app_header_logo_height,
+        config_app_header_learn_more_link,
+        config_app_header_learn_more_text,
 
         // Search header
         config_search_logo_link,
@@ -215,20 +255,20 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_google_client_id,
 
         // Analytics
-        config_google_analytics_tracking_code
+        config_google_analytics_tracking_code,
       } = config;
 
       setSearch({
         endpoint: config_endpoint,
         corpusId: config_corpus_id,
         customerId: config_customer_id,
-        apiKey: config_api_key
+        apiKey: config_api_key,
       });
 
       setApp({
         title: config_app_title ?? "",
         isHeaderEnabled: isTrue(config_enable_app_header ?? "True"),
-        isFooterEnabled: isTrue(config_enable_app_footer ?? "True")
+        isFooterEnabled: isTrue(config_enable_app_footer ?? "True"),
       });
 
       setAppHeader({
@@ -236,8 +276,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
           link: config_app_header_logo_link,
           src: config_app_header_logo_src,
           alt: config_app_header_logo_alt,
-          height: config_app_header_logo_height
-        }
+          height: config_app_header_logo_height,
+        },
+        learnMore: {
+          link: config_app_header_learn_more_link,
+          text: config_app_header_learn_more_text,
+        },
       });
 
       const isFilteringEnabled = isTrue(config_enable_source_filters);
@@ -245,7 +289,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       const sources =
         config_sources?.split(",").map((source) => ({
           value: source.toLowerCase(),
-          label: source
+          label: source,
         })) ?? [];
 
       const sourceValueToLabelMap = sources.length
@@ -264,7 +308,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setFilters({
         isEnabled: isFilteringEnabled,
         sources,
-        sourceValueToLabelMap
+        sourceValueToLabelMap,
       });
 
       setSearchHeader({
@@ -272,20 +316,20 @@ export const ConfigContextProvider = ({ children }: Props) => {
           link: config_search_logo_link,
           src: config_search_logo_src,
           alt: config_search_logo_alt,
-          height: config_search_logo_height
+          height: config_search_logo_height,
         },
         title: config_search_title,
         description: config_search_description,
-        placeholder: config_search_placeholder
+        placeholder: config_search_placeholder,
       });
 
       setAuth({
         isEnabled: isTrue(config_authenticate),
-        googleClientId: config_google_client_id
+        googleClientId: config_google_client_id,
       });
 
       setAnalytics({
-        googleAnalyticsTrackingCode: config_google_analytics_tracking_code
+        googleAnalyticsTrackingCode: config_google_analytics_tracking_code,
       });
     };
     loadConfig();
@@ -303,7 +347,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         searchHeader,
         exampleQuestions,
         auth,
-        analytics
+        analytics,
       }}
     >
       {children}
@@ -314,7 +358,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
 export const useConfigContext = () => {
   const context = useContext(ConfigContext);
   if (context === undefined) {
-    throw new Error("useConfigContext must be used within a ConfigContextProvider");
+    throw new Error(
+      "useConfigContext must be used within a ConfigContextProvider"
+    );
   }
   return context;
 };

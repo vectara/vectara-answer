@@ -2,8 +2,9 @@ corpus_id: "151,152,153,154,155"
 customer_id: 1526022105
 
 app_title: "AskNews"
-search_description: "Search recent news from multiple sources"
-search_logo_src: "images/asknews_logo.png"  ## could be URL
+app_header_learn_more_link: "https://vectara.com/developers/sample-apps/"
+search_description: "Sample news aggregator built using Vectara"
+search_logo_src: "images/asknews_logo.png" ## could be URL
 search_logo_alt: "AskNews logo"
 search_logo_height: "20"
 

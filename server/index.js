@@ -27,6 +27,8 @@ app.post("/config", (req, res) => {
     app_header_logo_src,
     app_header_logo_alt,
     app_header_logo_height,
+    app_header_learn_more_link,
+    app_header_learn_more_text,
 
     // Filters
     enable_source_filters,
@@ -53,7 +55,7 @@ app.post("/config", (req, res) => {
     google_client_id,
 
     // Analytics
-    google_analytics_tracking_code
+    google_analytics_tracking_code,
   } = process.env;
 
   res.send({
@@ -73,6 +75,8 @@ app.post("/config", (req, res) => {
     app_header_logo_src,
     app_header_logo_alt,
     app_header_logo_height,
+    app_header_learn_more_link,
+    app_header_learn_more_text,
 
     // Filters
     enable_source_filters,
@@ -99,7 +103,7 @@ app.post("/config", (req, res) => {
     google_client_id,
 
     // Analytics
-    google_analytics_tracking_code
+    google_analytics_tracking_code,
   });
 });
 
