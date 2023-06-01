@@ -27,6 +27,8 @@ app.post("/config", (req, res) => {
     app_header_logo_src,
     app_header_logo_alt,
     app_header_logo_height,
+    app_header_learn_more_link,
+    app_header_learn_more_text,
 
     // Filters
     enable_source_filters,
@@ -73,6 +75,8 @@ app.post("/config", (req, res) => {
     app_header_logo_src,
     app_header_logo_alt,
     app_header_logo_height,
+    app_header_learn_more_link,
+    app_header_learn_more_text,
 
     // Filters
     enable_source_filters,
