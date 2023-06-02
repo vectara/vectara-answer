@@ -1,9 +1,11 @@
 import axios from "axios";
-import { START_TAG, END_TAG } from "../../../utils/parseSnippet";
+import { START_TAG, END_TAG } from "../utils/parseSnippet";
+import { SummaryLanguage } from "../views/search/types";
 
 type Config = {
   filter: string;
   query_str?: string;
+  language?: SummaryLanguage;
   includeSummary?: boolean;
   customerId: string;
   corpusId: string;
@@ -14,21 +16,25 @@ type Config = {
 export const sendSearchRequest = async ({
   filter,
   query_str,
+  language,
   includeSummary,
   customerId,
   corpusId,
   endpoint,
-  apiKey
+  apiKey,
 }: Config) => {
-  const lambda = (typeof query_str === "undefined" || query_str.trim().split(" ").length > 1) ? 0.025 : 0.1;
+  const lambda =
+    typeof query_str === "undefined" || query_str.trim().split(" ").length > 1
+      ? 0.025
+      : 0.1;
   const corpusKeyList = corpusId.split(",").map((id) => {
     return {
       customerId,
       corpusId: id,
       lexical_interpolation_config: {
-        lambda: lambda
+        lambda: lambda,
       },
-      metadataFilter: filter ? `doc.source = '${filter}'` : undefined
+      metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
     };
   });
 
@@ -43,17 +49,21 @@ export const sendSearchRequest = async ({
           sentences_before: includeSummary ? 5 : 2,
           sentences_after: includeSummary ? 5 : 2,
           start_tag: START_TAG,
-          end_tag: END_TAG
+          end_tag: END_TAG,
         },
-        ...(includeSummary ? {
-          summary: [{
-            summarizerPromptName: "vectara-summary-ext-v1.2.0",
-            responseLang: "auto",
-            maxSummarizedResults: 5,
-          }]
-        } : {})
-      }
-    ]
+        ...(includeSummary
+          ? {
+              summary: [
+                {
+                  summarizerPromptName: "vectara-summary-ext-v1.2.0",
+                  responseLang: language,
+                  maxSummarizedResults: 5,
+                },
+              ],
+            }
+          : {}),
+      },
+    ],
   };
 
   const url = `https://${endpoint}/v1/query`;
@@ -63,8 +73,8 @@ export const sendSearchRequest = async ({
       Accept: "application/json",
       "customer-id": customerId,
       "x-api-key": apiKey,
-      "grpc-timeout": "60S"
-    }
+      "grpc-timeout": "60S",
+    },
   };
   const result = await axios.post(url, body, headers);
 

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
 import {
   VuiFlexContainer,
@@ -17,6 +17,12 @@ import {
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
 import { BiCaretDown, BiTimeFive } from "react-icons/bi";
+import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
+
+const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
+  value: code,
+  label: humanizeLanguage(code),
+}));
 
 type Props = {
   isHistoryOpen: boolean;
@@ -29,10 +35,16 @@ export const SearchControls = ({
   onToggleHistory,
   hasQuery,
 }: Props) => {
-  const { filterValue, searchValue, setSearchValue, onSearch, reset } =
-    useSearchContext();
+  const {
+    filterValue,
+    searchValue,
+    setSearchValue,
+    language,
+    setLanguage,
+    onSearch,
+    reset,
+  } = useSearchContext();
   const { searchHeader, filters } = useConfigContext();
-  const [language, setLanguage] = useState("eng");
 
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -116,24 +128,17 @@ export const SearchControls = ({
                       </VuiIcon>
                     }
                   >
-                    Language
+                    Language: {humanizeLanguage(language)}
                   </VuiButtonEmpty>
                 }
               >
                 <VuiOptionsList
                   isSelectable
-                  onSelectOption={(value) => setLanguage(value)}
+                  onSelectOption={(value) =>
+                    setLanguage(value as SummaryLanguage)
+                  }
                   selectedOption={language}
-                  options={[
-                    {
-                      value: "auto",
-                      label: "Same as question",
-                    },
-                    {
-                      value: "eng",
-                      label: "English",
-                    },
-                  ]}
+                  options={languageOptions}
                 />
               </VuiPopover>
             </VuiFlexItem>
