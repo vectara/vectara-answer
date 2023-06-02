@@ -135,7 +135,9 @@ export const SearchControls = ({
                 <VuiOptionsList
                   isSelectable
                   onSelectOption={(value) =>
-                    setLanguage(value as SummaryLanguage)
+                    onSearch({
+                      language: value as SummaryLanguage,
+                    })
                   }
                   selectedOption={language}
                   options={languageOptions}
