@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const app = express();
-const port = 3000;
+const port = 4444; // 4444 for local dev, 3000 for Docker
 
 app.use("/", express.static("build"));
 

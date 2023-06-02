@@ -98,6 +98,10 @@ There are specific example applications such as AskNews (news search), Wikipedia
 
 `vectara-answer` requires a Vectara API key for querying. For this you will need to create a file called `secrets.toml` in the root directory. See `secrets.example.toml` for an example. This file uses the [TOML](https://toml.io/en/) format, which supports the definition of one or more profiles. Under each profile you can add the line `api_key="XXX"` where `XXX` is the Vectara API key you want to use in that profile.
 
+### UI
+
+The UI source code is all in the `src/` directory. See the [UI README.md](https://github.com/vectara/vectara-answer/blob/main/src) to learn how to make changes to the UI source.
+
 ## Example applications
 
 The `config/` directory contains example configurations of a `vectara-answer` application. Each example has its own sub-directory that contains two files:
