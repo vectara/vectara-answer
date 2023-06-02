@@ -11,6 +11,8 @@ import { FocusOn } from "react-focus-on";
 type Props = {
   button: React.ReactElement;
   children: React.ReactNode;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 };
 
 type Position = {
@@ -30,12 +32,13 @@ const getPosition = (button: HTMLElement | null): Position | undefined => {
 export const VuiPopover = ({
   button: originalButton,
   children,
+  isOpen,
+  setIsOpen,
   ...rest
 }: Props) => {
   const returnFocusElRef = useRef<HTMLElement | null>(null);
   const buttonRef = useRef<HTMLElement | null>(null);
   const [position, setPosition] = useState<Position | undefined>();
-  const [isOpen, setIsOpen] = useState(false);
 
   const button = cloneElement(originalButton, {
     isPressed: isOpen,

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
 import {
   VuiFlexContainer,
@@ -40,11 +40,11 @@ export const SearchControls = ({
     searchValue,
     setSearchValue,
     language,
-    setLanguage,
     onSearch,
     reset,
   } = useSearchContext();
   const { searchHeader, filters } = useConfigContext();
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
 
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -118,6 +118,8 @@ export const SearchControls = ({
 
             <VuiFlexItem grow={false}>
               <VuiPopover
+                isOpen={isLanguageMenuOpen}
+                setIsOpen={setIsLanguageMenuOpen}
                 button={
                   <VuiButtonEmpty
                     color="normal"
@@ -134,11 +136,12 @@ export const SearchControls = ({
               >
                 <VuiOptionsList
                   isSelectable
-                  onSelectOption={(value) =>
+                  onSelectOption={(value) => {
+                    setIsLanguageMenuOpen(false);
                     onSearch({
                       language: value as SummaryLanguage,
-                    })
-                  }
+                    });
+                  }}
                   selectedOption={language}
                   options={languageOptions}
                 />
