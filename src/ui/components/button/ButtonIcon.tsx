@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Props as LinkProps } from "../link/Link";
-import { ReactNode } from "react";
+import { ReactNode, forwardRef } from "react";
 import { Link } from "react-router-dom";
 
 const COLOR = ["accent", "primary", "danger", "normal"] as const;
@@ -14,20 +14,41 @@ type Props = {
   target?: LinkProps["target"];
 };
 
-export const VuiButtonIcon = ({ className, icon, color = "primary", onClick, href, target, ...rest }: Props) => {
-  const props = {
-    className: classNames("vuiButtonIcon", className, `vuiButtonIcon--${color}`),
-    onClick,
-    ...rest
-  };
+export const VuiButtonIcon = forwardRef<HTMLButtonElement | null, Props>(
+  (
+    {
+      className,
+      icon,
+      color = "primary",
+      onClick,
+      href,
+      target,
+      ...rest
+    }: Props,
+    ref
+  ) => {
+    const props = {
+      className: classNames(
+        "vuiButtonIcon",
+        className,
+        `vuiButtonIcon--${color}`
+      ),
+      onClick,
+      ...rest,
+    };
 
-  if (href) {
+    if (href) {
+      return (
+        <Link to={href} target={target} {...props}>
+          <button ref={ref}>{icon}</button>
+        </Link>
+      );
+    }
+
     return (
-      <Link to={href} target={target} {...props}>
+      <button {...props} ref={ref}>
         {icon}
-      </Link>
+      </button>
     );
   }
-
-  return <button {...props}>{icon}</button>;
-};
+);

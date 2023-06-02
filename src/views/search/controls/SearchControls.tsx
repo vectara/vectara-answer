@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
 import {
   VuiFlexContainer,
@@ -11,10 +11,12 @@ import {
   VuiBadge,
   VuiIcon,
   VuiButtonEmpty,
+  VuiPopover,
+  VuiOptionsList,
 } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
-import { BiTimeFive } from "react-icons/bi";
+import { BiCaretDown, BiTimeFive } from "react-icons/bi";
 
 type Props = {
   isHistoryOpen: boolean;
@@ -30,6 +32,7 @@ export const SearchControls = ({
   const { filterValue, searchValue, setSearchValue, onSearch, reset } =
     useSearchContext();
   const { searchHeader, filters } = useConfigContext();
+  const [language, setLanguage] = useState("eng");
 
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -100,6 +103,40 @@ export const SearchControls = ({
                 </VuiTitle>
               </VuiFlexItem>
             )}
+
+            <VuiFlexItem grow={false}>
+              <VuiPopover
+                button={
+                  <VuiButtonEmpty
+                    color="normal"
+                    size="s"
+                    icon={
+                      <VuiIcon size="m">
+                        <BiCaretDown />
+                      </VuiIcon>
+                    }
+                  >
+                    Language
+                  </VuiButtonEmpty>
+                }
+              >
+                <VuiOptionsList
+                  isSelectable
+                  onSelectOption={(value) => setLanguage(value)}
+                  selectedOption={language}
+                  options={[
+                    {
+                      value: "auto",
+                      label: "Same as question",
+                    },
+                    {
+                      value: "eng",
+                      label: "English",
+                    },
+                  ]}
+                />
+              </VuiPopover>
+            </VuiFlexItem>
 
             <VuiFlexItem grow={false}>
               <VuiButtonEmpty

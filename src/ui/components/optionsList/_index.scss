@@ -1,0 +1,14 @@
+.vuiOptionsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.vuiOptionsListItem {
+  padding: $sizeXxs $sizeXs;
+  background-color: $colorEmptyShade;
+
+  &:hover {
+    background-color: $colorLightShade;
+    text-decoration: underline;
+  }
+}
