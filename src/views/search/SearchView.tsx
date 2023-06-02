@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { VuiFlexContainer, VuiFlexItem, VuiHorizontalRule, VuiSpacer, VuiSpinner, VuiTitle } from "../../ui";
+import {
+  VuiFlexContainer,
+  VuiFlexItem,
+  VuiHorizontalRule,
+  VuiSpacer,
+  VuiSpinner,
+  VuiTitle,
+} from "../../ui";
 import { SearchControls } from "./controls/SearchControls";
 import { Summary } from "./results/Summary";
 import { SearchResults } from "./results/SearchResults";
@@ -11,6 +18,7 @@ import { AppFooter } from "./chrome/AppFooter";
 import { useConfigContext } from "../../contexts/ConfigurationContext";
 import { HistoryDrawer } from "./controls/HistoryDrawer";
 import "./searchView.scss";
+import { SummaryLanguage } from "./types";
 
 export const SearchView = () => {
   const { isConfigLoaded, app } = useConfigContext();
@@ -25,7 +33,7 @@ export const SearchView = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
-    selectSearchResultAt
+    selectSearchResultAt,
   } = useSearchContext();
 
   const [searchParams] = useSearchParams();
@@ -37,17 +45,34 @@ export const SearchView = () => {
     if (!isConfigLoaded) return;
 
     const urlParams = new URLSearchParams(searchParams);
-    const persistedSearchValue = decodeURIComponent(urlParams.get("query") ?? "");
-    const persistedFilterValue = decodeURIComponent(urlParams.get("filter") ?? "");
+    const persistedSearchValue = decodeURIComponent(
+      urlParams.get("query") ?? ""
+    );
+    const persistedFilterValue = decodeURIComponent(
+      urlParams.get("filter") ?? ""
+    );
+    const persistedLanguageValue = decodeURIComponent(
+      urlParams.get("language") ?? "auto"
+    ) as SummaryLanguage;
 
-    onSearch({ value: persistedSearchValue, filter: persistedFilterValue, isPersistable: false });
+    onSearch({
+      value: persistedSearchValue,
+      filter: persistedFilterValue,
+      language: persistedLanguageValue,
+      isPersistable: false,
+    });
   }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   let content;
 
   if (!isConfigLoaded) {
     content = (
-      <VuiFlexContainer className="appSpinner" direction="column" justifyContent="center" alignItems="center">
+      <VuiFlexContainer
+        className="appSpinner"
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
         <VuiSpinner size="l" />
         <VuiSpacer size="l" />
         <VuiTitle size="xs">
@@ -75,7 +100,9 @@ export const SearchView = () => {
           summarizationError={summarizationError}
           summary={summary}
           selectedSearchResultPosition={selectedSearchResultPosition}
-          onClickCitation={(position: number) => selectSearchResultAt(position - 1)}
+          onClickCitation={(position: number) =>
+            selectSearchResultAt(position - 1)
+          }
         />
 
         <VuiSpacer size="l" />
@@ -100,7 +127,12 @@ export const SearchView = () => {
   return (
     <>
       {app.isHeaderEnabled && <AppHeader />}
-      <VuiFlexContainer className="searchView" direction="column" alignItems="center" spacing="none">
+      <VuiFlexContainer
+        className="searchView"
+        direction="column"
+        alignItems="center"
+        spacing="none"
+      >
         {isConfigLoaded && (
           <VuiFlexItem className="searchControlsContainer">
             <SearchControls
@@ -115,7 +147,10 @@ export const SearchView = () => {
           {content}
         </VuiFlexItem>
 
-        <HistoryDrawer isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />
+        <HistoryDrawer
+          isOpen={isHistoryOpen}
+          onClose={() => setIsHistoryOpen(false)}
+        />
 
         {app.isFooterEnabled && <AppFooter />}
       </VuiFlexContainer>

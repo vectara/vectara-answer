@@ -30,10 +30,12 @@ interface SearchContextType {
   onSearch: ({
     value,
     filter,
+    language,
     isPersistable,
   }: {
     value?: string;
     filter?: string;
+    language?: SummaryLanguage;
     isPersistable?: boolean;
   }) => void;
   reset: () => void;
@@ -69,7 +71,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Language.
-  const [language, setLanguage] = useState<SummaryLanguage>("auto");
+  const [languageValue, setLanguageValue] = useState<SummaryLanguage>("auto");
 
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -132,28 +134,32 @@ export const SearchContextProvider = ({ children }: Props) => {
   const onSearch = async ({
     value = searchValue,
     filter = filterValue,
+    language = languageValue,
     isPersistable = true,
   }: {
     value?: string;
     filter?: string;
+    language?: SummaryLanguage;
     isPersistable?: boolean;
   }) => {
     const searchId = ++searchCount;
 
     setSearchValue(value);
     setFilterValue(filter);
+    setLanguageValue(language);
 
     if (value?.trim()) {
       // Save to history.
       setHistory(addHistoryItem({ query: value, filter }, history));
 
-      // Persist to URL.
+      // Persist to URL, only if the search executes. This way the prior
+      // search that was persisted remains in the URL if the search doesn't execute.
       if (isPersistable) {
         setSearchParams(
           new URLSearchParams(
             `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
               filter
-            )}`
+            )}&language=${encodeURIComponent(language)}`
           )
         );
       }
@@ -240,8 +246,8 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSummarizing,
         summarizationError,
         summarizationResponse,
-        language,
-        setLanguage,
+        language: languageValue,
+        setLanguage: setLanguageValue,
         history,
         clearHistory,
         searchResultsRef,
