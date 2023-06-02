@@ -120,6 +120,8 @@ type Props = {
   children: ReactNode;
 };
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const fetchConfig = async () => {
   const headers = {
     headers: {
@@ -148,6 +150,7 @@ const fetchQueries = async () => {
 
 const isTrue = (value: string | undefined) => value === "True";
 
+// Prefix config vars to avoid collision with other variables.
 const prefixConfig = (
   config: Record<string, string | undefined>,
   existingPrefix = ""
@@ -194,14 +197,22 @@ export const ConfigContextProvider = ({ children }: Props) => {
     const loadConfig = async () => {
       let config: Config;
 
-      const result = await fetchConfig();
-      config = prefixConfig(result.data);
+      if (isProduction) {
+        const result = await fetchConfig();
+        config = prefixConfig(result.data);
 
-      const queriesResponse = await fetchQueries();
-      if (queriesResponse) {
-        const questions = queriesResponse.questions;
+        const queriesResponse = await fetchQueries();
+        if (queriesResponse) {
+          const questions = queriesResponse.questions;
+          if (questions) {
+            setExampleQuestions(questions);
+          }
+        }
+      } else {
+        config = prefixConfig(process.env, "REACT_APP_");
+        const questions = process.env.REACT_APP_questions;
         if (questions) {
-          setExampleQuestions(questions);
+          setExampleQuestions(JSON.parse(questions));
         }
       }
 
