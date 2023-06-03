@@ -11,7 +11,7 @@ import { VuiFormGroup } from "./formGroup/FormGroup";
 import { VuiHorizontalRule } from "./horizontalRule/HorizontalRule";
 import { VuiIcon } from "./icon/Icon";
 import { VuiLabel, VuiSelect } from "./form";
-import { VuiLink } from "./link/Link";
+import { VuiLink, VuiLinkInternal } from "./link/Link";
 import { VuiMenu } from "./menu/Menu";
 import { VuiMenuItem } from "./menu/MenuItem";
 import { VuiModal } from "./modal/Modal";
@@ -48,6 +48,7 @@ export {
   VuiIcon,
   VuiLabel,
   VuiLink,
+  VuiLinkInternal,
   VuiMenu,
   VuiMenuItem,
   VuiModal,

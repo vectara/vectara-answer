@@ -2,6 +2,7 @@ import { cloneElement, forwardRef, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
 import { Props as LinkProps } from "../link/Link";
 import { Link } from "react-router-dom";
+import { getTrackingProps } from "../../utils/getTrackingProps";
 
 const COLOR = ["accent", "primary", "danger", "warning", "normal"] as const;
 const SIZE = ["xs", "s", "m"] as const;
@@ -18,6 +19,7 @@ type Props = {
   onClick?: () => void;
   href?: LinkProps["href"];
   target?: LinkProps["target"];
+  track?: LinkProps["track"];
 };
 
 export const VuiButtonEmpty = forwardRef<HTMLButtonElement | null, Props>(
@@ -34,6 +36,7 @@ export const VuiButtonEmpty = forwardRef<HTMLButtonElement | null, Props>(
       onClick,
       href,
       target,
+      track,
       ...rest
     }: Props,
     ref
@@ -68,10 +71,11 @@ export const VuiButtonEmpty = forwardRef<HTMLButtonElement | null, Props>(
     if (href) {
       return (
         <Link
+          className="vuiButtonEmptyLink"
           to={href}
           target={target}
           {...rest}
-          className="vuiButtonEmptyLink"
+          {...getTrackingProps(track)}
         >
           {/* Wrap a button otherwise the flex layout breaks */}
           <button className={classes} tabIndex={-1} ref={ref}>

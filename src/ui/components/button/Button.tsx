@@ -2,6 +2,7 @@ import { cloneElement, forwardRef, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
 import { Props as LinkProps } from "../link/Link";
 import { Link } from "react-router-dom";
+import { getTrackingProps } from "../../utils/getTrackingProps";
 
 const COLOR = ["accent", "primary", "danger", "warning", "normal"] as const;
 const SIZE = ["xs", "s", "m"] as const;
@@ -18,6 +19,7 @@ type Props = {
   ) => void;
   href?: LinkProps["href"];
   target?: LinkProps["target"];
+  track?: LinkProps["track"];
 };
 
 const colorToIconColorMap = {
@@ -40,6 +42,7 @@ export const VuiButton = forwardRef<HTMLButtonElement | null, Props>(
       onClick,
       href,
       target,
+      track,
       ...rest
     }: Props,
     ref
@@ -71,7 +74,13 @@ export const VuiButton = forwardRef<HTMLButtonElement | null, Props>(
 
     if (href) {
       return (
-        <Link to={href} target={target} {...rest} className="vuiButtonLink">
+        <Link
+          className="vuiButtonLink"
+          to={href}
+          target={target}
+          {...rest}
+          {...getTrackingProps(track)}
+        >
           {/* Wrap a button otherwise the flex layout breaks */}
           <button className={classes} tabIndex={-1} ref={ref}>
             {iconContainer}

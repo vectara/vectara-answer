@@ -8,12 +8,17 @@ describe("VuiSearchResult", () => {
     test("all props", () => {
       const { asFragment } = render(
         <VuiSearchResult
-          result={{ title: "title", url: "url", date: "date", snippet: { pre: "pre", text: "text", post: "" } }}
+          result={{
+            title: "title",
+            url: "url",
+            date: "date",
+            snippet: { pre: "pre", text: "text", post: "" },
+          }}
           position={1}
           subTitle={<div>subTitle</div>}
           className="customClass"
           snippetProps={{
-            className: "snippetCustomClass"
+            className: "snippetCustomClass",
           }}
         >
           <div>children</div>
@@ -34,7 +39,6 @@ describe("VuiSearchResult", () => {
             <a
               class="vuiLink vuiTitle vuiTitle--s vuiTitle--left"
               href="/url#:~:text=text"
-              rel="noopener"
               target="_blank"
             >
               <h3>
@@ -76,7 +80,10 @@ describe("VuiSearchResult", () => {
 
     test("missing optional props", () => {
       const { asFragment } = render(
-        <VuiSearchResult result={{ snippet: { pre: "pre", text: "text", post: "" } }} position={1}>
+        <VuiSearchResult
+          result={{ snippet: { pre: "pre", text: "text", post: "" } }}
+          position={1}
+        >
           <div>children</div>
         </VuiSearchResult>,
         { wrapper: MemoryRouter }
@@ -116,7 +123,13 @@ describe("VuiSearchResult", () => {
 
     test("has title but missing url", () => {
       const { asFragment } = render(
-        <VuiSearchResult result={{ title: "title", snippet: { pre: "pre", text: "text", post: "" } }} position={1}>
+        <VuiSearchResult
+          result={{
+            title: "title",
+            snippet: { pre: "pre", text: "text", post: "" },
+          }}
+          position={1}
+        >
           <div>children</div>
         </VuiSearchResult>,
         { wrapper: MemoryRouter }
@@ -161,7 +174,13 @@ describe("VuiSearchResult", () => {
 
     test("missing title but has url", () => {
       const { asFragment } = render(
-        <VuiSearchResult result={{ url: "url", snippet: { pre: "pre", text: "text", post: "" } }} position={1}>
+        <VuiSearchResult
+          result={{
+            url: "url",
+            snippet: { pre: "pre", text: "text", post: "" },
+          }}
+          position={1}
+        >
           <div>children</div>
         </VuiSearchResult>,
         { wrapper: MemoryRouter }
@@ -180,7 +199,6 @@ describe("VuiSearchResult", () => {
             <a
               class="vuiLink vuiTitle vuiTitle--s vuiTitle--left"
               href="/url#:~:text=text"
-              rel="noopener"
               target="_blank"
             >
               <h3>
