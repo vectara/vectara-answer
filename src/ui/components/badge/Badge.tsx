@@ -1,6 +1,8 @@
 import { MouseEvent } from "react";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
+import { Props as LinkProps } from "../link/Link";
+import { getTrackingProps } from "../../utils/getTrackingProps";
 
 const COLOR = ["accent", "primary", "danger", "success", "normal"] as const;
 
@@ -9,13 +11,23 @@ type Props = {
   className?: string;
   color: (typeof COLOR)[number];
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-  href?: string;
-  target?: "_blank";
+  href?: LinkProps["href"];
+  target?: LinkProps["target"];
+  track?: LinkProps["track"];
 };
 
-export const VuiBadge = ({ children, className, color, onClick, href, target, ...rest }: Props) => {
+export const VuiBadge = ({
+  children,
+  className,
+  color,
+  onClick,
+  href,
+  target,
+  track,
+  ...rest
+}: Props) => {
   const classes = classNames(className, "vuiBadge", `vuiBadge--${color}`, {
-    "vuiBadge--clickable": onClick ?? href
+    "vuiBadge--clickable": onClick ?? href,
   });
 
   if (onClick) {
@@ -27,19 +39,13 @@ export const VuiBadge = ({ children, className, color, onClick, href, target, ..
   }
 
   if (href) {
-    const props: {
-      target?: string;
-      rel?: string;
-    } = { ...rest };
-
-    if (target === "_blank") {
-      props.target = target;
-      // Protect against tabnabbing but leave out noreferrer so targets, such as our docs,
-      // can still track outbound clicks.
-      props.rel = "noopener";
-    }
     return (
-      <Link className={classes} onClick={onClick} to={href} {...props}>
+      <Link
+        className={classes}
+        onClick={onClick}
+        to={href}
+        {...getTrackingProps(track)}
+      >
         {children}
       </Link>
     );

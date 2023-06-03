@@ -1,7 +1,8 @@
 import classNames from "classnames";
-import { Props as LinkProps } from "../link/Link";
 import { ReactNode, forwardRef } from "react";
 import { Link } from "react-router-dom";
+import { getTrackingProps } from "../../utils/getTrackingProps";
+import { Props as LinkProps } from "../link/Link";
 
 const COLOR = ["accent", "primary", "danger", "normal"] as const;
 
@@ -12,6 +13,7 @@ type Props = {
   onClick?: () => void;
   href?: LinkProps["href"];
   target?: LinkProps["target"];
+  track?: LinkProps["track"];
 };
 
 export const VuiButtonIcon = forwardRef<HTMLButtonElement | null, Props>(
@@ -23,6 +25,7 @@ export const VuiButtonIcon = forwardRef<HTMLButtonElement | null, Props>(
       onClick,
       href,
       target,
+      track,
       ...rest
     }: Props,
     ref
@@ -39,7 +42,7 @@ export const VuiButtonIcon = forwardRef<HTMLButtonElement | null, Props>(
 
     if (href) {
       return (
-        <Link to={href} target={target} {...props}>
+        <Link to={href} target={target} {...props} {...getTrackingProps(track)}>
           <button ref={ref}>{icon}</button>
         </Link>
       );
