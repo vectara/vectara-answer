@@ -10,8 +10,9 @@ import {
   VuiMenuItem,
   VuiText,
   VuiTextColor,
-  VuiTitle
+  VuiTitle,
 } from "../../../ui";
+import { humanizeLanguage } from "../types";
 
 type Props = {
   isOpen: boolean;
@@ -26,7 +27,11 @@ export const HistoryDrawer = ({ isOpen, onClose }: Props) => {
       isOpen={isOpen}
       onClose={onClose}
       title={
-        <VuiFlexContainer justifyContent="spaceBetween" alignItems="center" spacing="xs">
+        <VuiFlexContainer
+          justifyContent="spaceBetween"
+          alignItems="center"
+          spacing="xs"
+        >
           <VuiFlexItem>
             <VuiIcon size="s">
               <BiTimeFive />
@@ -55,17 +60,24 @@ export const HistoryDrawer = ({ isOpen, onClose }: Props) => {
         </VuiText>
       ) : (
         <VuiMenu>
-          {history.map(({ query, filter, date }) => (
-            <VuiMenuItem
-              key={query}
-              title={query}
-              text={date}
-              onClick={() => {
-                onSearch({ value: query, filter });
-                onClose();
-              }}
-            />
-          ))}
+          {history.map(({ query, filter, language, date }) => {
+            let subTitle = date;
+            if (language) {
+              subTitle += ` • ${humanizeLanguage(language)}`;
+            }
+
+            return (
+              <VuiMenuItem
+                key={query}
+                title={query}
+                text={subTitle}
+                onClick={() => {
+                  onSearch({ value: query, filter, language });
+                  onClose();
+                }}
+              />
+            );
+          })}
         </VuiMenu>
       )}
     </VuiDrawer>

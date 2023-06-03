@@ -150,7 +150,7 @@ export const SearchContextProvider = ({ children }: Props) => {
 
     if (value?.trim()) {
       // Save to history.
-      setHistory(addHistoryItem({ query: value, filter }, history));
+      setHistory(addHistoryItem({ query: value, filter, language }, history));
 
       // Persist to URL, only if the search executes. This way the prior
       // search that was persisted remains in the URL if the search doesn't execute.
