@@ -1,9 +1,25 @@
-import { createContext, useContext, ReactNode, useState, useEffect, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import { useSearchParams } from "react-router-dom";
-import { DeserializedSearchResult, SearchResponse } from "../views/search/types";
+import {
+  DeserializedSearchResult,
+  SearchResponse,
+  SummaryLanguage,
+} from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
-import { sendSearchRequest } from "../views/search/results/sendSearchRequest";
-import { HistoryItem, addHistoryItem, deleteHistory, retrieveHistory } from "./history";
+import { sendSearchRequest } from "./sendSearchRequest";
+import {
+  HistoryItem,
+  addHistoryItem,
+  deleteHistory,
+  retrieveHistory,
+} from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
 
 interface SearchContextType {
@@ -11,7 +27,17 @@ interface SearchContextType {
   setFilterValue: (source: string) => void;
   searchValue: string;
   setSearchValue: (value: string) => void;
-  onSearch: ({ value, filter, isPersistable }: { value?: string; filter?: string; isPersistable?: boolean }) => void;
+  onSearch: ({
+    value,
+    filter,
+    language,
+    isPersistable,
+  }: {
+    value?: string;
+    filter?: string;
+    language?: SummaryLanguage;
+    isPersistable?: boolean;
+  }) => void;
   reset: () => void;
   isSearching: boolean;
   searchError: any;
@@ -19,6 +45,8 @@ interface SearchContextType {
   isSummarizing: boolean;
   summarizationError: any;
   summarizationResponse: SearchResponse | undefined;
+  language: SummaryLanguage;
+  setLanguage: (language: SummaryLanguage) => void;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -42,6 +70,9 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // Language.
+  const [languageValue, setLanguageValue] = useState<SummaryLanguage>("auto");
+
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
@@ -53,11 +84,13 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<any>();
-  const [summarizationResponse, setSummarizationResponse] = useState<SearchResponse>();
+  const [summarizationResponse, setSummarizationResponse] =
+    useState<SearchResponse>();
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
-  const [selectedSearchResultPosition, setSelectedSearchResultPosition] = useState<number>();
+  const [selectedSearchResultPosition, setSelectedSearchResultPosition] =
+    useState<number>();
 
   useEffect(() => {
     setHistory(retrieveHistory());
@@ -67,7 +100,10 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     if (searchResults) {
-      searchResultsRef.current = searchResultsRef.current.slice(0, searchResults.length);
+      searchResultsRef.current = searchResultsRef.current.slice(
+        0,
+        searchResults.length
+      );
     } else {
       searchResultsRef.current = [];
     }
@@ -79,38 +115,52 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const selectSearchResultAt = (position: number) => {
-    if (!searchResultsRef.current[position] || selectedSearchResultPosition === position) {
+    if (
+      !searchResultsRef.current[position] ||
+      selectedSearchResultPosition === position
+    ) {
       // Reset selected position.
       setSelectedSearchResultPosition(undefined);
     } else {
       setSelectedSearchResultPosition(position);
       // Scroll to the selected search result.
-      window.scrollTo({ top: searchResultsRef.current[position]!.offsetTop - 78, behavior: "smooth" });
+      window.scrollTo({
+        top: searchResultsRef.current[position]!.offsetTop - 78,
+        behavior: "smooth",
+      });
     }
   };
 
   const onSearch = async ({
     value = searchValue,
     filter = filterValue,
-    isPersistable = true
+    language = languageValue,
+    isPersistable = true,
   }: {
     value?: string;
     filter?: string;
+    language?: SummaryLanguage;
     isPersistable?: boolean;
   }) => {
     const searchId = ++searchCount;
 
     setSearchValue(value);
     setFilterValue(filter);
+    setLanguageValue(language);
 
     if (value?.trim()) {
       // Save to history.
       setHistory(addHistoryItem({ query: value, filter }, history));
 
-      // Persist to URL.
+      // Persist to URL, only if the search executes. This way the prior
+      // search that was persisted remains in the URL if the search doesn't execute.
       if (isPersistable) {
         setSearchParams(
-          new URLSearchParams(`?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(filter)}`)
+          new URLSearchParams(
+            `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
+              filter
+            )}&language=${encodeURIComponent(language)}`
+          )
         );
       }
 
@@ -126,7 +176,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
-          apiKey: search.apiKey!
+          apiKey: search.apiKey!,
         });
         // If we send multiple requests in rapid succession, we only want to
         // display the results of the most recent request.
@@ -147,10 +197,11 @@ export const SearchContextProvider = ({ children }: Props) => {
           filter,
           query_str: value,
           includeSummary: true,
+          language,
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
-          apiKey: search.apiKey!
+          apiKey: search.apiKey!,
         });
 
         // If we send multiple requests in rapid succession, we only want to
@@ -195,11 +246,13 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSummarizing,
         summarizationError,
         summarizationResponse,
+        language: languageValue,
+        setLanguage: setLanguageValue,
         history,
         clearHistory,
         searchResultsRef,
         selectedSearchResultPosition,
-        selectSearchResultAt
+        selectSearchResultAt,
       }}
     >
       {children}
@@ -210,7 +263,9 @@ export const SearchContextProvider = ({ children }: Props) => {
 export const useSearchContext = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
-    throw new Error("useSearchContext must be used within a SearchContextProvider");
+    throw new Error(
+      "useSearchContext must be used within a SearchContextProvider"
+    );
   }
   return context;
 };

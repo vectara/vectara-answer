@@ -15,6 +15,8 @@ import { VuiLink } from "./link/Link";
 import { VuiMenu } from "./menu/Menu";
 import { VuiMenuItem } from "./menu/MenuItem";
 import { VuiModal } from "./modal/Modal";
+import { VuiOptionsList } from "./optionsList/OptionsList";
+import { VuiPopover } from "./popover/Popover";
 import { VuiPortal } from "./portal/Portal";
 import { VuiPrompt } from "./prompt/Prompt";
 import { VuiScreenBlock } from "./screenBlock/ScreenBlock";
@@ -49,6 +51,8 @@ export {
   VuiMenu,
   VuiMenuItem,
   VuiModal,
+  VuiOptionsList,
+  VuiPopover,
   VuiPortal,
   VuiPrompt,
   VuiScreenBlock,
@@ -64,5 +68,5 @@ export {
   VuiText,
   VuiTextColor,
   VuiTitle,
-  VuiToggle
+  VuiToggle,
 };

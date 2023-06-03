@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
 import {
   VuiFlexContainer,
@@ -11,10 +11,18 @@ import {
   VuiBadge,
   VuiIcon,
   VuiButtonEmpty,
+  VuiPopover,
+  VuiOptionsList,
 } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
-import { BiTimeFive } from "react-icons/bi";
+import { BiCaretDown, BiTimeFive } from "react-icons/bi";
+import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
+
+const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
+  value: code,
+  label: humanizeLanguage(code),
+}));
 
 type Props = {
   isHistoryOpen: boolean;
@@ -27,9 +35,16 @@ export const SearchControls = ({
   onToggleHistory,
   hasQuery,
 }: Props) => {
-  const { filterValue, searchValue, setSearchValue, onSearch, reset } =
-    useSearchContext();
+  const {
+    filterValue,
+    searchValue,
+    setSearchValue,
+    language,
+    onSearch,
+    reset,
+  } = useSearchContext();
   const { searchHeader, filters } = useConfigContext();
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
 
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -100,6 +115,38 @@ export const SearchControls = ({
                 </VuiTitle>
               </VuiFlexItem>
             )}
+
+            <VuiFlexItem grow={false}>
+              <VuiPopover
+                isOpen={isLanguageMenuOpen}
+                setIsOpen={setIsLanguageMenuOpen}
+                button={
+                  <VuiButtonEmpty
+                    color="normal"
+                    size="s"
+                    icon={
+                      <VuiIcon size="m">
+                        <BiCaretDown />
+                      </VuiIcon>
+                    }
+                  >
+                    Language: {humanizeLanguage(language)}
+                  </VuiButtonEmpty>
+                }
+              >
+                <VuiOptionsList
+                  isSelectable
+                  onSelectOption={(value) => {
+                    setIsLanguageMenuOpen(false);
+                    onSearch({
+                      language: value as SummaryLanguage,
+                    });
+                  }}
+                  selectedOption={language}
+                  options={languageOptions}
+                />
+              </VuiPopover>
+            </VuiFlexItem>
 
             <VuiFlexItem grow={false}>
               <VuiButtonEmpty

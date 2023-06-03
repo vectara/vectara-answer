@@ -20,7 +20,15 @@ type Props = {
   color?: (typeof COLOR)[number];
 };
 
-export const VuiModal = ({ className, color = "primary", title, children, isOpen, onClose, ...rest }: Props) => {
+export const VuiModal = ({
+  className,
+  color = "primary",
+  title,
+  children,
+  isOpen,
+  onClose,
+  ...rest
+}: Props) => {
   const returnFocusElRef = useRef<HTMLElement | null>(null);
 
   // Return focus on unmount.
@@ -46,11 +54,22 @@ export const VuiModal = ({ className, color = "primary", title, children, isOpen
     <VuiPortal>
       {isOpen && (
         <VuiScreenBlock>
-          <FocusOn onEscapeKey={onCloseDelayed} onClickOutside={onCloseDelayed} returnFocus={true}>
+          <FocusOn
+            onEscapeKey={onCloseDelayed}
+            onClickOutside={onCloseDelayed}
+            // Enable manual focus return to work.
+            returnFocus={false}
+            // Enable focus on contents when it's open,
+            // but enable manual focus return to work when it's closed.
+            autoFocus={isOpen}
+          >
             <div className="vuiModalContainer">
               <div className={classes} {...rest}>
                 <div className="vuiModalHeader">
-                  <VuiFlexContainer justifyContent="spaceBetween" alignItems="center">
+                  <VuiFlexContainer
+                    justifyContent="spaceBetween"
+                    alignItems="center"
+                  >
                     <VuiFlexItem grow={false}>{title}</VuiFlexItem>
 
                     {onClose && (

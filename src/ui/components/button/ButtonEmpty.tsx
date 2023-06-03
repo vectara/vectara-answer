@@ -1,4 +1,4 @@
-import { cloneElement, ReactElement, ReactNode } from "react";
+import { cloneElement, forwardRef, ReactElement, ReactNode } from "react";
 import classNames from "classnames";
 import { Props as LinkProps } from "../link/Link";
 import { Link } from "react-router-dom";
@@ -20,57 +20,73 @@ type Props = {
   target?: LinkProps["target"];
 };
 
-export const VuiButtonEmpty = ({
-  children,
-  icon,
-  color,
-  size = "m",
-  className,
-  isPressed,
-  isSelected,
-  fullWidth,
-  onClick,
-  href,
-  target,
-  ...rest
-}: Props) => {
-  const classes = classNames(className, "vuiButtonEmpty", `vuiButtonEmpty--${color}`, `vuiButtonEmpty--${size}`, {
-    "vuiButtonEmpty--fullWidth": fullWidth,
-    "vuiButtonEmpty--isPressed": isPressed,
-    "vuiButtonEmpty--isSelected": isSelected
-  });
+export const VuiButtonEmpty = forwardRef<HTMLButtonElement | null, Props>(
+  (
+    {
+      children,
+      icon,
+      color,
+      size = "m",
+      className,
+      isPressed,
+      isSelected,
+      fullWidth,
+      onClick,
+      href,
+      target,
+      ...rest
+    }: Props,
+    ref
+  ) => {
+    const classes = classNames(
+      className,
+      "vuiButtonEmpty",
+      `vuiButtonEmpty--${color}`,
+      `vuiButtonEmpty--${size}`,
+      {
+        "vuiButtonEmpty--fullWidth": fullWidth,
+        "vuiButtonEmpty--isPressed": isPressed,
+        "vuiButtonEmpty--isSelected": isSelected,
+      }
+    );
 
-  const props = {
-    className: classes,
-    onClick,
-    ...rest
-  };
+    const props = {
+      className: classes,
+      onClick,
+      ...rest,
+    };
 
-  const iconContainer = icon ? (
-    <span className="vuiButtonEmpty__iconContainer">
-      {cloneElement(icon, {
-        size: 18,
-        color
-      })}
-    </span>
-  ) : null;
+    const iconContainer = icon ? (
+      <span className="vuiButtonEmpty__iconContainer">
+        {cloneElement(icon, {
+          size: 18,
+          color,
+        })}
+      </span>
+    ) : null;
 
-  if (href) {
+    if (href) {
+      return (
+        <Link
+          to={href}
+          target={target}
+          {...rest}
+          className="vuiButtonEmptyLink"
+        >
+          {/* Wrap a button otherwise the flex layout breaks */}
+          <button className={classes} tabIndex={-1} ref={ref}>
+            {iconContainer}
+            {children}
+          </button>
+        </Link>
+      );
+    }
+
     return (
-      <Link to={href} target={target} {...rest} className="vuiButtonEmptyLink">
-        {/* Wrap a button otherwise the flex layout breaks */}
-        <button className={classes} tabIndex={-1}>
-          {iconContainer}
-          {children}
-        </button>
-      </Link>
+      <button {...props} ref={ref}>
+        {iconContainer}
+        {children}
+      </button>
     );
   }
-
-  return (
-    <button {...props}>
-      {iconContainer}
-      {children}
-    </button>
-  );
-};
+);
