@@ -107,4 +107,4 @@ app.post("/config", (req, res) => {
   });
 });
 
-app.listen(port, () => {});
+app.listen(port, () => { });

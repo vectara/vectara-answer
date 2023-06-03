@@ -12,7 +12,7 @@ RUN npm install
 
 # Bundle app source
 COPY build/ ./build
-COPY server ./server
+COPY docker/server ./server
 COPY start.sh .
 
 EXPOSE 3000
