@@ -7,16 +7,19 @@ RUN apt-get update && \
 
 WORKDIR /usr/src/app
 
-COPY docker/package.json .
+# install npm packages
+COPY docker/package.json ./
 RUN npm install
 
-# Bundle app source
-COPY build/ ./build
+# copy our code
 COPY docker/server ./server
-COPY start.sh .
+COPY public ./public
+COPY img ./img
+COPY src ./src
+COPY build ./build
+COPY ./start.sh ./
 
 EXPOSE 3000
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
-#CMD ["tail -f /dev/null"]
 CMD ["bash start.sh"]
