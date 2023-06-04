@@ -7,17 +7,18 @@ RUN apt-get update && \
 
 WORKDIR /usr/src/app
 
-# install npm packages
-COPY docker/package.json ./
-RUN npm install
-
-# copy our code
-COPY docker/server ./server
+# copy our code and create build folder in container
 COPY public ./public
 COPY img ./img
 COPY src ./src
-COPY build ./build
-COPY ./start.sh ./
+COPY tsconfig.json ./
+COPY docker/package.json ./
+
+RUN npm install
+RUN npm run build
+
+COPY docker/server ./server
+COPY docker/start.sh ./
 
 EXPOSE 3000
 

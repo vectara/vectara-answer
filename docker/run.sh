@@ -11,7 +11,7 @@ if [ ! -d "$1" ]; then
 fi
 
 # build docker container
-docker build -f docker/Dockerfile . --tag=vectara-answer:latest 
+docker build -f docker/Dockerfile . --tag=vectara-answer:latest
 
 # run the docker with the right configuration
 python3 docker/prepare_config.py $1 $2

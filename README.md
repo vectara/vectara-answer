@@ -39,12 +39,6 @@ Clone this repository:
 git clone https://github.com/vectara/vectara-answer.git
 ```
 
-From the root directory, run these commands to install JavaScript dependencies and build the front-end application:
-
-```sh
-npm install && npm run build
-```
-
 ### 2. Set configuration
 
 Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`.
