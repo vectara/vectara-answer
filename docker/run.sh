@@ -11,6 +11,7 @@ if [ ! -d "$1" ]; then
 fi
 
 # build docker container
+npm install & npm run build
 docker build -f docker/Dockerfile . --tag=vectara-answer:latest
 
 # run the docker with the right configuration
