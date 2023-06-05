@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 import {
   VuiFlexContainer,
   VuiFlexItem,
@@ -18,13 +17,11 @@ import { AppFooter } from "./chrome/AppFooter";
 import { useConfigContext } from "../../contexts/ConfigurationContext";
 import { HistoryDrawer } from "./controls/HistoryDrawer";
 import "./searchView.scss";
-import { SummaryLanguage } from "./types";
 
 export const SearchView = () => {
   const { isConfigLoaded, app } = useConfigContext();
 
   const {
-    onSearch,
     isSearching,
     searchError,
     searchResults,
@@ -36,32 +33,7 @@ export const SearchView = () => {
     selectSearchResultAt,
   } = useSearchContext();
 
-  const [searchParams] = useSearchParams();
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-
-  // Use the browser back and forward buttons to traverse history
-  // of searches.
-  useEffect(() => {
-    if (!isConfigLoaded) return;
-
-    const urlParams = new URLSearchParams(searchParams);
-    const persistedSearchValue = decodeURIComponent(
-      urlParams.get("query") ?? ""
-    );
-    const persistedFilterValue = decodeURIComponent(
-      urlParams.get("filter") ?? ""
-    );
-    const persistedLanguageValue = decodeURIComponent(
-      urlParams.get("language") ?? "auto"
-    ) as SummaryLanguage;
-
-    onSearch({
-      value: persistedSearchValue,
-      filter: persistedFilterValue,
-      language: persistedLanguageValue,
-      isPersistable: false,
-    });
-  }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   let content;
 
