@@ -56,6 +56,12 @@ interface SearchContextType {
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
 
+const getQueryParam = (urlParams: URLSearchParams, key: string) => {
+  const value = urlParams.get(key);
+  if (value) return decodeURIComponent(value);
+  return undefined;
+};
+
 type Props = {
   children: ReactNode;
 };
@@ -102,20 +108,13 @@ export const SearchContextProvider = ({ children }: Props) => {
     if (!isConfigLoaded) return;
 
     const urlParams = new URLSearchParams(searchParams);
-    const persistedSearchValue = decodeURIComponent(
-      urlParams.get("query") ?? ""
-    );
-    const persistedFilterValue = decodeURIComponent(
-      urlParams.get("filter") ?? ""
-    );
-    const persistedLanguageValue = decodeURIComponent(
-      urlParams.get("language") ?? "auto"
-    ) as SummaryLanguage;
 
     onSearch({
-      value: persistedSearchValue,
-      filter: persistedFilterValue,
-      language: persistedLanguageValue,
+      value: getQueryParam(urlParams, "query"),
+      filter: getQueryParam(urlParams, "filter"),
+      language: getQueryParam(urlParams, "language") as
+        | SummaryLanguage
+        | undefined,
       isPersistable: false,
     });
   }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
