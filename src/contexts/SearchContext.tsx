@@ -63,7 +63,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { search } = useConfigContext();
+  const { isConfigLoaded, search } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -95,6 +95,30 @@ export const SearchContextProvider = ({ children }: Props) => {
   useEffect(() => {
     setHistory(retrieveHistory());
   }, []);
+
+  // Use the browser back and forward buttons to traverse history
+  // of searches, and bookmark or share the URL.
+  useEffect(() => {
+    if (!isConfigLoaded) return;
+
+    const urlParams = new URLSearchParams(searchParams);
+    const persistedSearchValue = decodeURIComponent(
+      urlParams.get("query") ?? ""
+    );
+    const persistedFilterValue = decodeURIComponent(
+      urlParams.get("filter") ?? ""
+    );
+    const persistedLanguageValue = decodeURIComponent(
+      urlParams.get("language") ?? "auto"
+    ) as SummaryLanguage;
+
+    onSearch({
+      value: persistedSearchValue,
+      filter: persistedFilterValue,
+      language: persistedLanguageValue,
+      isPersistable: false,
+    });
+  }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   const searchResults = deserializeSearchResponse(searchResponse);
 
@@ -228,6 +252,8 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const reset = () => {
+    // Specifically don't reset language because that's more of a
+    // user preference.
     onSearch({ value: "", filter: "" });
   };
 
