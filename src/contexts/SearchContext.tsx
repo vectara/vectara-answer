@@ -46,7 +46,6 @@ interface SearchContextType {
   summarizationError: any;
   summarizationResponse: SearchResponse | undefined;
   language: SummaryLanguage;
-  setLanguage: (language: SummaryLanguage) => void;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -272,7 +271,6 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationError,
         summarizationResponse,
         language: languageValue,
-        setLanguage: setLanguageValue,
         history,
         clearHistory,
         searchResultsRef,
