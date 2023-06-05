@@ -16,7 +16,6 @@ COPY img ./img
 COPY build ./build
 
 COPY docker/server ./server
-COPY docker/start.sh ./
 
 EXPOSE 3000
 
