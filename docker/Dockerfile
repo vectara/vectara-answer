@@ -5,18 +5,20 @@ RUN apt-get update && \
     apt-get install -y python3-pip && \
     pip3 install --upgrade awscli
 
-WORKDIR /usr/src/app
-
-COPY docker/package.json .
+COPY docker/package.json ./
 RUN npm install
 
-# Bundle app source
-COPY build/ ./build
+WORKDIR /usr/src/app
+
+# copy our code and create build folder in container
+COPY public ./public
+COPY img ./img
+COPY build ./build
+
 COPY docker/server ./server
-COPY start.sh .
+COPY docker/start.sh ./
 
 EXPOSE 3000
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
-#CMD ["tail -f /dev/null"]
-CMD ["bash start.sh"]
+CMD ["node server/index.js"]

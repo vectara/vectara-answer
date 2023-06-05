@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to vectara-answer</h1>
 <p align="center">
-  <img style="max-width: 100%;" alt="logo" src="img/project-logo.png" height="140"/>
+  <img style="max-width: 100%;" alt="logo" src="img/project-logo.png"/>
 </p>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
