@@ -7,6 +7,11 @@ import {
 } from "react";
 import axios from "axios";
 
+import {
+  SummaryLanguage,
+  SUMMARY_LANGUAGES,
+} from "../views/search/types";
+
 interface Config {
   // Search
   config_endpoint?: string;
@@ -30,6 +35,9 @@ interface Config {
   // Filters
   config_enable_source_filters?: string;
   config_sources?: string;
+
+  // default language
+  config_default_language?: string;
 
   // Search header
   config_search_logo_link?: string;
@@ -85,6 +93,10 @@ type Filters = {
   sourceValueToLabelMap?: Record<string, string>;
 };
 
+type Summary = {
+  defaultLanguage: string;
+};
+
 type SearchHeader = {
   logo: {
     link?: string;
@@ -108,6 +120,7 @@ interface ConfigContextType {
   app: App;
   appHeader: AppHeader;
   filters: Filters;
+  summary: Summary,
   searchHeader: SearchHeader;
   exampleQuestions: ExampleQuestions;
   auth: Auth;
@@ -168,6 +181,13 @@ const prefixConfig = (
   return prefixedConfig;
 };
 
+const validateLanguage = (lang: string, defaultLanguage: SummaryLanguage): SummaryLanguage => {
+  if ((SUMMARY_LANGUAGES as readonly string[]).includes(lang)) {
+    return lang as SummaryLanguage;
+  }
+  return defaultLanguage;
+};
+
 export const ConfigContextProvider = ({ children }: Props) => {
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);
   const [missingConfigProps, setMissingConfigProps] = useState<string[]>([]);
@@ -193,10 +213,13 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [auth, setAuth] = useState<Auth>({ isEnabled: false });
   const [analytics, setAnalytics] = useState<Analytics>({});
 
+  const [summary, setSummary] = useState<Summary>({
+    defaultLanguage: "auto",
+  });
+
   useEffect(() => {
     const loadConfig = async () => {
       let config: Config;
-
       if (isProduction) {
         const result = await fetchConfig();
         config = prefixConfig(result.data);
@@ -243,6 +266,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // Filters
         config_enable_source_filters,
         config_sources,
+
+        // default language
+        config_default_language,
 
         // App header
         config_app_header_logo_link,
@@ -305,9 +331,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       const sourceValueToLabelMap = sources.length
         ? sources.reduce((accum, { label, value }) => {
-            accum[value] = label;
-            return accum;
-          }, {} as Record<string, string>)
+          accum[value] = label;
+          return accum;
+        }, {} as Record<string, string>)
         : undefined;
 
       if (isFilteringEnabled && sources.length === 0) {
@@ -320,6 +346,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
         isEnabled: isFilteringEnabled,
         sources,
         sourceValueToLabelMap,
+      });
+
+      setSummary({
+        defaultLanguage: validateLanguage(config_default_language as SummaryLanguage, "auto"),
       });
 
       setSearchHeader({
@@ -346,6 +376,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
     loadConfig();
   }, []);
 
+  console.log("DEBUG CONFIG: summary = ", summary)
+
   return (
     <ConfigContext.Provider
       value={{
@@ -355,6 +387,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         app,
         appHeader,
         filters,
+        summary,
         searchHeader,
         exampleQuestions,
         auth,
