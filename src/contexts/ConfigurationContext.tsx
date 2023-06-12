@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import axios from "axios";
+import { SummaryLanguage } from "../views/search/types";
 
 interface Config {
   // Search
@@ -30,6 +31,9 @@ interface Config {
   // Filters
   config_enable_source_filters?: string;
   config_sources?: string;
+
+  // Summary
+  config_default_language?: SummaryLanguage;
 
   // Search header
   config_search_logo_link?: string;
@@ -84,6 +88,9 @@ type Filters = {
   sources: Source[];
   sourceValueToLabelMap?: Record<string, string>;
 };
+type Summary = {
+  defaultLanguage: SummaryLanguage;
+};
 
 type SearchHeader = {
   logo: {
@@ -108,6 +115,7 @@ interface ConfigContextType {
   app: App;
   appHeader: AppHeader;
   filters: Filters;
+  summary: Summary;
   searchHeader: SearchHeader;
   exampleQuestions: ExampleQuestions;
   auth: Auth;
@@ -186,6 +194,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
     sources: [],
     sourceValueToLabelMap: {},
   });
+  const [summary, setSummary] = useState<Summary>({
+    defaultLanguage: "auto",
+  });
   const [searchHeader, setSearchHeader] = useState<SearchHeader>({ logo: {} });
   const [exampleQuestions, setExampleQuestions] = useState<ExampleQuestions>(
     []
@@ -243,6 +254,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // Filters
         config_enable_source_filters,
         config_sources,
+
+        // Summary
+        config_default_language,
 
         // App header
         config_app_header_logo_link,
@@ -322,6 +336,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
         sourceValueToLabelMap,
       });
 
+      setSummary({
+        defaultLanguage: config_default_language ?? "auto",
+      });
+
       setSearchHeader({
         logo: {
           link: config_search_logo_link,
@@ -355,6 +373,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         app,
         appHeader,
         filters,
+        summary,
         searchHeader,
         exampleQuestions,
         auth,
