@@ -34,6 +34,9 @@ app.post("/config", (req, res) => {
     enable_source_filters,
     sources,
 
+    // default language
+    default_language,
+
     // Search header
     search_logo_link,
     search_logo_src,
@@ -42,13 +45,6 @@ app.post("/config", (req, res) => {
     search_title,
     search_description,
     search_placeholder,
-
-    // Example questions
-    questions_url,
-    Q1,
-    Q2,
-    Q3,
-    Q4,
 
     // Auth
     authenticate,
@@ -82,6 +78,9 @@ app.post("/config", (req, res) => {
     enable_source_filters,
     sources,
 
+    // default language
+    default_language,
+
     // Search header
     search_logo_link,
     search_logo_src,
@@ -90,13 +89,6 @@ app.post("/config", (req, res) => {
     search_title,
     search_description,
     search_placeholder,
-
-    // Example questions
-    questions_url,
-    Q1,
-    Q2,
-    Q3,
-    Q4,
 
     // Auth
     authenticate,

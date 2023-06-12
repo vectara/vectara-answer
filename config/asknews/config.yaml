@@ -8,5 +8,7 @@ search_logo_src: "images/asknews_logo.png" ## could be URL
 search_logo_alt: "AskNews logo"
 search_logo_height: "20"
 
+default_language: "fra"
+
 enable_source_filters: True
 sources: "BBC,NPR,FOX,CNBC,CNN"

@@ -68,15 +68,15 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search } = useConfigContext();
+  const { isConfigLoaded, search, summary: { defaultLanguage } } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Language.
-  const [languageValue, setLanguageValue] = useState<SummaryLanguage>("auto");
+  // Language
+  const [languageValue, setLanguageValue] = useState<SummaryLanguage>();
 
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -89,8 +89,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<any>();
-  const [summarizationResponse, setSummarizationResponse] =
-    useState<SearchResponse>();
+  const [summarizationResponse, setSummarizationResponse] = useState<SearchResponse>();
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -153,10 +152,13 @@ export const SearchContextProvider = ({ children }: Props) => {
     }
   };
 
+  const getLanguage = (): SummaryLanguage =>
+    (languageValue ?? defaultLanguage) as SummaryLanguage;
+
   const onSearch = async ({
     value = searchValue,
     filter = filterValue,
-    language = languageValue,
+    language = getLanguage(),
     isPersistable = true,
   }: {
     value?: string;
@@ -270,7 +272,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSummarizing,
         summarizationError,
         summarizationResponse,
-        language: languageValue,
+        language: getLanguage(),
         history,
         clearHistory,
         searchResultsRef,

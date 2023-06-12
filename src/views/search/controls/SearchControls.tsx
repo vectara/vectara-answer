@@ -130,7 +130,7 @@ export const SearchControls = ({
                       </VuiIcon>
                     }
                   >
-                    Language: {humanizeLanguage(language)}
+                    Language: {humanizeLanguage(language as SummaryLanguage)}
                   </VuiButtonEmpty>
                 }
               >
