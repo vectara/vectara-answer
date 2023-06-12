@@ -376,8 +376,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
     loadConfig();
   }, []);
 
-  console.log("DEBUG CONFIG: summary = ", summary)
-
   return (
     <ConfigContext.Provider
       value={{

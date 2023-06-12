@@ -76,7 +76,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Language
-  const [languageValue, setLanguageValue] = useState<SummaryLanguage>("rus"); /// TEMP
+  const [languageValue, setLanguageValue] = useState<SummaryLanguage>();
 
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -256,8 +256,6 @@ export const SearchContextProvider = ({ children }: Props) => {
     // user preference.
     onSearch({ value: "", filter: "" });
   };
-
-  console.log("DEBUG search controls, lang=" + getLanguage())
 
   return (
     <SearchContext.Provider
