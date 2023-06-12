@@ -101,7 +101,8 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [selectedSearchResultPosition, setSelectedSearchResultPosition] =
     useState<number>();
 
-  const getLanguage = () => languageValue ?? defaultLanguage;
+  const getLanguage = (): SummaryLanguage =>
+    (languageValue ?? defaultLanguage) as SummaryLanguage;
 
   useEffect(() => {
     setHistory(retrieveHistory());

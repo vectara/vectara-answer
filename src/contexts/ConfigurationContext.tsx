@@ -89,7 +89,7 @@ type Filters = {
   sourceValueToLabelMap?: Record<string, string>;
 };
 type Summary = {
-  defaultLanguage: SummaryLanguage;
+  defaultLanguage: string;
 };
 
 type SearchHeader = {
@@ -195,7 +195,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     sourceValueToLabelMap: {},
   });
   const [summary, setSummary] = useState<Summary>({
-    defaultLanguage: "auto",
+    defaultLanguage: "",
   });
   const [searchHeader, setSearchHeader] = useState<SearchHeader>({ logo: {} });
   const [exampleQuestions, setExampleQuestions] = useState<ExampleQuestions>(
