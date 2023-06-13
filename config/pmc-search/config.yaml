@@ -1,7 +1,10 @@
 corpus_id: 162
 customer_id: 1526022105
 
-search_title: "Ask about Rare Disease demo. Not for clinical use."
+search_title: "Rare Disease search"
+search_description: "Demo only. Not for clinical use."
 
 enable_source_filters: False
 sources: ""
+
+default_language: "eng"

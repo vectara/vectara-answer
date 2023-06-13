@@ -273,6 +273,7 @@ You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP.
 - Twitter: [@vectara](https://twitter.com/vectara)
 - GitHub: [@vectara](https://github.com/vectara)
 - LinkedIn: [@vectara](https://www.linkedin.com/company/vectara/)
+- Discord: [@vectara](https://discord.gg/GFb8gMz6UH)
 
 ## 🤝 Contributing
 
