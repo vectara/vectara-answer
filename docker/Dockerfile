@@ -1,10 +1,5 @@
 FROM --platform=linux/amd64 node:18
 
-# Install AWS CLI
-RUN apt-get update
-RUN apt-get install -y pipx
-RUN pipx install awscli
-
 COPY docker/package.json ./
 RUN npm install
 
