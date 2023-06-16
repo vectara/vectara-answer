@@ -46,21 +46,21 @@ export const sendSearchRequest = async ({
         numResults: 10,
         corpusKey: corpusKeyList,
         context_config: {
-          sentences_before: includeSummary ? 5 : 2,
-          sentences_after: includeSummary ? 5 : 2,
+          sentences_before: includeSummary ? 3 : 2,
+          sentences_after: includeSummary ? 3 : 2,
           start_tag: START_TAG,
           end_tag: END_TAG,
         },
         ...(includeSummary
           ? {
-              summary: [
-                {
-                  summarizerPromptName: "vectara-summary-ext-v1.2.0",
-                  responseLang: language,
-                  maxSummarizedResults: 5,
-                },
-              ],
-            }
+            summary: [
+              {
+                summarizerPromptName: "vectara-summary-ext-v1.2.0",
+                responseLang: language,
+                maxSummarizedResults: 5,
+              },
+            ],
+          }
           : {}),
       },
     ],
