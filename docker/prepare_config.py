@@ -61,6 +61,10 @@ def main(config_folder, profile):
     config = yaml.load(
         open(os.path.join(config_folder, "config.yaml")), Loader=yaml.FullLoader
     )
+    if type(config) != dict:
+        print(f"Illegal config file format {os.path.join(config_folder, 'config.yaml')}")
+        return
+
     config["endpoint"] = "api.vectara.io"
 
     # read key-value pairs from secrets.toml file
