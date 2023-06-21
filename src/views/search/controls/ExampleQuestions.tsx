@@ -1,13 +1,5 @@
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
-import {
-  VuiFlexContainer,
-  VuiFlexItem,
-  VuiIcon,
-  VuiPrompt,
-  VuiSpacer,
-  VuiTextColor,
-  VuiText,
-} from "@vectara/vectara-ui";
+import { VuiFlexContainer, VuiFlexItem, VuiIcon, VuiPrompt, VuiSpacer, VuiTextColor, VuiText } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./exampleQuestions.scss";
 
@@ -24,9 +16,7 @@ export const ExampleQuestions = () => {
 
       <VuiText size="s">
         <p>
-          <VuiTextColor color="accent">
-            Describe your interest above or try one of these topics.
-          </VuiTextColor>
+          <VuiTextColor color="accent">Describe your interest above or try one of these topics.</VuiTextColor>
         </p>
       </VuiText>
 

@@ -6,7 +6,7 @@ import {
   VuiSpacer,
   VuiSpinner,
   VuiTitle,
-} from "@vectara/vectara-ui";
+} from "../../ui";
 import { SearchControls } from "./controls/SearchControls";
 import { Summary } from "./results/Summary";
 import { SearchResults } from "./results/SearchResults";

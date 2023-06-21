@@ -1,0 +1,70 @@
+@use "sass:map";
+
+.vuiPrompt {
+  position: relative;
+  border-radius: $sizeM;
+  transition: all 0.2s;
+  word-wrap: break-word;
+}
+
+.vuiPrompt--speechBubble {
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    left: 48px;
+    border-style: solid;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-width: 20px;
+    margin-left: -20px;
+    margin-bottom: -20px;
+    border-top-color: $colorLightShade;
+    border-bottom: 0;
+  }
+}
+
+.vuiPrompt--interactive {
+  &:hover {
+    background-color: $colorAccentLightShade;
+    color: $colorAccent;
+  }
+}
+
+// Color
+$color: (
+  danger: (
+    "color": $colorDanger,
+    "background-color": $colorDangerLightShade
+  ),
+  normal: (
+    "color": $colorDarkShade,
+    "background-color": $colorLightShade
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiPrompt--#{$colorName} {
+    color: #{map.get($colorValue, "color")};
+    background-color: #{map.get($colorValue, "background-color")};
+  }
+}
+
+// Padding
+$padding: (
+  paddingXs: $sizeXs,
+  paddingS: $sizeS,
+  paddingM: $sizeM,
+  paddingL: $sizeL,
+  paddingXl: $sizeXl,
+  paddingXxl: $sizeXl * 2
+);
+
+@each $paddingName, $paddingValue in $padding {
+  .vuiPrompt--#{$paddingName} {
+    padding: $paddingValue;
+  }
+}

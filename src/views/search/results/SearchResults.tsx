@@ -7,8 +7,8 @@ import {
   VuiTextColor,
   VuiText,
   VuiTitle,
-  VuiSpacer,
-} from "@vectara/vectara-ui";
+  VuiSpacer
+} from "../../../ui";
 import { SearchResultList } from "./SearchResultList";
 
 type Props = {
@@ -24,7 +24,7 @@ export const SearchResults = ({
   searchError,
   results,
   selectedSearchResultPosition,
-  setSearchResultRef,
+  setSearchResultRef
 }: Props) => {
   let content;
   if (isSearching) {
@@ -46,11 +46,7 @@ export const SearchResults = ({
     // Log for diagnostics.
     console.error(searchError);
     content = (
-      <VuiCallout
-        title="There was an error while searching"
-        color="danger"
-        headingElement="h2"
-      >
+      <VuiCallout title="There was an error while searching" color="danger" headingElement="h2">
         {searchError.message && (
           <VuiText>
             <p>
@@ -61,9 +57,7 @@ export const SearchResults = ({
         {searchError.response?.data?.message && (
           <VuiText>
             <p>
-              <VuiTextColor color="danger">
-                {searchError.response.data.message}
-              </VuiTextColor>
+              <VuiTextColor color="danger">{searchError.response.data.message}</VuiTextColor>
             </p>
           </VuiText>
         )}

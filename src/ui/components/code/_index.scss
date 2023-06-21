@@ -1,0 +1,21 @@
+.vuiCodeContainer {
+  position: relative;
+}
+
+.vuiCodeCopyButton {
+  position: absolute;
+  right: $sizeXxs;
+  top: $sizeXxs;
+}
+
+.vuiCode {
+  display: block;
+  width: 100%;
+  padding: $sizeXxs $sizeL;
+  background-color: $colorLightShade;
+  color: $colorText;
+  border-left: $sizeXxs solid $colorMediumShade;
+  font-family: "Roboto Mono", monospace;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}

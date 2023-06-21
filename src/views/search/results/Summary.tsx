@@ -1,5 +1,9 @@
+import { BiError } from "react-icons/bi";
+import { SearchResponse } from "../types";
 import {
   VuiFlexContainer,
+  VuiIcon,
+  VuiPrompt,
   VuiSpacer,
   VuiSpinner,
   VuiTextColor,
@@ -7,8 +11,8 @@ import {
   VuiTitle,
   VuiFlexItem,
   VuiSummary,
-  VuiCallout,
-} from "@vectara/vectara-ui";
+  VuiCallout
+} from "../../../ui";
 
 type Props = {
   isSummarizing: boolean;
@@ -23,7 +27,7 @@ export const Summary = ({
   summarizationError,
   summary,
   selectedSearchResultPosition,
-  onClickCitation,
+  onClickCitation
 }: Props) => {
   let content;
 
@@ -52,11 +56,7 @@ export const Summary = ({
     const errorDataMessage = summarizationError.response?.data?.message;
 
     return (content = (
-      <VuiCallout
-        headingElement="h3"
-        title="There was an error while generating this summary"
-        color="danger"
-      >
+      <VuiCallout headingElement="h3" title="There was an error while generating this summary" color="danger">
         {(errorMessage || errorDataMessage) && (
           <VuiText>
             {errorMessage && (
@@ -79,9 +79,7 @@ export const Summary = ({
         <VuiSummary
           summary={summary}
           selectedCitationPosition={
-            selectedSearchResultPosition === undefined
-              ? undefined
-              : selectedSearchResultPosition + 1
+            selectedSearchResultPosition === undefined ? undefined : selectedSearchResultPosition + 1
           }
           onClickCitation={onClickCitation}
         />

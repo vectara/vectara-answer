@@ -6,10 +6,10 @@ import {
   VuiFlexItem,
   VuiTitle,
   VuiTextColor,
-  VuiButtonSecondary,
-  VuiButtonPrimary,
+  VuiButtonEmpty,
+  VuiButton,
   VuiText,
-} from "@vectara/vectara-ui";
+} from "../../../ui";
 import "./appHeader.scss";
 
 export const AppHeader = () => {
@@ -57,16 +57,16 @@ export const AppHeader = () => {
                   </VuiText>
                 </VuiFlexItem>
                 <VuiFlexItem>
-                  <VuiButtonSecondary color="normal" size="m" onClick={logOut}>
+                  <VuiButtonEmpty color="normal" size="m" onClick={logOut}>
                     Log out
-                  </VuiButtonSecondary>
+                  </VuiButtonEmpty>
                 </VuiFlexItem>
               </>
             )}
 
             {appHeader.learnMore.link && (
               <VuiFlexItem>
-                <VuiButtonSecondary
+                <VuiButtonEmpty
                   color="accent"
                   size="m"
                   href={appHeader.learnMore.link}
@@ -80,12 +80,12 @@ export const AppHeader = () => {
                   }}
                 >
                   {appHeader.learnMore.text ?? "About"}
-                </VuiButtonSecondary>
+                </VuiButtonEmpty>
               </VuiFlexItem>
             )}
 
             <VuiFlexItem>
-              <VuiButtonPrimary
+              <VuiButton
                 color="accent"
                 size="m"
                 href="https://console.vectara.com/"
@@ -99,7 +99,7 @@ export const AppHeader = () => {
                 }}
               >
                 Try Vectara now
-              </VuiButtonPrimary>
+              </VuiButton>
             </VuiFlexItem>
           </VuiFlexContainer>
         </VuiFlexItem>

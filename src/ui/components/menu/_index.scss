@@ -1,0 +1,25 @@
+.vuiMenu {
+  border: 1px solid $borderColor;
+  border-radius: $sizeXs;
+}
+
+.vuiMenuItem + .vuiMenuItem {
+  border-top: 1px solid $borderColor;
+}
+
+.vuiMenuItem {
+  display: block;
+  width: 100%;
+  padding: $sizeS $sizeL;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: $shadowSmallStart;
+  transition: all $transitionSpeed;
+  text-decoration-color: $colorText;
+
+  &:hover {
+    box-shadow: $shadowSmallEnd;
+    text-decoration: underline;
+    text-decoration-color: $colorText;
+  }
+}

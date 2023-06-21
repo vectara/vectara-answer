@@ -1,0 +1,12 @@
+.vuiPopover {
+  position: absolute;
+  padding: $sizeXxs;
+  background-color: $colorEmptyShade;
+  border: 1px solid $borderColor;
+  z-index: $popoverZIndex;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.vuiOptionsListItem__selected--unselected {
+  visibility: hidden;
+}

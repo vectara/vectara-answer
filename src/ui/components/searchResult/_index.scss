@@ -1,0 +1,29 @@
+.vuiSearchResult {
+  position: relative;
+
+  & + & {
+    margin-top: $sizeL;
+  }
+}
+
+.vuiSearchResultPosition {
+  position: absolute;
+  left: -42px;
+  top: 0;
+  font-weight: 600;
+  padding: $sizeXs;
+  color: $colorDarkShade;
+  padding: 4px 8px;
+  width: 30px;
+  text-align: center;
+  font-size: 12px;
+  border-radius: $sizeXs;
+  height: 23px;
+  transition: all $transitionSpeed;
+}
+
+.vuiSearchResultPosition--selected {
+  background-color: $colorPrimary;
+  color: $colorEmptyShade;
+  height: 100%;
+}

@@ -1,0 +1,55 @@
+$toggleWidth: $sizeL * 1.5;
+$toggleHeight: $sizeM * 1.25;
+$buttonOffset: 2px;
+$buttonSize: $toggleHeight - ($buttonOffset * 2);
+
+.vuiToggle {
+  position: relative;
+  display: inline-block;
+  width: $toggleWidth;
+  height: $toggleHeight;
+}
+
+.vuiToggle__input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+
+  &:checked + .vuiToggle__button {
+    background-color: $colorPrimary;
+  }
+
+  &:focus + .vuiToggle__button {
+    outline: 2px solid transparentize($colorPrimary, 0.25);
+    outline-offset: 2px;
+  }
+
+  &:checked + .vuiToggle__button:before {
+    transform: translateX($toggleWidth - $buttonSize - ($buttonOffset * 2));
+  }
+}
+
+.vuiToggle__button {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $colorMediumShade;
+  transition: $transitionSpeed;
+  border-radius: $buttonSize;
+  box-shadow: inset rgba(0, 0, 0, 0.1) 0px 2px 2px;
+
+  &:before {
+    position: absolute;
+    content: "";
+    height: $buttonSize;
+    width: $buttonSize;
+    left: $buttonOffset;
+    bottom: $buttonOffset;
+    background-color: $colorEmptyShade;
+    transition: $transitionSpeed;
+    border-radius: 50%;
+  }
+}

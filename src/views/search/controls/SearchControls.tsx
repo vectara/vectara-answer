@@ -10,10 +10,10 @@ import {
   VuiText,
   VuiBadge,
   VuiIcon,
-  VuiButtonSecondary,
+  VuiButtonEmpty,
   VuiPopover,
   VuiOptionsList,
-} from "@vectara/vectara-ui";
+} from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
 import { BiCaretDown, BiTimeFive } from "react-icons/bi";
@@ -121,7 +121,7 @@ export const SearchControls = ({
                 isOpen={isLanguageMenuOpen}
                 setIsOpen={setIsLanguageMenuOpen}
                 button={
-                  <VuiButtonSecondary
+                  <VuiButtonEmpty
                     color="normal"
                     size="s"
                     icon={
@@ -131,7 +131,7 @@ export const SearchControls = ({
                     }
                   >
                     Language: {humanizeLanguage(language as SummaryLanguage)}
-                  </VuiButtonSecondary>
+                  </VuiButtonEmpty>
                 }
               >
                 <VuiOptionsList
@@ -149,7 +149,7 @@ export const SearchControls = ({
             </VuiFlexItem>
 
             <VuiFlexItem grow={false}>
-              <VuiButtonSecondary
+              <VuiButtonEmpty
                 color="normal"
                 size="s"
                 isPressed={isHistoryOpen}
@@ -161,7 +161,7 @@ export const SearchControls = ({
                 }
               >
                 History
-              </VuiButtonSecondary>
+              </VuiButtonEmpty>
             </VuiFlexItem>
           </VuiFlexContainer>
         </VuiFlexItem>
@@ -232,9 +232,9 @@ export const SearchControls = ({
 
         {hasQuery && (
           <VuiFlexItem grow={false}>
-            <VuiButtonSecondary color="normal" size="s" onClick={() => reset()}>
+            <VuiButtonEmpty color="normal" size="s" onClick={() => reset()}>
               Start over
-            </VuiButtonSecondary>
+            </VuiButtonEmpty>
           </VuiFlexItem>
         )}
       </VuiFlexContainer>

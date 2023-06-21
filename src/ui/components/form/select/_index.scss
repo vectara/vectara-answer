@@ -1,0 +1,44 @@
+.vuiSelect {
+  position: relative;
+  max-width: $sizeL * 10;
+  width: 100%;
+
+  select {
+    appearance: none;
+    border-radius: $sizeXxs;
+    border: 1px solid $colorMediumShade;
+    width: 100%;
+  }
+}
+
+.vuiSelect__caret {
+  pointer-events: none;
+  position: absolute;
+  bottom: 0;
+  left: auto;
+  right: 12px;
+}
+
+.vuiSelect--m {
+  select {
+    padding: $sizeXs $size;
+    font-size: $fontSizeXs;
+    padding-right: 32px;
+  }
+
+  .vuiSelect__caret {
+    top: calc(50% - 10px);
+  }
+}
+
+.vuiSelect--l {
+  select {
+    padding: $sizeS $sizeM;
+    font-size: $fontSizeM;
+    padding-right: 48px;
+  }
+
+  .vuiSelect__caret {
+    top: calc(50% - 14px);
+  }
+}

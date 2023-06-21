@@ -11,7 +11,6 @@
     "@types/node": "^16.18.12",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "@vectara/vectara-ui": "0.0.1",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
     "dotenv": "^16.0.3",

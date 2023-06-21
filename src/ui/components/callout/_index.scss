@@ -1,0 +1,41 @@
+@use "sass:map";
+
+.vuiCallout {
+  width: 100%;
+}
+
+.vuiCallout--m {
+  padding: $sizeM $sizeL;
+}
+
+.vuiCallout--s {
+  padding: $sizeXs $sizeS;
+}
+
+// Color
+$color: (
+  accent: (
+    "background-color": transparentize($colorAccent, 0.9)
+  ),
+  primary: (
+    "background-color": $colorPrimaryLight
+  ),
+  success: (
+    "background-color": transparentize($colorSuccess, 0.9)
+  ),
+  warning: (
+    "background-color": transparentize($colorWarning, 0.9)
+  ),
+  danger: (
+    "background-color": $colorDangerLight
+  ),
+  normal: (
+    "background-color": $colorLightShade
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiCallout--#{$colorName} {
+    background-color: #{map.get($colorValue, "background-color")};
+  }
+}

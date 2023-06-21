@@ -1,0 +1,90 @@
+@use "sass:map";
+
+.vuiButtonEmpty {
+  white-space: nowrap;
+  border-radius: $sizeXxs;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  box-shadow: $shadowSmallStart;
+  transition: all $transitionSpeed;
+
+  &:hover {
+    box-shadow: $shadowSmallEnd;
+  }
+}
+
+.vuiButtonEmptyLink {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.vuiButtonEmpty--fullWidth {
+  width: 100%;
+}
+
+.vuiButtonEmpty__iconContainer {
+  margin-right: $sizeXs;
+  // Ensures custom icons and vertically centered.
+  line-height: 0;
+}
+
+// Size
+.vuiButtonEmpty--xs {
+  font-size: $fontSizeXxs;
+  padding: $sizeXxs * 0.5 $sizeXs;
+}
+
+.vuiButtonEmpty--s {
+  font-size: $fontSizeXs;
+  padding: $sizeXxs $sizeXs;
+}
+
+.vuiButtonEmpty--m {
+  font-size: $fontSizeS;
+  padding: $sizeXs $size;
+}
+
+// Color
+$color: (
+  accent: (
+    "border-color": transparentize($colorAccent, 0.6),
+    "color": $colorAccent
+  ),
+  primary: (
+    "border-color": transparentize($colorPrimary, 0.6),
+    "color": $colorPrimary
+  ),
+  danger: (
+    "border-color": transparentize($colorDanger, 0.5),
+    "color": $colorDanger
+  ),
+  warning: (
+    "border-color": transparentize($colorWarning, 0.5),
+    "color": $colorWarning
+  ),
+  normal: (
+    "border-color": $borderColor,
+    "color": $colorText
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiButtonEmpty--#{$colorName} {
+    border: 1px solid #{map.get($colorValue, "border-color")};
+    color: #{map.get($colorValue, "color")};
+
+    &.vuiButtonEmpty--isPressed {
+      box-shadow: inset rgba(0, 0, 0, 0.1) 0px 2px 2px;
+    }
+
+    &.vuiButtonEmpty--isSelected {
+      background-color: #{map.get($colorValue, "color")};
+      color: $colorEmptyShade;
+    }
+  }
+}

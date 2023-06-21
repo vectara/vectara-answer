@@ -1,0 +1,74 @@
+.vuiFlexContainer {
+  display: flex;
+  align-items: stretch;
+}
+
+.vuiFlexContainer--wrap {
+  flex-wrap: wrap;
+}
+
+// alignItems
+$alignItems: (
+  alignItemsBaseline: baseline,
+  alignItemsCenter: center,
+  alignItemsEnd: end,
+  alignItemsStart: start,
+  alignItemsStretch: stretch
+);
+
+@each $alignItemsName, $alignItemsValue in $alignItems {
+  .vuiFlexContainer--#{$alignItemsName} {
+    align-items: $alignItemsValue;
+  }
+}
+
+// direction
+$direction: (
+  directionColumn: column,
+  directionColumnReverse: column-reverse,
+  directionRow: row,
+  directionRowReverse: row-reverse
+);
+
+@each $directionName, $directionValue in $direction {
+  .vuiFlexContainer--#{$directionName} {
+    flex-direction: $directionValue;
+  }
+}
+
+// justifyContent
+$justifyContent: (
+  justifyContentCenter: center,
+  justifyContentEnd: end,
+  justifyContentStart: start,
+  justifyContentSpaceAround: space-around,
+  justifyContentSpaceBetween: space-between,
+  justifyContentSpaceEvenly: space-evenly
+);
+
+@each $justifyContentName, $justifyContentValue in $justifyContent {
+  .vuiFlexContainer--#{$justifyContentName} {
+    justify-content: $justifyContentValue;
+  }
+}
+
+// spacing
+$spacing: (
+  spacingNone: 0,
+  spacingXxs: $sizeXxs,
+  spacingXs: $sizeXs,
+  spacingS: $sizeS,
+  spacingM: $sizeM,
+  spacingL: $sizeL,
+  spacingXl: $sizeXl
+);
+
+@each $spacingName, $spacingValue in $spacing {
+  .vuiFlexContainer--#{$spacingName} {
+    margin: -$spacingValue * 0.5;
+
+    & > .vuiFlexItem {
+      margin: $spacingValue * 0.5;
+    }
+  }
+}
