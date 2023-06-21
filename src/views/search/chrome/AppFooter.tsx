@@ -1,11 +1,23 @@
-import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiText, VuiLink, VuiSpacer, VuiButton } from "../../../ui";
+import {
+  VuiFlexContainer,
+  VuiFlexItem,
+  VuiTitle,
+  VuiText,
+  VuiLink,
+  VuiSpacer,
+  VuiButtonPrimary,
+} from "@vectara/vectara-ui";
 import "./appFooter.scss";
 
 export const AppFooter = () => {
   return (
     <div className="appFooter">
       <div className="appFooterContent">
-        <VuiFlexContainer alignItems="start" spacing="l" className="appFooterContent__layout">
+        <VuiFlexContainer
+          alignItems="start"
+          spacing="l"
+          className="appFooterContent__layout"
+        >
           <VuiFlexItem grow={5}>
             <VuiTitle size="m">
               <h3>Just an example of what's possible</h3>
@@ -15,17 +27,24 @@ export const AppFooter = () => {
 
             <VuiText>
               <p>
-                We made this to show off Vectara's conversational search capabilities. But you can use Vectara to ask
-                your own data questions, too. Vectara is free to use so it's easy to get started.
+                We made this to show off Vectara's conversational search
+                capabilities. But you can use Vectara to ask your own data
+                questions, too. Vectara is free to use so it's easy to get
+                started.
               </p>
             </VuiText>
 
             <VuiSpacer size="m" />
 
             <div>
-              <VuiButton color="accent" size="m" href="https://console.vectara.com/" target="_blank">
+              <VuiButtonPrimary
+                color="accent"
+                size="m"
+                href="https://console.vectara.com/"
+                target="_blank"
+              >
                 Try Vectara now
-              </VuiButton>
+              </VuiButtonPrimary>
             </div>
           </VuiFlexItem>
 
@@ -38,8 +57,10 @@ export const AppFooter = () => {
 
             <VuiText>
               <p>
-                Vectara is an API platform for developers. It features best-in-class retrieval and summarization. The
-                best part is we built in grounded generation which all but eliminates hallucinations.
+                Vectara is an API platform for developers. It features
+                best-in-class retrieval and summarization. The best part is we
+                built in grounded generation which all but eliminates
+                hallucinations.
               </p>
             </VuiText>
 
@@ -54,7 +75,10 @@ export const AppFooter = () => {
                     </VuiLink>
                   </p>
                   <p>
-                    <VuiLink href="https://discord.gg/GFb8gMz6UH" target="_blank">
+                    <VuiLink
+                      href="https://discord.gg/GFb8gMz6UH"
+                      target="_blank"
+                    >
                       Discord
                     </VuiLink>
                   </p>
@@ -70,7 +94,10 @@ export const AppFooter = () => {
                   </p>
 
                   <p>
-                    <VuiLink href="https://discuss.vectara.com/" target="_blank">
+                    <VuiLink
+                      href="https://discuss.vectara.com/"
+                      target="_blank"
+                    >
                       Forums
                     </VuiLink>
                   </p>

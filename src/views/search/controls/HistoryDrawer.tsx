@@ -1,7 +1,7 @@
 import { BiTimeFive } from "react-icons/bi";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import {
-  VuiButtonEmpty,
+  VuiButtonSecondary,
   VuiDrawer,
   VuiFlexContainer,
   VuiFlexItem,
@@ -11,7 +11,7 @@ import {
   VuiText,
   VuiTextColor,
   VuiTitle,
-} from "../../../ui";
+} from "@vectara/vectara-ui";
 import { humanizeLanguage } from "../types";
 
 type Props = {
@@ -45,9 +45,9 @@ export const HistoryDrawer = ({ isOpen, onClose }: Props) => {
           </VuiFlexItem>
 
           <VuiFlexItem>
-            <VuiButtonEmpty color="normal" size="s" onClick={clearHistory}>
+            <VuiButtonSecondary color="normal" size="s" onClick={clearHistory}>
               Clear
-            </VuiButtonEmpty>
+            </VuiButtonSecondary>
           </VuiFlexItem>
         </VuiFlexContainer>
       }
