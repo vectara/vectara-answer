@@ -3,7 +3,7 @@ customer_id: 1526022105
 
 app_title: "Legal Aid Illinois"
 search_title: "Legal Aid Illinois"
-search_description: "Based on www.illinoislegalaid.org"
+search_description: "Information based on www.illinoislegalaid.org. Does not constitute legal advice."
 
 enable_source_filters: False
 source: ""
