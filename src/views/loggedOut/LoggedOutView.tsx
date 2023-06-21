@@ -1,6 +1,12 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useAuthenticationContext } from "../../contexts/AuthenticationContext";
-import { VuiFlexContainer, VuiFlexItem, VuiText, VuiTextColor, VuiTitle } from "../../ui";
+import {
+  VuiFlexContainer,
+  VuiFlexItem,
+  VuiText,
+  VuiTextColor,
+  VuiTitle,
+} from "@vectara/vectara-ui";
 import "./loggedOutView.scss";
 import { useConfigContext } from "../../contexts/ConfigurationContext";
 
@@ -18,7 +24,11 @@ export const LoggedOutView = () => {
     >
       {searchHeader.logo.src && (
         <VuiFlexItem>
-          <img src={searchHeader.logo.src} alt={searchHeader.logo.alt} height={searchHeader.logo.height} />
+          <img
+            src={searchHeader.logo.src}
+            alt={searchHeader.logo.alt}
+            height={searchHeader.logo.height}
+          />
         </VuiFlexItem>
       )}
 
