@@ -24,6 +24,7 @@
     "react-scripts": "^5.0.1",
     "underscore": "^1.13.6",
     "url": "^0.11.0",
+    "@fullstory/browser": "^1.7.1",
     "web-vitals": "^2.1.4"
   },
   "overrides": {

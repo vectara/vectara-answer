@@ -7,6 +7,7 @@ import { useConfigContext } from "./contexts/ConfigurationContext";
 import { SearchContextProvider } from "./contexts/SearchContext";
 import { AuthenticationContextProvider, useAuthenticationContext } from "./contexts/AuthenticationContext";
 import { ConfigContextProvider } from "./contexts/ConfigurationContext";
+import * as FullStory from "@fullstory/browser";
 import "./App.scss";
 
 const AppRoutes = () => {
@@ -22,6 +23,10 @@ const AppRoutes = () => {
 
     if (analytics.googleAnalyticsTrackingCode) {
       ReactGA.initialize(analytics.googleAnalyticsTrackingCode);
+    }
+
+    if (analytics.fullStoryOrgId) {
+      FullStory.init({ orgId: analytics.fullStoryOrgId, devMode: process.env.NODE_ENV !== 'production' });
     }
 
     if (app.title) document.title = app.title;
