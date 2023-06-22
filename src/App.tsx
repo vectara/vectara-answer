@@ -26,7 +26,7 @@ const AppRoutes = () => {
     }
 
     if (analytics.fullStoryOrgId) {
-      FullStory.init({ orgId: analytics.fullStoryOrgId, devMode: false });
+      FullStory.init({ orgId: analytics.fullStoryOrgId, devMode: process.env.NODE_ENV !== 'production' });
     }
 
     if (app.title) document.title = app.title;

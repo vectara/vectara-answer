@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "express": "^4.16.1",
-    "dotenv": "^16.0.3",
-    "@fullstory/browser": "^1.7.1"
+    "dotenv": "^16.0.3"
   }
 }

@@ -12,5 +12,3 @@ default_language: "eng"
 
 enable_source_filters: True
 sources: "BBC,NPR,FOX,CNBC,CNN"
-
-full_story_org_id: "o-1MK30J-na1"
