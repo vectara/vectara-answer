@@ -52,6 +52,7 @@ app.post("/config", (req, res) => {
 
     // Analytics
     google_analytics_tracking_code,
+    full_story_org_id,
   } = process.env;
 
   res.send({
@@ -96,6 +97,7 @@ app.post("/config", (req, res) => {
 
     // Analytics
     google_analytics_tracking_code,
+    full_story_org_id,
   });
 });
 

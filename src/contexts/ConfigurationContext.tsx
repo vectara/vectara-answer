@@ -54,6 +54,7 @@ interface Config {
 
   // Analytics
   config_google_analytics_tracking_code?: string;
+  config_full_story_org_id?: string;
 }
 
 type ConfigProp = keyof Config;
@@ -111,7 +112,7 @@ type SearchHeader = {
 
 type ExampleQuestions = string[];
 type Auth = { isEnabled: boolean; googleClientId?: string };
-type Analytics = { googleAnalyticsTrackingCode?: string };
+type Analytics = { googleAnalyticsTrackingCode?: string; fullStoryOrgId?: string };
 
 interface ConfigContextType {
   isConfigLoaded: boolean;
@@ -293,6 +294,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
         // Analytics
         config_google_analytics_tracking_code,
+        config_full_story_org_id,
       } = config;
 
       setSearch({
@@ -371,6 +373,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       setAnalytics({
         googleAnalyticsTrackingCode: config_google_analytics_tracking_code,
+        fullStoryOrgId: config_full_story_org_id,
       });
     };
     loadConfig();
