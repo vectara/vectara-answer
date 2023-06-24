@@ -1,0 +1,13 @@
+corpus_id: 169
+customer_id: 1526022105
+
+app_title: "Yelp reviews"
+search_title: "Ask Yelp"
+search_description: "Restaurants in Saint Louis"
+
+summary_default_language: "en"
+summary_num_sentences: 3
+summary_num_results: 2
+
+enable_source_filters: False
+source: ""
