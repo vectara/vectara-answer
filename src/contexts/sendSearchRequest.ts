@@ -57,7 +57,7 @@ export const sendSearchRequest = async ({
               {
                 summarizerPromptName: "vectara-summary-ext-v1.2.0",
                 responseLang: language,
-                maxSummarizedResults: 5,
+                maxSummarizedResults: 7,
               },
             ],
           }
