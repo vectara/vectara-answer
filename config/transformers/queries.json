@@ -1,0 +1,8 @@
+{
+    "questions": [
+        "What is Attention?",
+        "How do transformers deal with long sequences?",
+        "how do you fine-tune a transformer model?",
+        "can transformers be used with computer vision?"
+    ]
+}
