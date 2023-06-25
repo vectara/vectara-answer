@@ -171,7 +171,7 @@ enable_source_filters: True
 sources: "BBC,NPR,FOX,CNBC,CNN"
 ```
 
-#### summary paramaters (optional)
+#### Summary paramaters (optional)
 
 The way summarization works can be configured as follows:
 
@@ -179,10 +179,10 @@ The way summarization works can be configured as follows:
 # Default language for summary response (if not specified defaults to "auto)
 summary_default_language: "en"
 
-# number of sentences before and after relevant text segment used for summarization
+# Number of sentences before and after relevant text segment used for summarization
 summary_num_sentences: 3
 
-# number of results used for summarization
+# Number of results used for summarization
 summary_num_results: 10
 ```
 

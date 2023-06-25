@@ -360,8 +360,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       setSummary({
         defaultLanguage: validateLanguage(config_summary_default_language as SummaryLanguage, "auto"),
-        summaryNumResults: config_summary_num_results || 7,
-        summaryNumSentences: config_summary_num_sentences || 3,
+        summaryNumResults: config_summary_num_results ?? 7,
+        summaryNumSentences: config_summary_num_sentences ?? 3,
       });
 
       setSearchHeader({
