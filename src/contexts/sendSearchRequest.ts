@@ -7,6 +7,8 @@ type Config = {
   query_str?: string;
   language?: SummaryLanguage;
   includeSummary?: boolean;
+  summaryNumResults?: number;
+  summaryNumSentences?: number;
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -18,6 +20,8 @@ export const sendSearchRequest = async ({
   query_str,
   language,
   includeSummary,
+  summaryNumResults,
+  summaryNumSentences,
   customerId,
   corpusId,
   endpoint,
@@ -46,8 +50,8 @@ export const sendSearchRequest = async ({
         numResults: 10,
         corpusKey: corpusKeyList,
         context_config: {
-          sentences_before: includeSummary ? 3 : 2,
-          sentences_after: includeSummary ? 3 : 2,
+          sentences_before: includeSummary ? summaryNumSentences : 2,
+          sentences_after: includeSummary ? summaryNumSentences : 2,
           start_tag: START_TAG,
           end_tag: END_TAG,
         },
@@ -57,7 +61,7 @@ export const sendSearchRequest = async ({
               {
                 summarizerPromptName: "vectara-summary-ext-v1.2.0",
                 responseLang: language,
-                maxSummarizedResults: 7,
+                maxSummarizedResults: summaryNumResults,
               },
             ],
           }

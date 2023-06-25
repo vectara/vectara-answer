@@ -34,8 +34,10 @@ app.post("/config", (req, res) => {
     enable_source_filters,
     sources,
 
-    // default language
-    default_language,
+    // summary
+    summary_default_language,
+    summary_num_results,
+    summary_num_sentences,
 
     // Search header
     search_logo_link,
@@ -79,8 +81,10 @@ app.post("/config", (req, res) => {
     enable_source_filters,
     sources,
 
-    // default language
-    default_language,
+    // summary
+    summary_default_language,
+    summary_num_results,
+    summary_num_sentences,
 
     // Search header
     search_logo_link,

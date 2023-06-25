@@ -171,6 +171,22 @@ enable_source_filters: True
 sources: "BBC,NPR,FOX,CNBC,CNN"
 ```
 
+#### Summary paramaters (optional)
+
+The way summarization works can be configured as follows:
+
+```yaml
+# Default language for summary response (if not specified defaults to "auto)
+summary_default_language: "en"
+
+# Number of sentences before and after relevant text segment used for summarization
+summary_num_sentences: 3
+
+# Number of results used for summarization
+summary_num_results: 10
+```
+
+
 #### Search header (optional)
 
 These configuration parameters enable you to configure the look and feel of the search header, including the logo.
@@ -213,6 +229,13 @@ google_client_id: "cb67dbce87wcc"
 ```yaml
 # Track user interaction with your app.
 google_analytics_tracking_code: "884327434"
+```
+
+#### Full Story (optional)
+
+```yaml
+# Track user experience with Full Story
+full_story_org_id: "org1123"
 ```
 
 ### `queries.json` file

@@ -36,9 +36,6 @@ interface Config {
   config_enable_source_filters?: string;
   config_sources?: string;
 
-  // default language
-  config_default_language?: string;
-
   // Search header
   config_search_logo_link?: string;
   config_search_logo_src?: string;
@@ -55,6 +52,11 @@ interface Config {
   // Analytics
   config_google_analytics_tracking_code?: string;
   config_full_story_org_id?: string;
+
+  // Summary
+  config_summary_default_language?: string;
+  config_summary_num_results?: number,
+  config_summary_num_sentences?: number,
 }
 
 type ConfigProp = keyof Config;
@@ -96,6 +98,8 @@ type Filters = {
 
 type Summary = {
   defaultLanguage: string;
+  summaryNumResults: number;
+  summaryNumSentences: number;
 };
 
 type SearchHeader = {
@@ -216,6 +220,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
   const [summary, setSummary] = useState<Summary>({
     defaultLanguage: "auto",
+    summaryNumResults: 7,
+    summaryNumSentences: 3,
   });
 
   useEffect(() => {
@@ -268,9 +274,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_enable_source_filters,
         config_sources,
 
-        // default language
-        config_default_language,
-
         // App header
         config_app_header_logo_link,
         config_app_header_logo_src,
@@ -295,6 +298,11 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // Analytics
         config_google_analytics_tracking_code,
         config_full_story_org_id,
+
+        // Summary
+        config_summary_default_language,
+        config_summary_num_results,
+        config_summary_num_sentences,
       } = config;
 
       setSearch({
@@ -351,7 +359,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
-        defaultLanguage: validateLanguage(config_default_language as SummaryLanguage, "auto"),
+        defaultLanguage: validateLanguage(config_summary_default_language as SummaryLanguage, "auto"),
+        summaryNumResults: config_summary_num_results ?? 7,
+        summaryNumSentences: config_summary_num_sentences ?? 3,
       });
 
       setSearchHeader({

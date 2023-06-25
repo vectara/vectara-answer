@@ -7,4 +7,4 @@ search_description: "Demo only. Not for clinical use."
 enable_source_filters: False
 sources: ""
 
-default_language: "eng"
+summary_default_language: "eng"
