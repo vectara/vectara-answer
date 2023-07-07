@@ -3,11 +3,11 @@ customer_id: 1526022105
 
 app_title: "Yelp reviews"
 search_title: "Ask Yelp"
-search_description: "Restaurants in Saint Louis"
+search_description: "Restaurants in St. Louis"
 
 summary_default_language: "en"
-summary_num_sentences: 3
-summary_num_results: 2
+summary_num_sentences: 2
+summary_num_results: 5
 
 enable_source_filters: False
 source: ""

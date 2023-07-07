@@ -1,0 +1,14 @@
+corpus_id: 171
+customer_id: 1526022105
+
+app_title: "Ask Stanford"
+search_title: "Ask Stanford"
+search_description: "About Student Services"
+
+summary_default_language: "en"
+summary_num_sentences: 3
+summary_num_results: 5
+rerank: true
+
+enable_source_filters: False
+source: ""

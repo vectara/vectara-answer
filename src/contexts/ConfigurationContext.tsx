@@ -57,6 +57,9 @@ interface Config {
   config_summary_default_language?: string;
   config_summary_num_results?: number,
   config_summary_num_sentences?: number,
+
+  // rerank
+  config_rerank?: string;
 }
 
 type ConfigProp = keyof Config;
@@ -117,6 +120,7 @@ type SearchHeader = {
 type ExampleQuestions = string[];
 type Auth = { isEnabled: boolean; googleClientId?: string };
 type Analytics = { googleAnalyticsTrackingCode?: string; fullStoryOrgId?: string };
+type Rerank = { isEnabled: boolean };
 
 interface ConfigContextType {
   isConfigLoaded: boolean;
@@ -126,6 +130,7 @@ interface ConfigContextType {
   appHeader: AppHeader;
   filters: Filters;
   summary: Summary,
+  rerank: Rerank,
   searchHeader: SearchHeader;
   exampleQuestions: ExampleQuestions;
   auth: Auth;
@@ -217,6 +222,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
   );
   const [auth, setAuth] = useState<Auth>({ isEnabled: false });
   const [analytics, setAnalytics] = useState<Analytics>({});
+  const [rerank, setRerank] = useState<Rerank>({ isEnabled: false});
 
   const [summary, setSummary] = useState<Summary>({
     defaultLanguage: "auto",
@@ -298,6 +304,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // Analytics
         config_google_analytics_tracking_code,
         config_full_story_org_id,
+
+        // rerank
+        config_rerank,
 
         // Summary
         config_summary_default_language,
@@ -385,6 +394,11 @@ export const ConfigContextProvider = ({ children }: Props) => {
         googleAnalyticsTrackingCode: config_google_analytics_tracking_code,
         fullStoryOrgId: config_full_story_org_id,
       });
+
+      setRerank({
+        isEnabled: isTrue(config_rerank)
+      });
+
     };
     loadConfig();
   }, []);
@@ -399,6 +413,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         appHeader,
         filters,
         summary,
+        rerank,
         searchHeader,
         exampleQuestions,
         auth,

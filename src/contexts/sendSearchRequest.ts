@@ -7,6 +7,7 @@ type Config = {
   query_str?: string;
   language?: SummaryLanguage;
   includeSummary?: boolean;
+  rerank?: boolean;
   summaryNumResults?: number;
   summaryNumSentences?: number;
   customerId: string;
@@ -20,6 +21,7 @@ export const sendSearchRequest = async ({
   query_str,
   language,
   includeSummary,
+  rerank,
   summaryNumResults,
   summaryNumSentences,
   customerId,
@@ -47,7 +49,7 @@ export const sendSearchRequest = async ({
       {
         query: query_str,
         start: 0,
-        numResults: 10,
+        numResults: rerank ? 50 : 10,
         corpusKey: corpusKeyList,
         context_config: {
           sentences_before: includeSummary ? summaryNumSentences : 2,
@@ -66,6 +68,12 @@ export const sendSearchRequest = async ({
             ],
           }
           : {}),
+        ...(rerank
+          ? {
+            reranking_config: {
+              reranker_id: 272725717
+            },
+          } : {}),      
       },
     ],
   };

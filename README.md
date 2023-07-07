@@ -186,6 +186,14 @@ summary_num_sentences: 3
 summary_num_results: 10
 ```
 
+#### Reranking (optional)
+
+Whether to use Vectara's reranking functionality
+
+```yaml
+# Re-ranking true or false
+rerank: "true"
+```
 
 #### Search header (optional)
 
