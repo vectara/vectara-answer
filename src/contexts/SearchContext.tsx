@@ -70,7 +70,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary: { defaultLanguage, summaryNumResults, summaryNumSentences } } = useConfigContext();
+  const { isConfigLoaded, search, summary: { defaultLanguage, summaryNumResults, summaryNumSentences }, rerank } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -199,6 +199,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         const response = await sendSearchRequest({
           filter,
           query_str: value,
+          rerank: rerank.isEnabled,
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
@@ -223,6 +224,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           filter,
           query_str: value,
           includeSummary: true,
+          rerank: rerank.isEnabled,
           summaryNumResults,
           summaryNumSentences,
           language,

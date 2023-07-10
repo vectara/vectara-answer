@@ -39,6 +39,9 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
 
+    // rerank
+    rerank,
+
     // Search header
     search_logo_link,
     search_logo_src,
@@ -85,6 +88,9 @@ app.post("/config", (req, res) => {
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
+
+    // rerank
+    rerank,
 
     // Search header
     search_logo_link,
