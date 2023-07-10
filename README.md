@@ -188,7 +188,7 @@ summary_num_results: 10
 
 #### Reranking (optional)
 
-Whether to use Vectara's reranking functionality
+Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. 
 
 ```yaml
 # Re-ranking true or false
