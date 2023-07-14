@@ -1,9 +1,9 @@
-corpus_id: 171
+corpus_id: 174
 customer_id: 1526022105
 
-app_title: "Ask Stanford"
-search_title: "Ask Stanford"
-search_description: "About Student Services"
+app_title: "Ask GSB"
+search_title: "Ask GSB"
+search_description: "Stanford Graduate school of Business"
 
 summary_default_language: "en"
 summary_num_sentences: 3

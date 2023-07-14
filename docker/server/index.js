@@ -41,6 +41,7 @@ app.post("/config", (req, res) => {
 
     // rerank
     rerank,
+    rerank_num_results,
 
     // Search header
     search_logo_link,
@@ -91,6 +92,7 @@ app.post("/config", (req, res) => {
 
     // rerank
     rerank,
+    rerank_num_results,
 
     // Search header
     search_logo_link,

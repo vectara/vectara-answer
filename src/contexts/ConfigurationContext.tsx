@@ -60,6 +60,7 @@ interface Config {
 
   // rerank
   config_rerank?: string;
+  config_rerank_num_results?: number;
 }
 
 type ConfigProp = keyof Config;
@@ -120,7 +121,7 @@ type SearchHeader = {
 type ExampleQuestions = string[];
 type Auth = { isEnabled: boolean; googleClientId?: string };
 type Analytics = { googleAnalyticsTrackingCode?: string; fullStoryOrgId?: string };
-type Rerank = { isEnabled: boolean };
+type Rerank = { isEnabled: boolean; numResults?: number };
 
 interface ConfigContextType {
   isConfigLoaded: boolean;
@@ -222,7 +223,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
   );
   const [auth, setAuth] = useState<Auth>({ isEnabled: false });
   const [analytics, setAnalytics] = useState<Analytics>({});
-  const [rerank, setRerank] = useState<Rerank>({ isEnabled: false});
+  const [rerank, setRerank] = useState<Rerank>({ isEnabled: false, numResults: 100 });
 
   const [summary, setSummary] = useState<Summary>({
     defaultLanguage: "auto",
@@ -307,6 +308,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
         // rerank
         config_rerank,
+        config_rerank_num_results,
 
         // Summary
         config_summary_default_language,
@@ -396,7 +398,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setRerank({
-        isEnabled: isTrue(config_rerank)
+        isEnabled: isTrue(config_rerank),
+        numResults: config_rerank_num_results ?? rerank.numResults,
       });
 
     };

@@ -7,7 +7,7 @@ search_description: "About Admissions"
 
 summary_default_language: "en"
 summary_num_sentences: 3
-summary_num_results: 5
+summary_num_results: 10
 rerank: true
 
 enable_source_filters: False

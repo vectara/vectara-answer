@@ -1,6 +1,6 @@
 import axios from "axios";
 import { START_TAG, END_TAG } from "../utils/parseSnippet";
-import { SummaryLanguage } from "../views/search/types";
+import { SUMMARY_LANGUAGES, SummaryLanguage } from "../views/search/types";
 
 type Config = {
   filter: string;
@@ -8,6 +8,7 @@ type Config = {
   language?: SummaryLanguage;
   includeSummary?: boolean;
   rerank?: boolean;
+  rerankNumResults?: number;
   summaryNumResults?: number;
   summaryNumSentences?: number;
   customerId: string;
@@ -22,6 +23,7 @@ export const sendSearchRequest = async ({
   language,
   includeSummary,
   rerank,
+  rerankNumResults,
   summaryNumResults,
   summaryNumSentences,
   customerId,
@@ -49,7 +51,7 @@ export const sendSearchRequest = async ({
       {
         query: query_str,
         start: 0,
-        numResults: rerank ? 50 : 10,
+        numResults: rerank ? rerankNumResults : 10,
         corpusKey: corpusKeyList,
         context_config: {
           sentences_before: includeSummary ? summaryNumSentences : 2,
