@@ -399,7 +399,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       setRerank({
         isEnabled: isTrue(config_rerank),
-        numResults: config_rerank_num_results ?? 100,
+        numResults: config_rerank_num_results ?? rerank.numResults,
       });
 
     };

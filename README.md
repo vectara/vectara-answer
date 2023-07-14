@@ -188,10 +188,10 @@ summary_num_results: 10
 
 #### Reranking (optional)
 
-Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that re-ranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "false"
+Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "false".
 
 ```yaml
-# Re-ranking: true or false and number of results to use for re-ranking
+# Reranking: true or false and number of results to use for reranking
 rerank: "true"
 rerank_num_results: 50
 ```
