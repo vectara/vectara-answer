@@ -8,6 +8,7 @@ type Config = {
   language?: SummaryLanguage;
   includeSummary?: boolean;
   rerank?: boolean;
+  rerankNumResults?: number;
   summaryNumResults?: number;
   summaryNumSentences?: number;
   customerId: string;
@@ -22,6 +23,7 @@ export const sendSearchRequest = async ({
   language,
   includeSummary,
   rerank,
+  rerankNumResults,
   summaryNumResults,
   summaryNumSentences,
   customerId,
@@ -44,18 +46,12 @@ export const sendSearchRequest = async ({
     };
   });
 
-  // reranking only works in English
-  if ((language != "eng") && (language != "auto")) {
-    console.log("Language is not English; disabling reranking")
-    rerank = false;
-  }
-
   const body = {
     query: [
       {
         query: query_str,
         start: 0,
-        numResults: rerank ? 100 : 10,
+        numResults: rerank ? rerankNumResults : 10,
         corpusKey: corpusKeyList,
         context_config: {
           sentences_before: includeSummary ? summaryNumSentences : 2,
