@@ -25,6 +25,7 @@ export const SearchView = () => {
     isSearching,
     searchError,
     searchResults,
+    includeSummary,
     isSummarizing,
     summarizationError,
     summarizationResponse,
@@ -67,21 +68,21 @@ export const SearchView = () => {
       <>
         <VuiSpacer size="s" />
 
-        <Summary
-          isSummarizing={isSummarizing}
-          summarizationError={summarizationError}
-          summary={summary}
-          selectedSearchResultPosition={selectedSearchResultPosition}
-          onClickCitation={(position: number) =>
-            selectSearchResultAt(position - 1)
-          }
-        />
-
-        <VuiSpacer size="l" />
-
-        <VuiHorizontalRule />
-
-        <VuiSpacer size="l" />
+        {includeSummary && (
+          <>
+            <VuiSpacer size="s" />
+            <Summary
+              isSummarizing={isSummarizing}
+              summarizationError={summarizationError}
+              summary={summary}
+              selectedSearchResultPosition={selectedSearchResultPosition}
+              onClickCitation={(position: number) => selectSearchResultAt(position - 1)}
+            />
+            <VuiSpacer size="l" />
+            <VuiHorizontalRule />
+            <VuiSpacer size="l" />
+          </>
+        )}
 
         <SearchResults
           isSearching={isSearching}
@@ -91,6 +92,7 @@ export const SearchView = () => {
           setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
             ((searchResultsRef as any).current[index] = el)
           }
+          includeSummary={includeSummary}
         />
       </>
     );

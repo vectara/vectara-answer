@@ -12,6 +12,7 @@ import {
 import { SearchResultList } from "./SearchResultList";
 
 type Props = {
+  includeSummary: boolean;
   isSearching: boolean;
   searchError?: any;
   results?: DeserializedSearchResult[];
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export const SearchResults = ({
+  includeSummary,
   isSearching,
   searchError,
   results,
@@ -73,11 +75,13 @@ export const SearchResults = ({
     );
   }
 
+  const searchHeaderText = includeSummary ? "References" : `${results?.length} Search Results`;
+
   return (
     <>
       <VuiTitle size="xxs">
         <h2>
-          <strong>References</strong>
+          <strong>{searchHeaderText}</strong>
         </h2>
       </VuiTitle>
 

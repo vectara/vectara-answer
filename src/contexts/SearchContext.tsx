@@ -42,6 +42,7 @@ interface SearchContextType {
   isSearching: boolean;
   searchError: any;
   searchResults: DeserializedSearchResult[] | undefined;
+  includeSummary: boolean;
   isSummarizing: boolean;
   summarizationError: any;
   summarizationResponse: SearchResponse | undefined;
@@ -70,7 +71,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary: { defaultLanguage, summaryNumResults, summaryNumSentences }, rerank } = useConfigContext();
+  const { isConfigLoaded, search, summary, rerank } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -155,7 +156,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const getLanguage = (): SummaryLanguage =>
-    (languageValue ?? defaultLanguage) as SummaryLanguage;
+    (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
   const onSearch = async ({
     value = searchValue,
@@ -219,34 +220,36 @@ export const SearchContextProvider = ({ children }: Props) => {
         setSearchResponse(undefined);
       }
 
-      // Second call - search and summarize; this may take a while to return results
-      try {
-        const response = await sendSearchRequest({
-          filter,
-          query_str: value,
-          includeSummary: true,
-          rerank: rerank.isEnabled,
-          rerankNumResults: rerank.numResults,
-          summaryNumResults,
-          summaryNumSentences,
-          language,
-          customerId: search.customerId!,
-          corpusId: search.corpusId!,
-          endpoint: search.endpoint!,
-          apiKey: search.apiKey!,
-        });
+      // Second call - search and summarize (if summary is enabled); this may take a while to return results
+      if(summary.isEnabled) {
+        try {
+          const response = await sendSearchRequest({
+            filter,
+            query_str: value,
+            includeSummary: true,
+            rerank: rerank.isEnabled,
+            rerankNumResults: rerank.numResults,
+            summaryNumResults: summary.summaryNumResults,
+            summaryNumSentences: summary.summaryNumSentences,
+            language,
+            customerId: search.customerId!,
+            corpusId: search.corpusId!,
+            endpoint: search.endpoint!,
+            apiKey: search.apiKey!,
+          });
 
-        // If we send multiple requests in rapid succession, we only want to
-        // display the results of the most recent request.
-        if (searchId === searchCount) {
+          // If we send multiple requests in rapid succession, we only want to
+          // display the results of the most recent request.
+          if (searchId === searchCount) {
+            setIsSummarizing(false);
+            setSummarizationError(undefined);
+            setSummarizationResponse(response);
+          }
+        } catch (error) {
           setIsSummarizing(false);
-          setSummarizationError(undefined);
-          setSummarizationResponse(response);
+          setSummarizationError(error);
+          setSummarizationResponse(undefined);
         }
-      } catch (error) {
-        setIsSummarizing(false);
-        setSummarizationError(error);
-        setSummarizationResponse(undefined);
       }
     } else {
       // Persist to URL.
@@ -277,12 +280,13 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSearching,
         searchError,
         searchResults,
+        includeSummary: summary.isEnabled,
         isSummarizing,
         summarizationError,
         summarizationResponse,
         language: getLanguage(),
-        summaryNumResults,
-        summaryNumSentences,
+        summaryNumResults: summary.summaryNumResults,
+        summaryNumSentences: summary.summaryNumSentences,
         history,
         clearHistory,
         searchResultsRef,

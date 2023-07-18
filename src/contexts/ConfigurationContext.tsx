@@ -54,6 +54,7 @@ interface Config {
   config_full_story_org_id?: string;
 
   // Summary
+  config_enable_summary?: string;
   config_summary_default_language?: string;
   config_summary_num_results?: number,
   config_summary_num_sentences?: number,
@@ -101,6 +102,7 @@ type Filters = {
 };
 
 type Summary = {
+  isEnabled: boolean;
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;
@@ -226,6 +228,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [rerank, setRerank] = useState<Rerank>({ isEnabled: false, numResults: 100 });
 
   const [summary, setSummary] = useState<Summary>({
+    isEnabled: true,
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
@@ -311,6 +314,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_rerank_num_results,
 
         // Summary
+        config_enable_summary,
         config_summary_default_language,
         config_summary_num_results,
         config_summary_num_sentences,
@@ -370,6 +374,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
+        isEnabled: isTrue(config_enable_summary ?? "True"),
         defaultLanguage: validateLanguage(config_summary_default_language as SummaryLanguage, "auto"),
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
