@@ -2,7 +2,6 @@ import sys
 import yaml
 import os
 
-
 # Local implementation of simple TOML file read, to avoid requiring python toml package install
 def parse_section_line(line):
     return line.strip()[1:-1]
@@ -78,6 +77,8 @@ def main(config_folder, profile):
 
     with open(".env", "w") as f:
         for k in new_config.keys():
+            if type(new_config[k]) == str:
+                new_config[k] = new_config[k].replace("\n", "\\n")
             f.write(f"{k}={new_config[k]}\n")
 
 
