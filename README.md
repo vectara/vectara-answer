@@ -176,7 +176,7 @@ sources: "BBC,NPR,FOX,CNBC,CNN"
 The way summarization works can be configured as follows:
 
 ```yaml
-# Hide or show summary (if not specified defaults to True)
+# Hide or show summary (if not specified defaults to True). When set to False, it hides the summary and prevents the call to the summarization API.
 enable_summary: True
 
 # Default language for summary response (if not specified defaults to "auto")
