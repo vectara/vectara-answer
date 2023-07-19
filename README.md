@@ -31,6 +31,8 @@ Let’s create a simple conversational application. We'll base it on [Paul Graha
 
 Install [Docker](https://docs.docker.com/engine/install/).
 
+Install [pyyaml](https://pypi.org/project/PyYAML/): `pip3 install pyyaml`.
+
 Install [npm and node](https://nodejs.org/en/download).
 
 Clone this repository:
