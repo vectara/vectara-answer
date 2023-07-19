@@ -75,7 +75,7 @@ export const SearchResults = ({
     );
   }
 
-  const searchHeaderText = includeSummary ? "References" : `${results?.length} Search Results`;
+  const searchHeaderText = includeSummary ? "References" : "Search Results";
 
   return (
     <>
