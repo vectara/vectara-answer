@@ -11,6 +11,7 @@ type Config = {
   rerankNumResults?: number;
   summaryNumResults?: number;
   summaryNumSentences?: number;
+  summaryTemp?: number;
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -26,6 +27,7 @@ export const sendSearchRequest = async ({
   rerankNumResults,
   summaryNumResults,
   summaryNumSentences,
+  summaryTemp,
   customerId,
   corpusId,
   endpoint,
@@ -45,6 +47,9 @@ export const sendSearchRequest = async ({
       metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
     };
   });
+  const modelParams = {
+    temperature: summaryTemp,
+  };
 
   const body = {
     query: [
@@ -66,6 +71,7 @@ export const sendSearchRequest = async ({
                 summarizerPromptName: "vectara-summary-ext-v1.2.0",
                 responseLang: language,
                 maxSummarizedResults: summaryNumResults,
+                model_params: modelParams,
               },
             ],
           }

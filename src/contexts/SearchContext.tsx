@@ -48,6 +48,7 @@ interface SearchContextType {
   language: SummaryLanguage;
   summaryNumResults: number;
   summaryNumSentences: number;
+  summaryTemp: number;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -70,7 +71,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary: { defaultLanguage, summaryNumResults, summaryNumSentences }, rerank } = useConfigContext();
+  const { isConfigLoaded, search, summary: { defaultLanguage, summaryNumResults, summaryNumSentences, summaryTemp }, rerank } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -229,6 +230,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           rerankNumResults: rerank.numResults,
           summaryNumResults,
           summaryNumSentences,
+          summaryTemp,
           language,
           customerId: search.customerId!,
           corpusId: search.corpusId!,
@@ -283,6 +285,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         language: getLanguage(),
         summaryNumResults,
         summaryNumSentences,
+        summaryTemp,
         history,
         clearHistory,
         searchResultsRef,
