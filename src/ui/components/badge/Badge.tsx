@@ -22,7 +22,6 @@ export const VuiBadge = ({
   color,
   onClick,
   href,
-  target,
   track,
   ...rest
 }: Props) => {

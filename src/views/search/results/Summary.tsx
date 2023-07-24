@@ -1,11 +1,5 @@
-import { BiError } from "react-icons/bi";
-import { SearchResponse } from "../types";
-import { React } from "react";
-
 import {
   VuiFlexContainer,
-  VuiIcon,
-  VuiPrompt,
   VuiSpacer,
   VuiSpinner,
   VuiTextColor,
