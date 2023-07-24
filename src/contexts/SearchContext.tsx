@@ -106,7 +106,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Use the browser back and forward buttons to traverse history
   // of searches, and bookmark or share the URL.
   useEffect(() => {
-    if (!isConfigLoaded) return;
+    if (!isConfigLoaded || isSearching) return;
 
     const urlParams = new URLSearchParams(searchParams);
 
