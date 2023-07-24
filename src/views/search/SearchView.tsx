@@ -89,7 +89,7 @@ export const SearchView = () => {
           results={searchResults}
           selectedSearchResultPosition={selectedSearchResultPosition}
           setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-            ((searchResultsRef as any).current[index] = el)
+            ((searchResultsRef as unknown).current[index] = el)
           }
         />
       </>
