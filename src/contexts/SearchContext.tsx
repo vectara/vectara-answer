@@ -92,7 +92,8 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<any>();
-  const [summarizationResponse, setSummarizationResponse] = useState<SearchResponse>();
+  const [summarizationResponse, setSummarizationResponse] =
+    useState<SearchResponse>();
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -106,6 +107,9 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Use the browser back and forward buttons to traverse history
   // of searches, and bookmark or share the URL.
   useEffect(() => {
+    // Search params are updated as part of calling onSearch, so we don't
+    // want to trigger another search when the search params change if that
+    // search is already in progress.
     if (!isConfigLoaded || isSearching) return;
 
     const urlParams = new URLSearchParams(searchParams);
@@ -221,7 +225,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       }
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
-      if(summary.isEnabled) {
+      if (summary.isEnabled) {
         try {
           const response = await sendSearchRequest({
             filter,
