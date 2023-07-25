@@ -90,7 +90,7 @@ export const SearchView = () => {
           results={searchResults}
           selectedSearchResultPosition={selectedSearchResultPosition}
           setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-            ((searchResultsRef as unknown).current[index] = el)
+            ((searchResultsRef as any).current[index] = el)
           }
           includeSummary={includeSummary}
         />
