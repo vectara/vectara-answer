@@ -40,7 +40,7 @@ interface SearchContextType {
   }) => void;
   reset: () => void;
   isSearching: boolean;
-  searchError: any;
+  searchError: unknown;
   searchResults: DeserializedSearchResult[] | undefined;
   includeSummary: boolean;
   isSummarizing: boolean;
@@ -86,12 +86,12 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   // Basic search
   const [isSearching, setIsSearching] = useState(false);
-  const [searchError, setSearchError] = useState<any>();
+  const [searchError, setSearchError] = useState<unknown>();
   const [searchResponse, setSearchResponse] = useState<SearchResponse>();
 
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summarizationError, setSummarizationError] = useState<any>();
+  const [summarizationError, setSummarizationError] = useState<unknown>();
   const [summarizationResponse, setSummarizationResponse] =
     useState<SearchResponse>();
 

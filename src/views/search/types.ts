@@ -50,7 +50,7 @@ export type DeserializedSearchResult = {
   source: string;
   url: string;
   title: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 };
 
 export const SUMMARY_LANGUAGES = [

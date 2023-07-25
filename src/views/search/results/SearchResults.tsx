@@ -14,7 +14,7 @@ import { SearchResultList } from "./SearchResultList";
 type Props = {
   includeSummary: boolean;
   isSearching: boolean;
-  searchError?: any;
+  searchError?: unknown;
   results?: DeserializedSearchResult[];
   selectedSearchResultPosition?: number;
   setSearchResultRef: (el: HTMLDivElement | null, index: number) => void;
