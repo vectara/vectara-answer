@@ -24,7 +24,7 @@ type Props = {
   subTitle?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
-  snippetProps?: unknown;
+  snippetProps?: any;
 };
 
 const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;

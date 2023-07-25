@@ -12,7 +12,7 @@ import {
 
 type Props = {
   isSummarizing: boolean;
-  summarizationError?: unknown;
+  summarizationError?: any;
   summary?: string;
   selectedSearchResultPosition?: number;
   onClickCitation: (position: number) => void;
