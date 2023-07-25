@@ -30,7 +30,7 @@ const AppRoutes = () => {
     }
 
     if (app.title) document.title = app.title;
-  }, [isConfigLoaded]);
+  }, [analytics.fullStoryOrgId, analytics.googleAnalyticsTrackingCode, app.title, isAuthEnabled, isConfigLoaded, logIn]);
 
   if (missingConfigProps.length) {
     return (

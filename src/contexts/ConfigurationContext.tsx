@@ -409,7 +409,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     };
     loadConfig();
-  }, []);
+  }, [rerank.numResults]);
 
   return (
     <ConfigContext.Provider
