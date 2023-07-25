@@ -3,6 +3,7 @@
   "version": "1.0",
   "private": true,
   "dependencies": {
+    "@fullstory/browser": "^1.7.1",
     "@react-oauth/google": "^0.10.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -24,17 +25,17 @@
     "react-scripts": "^5.0.1",
     "underscore": "^1.13.6",
     "url": "^0.11.0",
-    "@fullstory/browser": "^1.7.1",
     "web-vitals": "^2.1.4"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.50.0",
-    "@typescript-eslint/parser": "^5.50.0",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-react": "^7.33.0",
     "inline-source-cli": "^2.0.0",
     "prettier": "2.8.3",
     "pretty-quick": "^3.1.3",
