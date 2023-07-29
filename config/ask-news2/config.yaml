@@ -8,7 +8,7 @@ search_logo_src: "images/asknews_logo.png"
 search_logo_alt: "AskNews logo"
 search_logo_height: "20"
 
-summary_default_language: "en"
+summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
 summary_temp: 0.0
