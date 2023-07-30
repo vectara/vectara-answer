@@ -35,6 +35,7 @@ app.post("/config", (req, res) => {
     sources,
 
     // summary
+    enable_summary,
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
@@ -87,6 +88,7 @@ app.post("/config", (req, res) => {
     sources,
 
     // summary
+    enable_summary,
     summary_default_language,
     summary_num_results,
     summary_num_sentences,

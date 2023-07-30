@@ -42,6 +42,7 @@ interface SearchContextType {
   isSearching: boolean;
   searchError: any;
   searchResults: DeserializedSearchResult[] | undefined;
+  includeSummary: boolean;
   isSummarizing: boolean;
   summarizationError: any;
   summarizationResponse: SearchResponse | undefined;
@@ -71,7 +72,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary: { defaultLanguage, summaryNumResults, summaryNumSentences, summaryTemp }, rerank } = useConfigContext();
+  const { isConfigLoaded, search, summary, rerank } = useConfigContext();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -92,7 +93,8 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<any>();
-  const [summarizationResponse, setSummarizationResponse] = useState<SearchResponse>();
+  const [summarizationResponse, setSummarizationResponse] =
+    useState<SearchResponse>();
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -106,7 +108,10 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Use the browser back and forward buttons to traverse history
   // of searches, and bookmark or share the URL.
   useEffect(() => {
-    if (!isConfigLoaded) return;
+    // Search params are updated as part of calling onSearch, so we don't
+    // want to trigger another search when the search params change if that
+    // search is already in progress.
+    if (!isConfigLoaded || isSearching) return;
 
     const urlParams = new URLSearchParams(searchParams);
 
@@ -156,7 +161,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const getLanguage = (): SummaryLanguage =>
-    (languageValue ?? defaultLanguage) as SummaryLanguage;
+    (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
   const onSearch = async ({
     value = searchValue,
@@ -220,35 +225,37 @@ export const SearchContextProvider = ({ children }: Props) => {
         setSearchResponse(undefined);
       }
 
-      // Second call - search and summarize; this may take a while to return results
-      try {
-        const response = await sendSearchRequest({
-          filter,
-          query_str: value,
-          includeSummary: true,
-          rerank: rerank.isEnabled,
-          rerankNumResults: rerank.numResults,
-          summaryNumResults,
-          summaryNumSentences,
-          summaryTemp,
-          language,
-          customerId: search.customerId!,
-          corpusId: search.corpusId!,
-          endpoint: search.endpoint!,
-          apiKey: search.apiKey!,
-        });
+      // Second call - search and summarize (if summary is enabled); this may take a while to return results
+      if (summary.isEnabled) {
+        try {
+          const response = await sendSearchRequest({
+            filter,
+            query_str: value,
+            includeSummary: true,
+            rerank: rerank.isEnabled,
+            rerankNumResults: rerank.numResults,
+            summaryNumResults: summary.summaryNumResults,
+            summaryNumSentences: summary.summaryNumSentences,
+            summaryTemp: summary.summaryTemp,
+            language,
+            customerId: search.customerId!,
+            corpusId: search.corpusId!,
+            endpoint: search.endpoint!,
+            apiKey: search.apiKey!,
+          });
 
-        // If we send multiple requests in rapid succession, we only want to
-        // display the results of the most recent request.
-        if (searchId === searchCount) {
+          // If we send multiple requests in rapid succession, we only want to
+          // display the results of the most recent request.
+          if (searchId === searchCount) {
+            setIsSummarizing(false);
+            setSummarizationError(undefined);
+            setSummarizationResponse(response);
+          }
+        } catch (error) {
           setIsSummarizing(false);
-          setSummarizationError(undefined);
-          setSummarizationResponse(response);
+          setSummarizationError(error);
+          setSummarizationResponse(undefined);
         }
-      } catch (error) {
-        setIsSummarizing(false);
-        setSummarizationError(error);
-        setSummarizationResponse(undefined);
       }
     } else {
       // Persist to URL.
@@ -279,13 +286,14 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSearching,
         searchError,
         searchResults,
+        includeSummary: summary.isEnabled,
         isSummarizing,
         summarizationError,
         summarizationResponse,
         language: getLanguage(),
-        summaryNumResults,
-        summaryNumSentences,
-        summaryTemp,
+        summaryNumResults: summary.summaryNumResults,
+        summaryNumSentences: summary.summaryNumSentences,
+        summaryTemp: summary.summaryTemp,
         history,
         clearHistory,
         searchResultsRef,

@@ -110,7 +110,9 @@ export const SearchControls = ({
               <VuiFlexItem grow={false}>
                 <VuiTitle size="xxs" align="right">
                   <VuiTextColor color="subdued">
-                    <h2>{searchHeader.description}</h2>
+                    <h2 style={{ whiteSpace: "pre-line" }}>
+                      {searchHeader.description.replaceAll("\\n", "\n")}
+                    </h2>
                   </VuiTextColor>
                 </VuiTitle>
               </VuiFlexItem>
