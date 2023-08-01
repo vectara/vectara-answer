@@ -13,8 +13,6 @@ COPY build ./build
 COPY docker/server ./server
 
 EXPOSE 3000
-# set up env variable, should turn on when you run docker
-ENV USE_DOCKER=true
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
 CMD ["node server/index.js"]
