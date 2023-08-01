@@ -8,7 +8,6 @@ app.use(express.json());
 app.use("/", express.static("build"));
 
 app.get("/", function (req, res) {
-  console.log("LOAD WEBSITE");
   res.render("build/index.html");
 });
 
