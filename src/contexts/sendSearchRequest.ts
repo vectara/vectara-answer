@@ -80,17 +80,13 @@ export const sendSearchRequest = async ({
     ],
   };
 
-  const url = `https://${endpoint}/v1/query`;
   const headers = {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      "customer-id": customerId,
-      "x-api-key": apiKey,
-      "grpc-timeout": "60S",
     },
   };
-  const result = await axios.post(url, body, headers);
+  const result = await axios.post("/v1/query", body, headers);
 
   const status = result["data"]["responseSet"][0]["status"];
   if (status.length > 0 && status[0]["code"] === "UNAUTHORIZED") {

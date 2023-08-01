@@ -3,6 +3,7 @@
   "version": "1.0",
   "private": true,
   "dependencies": {
+    "@fullstory/browser": "^1.7.1",
     "@react-oauth/google": "^0.10.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -13,8 +14,10 @@
     "@types/react-dom": "^18.0.11",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-on": "^3.8.1",
@@ -24,7 +27,6 @@
     "react-scripts": "^5.0.1",
     "underscore": "^1.13.6",
     "url": "^0.11.0",
-    "@fullstory/browser": "^1.7.1",
     "web-vitals": "^2.1.4"
   },
   "overrides": {
@@ -61,5 +63,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://127.0.0.1:4444/"
 }

@@ -1,9 +1,33 @@
 const express = require("express");
+const axios = require("axios");
+const cors = require("cors");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 require("dotenv").config();
 const app = express();
-const port = 3000;
+const port = 3000; // 4444 for local dev, 3000 for Docker
 
+app.use(express.json());
+app.use(cors({ credentials: true, origin: true }));
 app.use("/", express.static("build"));
+
+app.post("/v1/query", async (req, res) => {
+  console.log("req.body", req.body);
+  try {
+    const response = await axios.post(`https://${process.env.endpoint}/v1/query`, req.body, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "customer-id": process.env.customer_id,
+        "x-api-key": process.env.api_key,
+        "grpc-timeout": "60S",
+      },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error sending search request:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 app.get("/", function (req, res) {
   res.render("build/index.html");
