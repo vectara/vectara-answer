@@ -5,7 +5,7 @@ app_title: "Yelp reviews"
 search_title: "Ask Yelp"
 search_description: "Restaurants in St. Louis"
 
-summary_default_language: "en"
+summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
 rerank: true

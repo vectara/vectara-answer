@@ -5,7 +5,7 @@ app_title: "Ask GSB"
 search_title: "Ask GSB"
 search_description: "Stanford Graduate school of Business"
 
-summary_default_language: "en"
+summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
 rerank: true
