@@ -47,7 +47,11 @@ From the root directory, run these commands to install JavaScript dependencies a
 npm install && npm run build
 ```
 
-### 2. Set configuration
+### 2. Run Docker
+
+Find and open Docker. When you run your application, it will use Docker to host your application inside a container.
+
+### 3. Set configuration
 
 Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`.
 
@@ -63,7 +67,7 @@ Update the `config/pg-search/config.yaml` file with these changes:
 
 Edit the `config/pg-search/queries.json` file and update the four questions to a set of curated questions you'd like to include in the user interface. For example: "What is a maker schedule?"
 
-### 3. Run the application
+### 4. Run the application
 
 Execute the run script from the root directory using your `config/` directory, assigning the **default** profile from your secrets file:
 
@@ -75,7 +79,7 @@ The application executes inside of a [Docker container](https://www.docker.com/r
 
 When the container is set up, the `run.sh` launch script will open up a browser at `localhost:80`.
 
-### 4. Done!
+### 5. Done!
 
 Your application is now up and running. Try a few queries to see how it works.
 
@@ -301,6 +305,12 @@ You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP.
    - [Azure instructions](https://learn.microsoft.com/en-us/azure/container-apps/get-started-existing-container-image-portal?pivots=container-apps-private-registry).
    - [GCP instructions](https://cloud.google.com/run/docs/quickstarts/build-and-deploy).
 4. Launch the container on a VM instance based on the Docker image now hosted in your cloud environment. Make sure to load the `.env` and the `config/` directory as volumes that the Docker recognizes as shown in `run.sh`.
+
+## FAQs
+
+### Why do I get a "Cannot connect to the Docker daemon" error when I try to run my application?
+
+Docker needs to be running before you can run your application. Find and open the Docker app.
 
 ## Author
 
