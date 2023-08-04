@@ -1,5 +1,12 @@
 .DS_Store
 
+# We'll often create a test config for local development,
+# which we don't want commited.
+config/test
+
+# secrets file in TOML format
+secrets.toml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -154,6 +161,3 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-
-# secrets file in TOML format
-secrets.toml
