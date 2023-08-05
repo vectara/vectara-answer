@@ -31,7 +31,7 @@ REACT_APP_questions='["Question 1", "Question 2", "Question 3", "Question 4"]'
 
 ## Running locally
 
-Run the code locally and serve it at `http://localhost:4444/` with:
+Run the code locally and serve it at `http://localhost:4444/` with: 
 
 ```
 npm run start

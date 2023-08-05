@@ -1,13 +1,35 @@
 const express = require("express");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 require("dotenv").config();
 const app = express();
 const port = 4444; // 4444 for local dev, 3000 for Docker
 
+app.use(express.json());
 app.use("/", express.static("build"));
 
 app.get("/", function (req, res) {
   res.render("build/index.html");
 });
+
+const proxyOptions = {
+  target: `https://${process.env.endpoint}`,
+  changeOrigin: true,
+  pathRewrite: { '^/v1/query': '/v1/query' },
+  onProxyReq: (proxyReq, req) => {
+    proxyReq.setHeader("Content-Type", "application/json");
+    proxyReq.setHeader("Accept", "application/json");
+    proxyReq.setHeader("customer-id", process.env.customer_id);
+    proxyReq.setHeader("x-api-key", process.env.api_key);
+    proxyReq.setHeader("grpc-timeout", "60S");
+
+    if (req.body) {
+      const bodyData = JSON.stringify(req.body);
+      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+      proxyReq.write(bodyData);
+    }
+  },
+};
+app.use('/v1/query', createProxyMiddleware(proxyOptions));
 
 app.post("/config", (req, res) => {
   const {
@@ -115,4 +137,6 @@ app.post("/config", (req, res) => {
   });
 });
 
-app.listen(port, () => { });
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
