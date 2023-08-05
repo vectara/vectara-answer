@@ -16,3 +16,4 @@ EXPOSE 3000
 
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
 CMD ["node server/index.js"]
+
