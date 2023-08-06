@@ -44,7 +44,7 @@ interface SearchContextType {
   searchResults: DeserializedSearchResult[] | undefined;
   includeSummary: boolean;
   isSummarizing: boolean;
-  summarizationError: any;
+  summarizationError: unknown;
   summarizationResponse: SearchResponse | undefined;
   language: SummaryLanguage;
   summaryNumResults: number;
