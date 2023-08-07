@@ -5,7 +5,7 @@ app_title: "Ask Stanford"
 search_title: "Ask Stanford"
 search_description: "About Student Services"
 
-summary_default_language: "en"
+summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
 rerank: true

@@ -1,14 +1,14 @@
-corpus_id: 172
+corpus_id: 184
 customer_id: 1526022105
 
-app_title: "Ask UCLA"
-search_title: "Ask UCLA"
-search_description: "About Admissions"
+app_title: "Ask Feynman"
+search_title: "Ask Feynman"
+search_description: "All of Richard Feynman's lectures"
 
 summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
-rerank: true
+rerank: false
 
 enable_source_filters: False
 source: ""
