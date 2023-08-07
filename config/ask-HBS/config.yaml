@@ -8,7 +8,6 @@ search_description: "Harvard Business School"
 summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
-summary_temp: 0.0
 rerank: true
 rerank_num_results: 100
 

@@ -8,7 +8,6 @@ search_description: "All of Richard Feynman's lectures"
 summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
-summary_temp: 0.0
 rerank: false
 
 enable_source_filters: False

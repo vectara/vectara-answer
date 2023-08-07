@@ -58,7 +58,6 @@ interface Config {
   config_summary_default_language?: string;
   config_summary_num_results?: number,
   config_summary_num_sentences?: number,
-  config_summary_temp?: number,
 
   // rerank
   config_rerank?: string;
@@ -107,7 +106,6 @@ type Summary = {
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;
-  summaryTemp: number;
 };
 
 type SearchHeader = {
@@ -234,7 +232,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
-    summaryTemp: 0.7,
   });
 
   useEffect(() => {
@@ -321,7 +318,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_default_language,
         config_summary_num_results,
         config_summary_num_sentences,
-        config_summary_temp,
       } = config;
 
       setSearch({
@@ -382,7 +378,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         defaultLanguage: validateLanguage(config_summary_default_language as SummaryLanguage, "auto"),
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
-        summaryTemp: config_summary_temp ?? 0.7,
       });
 
       setSearchHeader({

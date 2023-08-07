@@ -62,7 +62,6 @@ app.post("/config", (req, res) => {
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
-    summary_temp,
 
     // rerank
     rerank,
@@ -115,7 +114,6 @@ app.post("/config", (req, res) => {
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
-    summary_temp,
 
     // rerank
     rerank,
