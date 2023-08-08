@@ -11,6 +11,7 @@ import {
   DeserializedSearchResult,
   SearchResponse,
   SummaryLanguage,
+  SearchError,
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -40,7 +41,7 @@ interface SearchContextType {
   }) => void;
   reset: () => void;
   isSearching: boolean;
-  searchError: unknown;
+  searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
   includeSummary: boolean;
   isSummarizing: boolean;
@@ -86,7 +87,7 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   // Basic search
   const [isSearching, setIsSearching] = useState(false);
-  const [searchError, setSearchError] = useState<unknown>();
+  const [searchError, setSearchError] = useState<SearchError | undefined>();
   const [searchResponse, setSearchResponse] = useState<SearchResponse>();
 
   // Summarization
@@ -220,7 +221,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         }
       } catch (error) {
         setIsSearching(false);
-        setSearchError(error);
+        setSearchError(error as SearchError);
         setSearchResponse(undefined);
       }
 

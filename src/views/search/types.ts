@@ -3,6 +3,15 @@ export type DocMetadata = {
   value: string;
 };
 
+export type SearchError = {
+  message?: string;
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 export type SearchResponseDoc = {
   id: string;
   metadata: DocMetadata[];
