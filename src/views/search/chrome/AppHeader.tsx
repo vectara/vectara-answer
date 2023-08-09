@@ -26,7 +26,8 @@ export const AppHeader = () => {
               <a
                 href={appHeader.logo.link ?? "https://vectara.com/"}
                 target="_blank"
-                className="appHeaderLogo" rel="noreferrer"
+                className="appHeaderLogo"
+                rel="noreferrer"
               >
                 <img
                   src={appHeader.logo.src ?? "images/vectara_logo.png"}
