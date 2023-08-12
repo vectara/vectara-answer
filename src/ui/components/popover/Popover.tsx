@@ -67,6 +67,7 @@ export const VuiPopover = ({
     return () => {
       window.removeEventListener("resize", onResizeWindow);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

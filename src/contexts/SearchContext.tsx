@@ -123,6 +123,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         | undefined,
       isPersistable: false,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   const searchResults = deserializeSearchResponse(searchResponse);

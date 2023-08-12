@@ -418,7 +418,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       console.log("Effect running");
     };
     loadConfig();
-  }, []);
+  });
 
   return (
     <ConfigContext.Provider
