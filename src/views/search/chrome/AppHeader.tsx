@@ -23,6 +23,10 @@ export const AppHeader = () => {
         <VuiFlexItem grow={1}>
           <VuiFlexContainer alignItems="center" wrap={true} spacing="xxs">
             <VuiFlexItem>
+              {/* We want this disabled so we can track outbound links. Enabling
+          this would add the rel="noopener noreferrer" attribute to the
+          link. */}
+              {/* eslint-disable-next-line react/jsx-no-target-blank */}
               <a
                 href={appHeader.logo.link ?? "https://vectara.com/"}
                 target="_blank"
