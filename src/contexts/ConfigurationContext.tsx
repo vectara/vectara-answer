@@ -415,10 +415,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
         isEnabled: isTrue(config_rerank),
         numResults: config_rerank_num_results ?? rerank.numResults,
       });
-      console.log("Effect running");
     };
     loadConfig();
-  });
+  }, [isConfigLoaded]);
 
   return (
     <ConfigContext.Provider
