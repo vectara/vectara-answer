@@ -67,7 +67,7 @@ export const VuiPopover = ({
     return () => {
       window.removeEventListener("resize", onResizeWindow);
     };
-  }, [onResizeWindow]);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
