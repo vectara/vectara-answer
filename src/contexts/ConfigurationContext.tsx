@@ -417,7 +417,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
     };
     loadConfig();
-  }, [isConfigLoaded]);
+  });
 
   return (
     <ConfigContext.Provider
