@@ -3,7 +3,7 @@ module.exports = {
     parser: "@typescript-eslint/parser",
     plugins: ["@typescript-eslint"],
     root: true,
-    ignorePatterns: ["src/generated_protos/", "public/", "tailwind.config.js", "build/"],
+    ignorePatterns: ["public/", "build/"],
     rules: {
         "@typescript-eslint/no-unused-vars": "error",
         "react/no-unused-prop-types": 2
