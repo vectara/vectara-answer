@@ -3,11 +3,11 @@ import { VuiText, VuiTextColor, VuiFlexContainer, VuiFlexItem, VuiBadge, VuiSear
 import { truncateEnd, truncateStart } from "../../../ui/utils/truncateString";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
-import { DeserializedSearchResult } from "../types";
+import { SearchGroupedResult, SearchSingleResult } from "../types";
 import "./SearchResult.scss";
 
 type Props = {
-  result: DeserializedSearchResult;
+  result: SearchGroupedResult;
   position: number;
   isSelected: boolean;
 };
@@ -18,23 +18,17 @@ export const SearchResult = forwardRef<HTMLDivElement | null, Props>(({ result, 
   const { filters } = useConfigContext();
   const { onSearch } = useSearchContext();
 
-  const {
-    source,
-    title,
-    url,
-    snippet: { pre, post, text }
-  } = result;
+  const { url, source } = result;
+  // const { pre, text, post } = result.subresults[0].snippet as SearchSingleResult["snippet"];
+
+  const positions = result.subresults.map((subresult) => subresult.index + 1);
 
   return (
     <VuiSearchResult
       ref={ref}
       isSelected={isSelected}
-      result={{
-        title,
-        url,
-        snippet: { pre: truncateStart(pre, CONTEXT_MAX_LENGTH), text, post: truncateEnd(post, CONTEXT_MAX_LENGTH) }
-      }}
-      position={position + 1}
+      result={result}
+      positions={positions}
       subTitle={
         Boolean(filters.isEnabled || url) && (
           <VuiFlexContainer alignItems="center" spacing="xs" className="searchResultFilterGroup">

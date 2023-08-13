@@ -3,6 +3,25 @@ export type DocMetadata = {
   value: string;
 };
 
+export type SearchSingleResult = {
+  snippet: {
+    pre: string;
+    text: string;
+    post: string;
+  };
+  index: number;
+};
+
+export type SearchGroupedResult = {
+  id: string;
+  title: string;
+  url: string;
+  metadata: Record<string, any>;
+  source: string;
+  subresults: Array<SearchSingleResult>;
+  date?: string;
+};
+
 export type SearchResponseDoc = {
   id: string;
   metadata: DocMetadata[];

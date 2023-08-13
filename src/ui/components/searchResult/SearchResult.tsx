@@ -5,6 +5,7 @@ import { VuiLink } from "../link/Link";
 import { VuiSpacer } from "../spacer/Spacer";
 import { VuiText } from "../typography/Text";
 import { VuiTextColor } from "../typography/TextColor";
+import { SearchGroupedResult } from "../../../views/search/types";
 
 export type SearchResultType = {
   title?: string;
@@ -18,8 +19,8 @@ export type SearchResultType = {
 };
 
 type Props = {
-  result: SearchResultType;
-  position: number;
+  result: SearchGroupedResult;
+  positions: Array<number>;
   isSelected?: boolean;
   subTitle?: React.ReactNode;
   children?: React.ReactNode;
@@ -30,23 +31,33 @@ type Props = {
 const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;
 
 export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
-  ({ result, position, isSelected, subTitle, children, className, snippetProps, ...rest }: Props, ref) => {
-    const {
-      title,
-      url,
-      date,
-      snippet: { pre, post, text }
-    } = result;
+  (
+    {
+      result,
+      positions,
+      isSelected,
+      subTitle,
+      children,
+      className,
+      snippetProps,
+      ...rest
+    }: Props,
+    ref
+  ) => {
+    const { title, url, date } = result;
+    const text = result.subresults[0].snippet.text; // Choose the first subresult's text for the href.
 
     const classes = classNames("vuiSearchResult", className);
 
     const positionClasses = classNames("vuiSearchResultPosition", {
-      "vuiSearchResultPosition--selected": isSelected
+      "vuiSearchResultPosition--selected": isSelected,
     });
 
     return (
       <div className={classes} ref={ref} {...rest}>
-        <div className={positionClasses}>{position}</div>
+        <div className={positionClasses}>
+          {positions.map((p) => p.toString()).join("\n")}
+        </div>
 
         {(title || url) && (
           <VuiTitle size="s">
@@ -67,12 +78,29 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
           </>
         )}
 
-        <VuiText {...snippetProps} size="s">
-          <p>
-            {date && <VuiTextColor color="subdued">{date} &#8212; </VuiTextColor>}
-            {pre} <strong>{text}</strong> {post}
-          </p>
-        </VuiText>
+        {result.subresults.map((result, i) => (
+          <div key={i}>
+            <VuiSpacer size="xs" />
+            <VuiText {...snippetProps} size="s">
+              <p>
+                {date && (
+                  <VuiTextColor color="subdued">{date} &#8212; </VuiTextColor>
+                )}
+                {result.snippet.pre}
+                <strong>
+                  <a
+                    href={highlightUrl(url, result.snippet.text)}
+                    target="_blank"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    {result.snippet.text}
+                  </a>
+                </strong>
+                {result.snippet.post}
+              </p>
+            </VuiText>
+          </div>
+        ))}
 
         {children && (
           <>
