@@ -18,9 +18,49 @@ In the following we will assume you have the configuration folder named `config`
 
 ### deploy vectara-answer on AWS
 
-To deploy vectara-answer on AWS we will use AWS Cloud Formation. (ask Nikhil for template)
+To deploy vectara-answer on AWS we will use AWS Cloud Formation. 
 
-TBD
+First, we create a YAML file that defines our application:
+
+```yaml
+Resources:
+    MyTaskDefinition:
+        Type: 'AWS::ECS::TaskDefinition'
+        Properties:
+        ContainerDefinitions:
+            - Name: vanswer
+            Image: vectara/vectara-answer:latest
+            Memory: 16
+            Cpu: 4
+            MountPoints:
+                - ContainerPath: /usr/src/app/build/queries.json
+                SourceVolume: queries_volume
+            Environment:
+                - TBD: load .env file
+            PortMappings:
+                - HostPort: 80
+                ContainerPort: 3000
+            LinuxParameters:
+                InitProcessEnabled: true
+
+    MyService:
+        Type: 'AWS::ECS::Service'
+        Properties:
+            Cluster: my-vanswer-cluster
+            DesiredCount: 1
+            TaskDefinition: !Ref MyTaskDefinition
+
+    QueriesVolume:
+        Type: 'AWS::ECS::Volume'
+        Properties:
+            Name: queries_volume
+            Host:
+                SourcePath: TBD - /local/path/to/queries.json
+```
+
+Once the yaml file is ready, you can deploy to AWS by issueing the following command:
+
+`aws cloudformation create-stack --stack-name MyStack --template-body file://my-template.yaml`
 
 
 ### deploy vectara-answer on GCP
