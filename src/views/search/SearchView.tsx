@@ -25,7 +25,7 @@ export const SearchView = () => {
     isSearching,
     searchError,
     searchResults,
-    includeSummary,
+    summaryMode,
     isSummarizing,
     summarizationError,
     summarizationResponse,
@@ -68,7 +68,7 @@ export const SearchView = () => {
       <>
         <VuiSpacer size="s" />
 
-        {includeSummary && (
+        {summaryMode && (
           <>
             <VuiSpacer size="s" />
             <Summary
@@ -92,7 +92,7 @@ export const SearchView = () => {
           setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
             ((searchResultsRef as any).current[index] = el)
           }
-          includeSummary={includeSummary}
+          summaryMode={summaryMode}
         />
       </>
     );

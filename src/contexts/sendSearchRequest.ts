@@ -6,7 +6,7 @@ type Config = {
   filter: string;
   query_str?: string;
   language?: SummaryLanguage;
-  includeSummary?: boolean;
+  summaryMode?: boolean;
   rerank?: boolean;
   rerankNumResults?: number;
   summaryNumResults?: number;
@@ -21,7 +21,7 @@ export const sendSearchRequest = async ({
   filter,
   query_str,
   language,
-  includeSummary,
+  summaryMode,
   rerank,
   rerankNumResults,
   summaryNumResults,
@@ -54,27 +54,28 @@ export const sendSearchRequest = async ({
         numResults: rerank ? rerankNumResults : 10,
         corpusKey: corpusKeyList,
         context_config: {
-          sentences_before: includeSummary ? summaryNumSentences : 2,
-          sentences_after: includeSummary ? summaryNumSentences : 2,
+          sentences_before: summaryMode ? summaryNumSentences : 2,
+          sentences_after: summaryMode ? summaryNumSentences : 2,
           start_tag: START_TAG,
           end_tag: END_TAG,
         },
-        ...(includeSummary
+        ...(summaryMode
           ? {
-            summary: [
-              {
-                responseLang: language,
-                maxSummarizedResults: summaryNumResults,
-              },
-            ],
-          }
+              summary: [
+                {
+                  responseLang: language,
+                  maxSummarizedResults: summaryNumResults,
+                },
+              ],
+            }
           : {}),
         ...(rerank
           ? {
-            reranking_config: {
-              reranker_id: 272725717
-            },
-          } : {}),
+              reranking_config: {
+                reranker_id: 272725717,
+              },
+            }
+          : {}),
       },
     ],
   };
