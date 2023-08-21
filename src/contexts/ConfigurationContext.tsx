@@ -51,7 +51,7 @@ interface Config {
   config_full_story_org_id?: string;
 
   // Summary
-  config_enable_summary?: string;
+  config_summary_mode?: string;
   config_summary_default_language?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
@@ -320,7 +320,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_rerank_num_results,
 
         // Summary
-        config_enable_summary,
+        config_summary_mode,
         config_summary_default_language,
         config_summary_num_results,
         config_summary_num_sentences,
@@ -380,7 +380,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
-        isEnabled: isTrue(config_enable_summary ?? "True"),
+        isEnabled: isTrue(config_summary_mode ?? "True"),
         defaultLanguage: validateLanguage(
           config_summary_default_language as SummaryLanguage,
           "auto"

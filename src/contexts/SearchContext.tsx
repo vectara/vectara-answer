@@ -43,7 +43,7 @@ interface SearchContextType {
   isSearching: boolean;
   searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
-  includeSummary: boolean;
+  summaryMode: boolean;
   isSummarizing: boolean;
   summarizationError: unknown;
   summarizationResponse: SearchResponse | undefined;
@@ -232,7 +232,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           const response = await sendSearchRequest({
             filter,
             query_str: value,
-            includeSummary: true,
+            summaryMode: true,
             rerank: rerank.isEnabled,
             rerankNumResults: rerank.numResults,
             summaryNumResults: summary.summaryNumResults,
@@ -286,7 +286,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSearching,
         searchError,
         searchResults,
-        includeSummary: summary.isEnabled,
+        summaryMode: summary.isEnabled,
         isSummarizing,
         summarizationError,
         summarizationResponse,

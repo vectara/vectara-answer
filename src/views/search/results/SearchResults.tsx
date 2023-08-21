@@ -12,7 +12,7 @@ import {
 import { SearchResultList } from "./SearchResultList";
 
 type Props = {
-  includeSummary: boolean;
+  summaryMode: boolean;
   isSearching: boolean;
   searchError?: SearchError | undefined;
   results?: DeserializedSearchResult[];
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const SearchResults = ({
-  includeSummary,
+  summaryMode,
   isSearching,
   searchError,
   results,
@@ -81,7 +81,7 @@ export const SearchResults = ({
     );
   }
 
-  const searchHeaderText = includeSummary ? "References" : "Search Results";
+  const searchHeaderText = summaryMode ? "References" : "Search Results";
 
   return (
     <>
