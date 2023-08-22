@@ -18,6 +18,21 @@ import { useConfigContext } from "../../contexts/ConfigurationContext";
 import { HistoryDrawer } from "./controls/HistoryDrawer";
 import "./searchView.scss";
 
+const reorderCitations = (unorderedSummary: string) => {
+  const allCitations = unorderedSummary.match(/\[\d+\]/g) || [];
+
+  const uniqueCitations = [...new Set(allCitations)];
+  const citationToReplacement: { [key: string]: string } = {};
+  uniqueCitations.forEach((citation, index) => {
+    citationToReplacement[citation] = `[${index + 1}]`;
+  });
+
+  return unorderedSummary.replace(
+    /\[\d+\]/g,
+    (match) => citationToReplacement[match]
+  );
+};
+
 export const SearchView = () => {
   const { isConfigLoaded, app } = useConfigContext();
 
@@ -63,7 +78,10 @@ export const SearchView = () => {
   ) {
     content = <ExampleQuestions />;
   } else {
-    const summary = summarizationResponse?.summary[0]?.text;
+    const unorderedSummary = summarizationResponse?.summary[0]?.text;
+    let summary = "";
+    if (unorderedSummary) summary = reorderCitations(unorderedSummary);
+
     content = (
       <>
         <VuiSpacer size="s" />
@@ -76,7 +94,9 @@ export const SearchView = () => {
               summarizationError={summarizationError}
               summary={summary}
               selectedSearchResultPosition={selectedSearchResultPosition}
-              onClickCitation={(position: number) => selectSearchResultAt(position - 1)}
+              onClickCitation={(position: number) =>
+                selectSearchResultAt(position - 1)
+              }
             />
             <VuiSpacer size="l" />
             <VuiHorizontalRule />
