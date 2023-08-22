@@ -1,7 +1,7 @@
 import { BiTimeFive } from "react-icons/bi";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import {
-  VuiButtonEmpty,
+  VuiButtonSecondary,
   VuiDrawer,
   VuiFlexContainer,
   VuiFlexItem,
@@ -45,9 +45,9 @@ export const HistoryDrawer = ({ isOpen, onClose }: Props) => {
           </VuiFlexItem>
 
           <VuiFlexItem>
-            <VuiButtonEmpty color="normal" size="s" onClick={clearHistory}>
+            <VuiButtonSecondary color="neutral" size="s" onClick={clearHistory}>
               Clear
-            </VuiButtonEmpty>
+            </VuiButtonSecondary>
           </VuiFlexItem>
         </VuiFlexContainer>
       }

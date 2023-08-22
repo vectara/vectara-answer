@@ -22,7 +22,7 @@
 .vuiSelect--m {
   select {
     padding: $sizeXs $size;
-    font-size: $fontSizeXs;
+    font-size: $fontSizeStandard;
     padding-right: 32px;
   }
 
@@ -34,7 +34,7 @@
 .vuiSelect--l {
   select {
     padding: $sizeS $sizeM;
-    font-size: $fontSizeM;
+    font-size: $fontSizeLarge;
     padding-right: 48px;
   }
 

@@ -1,0 +1,25 @@
+.vuiAppSideNavTree {
+  margin-top: -$sizeXxs;
+}
+
+.vuiAppSideNavTreeSection {
+  position: relative;
+}
+
+.vuiAppSideNavTreeToggleButton {
+  position: absolute;
+  top: 0;
+  right: -30px;
+}
+
+.vuiAppSideNavTreeChildren {
+  // Sized to match the width of the icons.
+  margin-left: 20px;
+}
+
+.vuiAppSideNavTreeSection__subTitle {
+  @include appSideNavItem;
+  font-size: $fontSizeSmall;
+  font-weight: $fontWeightBold;
+  color: $colorDarkShade;
+}

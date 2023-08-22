@@ -1,4 +1,5 @@
 .vuiLabel {
-  font-size: $fontSizeXs;
-  font-weight: $fontWeightBold;
+  font-size: $labelFontSize;
+  font-weight: $labelFontWeight;
+  color: $labelColor;
 }

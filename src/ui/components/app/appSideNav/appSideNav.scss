@@ -1,0 +1,71 @@
+.vuiAppSideNav {
+  width: $appSideNavWidth;
+  overflow-x: hidden;
+  transition: all $transitionSpeed;
+  line-height: 1;
+}
+
+.vuiAppSideNav__inner {
+  // Prevent content from being squished as nav collapses.
+  width: $appSideNavWidth;
+  padding: 28px 32px 32px 33px;
+  margin-bottom: $sizeXxl * 4;
+  transition: all $transitionSpeed;
+}
+
+.vuiAppSideNavContent {
+  opacity: 1;
+  transition: all $transitionSpeed;
+}
+
+.vuiAppSideNavContent-isHidden {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.vuiAppSideNav-isCollapsed {
+  width: $appSideNavWidthCollapsed;
+  // Stop scrolling.
+  height: 100%;
+  overflow-y: hidden;
+
+  .vuiAppSideNav__inner {
+    padding-left: $sizeM;
+  }
+}
+
+.vuiAppSideNavCollapseButton {
+  display: block;
+  color: $colorSubdued;
+  font-size: $fontSizeStandard;
+  text-decoration: none;
+  padding: 0 $sizeM;
+  margin-left: -$sizeXxl;
+  margin-bottom: $sizeM;
+
+  &:hover {
+    color: $colorPrimary;
+    text-decoration: underline;
+  }
+}
+
+.vuiAppSideNavExpandButton {
+  margin-top: -$sizeXxs;
+  margin-bottom: $sizeS;
+}
+
+.vuiAppSideNavLink {
+  @include truncateText;
+  @include appSideNavItem;
+  text-decoration: none;
+
+  &:hover {
+    color: $colorPrimary;
+    text-decoration: underline;
+  }
+}
+
+.vuiAppSideNavLink--active {
+  background-color: $colorPrimaryLightShade;
+  border-radius: $sizeM;
+}

@@ -10,9 +10,9 @@ import {
   VuiText,
   VuiBadge,
   VuiIcon,
-  VuiButtonEmpty,
   VuiPopover,
   VuiOptionsList,
+  VuiButtonSecondary,
 } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
@@ -124,8 +124,8 @@ export const SearchControls = ({
                 isOpen={isLanguageMenuOpen}
                 setIsOpen={setIsLanguageMenuOpen}
                 button={
-                  <VuiButtonEmpty
-                    color="normal"
+                  <VuiButtonSecondary
+                    color="neutral"
                     size="s"
                     icon={
                       <VuiIcon size="m">
@@ -134,7 +134,7 @@ export const SearchControls = ({
                     }
                   >
                     Language: {humanizeLanguage(language as SummaryLanguage)}
-                  </VuiButtonEmpty>
+                  </VuiButtonSecondary>
                 }
               >
                 <VuiOptionsList
@@ -145,17 +145,17 @@ export const SearchControls = ({
                       language: value as SummaryLanguage,
                     });
                   }}
-                  selectedOption={language}
+                  selected={language}
                   options={languageOptions}
                 />
               </VuiPopover>
             </VuiFlexItem>
 
             <VuiFlexItem grow={false}>
-              <VuiButtonEmpty
-                color="normal"
+              <VuiButtonSecondary
+                color="neutral"
                 size="s"
-                isPressed={isHistoryOpen}
+                isSelected={isHistoryOpen}
                 onClick={onToggleHistory}
                 icon={
                   <VuiIcon size="m">
@@ -164,7 +164,7 @@ export const SearchControls = ({
                 }
               >
                 History
-              </VuiButtonEmpty>
+              </VuiButtonSecondary>
             </VuiFlexItem>
           </VuiFlexContainer>
         </VuiFlexItem>
@@ -214,7 +214,7 @@ export const SearchControls = ({
                       return (
                         <VuiFlexItem key={option.value}>
                           <VuiBadge
-                            color={isSelected ? "primary" : "normal"}
+                            color={isSelected ? "primary" : "neutral"}
                             onClick={() =>
                               onSearch({
                                 filter: isSelected ? "" : option.value,
@@ -235,9 +235,13 @@ export const SearchControls = ({
 
         {hasQuery && (
           <VuiFlexItem grow={false}>
-            <VuiButtonEmpty color="normal" size="s" onClick={() => reset()}>
+            <VuiButtonSecondary
+              color="neutral"
+              size="s"
+              onClick={() => reset()}
+            >
               Start over
-            </VuiButtonEmpty>
+            </VuiButtonSecondary>
           </VuiFlexItem>
         )}
       </VuiFlexContainer>

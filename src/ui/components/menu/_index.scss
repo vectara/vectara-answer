@@ -16,6 +16,7 @@
   box-shadow: $shadowSmallStart;
   transition: all $transitionSpeed;
   text-decoration-color: $colorText;
+  text-align: left;
 
   &:hover {
     box-shadow: $shadowSmallEnd;

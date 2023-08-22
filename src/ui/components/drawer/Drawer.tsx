@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { FocusOn } from "react-focus-on";
 import { VuiFlexContainer } from "../flex/FlexContainer";
 import { VuiFlexItem } from "../flex/FlexItem";
-import { VuiButtonIcon } from "../button/ButtonIcon";
+import { VuiIconButton } from "../button/IconButton";
 import { VuiIcon } from "../icon/Icon";
 import { BiX } from "react-icons/bi";
 import { VuiPortal } from "../portal/Portal";
@@ -13,22 +13,14 @@ const COLOR = ["primary", "danger"] as const;
 
 type Props = {
   className?: string;
-  title?: ReactNode;
-  children?: ReactNode;
+  title: ReactNode;
+  children: ReactNode;
   isOpen?: boolean;
   onClose?: () => void;
   color?: (typeof COLOR)[number];
 };
 
-export const VuiDrawer = ({
-  className,
-  color = "primary",
-  title,
-  children,
-  isOpen,
-  onClose,
-  ...rest
-}: Props) => {
+export const VuiDrawer = ({ className, color = "primary", title, children, isOpen, onClose, ...rest }: Props) => {
   const returnFocusElRef = useRef<HTMLElement | null>(null);
 
   // Return focus on unmount.
@@ -65,19 +57,16 @@ export const VuiDrawer = ({
           >
             <div className={classes} {...rest}>
               <div className="vuiDrawerHeader">
-                <VuiFlexContainer
-                  justifyContent="spaceBetween"
-                  alignItems="center"
-                >
+                <VuiFlexContainer justifyContent="spaceBetween" alignItems="center">
                   <VuiFlexItem grow={false}>{title}</VuiFlexItem>
 
                   {onClose && (
                     <VuiFlexItem>
-                      <VuiButtonIcon
+                      <VuiIconButton
                         onClick={onCloseDelayed}
-                        color="normal"
+                        color="neutral"
                         icon={
-                          <VuiIcon size="m" color="normal">
+                          <VuiIcon size="m" color="neutral">
                             <BiX />
                           </VuiIcon>
                         }

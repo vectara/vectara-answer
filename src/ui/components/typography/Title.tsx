@@ -1,18 +1,27 @@
 import classNames from "classnames";
 import { ReactElement, cloneElement } from "react";
+import { TITLE_SIZE } from "./types";
 
-const SIZE = ["xxs", "xs", "s", "m", "l", "xl", "xxl"] as const;
 const TEXT_ALIGN = ["left", "center", "right"] as const;
 
 interface Props {
-  children: ReactElement;
-  size: (typeof SIZE)[number];
+  children: ReactElement<any>;
+  className?: string;
+  size: (typeof TITLE_SIZE)[number];
   align?: (typeof TEXT_ALIGN)[number];
 }
 
-export const VuiTitle = ({ children, size, align = "left", ...rest }: Props) => {
+export const VuiTitle = ({ children, className, size, align, ...rest }: Props) => {
   return cloneElement(children, {
-    className: classNames("vuiTitle", `vuiTitle--${size}`, `vuiTitle--${align}`, children.props.className),
+    className: classNames(
+      "vuiTitle",
+      `vuiTitle--${size}`,
+      {
+        [`vuiTitle--${align}`]: align
+      },
+      className,
+      children.props.className
+    ),
     ...rest
   });
 };

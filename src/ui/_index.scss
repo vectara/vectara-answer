@@ -1,2 +1,3 @@
-@import "globalStyling/index";
-@import "components/index";
+// Hard reset to naked selectors
+@import "reset";
+@import "./components/index";

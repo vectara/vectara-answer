@@ -1,0 +1,63 @@
+@use "sass:map";
+
+.vuiProgressBar {
+  position: relative;
+  border-radius: $sizeXxs;
+  height: $sizeS;
+  overflow: hidden;
+}
+
+.vuiProgressBar__empty,
+.vuiProgressBar__bar,
+.vuiProgressBar__outline {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.vuiProgressBar__empty {
+  z-index: 0;
+  background-color: $colorLightShade;
+  box-shadow: inset rgba(0, 0, 0, 0.05) 0px 2px 2px;
+}
+
+.vuiProgressBar__bar {
+  transition: all $transitionSpeed;
+  z-index: 1;
+}
+
+.vuiProgressBar__outline {
+  z-index: 2;
+  border-radius: $sizeXxs;
+  box-shadow: inset 0 0 0 1px rgba(#000000, 0.1);
+}
+
+// Color
+$color: (
+  accent: (
+    "background-color": $colorAccent
+  ),
+  primary: (
+    "background-color": $colorPrimary
+  ),
+  success: (
+    "background-color": $colorSuccess
+  ),
+  warning: (
+    "background-color": $colorWarning
+  ),
+  danger: (
+    "background-color": $colorDanger
+  ),
+  neutral: (
+    "background-color": $colorDarkShade
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiProgressBar--#{$colorName} {
+    .vuiProgressBar__bar {
+      background-color: #{map.get($colorValue, "background-color")};
+    }
+  }
+}

@@ -12,13 +12,13 @@ describe("VuiSearchResult", () => {
             title: "title",
             url: "url",
             date: "date",
-            snippet: { pre: "pre", text: "text", post: "" },
+            snippet: { pre: "pre", text: "text", post: "" }
           }}
           position={1}
           subTitle={<div>subTitle</div>}
           className="customClass"
           snippetProps={{
-            className: "snippetCustomClass",
+            className: "snippetCustomClass"
           }}
         >
           <div>children</div>
@@ -29,7 +29,7 @@ describe("VuiSearchResult", () => {
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div
-            class="vuiSearchResult customClass"
+            class="vuiSearchResult fs-mask customClass"
           >
             <div
               class="vuiSearchResultPosition"
@@ -39,6 +39,7 @@ describe("VuiSearchResult", () => {
             <a
               class="vuiLink vuiTitle vuiTitle--s vuiTitle--left"
               href="/url#:~:text=text"
+              rel="noopener"
               target="_blank"
             >
               <h3>
@@ -52,7 +53,7 @@ describe("VuiSearchResult", () => {
               subTitle
             </div>
             <div
-              class="vuiText vuiText--s vuiText--left snippetCustomClass"
+              class="vuiText vuiText--s snippetCustomClass"
             >
               <p>
                 <span
@@ -80,10 +81,7 @@ describe("VuiSearchResult", () => {
 
     test("missing optional props", () => {
       const { asFragment } = render(
-        <VuiSearchResult
-          result={{ snippet: { pre: "pre", text: "text", post: "" } }}
-          position={1}
-        >
+        <VuiSearchResult result={{ snippet: { pre: "pre", text: "text", post: "" } }} position={1}>
           <div>children</div>
         </VuiSearchResult>,
         { wrapper: MemoryRouter }
@@ -92,7 +90,7 @@ describe("VuiSearchResult", () => {
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div
-            class="vuiSearchResult"
+            class="vuiSearchResult fs-mask"
           >
             <div
               class="vuiSearchResultPosition"
@@ -100,7 +98,7 @@ describe("VuiSearchResult", () => {
               1
             </div>
             <div
-              class="vuiText vuiText--s vuiText--left"
+              class="vuiText vuiText--s"
             >
               <p>
                 pre 
@@ -126,7 +124,7 @@ describe("VuiSearchResult", () => {
         <VuiSearchResult
           result={{
             title: "title",
-            snippet: { pre: "pre", text: "text", post: "" },
+            snippet: { pre: "pre", text: "text", post: "" }
           }}
           position={1}
         >
@@ -138,7 +136,7 @@ describe("VuiSearchResult", () => {
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div
-            class="vuiSearchResult"
+            class="vuiSearchResult fs-mask"
           >
             <div
               class="vuiSearchResultPosition"
@@ -151,7 +149,7 @@ describe("VuiSearchResult", () => {
               title
             </h3>
             <div
-              class="vuiText vuiText--s vuiText--left"
+              class="vuiText vuiText--s"
             >
               <p>
                 pre 
@@ -177,7 +175,7 @@ describe("VuiSearchResult", () => {
         <VuiSearchResult
           result={{
             url: "url",
-            snippet: { pre: "pre", text: "text", post: "" },
+            snippet: { pre: "pre", text: "text", post: "" }
           }}
           position={1}
         >
@@ -189,7 +187,7 @@ describe("VuiSearchResult", () => {
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div
-            class="vuiSearchResult"
+            class="vuiSearchResult fs-mask"
           >
             <div
               class="vuiSearchResultPosition"
@@ -199,6 +197,7 @@ describe("VuiSearchResult", () => {
             <a
               class="vuiLink vuiTitle vuiTitle--s vuiTitle--left"
               href="/url#:~:text=text"
+              rel="noopener"
               target="_blank"
             >
               <h3>
@@ -206,7 +205,7 @@ describe("VuiSearchResult", () => {
               </h3>
             </a>
             <div
-              class="vuiText vuiText--s vuiText--left"
+              class="vuiText vuiText--s"
             >
               <p>
                 pre 

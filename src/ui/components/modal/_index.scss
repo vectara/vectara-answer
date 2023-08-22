@@ -55,11 +55,11 @@ $modalWidth: 500px;
 // Color
 $color: (
   primary: (
-    "background-color": $colorPrimaryLight,
+    "background-color": $colorPrimaryLightShade,
     "color": $colorText
   ),
   danger: (
-    "background-color": $colorDangerLight,
+    "background-color": $colorDangerLightShade,
     "color": $colorDanger
   )
 );

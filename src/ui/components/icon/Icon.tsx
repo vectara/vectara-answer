@@ -1,24 +1,23 @@
 import classNames from "classnames";
 import { ReactNode, cloneElement } from "react";
 import { IconContext } from "react-icons";
-
-const COLOR = ["inherit", "accent", "primary", "success", "warning", "danger", "subdued", "normal", "empty"] as const;
-
-const SIZE = ["s", "m", "l", "xl", "xxl"] as const;
+import { ICON_COLOR, ICON_SIZE } from "./types";
 
 const sizeToValueMap = {
+  xs: "14",
   s: "16",
   m: "20",
-  l: "28",
-  xl: "46",
-  xxl: "68"
+  l: "24",
+  xl: "28",
+  xxl: "46",
+  xxxl: "68"
 };
 
 type Props = {
   children: ReactNode;
-  color?: (typeof COLOR)[number];
+  color?: (typeof ICON_COLOR)[number];
   className?: string;
-  size?: (typeof SIZE)[number];
+  size?: (typeof ICON_SIZE)[number];
 };
 
 export const VuiIcon = ({ children, size = "m", color = "inherit", className }: Props) => {

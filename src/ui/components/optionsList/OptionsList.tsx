@@ -1,42 +1,59 @@
-import { VuiText } from "../typography/Text";
-import { VuiTextColor, TextColor } from "../typography/TextColor";
+import classNames from "classnames";
 import { VuiOptionsListItem } from "./OptionsListItem";
+import { OptionListItem } from "./types";
 
-type Props = {
-  options: {
-    value: string;
-    label: string;
-    color?: TextColor;
-  }[];
-  onSelectOption: (value: string) => void;
-  selectedOption: string;
+const SIZE = ["s", "m"] as const;
+
+export type Props<T> = {
+  className?: string;
+  options: OptionListItem<T>[];
+  onSelectOption?: (value: T) => void;
+  selected?: T | T[];
   isSelectable?: boolean;
+  isScrollable?: boolean;
+  size?: (typeof SIZE)[number];
 };
 
-export const VuiOptionsList = ({
+// https://github.com/typescript-eslint/typescript-eslint/issues/4062
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export const VuiOptionsList = <T extends unknown = unknown>({
+  className,
   options,
   onSelectOption,
-  selectedOption,
+  selected,
   isSelectable = false,
+  isScrollable = false,
+  size = "s",
   ...rest
-}: Props) => {
+}: Props<T>) => {
+  const classes = classNames(
+    "vuiOptionsList",
+    `vuiOptionsList--${size}`,
+    {
+      "vuiOptionsList--scrollable": isScrollable
+    },
+    className
+  );
+
   return (
-    <div className="vuiOptionsList" {...rest}>
-      {options.map(({ value, label, color = "normal" }) => (
-        <VuiOptionsListItem
-          key={value}
-          value={value}
-          onClick={onSelectOption}
-          isSelectable={isSelectable}
-          isSelected={value === selectedOption}
-        >
-          <VuiText>
-            <VuiTextColor color={color}>
-              <p>{label}</p>
-            </VuiTextColor>
-          </VuiText>
-        </VuiOptionsListItem>
-      ))}
+    <div className={classes} {...rest}>
+      {options.map(({ value, label, onClick, ...rest }) => {
+        const isSelected = Array.isArray(selected) ? selected.includes(value) : value === selected;
+        return (
+          <VuiOptionsListItem
+            key={label}
+            value={value}
+            label={label}
+            onClick={() => {
+              onClick?.(value);
+              onSelectOption?.(value);
+            }}
+            isSelectable={isSelectable}
+            isSelected={isSelected}
+            {...rest}
+          />
+        );
+      })}
     </div>
   );
 };

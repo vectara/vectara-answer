@@ -1,0 +1,148 @@
+$minChatHeight: 600px;
+$minChatWidth: 600px;
+
+.vuiChatButton,
+.vuiChat {
+  position: fixed;
+  right: $sizeL;
+  bottom: $sizeM;
+  z-index: $chatZIndex;
+}
+
+.vuiChatButton-isHidden,
+.vuiChat-isHidden {
+  // If we used display: none, then the button's animation would play every
+  // time the button is shown.
+  visibility: hidden;
+  // For some reason the buttons inside the header are visible for an extra frame
+  // after closing the chat. This fixes that flicker.
+  opacity: 0;
+}
+
+.vuiChatButton {
+  border-radius: $sizeXs;
+  padding: $sizeXs $sizeL;
+  font-size: $fontSizeStandard;
+  color: $colorEmptyShade;
+  background-color: $colorDarkerShade;
+  animation: popUp 0.4s cubic-bezier(0.5, 0, 0.5, 1) 1;
+
+  &:hover {
+    background-color: $colorAccent;
+  }
+}
+
+@keyframes popUp {
+  0% {
+    transform: translateY(40px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.vuiChat {
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
+  border-radius: $sizeXs;
+  overflow: hidden;
+  border: 1px solid $borderColor;
+  background-color: $colorEmptyShade;
+
+  @media screen and (max-height: $minChatHeight) {
+    & {
+      bottom: $sizeXxs;
+      height: calc(100vh - 2 * #{$sizeXxs});
+    }
+
+    .vuiChat__conversation {
+      max-height: 100%;
+    }
+  }
+
+  @media screen and (max-width: $minChatWidth) {
+    & {
+      right: $sizeXxs;
+      width: calc(100vw - 2 * #{$sizeXxs});
+      max-width: 100% !important;
+    }
+  }
+}
+
+.vuiChat-isFullScreen {
+  bottom: $sizeXxs;
+  height: calc(100vh - 2 * #{$sizeXxs});
+  right: $sizeXxs;
+  width: calc(100vw - 2 * #{$sizeXxs});
+  max-width: 100% !important;
+
+  .vuiChat__conversation {
+    max-height: 100%;
+  }
+}
+
+.vuiChat__header {
+  padding: $sizeXs $sizeS;
+  font-size: $fontSizeStandard;
+  color: $colorText;
+  background-color: $colorPrimaryLightShade;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  // Ensure shadow overlaps on top of conversation.
+  z-index: 1;
+}
+
+.vuiChat__conversation {
+  flex-grow: 1;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.vuiChat__introduction {
+  padding: $sizeM $sizeL 0;
+  font-size: $fontSizeStandard;
+}
+
+.vuiChat__turns {
+  padding: 0 0 $sizeM 0;
+  font-size: $fontSizeStandard;
+}
+
+.vuiChat__turn {
+  border-top: 1px solid $colorLightShade;
+  border-right: 1px solid $colorLightShade;
+  border-bottom: 1px solid $colorLightShade;
+  background-color: $colorLightShade;
+  padding: $sizeM $sizeS $sizeM $sizeL;
+  margin-right: $sizeS;
+  transition: all $transitionSpeed;
+
+  &:hover {
+    border-color: $borderColor;
+  }
+}
+
+.vuiChat__turn + .vuiChat__turn {
+  margin-top: $sizeM;
+}
+
+.vuiChat__question {
+  color: $colorAccent;
+  font-weight: $fontWeightBold;
+  font-size: $fontSizeStandard;
+  margin-bottom: $sizeXs;
+}
+
+.vuiChat__input {
+  border-top: 1px solid $borderColorLight;
+  padding: $sizeXs $sizeS;
+}
+
+.vuiChat__inspectButton {
+  margin-top: -$sizeXxs;
+}

@@ -4,6 +4,10 @@
   flex-basis: 0%;
 }
 
+.vuiFlexItem--truncate {
+  min-width: 40px;
+}
+
 @for $i from 0 through 10 {
   .vuiFlexItem--flexGrow#{$i} {
     flex-grow: $i;
@@ -13,4 +17,15 @@
 .vuiFlexItem--flexGrowNone {
   flex-basis: auto;
   flex-grow: 0;
+}
+
+@for $i from 0 through 10 {
+  .vuiFlexItem--flexShrink#{$i} {
+    flex-shrink: $i;
+  }
+}
+
+.vuiFlexItem--flexShrinkNone {
+  flex-basis: auto;
+  flex-shrink: 0;
 }

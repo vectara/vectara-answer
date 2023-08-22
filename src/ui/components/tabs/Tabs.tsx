@@ -1,12 +1,11 @@
 import classNames from "classnames";
-
-const SIZE = ["s", "m"] as const;
+import { TabSize } from "./types";
 
 type Props = {
   children: React.ReactNode;
   append?: React.ReactNode;
   className?: string;
-  size?: (typeof SIZE)[number];
+  size?: TabSize;
 };
 
 export const VuiTabs = ({ children, className, append, size = "s" }: Props) => {

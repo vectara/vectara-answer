@@ -1,18 +1,15 @@
-import React, {
-  cloneElement,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { cloneElement, useEffect, useRef, useState } from "react";
+import classNames from "classnames";
 import { VuiPortal } from "../portal/Portal";
 import { FocusOn } from "react-focus-on";
 
-type Props = {
+export type Props = {
   button: React.ReactElement;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  header?: React.ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  padding?: boolean;
 };
 
 type Position = {
@@ -24,57 +21,54 @@ const getPosition = (button: HTMLElement | null): Position | undefined => {
   if (!button) return undefined;
   const { bottom, right } = button.getBoundingClientRect();
   return {
-    top: bottom - 1 + document.documentElement.scrollTop,
-    right: window.innerWidth - right,
+    top: bottom + 2 + document.documentElement.scrollTop,
+    right: window.innerWidth - right
   };
 };
 
 export const VuiPopover = ({
   button: originalButton,
   children,
+  header,
   isOpen,
   setIsOpen,
+  padding,
   ...rest
 }: Props) => {
   const returnFocusElRef = useRef<HTMLElement | null>(null);
   const buttonRef = useRef<HTMLElement | null>(null);
-  const [position, setPosition] = useState<Position | undefined>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [positionMarker, setPositionMarker] = useState<number>(0);
 
   const button = cloneElement(originalButton, {
-    isPressed: isOpen,
+    isSelected: isOpen,
     onClick: () => {
       setIsOpen(!isOpen);
     },
     ref: (node: HTMLElement) => {
       buttonRef.current = node;
-    },
+    }
   });
 
-  const onResizeWindow = useCallback(() => {
-    // Keep posiiton as up-to-date as possible. We'd like to do that only
-    // when the popover is visible, but unfortunately we've formed a closure
-    // over a stale and unchanging isOpen value. So for now we're stuck with
-    // inefficiently updating this on every resize, for every popover, regardless
-    // of whether it's visible or not. Eventually perhaps useEffectEvent will
-    // address this once it's GA:
-    // https://react.dev/learn/separating-events-from-effects
-    setPosition(getPosition(buttonRef.current));
-  }, []);
-
   useEffect(() => {
-    window.addEventListener("resize", onResizeWindow);
+    const updatePosition = () => {
+      // Force a re-render when the window resizes.
+      setPositionMarker(Date.now());
+    };
+
+    window.removeEventListener("resize", updatePosition);
+    // Mostly defensive to prevent weird bugs where the popover ends
+    // up being rendered partially off-screen.
+    window.removeEventListener("scroll", updatePosition);
 
     return () => {
-      window.removeEventListener("resize", onResizeWindow);
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (isOpen) {
-      // Keep posiiton as up-to-date as possible, but only when the popover is visible.
-      setPosition(getPosition(buttonRef.current));
-
       returnFocusElRef.current = document.activeElement as HTMLElement;
     } else {
       returnFocusElRef.current?.focus();
@@ -90,6 +84,15 @@ export const VuiPopover = ({
       setIsOpen(false);
     }, 0);
   };
+
+  // Always keep menu position up to date. If we tried to cache this inside
+  // a useEffect based on isOpen then there'd be a flicker if the width
+  // of the button changes.
+  const position = getPosition(buttonRef.current);
+
+  const contentClasses = classNames("vuiPopoverContent", {
+    "vuiPopoverContent--padding": padding
+  });
 
   return (
     <>
@@ -110,12 +113,9 @@ export const VuiPopover = ({
             // Enable scrolling of the page.
             preventScrollOnFocus={false}
           >
-            <div
-              className="vuiPopover"
-              style={{ top: `${position.top}px`, right: `${position.right}px` }}
-              {...rest}
-            >
-              {children}
+            <div className="vuiPopover" style={{ top: `${position.top}px`, right: `${position.right}px` }} {...rest}>
+              {header && typeof header === "string" ? <div className="vuiPopoverTitle">{header}</div> : header}
+              {children && <div className={contentClasses}>{children}</div>}
             </div>
           </FocusOn>
         )}

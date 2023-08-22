@@ -2,12 +2,13 @@
 
 .vuiBadge {
   display: inline-block;
-  font-size: $fontSizeXxs;
+  font-size: $fontSizeSmall;
   line-height: 1;
   padding: $sizeXxs $sizeXs;
   border-radius: $sizeS;
   font-family: inherit;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .vuiBadge--clickable {
@@ -31,12 +32,17 @@ $color: (
     "background-color": transparentize($colorSuccess, 0.9),
     "border-color": transparentize($colorSuccess, 0.9)
   ),
+  warning: (
+    "color": $colorWarning,
+    "background-color": transparentize($colorWarning, 0.9),
+    "border-color": transparentize($colorWarning, 0.9)
+  ),
   danger: (
     "color": $colorDanger,
     "background-color": transparentize($colorDanger, 0.9),
     "border-color": transparentize($colorDanger, 0.9)
   ),
-  normal: (
+  neutral: (
     "color": $colorText,
     "background-color": $colorLightShade,
     "border-color": transparentize($colorText, 0.9)

@@ -1,0 +1,53 @@
+.vuiInfoTable {
+  width: 100%;
+  table-layout: fixed;
+  border: 1px solid $borderColorLight;
+
+  thead {
+    background-color: $colorLightShade;
+    border-bottom: 1px solid $borderColorLight;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $borderColorLight;
+  }
+
+  th {
+    font-size: $fontSizeSmall;
+    font-weight: $fontWeightBold;
+    padding: $sizeXs $sizeS;
+    text-align: left;
+  }
+
+  td {
+    font-size: $fontSizeStandard;
+    vertical-align: middle;
+  }
+}
+
+.vuiInfoTable--paddingXxs {
+  td {
+    padding: $sizeXxs $sizeS;
+  }
+}
+
+.vuiInfoTable--paddingXs {
+  td {
+    padding: $sizeXs $sizeS;
+  }
+}
+
+.vuiInfoTable--paddingS {
+  td {
+    padding: $sizeS $sizeS;
+  }
+}
+
+.vuiInfoTableRow--sectionHeader {
+  background-color: $colorLightShade;
+  border-bottom: none !important;
+}
+
+.vuiInfoTableRow--footer {
+  background-color: $colorLightShade;
+}

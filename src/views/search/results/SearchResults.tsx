@@ -7,7 +7,7 @@ import {
   VuiTextColor,
   VuiText,
   VuiTitle,
-  VuiSpacer
+  VuiSpacer,
 } from "../../../ui";
 import { SearchResultList } from "./SearchResultList";
 
@@ -20,14 +20,13 @@ type Props = {
   setSearchResultRef: (el: HTMLDivElement | null, index: number) => void;
 };
 
-
 export const SearchResults = ({
   includeSummary,
   isSearching,
   searchError,
   results,
   selectedSearchResultPosition,
-  setSearchResultRef
+  setSearchResultRef,
 }: Props) => {
   let content;
   if (isSearching) {
@@ -49,7 +48,11 @@ export const SearchResults = ({
     // Log for diagnostics.
     console.error(searchError);
     content = (
-      <VuiCallout title="There was an error while searching" color="danger" headingElement="h2">
+      <VuiCallout
+        title="There was an error while searching"
+        color="danger"
+        headingElement="h2"
+      >
         {searchError.message && (
           <VuiText>
             <p>
@@ -60,7 +63,9 @@ export const SearchResults = ({
         {searchError.response?.data?.message && (
           <VuiText>
             <p>
-              <VuiTextColor color="danger">{searchError.response.data.message}</VuiTextColor>
+              <VuiTextColor color="danger">
+                {searchError.response.data.message}
+              </VuiTextColor>
             </p>
           </VuiText>
         )}
@@ -80,7 +85,7 @@ export const SearchResults = ({
 
   return (
     <>
-      <VuiTitle size="xxs">
+      <VuiTitle size="xs">
         <h2>
           <strong>{searchHeaderText}</strong>
         </h2>

@@ -4,17 +4,16 @@ import { VuiSpacer } from "../spacer/Spacer";
 import { VuiTitle } from "../typography/Title";
 import { VuiTextColor } from "../typography/TextColor";
 import { VuiText } from "../typography/Text";
+import { CALLOUT_SIZE, CalloutColor } from "./types";
 
-const COLOR = ["accent", "primary", "success", "warning", "danger"] as const;
-const SIZE = ["s", "m"] as const;
 const HEADING_ELEMENT = ["h1", "h2", "h3", "h4", "h5", "h6", "p"] as const;
 
 type Props = {
   children?: ReactNode;
   title: string;
   headingElement: (typeof HEADING_ELEMENT)[number];
-  color: (typeof COLOR)[number];
-  size?: (typeof SIZE)[number];
+  color: CalloutColor;
+  size?: (typeof CALLOUT_SIZE)[number];
 };
 
 const sizeToTitleSizeMap = {

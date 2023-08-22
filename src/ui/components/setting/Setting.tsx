@@ -3,7 +3,7 @@ import { VuiText } from "../typography/Text";
 import { VuiTextColor } from "../typography/TextColor";
 import { VuiFlexContainer } from "../flex/FlexContainer";
 import { VuiFlexItem } from "../flex/FlexItem";
-import { VuiLink } from "../link/Link";
+import { VuiLinkInternal } from "../link/Link";
 import { VuiBadge } from "../badge/Badge";
 import { VuiToggle } from "../toggle/Toggle";
 
@@ -42,7 +42,7 @@ export const VuiSetting = ({
 
             {badge && (
               <VuiFlexItem grow={false}>
-                <VuiBadge color="normal">{badge}</VuiBadge>
+                <VuiBadge color="neutral">{badge}</VuiBadge>
               </VuiFlexItem>
             )}
           </VuiFlexContainer>
@@ -52,9 +52,9 @@ export const VuiSetting = ({
           <VuiFlexItem grow={false}>
             <VuiText size="s">
               <p>
-                <VuiLink href={helpUrl} target="_blank">
+                <VuiLinkInternal href={helpUrl} target="_blank">
                   Learn more
-                </VuiLink>
+                </VuiLinkInternal>
               </p>
             </VuiText>
           </VuiFlexItem>

@@ -3,6 +3,10 @@
   align-items: stretch;
 }
 
+.vuiFlexContainer--fullWidth {
+  width: 100%;
+}
+
 .vuiFlexContainer--wrap {
   flex-wrap: wrap;
 }

@@ -1,20 +1,44 @@
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-tsx";
+import classNames from "classnames";
 import { BiClipboard } from "react-icons/bi";
-import { VuiButtonIcon } from "../button/ButtonIcon";
+import { VuiIconButton } from "../button/IconButton";
 import { VuiIcon } from "../icon/Icon";
+import { useEffect } from "react";
 
 type Props = {
+  language?: "js" | "ts" | "jsx" | "tsx" | "none";
   onCopy?: () => void;
   children?: string;
+  fullHeight?: boolean;
 };
 
-export const VuiCode = ({ onCopy, children = "" }: Props) => {
+// PrismJS clears highlighting when language-none is set.
+export const VuiCode = ({ onCopy, language = "none", fullHeight, children = "" }: Props) => {
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [language]);
+
+  const containerClasses = classNames("vuiCodeContainer", {
+    "vuiCodeContainer--fullHeight": fullHeight
+  });
+
+  const classes = classNames("vuiCode", `language-${language}`, {
+    "vuiCode--fullHeight": fullHeight
+  });
+
   return (
-    <div className="vuiCodeContainer">
-      <pre className="vuiCode">
-        <code>{children}</code>
+    <div className={containerClasses}>
+      <pre className="vuiCodePre">
+        <code className={classes}>{children}</code>
       </pre>
-      <VuiButtonIcon
-        color="normal"
+
+      <VuiIconButton
+        color="neutral"
         icon={
           <VuiIcon>
             <BiClipboard size={20} />

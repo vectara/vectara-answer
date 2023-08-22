@@ -8,14 +8,14 @@
 .vuiTabs--s {
   .vuiTab {
     padding: $sizeXs $sizeS;
-    font-size: $fontSizeXs;
+    font-size: $fontSizeStandard;
   }
 }
 
 .vuiTabs--m {
   .vuiTab {
     padding: $sizeXs $sizeM;
-    font-size: $fontSizeS;
+    font-size: $fontSizeMedium;
   }
 }
 

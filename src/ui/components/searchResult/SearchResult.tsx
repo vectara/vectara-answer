@@ -6,7 +6,7 @@ import { VuiSpacer } from "../spacer/Spacer";
 import { VuiText } from "../typography/Text";
 import { VuiTextColor } from "../typography/TextColor";
 
-export type SearchResultType = {
+export type SearchResult = {
   title?: string;
   url?: string;
   date?: string;
@@ -18,13 +18,13 @@ export type SearchResultType = {
 };
 
 type Props = {
-  result: SearchResultType;
+  result: SearchResult;
   position: number;
   isSelected?: boolean;
   subTitle?: React.ReactNode;
   children?: React.ReactNode;
   className?: string;
-  snippetProps?: React.HTMLAttributes<HTMLDivElement>;
+  snippetProps?: any;
 };
 
 const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;
@@ -38,7 +38,9 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
       snippet: { pre, post, text }
     } = result;
 
-    const classes = classNames("vuiSearchResult", className);
+    // Protect users' privacy in FullStory.
+    // https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-FullStory-#01F5DPW1AJHZHR8TBM9YQEDRMH
+    const classes = classNames("vuiSearchResult", "fs-mask", className);
 
     const positionClasses = classNames("vuiSearchResultPosition", {
       "vuiSearchResultPosition--selected": isSelected
