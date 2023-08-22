@@ -80,6 +80,7 @@ export const SearchControls = ({
                   target={
                     searchHeader.logo.link !== undefined ? "_blank" : "_self"
                   }
+                  rel="noreferrer"
                 >
                   <img
                     src={searchHeader.logo.src}

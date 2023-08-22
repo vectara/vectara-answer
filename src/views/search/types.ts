@@ -3,6 +3,15 @@ export type DocMetadata = {
   value: string;
 };
 
+export type SearchError = {
+  message?: string;
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 export type SearchResponseDoc = {
   id: string;
   metadata: DocMetadata[];
@@ -50,7 +59,7 @@ export type DeserializedSearchResult = {
   source: string;
   url: string;
   title: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 };
 
 export const SUMMARY_LANGUAGES = [

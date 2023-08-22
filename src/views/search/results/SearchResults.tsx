@@ -1,4 +1,4 @@
-import { DeserializedSearchResult } from "../types";
+import { DeserializedSearchResult, SearchError } from "../types";
 import {
   VuiCallout,
   VuiFlexContainer,
@@ -14,11 +14,12 @@ import { SearchResultList } from "./SearchResultList";
 type Props = {
   includeSummary: boolean;
   isSearching: boolean;
-  searchError?: any;
+  searchError?: SearchError | undefined;
   results?: DeserializedSearchResult[];
   selectedSearchResultPosition?: number;
   setSearchResultRef: (el: HTMLDivElement | null, index: number) => void;
 };
+
 
 export const SearchResults = ({
   includeSummary,

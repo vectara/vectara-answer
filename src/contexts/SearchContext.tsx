@@ -11,6 +11,7 @@ import {
   DeserializedSearchResult,
   SearchResponse,
   SummaryLanguage,
+  SearchError,
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -40,11 +41,11 @@ interface SearchContextType {
   }) => void;
   reset: () => void;
   isSearching: boolean;
-  searchError: any;
+  searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
   includeSummary: boolean;
   isSummarizing: boolean;
-  summarizationError: any;
+  summarizationError: unknown;
   summarizationResponse: SearchResponse | undefined;
   language: SummaryLanguage;
   summaryNumResults: number;
@@ -86,12 +87,12 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   // Basic search
   const [isSearching, setIsSearching] = useState(false);
-  const [searchError, setSearchError] = useState<any>();
+  const [searchError, setSearchError] = useState<SearchError | undefined>();
   const [searchResponse, setSearchResponse] = useState<SearchResponse>();
 
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summarizationError, setSummarizationError] = useState<any>();
+  const [summarizationError, setSummarizationError] = useState<unknown>();
   const [summarizationResponse, setSummarizationResponse] =
     useState<SearchResponse>();
 
@@ -122,6 +123,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         | undefined,
       isPersistable: false,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   const searchResults = deserializeSearchResponse(searchResponse);
@@ -220,7 +222,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         }
       } catch (error) {
         setIsSearching(false);
-        setSearchError(error);
+        setSearchError(error as SearchError);
         setSearchResponse(undefined);
       }
 

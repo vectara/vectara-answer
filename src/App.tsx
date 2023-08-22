@@ -30,6 +30,7 @@ const AppRoutes = () => {
     }
 
     if (app.title) document.title = app.title;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfigLoaded]);
 
   if (missingConfigProps.length) {

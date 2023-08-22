@@ -1,9 +1,5 @@
-import { BiError } from "react-icons/bi";
-import { SearchResponse } from "../types";
 import {
   VuiFlexContainer,
-  VuiIcon,
-  VuiPrompt,
   VuiSpacer,
   VuiSpinner,
   VuiTextColor,
@@ -16,6 +12,8 @@ import {
 
 type Props = {
   isSummarizing: boolean;
+  // This is a generic type, so we can't be sure what the error will be.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   summarizationError?: any;
   summary?: string;
   selectedSearchResultPosition?: number;

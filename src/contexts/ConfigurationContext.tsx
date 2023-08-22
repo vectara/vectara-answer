@@ -7,10 +7,7 @@ import {
 } from "react";
 import axios from "axios";
 
-import {
-  SummaryLanguage,
-  SUMMARY_LANGUAGES,
-} from "../views/search/types";
+import { SummaryLanguage, SUMMARY_LANGUAGES } from "../views/search/types";
 
 interface Config {
   // Search
@@ -56,8 +53,8 @@ interface Config {
   // Summary
   config_enable_summary?: string;
   config_summary_default_language?: string;
-  config_summary_num_results?: number,
-  config_summary_num_sentences?: number,
+  config_summary_num_results?: number;
+  config_summary_num_sentences?: number;
 
   // rerank
   config_rerank?: string;
@@ -122,7 +119,10 @@ type SearchHeader = {
 
 type ExampleQuestions = string[];
 type Auth = { isEnabled: boolean; googleClientId?: string };
-type Analytics = { googleAnalyticsTrackingCode?: string; fullStoryOrgId?: string };
+type Analytics = {
+  googleAnalyticsTrackingCode?: string;
+  fullStoryOrgId?: string;
+};
 type Rerank = { isEnabled: boolean; numResults?: number };
 
 interface ConfigContextType {
@@ -132,8 +132,8 @@ interface ConfigContextType {
   app: App;
   appHeader: AppHeader;
   filters: Filters;
-  summary: Summary,
-  rerank: Rerank,
+  summary: Summary;
+  rerank: Rerank;
   searchHeader: SearchHeader;
   exampleQuestions: ExampleQuestions;
   auth: Auth;
@@ -194,7 +194,10 @@ const prefixConfig = (
   return prefixedConfig;
 };
 
-const validateLanguage = (lang: string, defaultLanguage: SummaryLanguage): SummaryLanguage => {
+const validateLanguage = (
+  lang: string,
+  defaultLanguage: SummaryLanguage
+): SummaryLanguage => {
   if ((SUMMARY_LANGUAGES as readonly string[]).includes(lang)) {
     return lang as SummaryLanguage;
   }
@@ -225,7 +228,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
   );
   const [auth, setAuth] = useState<Auth>({ isEnabled: false });
   const [analytics, setAnalytics] = useState<Analytics>({});
-  const [rerank, setRerank] = useState<Rerank>({ isEnabled: false, numResults: 100 });
+  const [rerank, setRerank] = useState<Rerank>({
+    isEnabled: false,
+    numResults: 100,
+  });
 
   const [summary, setSummary] = useState<Summary>({
     isEnabled: true,
@@ -356,9 +362,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       const sourceValueToLabelMap = sources.length
         ? sources.reduce((accum, { label, value }) => {
-          accum[value] = label;
-          return accum;
-        }, {} as Record<string, string>)
+            accum[value] = label;
+            return accum;
+          }, {} as Record<string, string>)
         : undefined;
 
       if (isFilteringEnabled && sources.length === 0) {
@@ -375,7 +381,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       setSummary({
         isEnabled: isTrue(config_enable_summary ?? "True"),
-        defaultLanguage: validateLanguage(config_summary_default_language as SummaryLanguage, "auto"),
+        defaultLanguage: validateLanguage(
+          config_summary_default_language as SummaryLanguage,
+          "auto"
+        ),
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
       });
@@ -406,10 +415,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
         isEnabled: isTrue(config_rerank),
         numResults: config_rerank_num_results ?? rerank.numResults,
       });
-
     };
     loadConfig();
-  }, []);
+  });
 
   return (
     <ConfigContext.Provider

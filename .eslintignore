@@ -1,0 +1,5 @@
+# Ignoring `docker` and `server` folders from eslint checks.
+# Reason: The `index.js` within these directories is JavaScript, while our eslint config is primarily set up for TypeScript.
+# This discrepancy can lead to linting errors or misconfigurations.
+docker/
+server/

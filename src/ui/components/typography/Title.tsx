@@ -5,7 +5,7 @@ const SIZE = ["xxs", "xs", "s", "m", "l", "xl", "xxl"] as const;
 const TEXT_ALIGN = ["left", "center", "right"] as const;
 
 interface Props {
-  children: ReactElement<any>;
+  children: ReactElement;
   size: (typeof SIZE)[number];
   align?: (typeof TEXT_ALIGN)[number];
 }
