@@ -40,7 +40,7 @@ app.post("/config", (req, res) => {
     api_key,
 
     // App
-    app_ux,
+    ux,
     app_title,
     enable_app_header,
     enable_app_footer,
@@ -92,7 +92,7 @@ app.post("/config", (req, res) => {
     api_key,
 
     // App
-    app_ux,
+    ux,
     app_title,
     enable_app_header,
     enable_app_footer,
