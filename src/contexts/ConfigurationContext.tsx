@@ -17,6 +17,7 @@ interface Config {
   config_api_key?: string;
 
   // App
+  config_app_ux?: string;
   config_app_title?: string;
   config_enable_app_header?: string;
   config_enable_app_footer?: string;
@@ -51,7 +52,6 @@ interface Config {
   config_full_story_org_id?: string;
 
   // Summary
-  config_summary_mode?: string;
   config_summary_default_language?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
@@ -282,6 +282,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_api_key,
 
         // App
+        config_app_ux,
         config_app_title,
         config_enable_app_header,
         config_enable_app_footer,
@@ -320,7 +321,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_rerank_num_results,
 
         // Summary
-        config_summary_mode,
         config_summary_default_language,
         config_summary_num_results,
         config_summary_num_sentences,
@@ -380,7 +380,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
-        isEnabled: isTrue(config_summary_mode ?? "True"),
+        isEnabled: config_app_ux == "summary" ?? true,
         defaultLanguage: validateLanguage(
           config_summary_default_language as SummaryLanguage,
           "auto"
