@@ -183,7 +183,7 @@ The way summarization works can be configured as follows:
 
 ```yaml
 # Switches between summary mode and search results mode (if not specified defaults to True). When set to True, a summary is shown along with references used in the summary. When set to False, only search results are shown and no calls made to the summarization API.
-enable_summary: True
+summary_mode: True
 
 # Default language for summary response (if not specified defaults to "auto")
 summary_default_language: "en"
