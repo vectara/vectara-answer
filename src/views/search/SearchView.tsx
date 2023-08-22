@@ -112,8 +112,6 @@ export const SearchView = () => {
         );
     }
 
-    console.log(summarySearchResults);
-
     content = (
       <>
         <VuiSpacer size="s" />
