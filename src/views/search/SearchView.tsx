@@ -17,8 +17,9 @@ import { AppFooter } from "./chrome/AppFooter";
 import { useConfigContext } from "../../contexts/ConfigurationContext";
 import { HistoryDrawer } from "./controls/HistoryDrawer";
 import "./searchView.scss";
+import { DeserializedSearchResult } from "./types";
 
-const reorderCitations = (unorderedSummary: string) => {
+const reorderSummaryCitations = (unorderedSummary: string) => {
   const allCitations = unorderedSummary.match(/\[\d+\]/g) || [];
 
   const uniqueCitations = [...new Set(allCitations)];
@@ -31,6 +32,26 @@ const reorderCitations = (unorderedSummary: string) => {
     /\[\d+\]/g,
     (match) => citationToReplacement[match]
   );
+};
+
+const reorderSearchResults = (
+  searchResults: DeserializedSearchResult[],
+  unorderedSummary: string
+) => {
+  const newSearchResults: DeserializedSearchResult[] = [];
+  const allCitations = unorderedSummary.match(/\[\d+\]/g) || [];
+
+  const addedIndices = new Set<number>();
+  for (let i = 0; i < allCitations.length; i++) {
+    const citation = allCitations[i];
+    const index = Number(citation.slice(1, citation.length - 1)) - 1;
+
+    if (addedIndices.has(index)) continue;
+    newSearchResults.push(searchResults[index]);
+    addedIndices.add(index);
+  }
+
+  return newSearchResults;
 };
 
 export const SearchView = () => {
@@ -79,8 +100,19 @@ export const SearchView = () => {
     content = <ExampleQuestions />;
   } else {
     const unorderedSummary = summarizationResponse?.summary[0]?.text;
+
     let summary = "";
-    if (unorderedSummary) summary = reorderCitations(unorderedSummary);
+    let summarySearchResults: DeserializedSearchResult[] = [];
+    if (unorderedSummary) {
+      summary = reorderSummaryCitations(unorderedSummary);
+      if (searchResults)
+        summarySearchResults = reorderSearchResults(
+          searchResults,
+          unorderedSummary
+        );
+    }
+
+    console.log(summarySearchResults);
 
     content = (
       <>
@@ -107,7 +139,7 @@ export const SearchView = () => {
         <SearchResults
           isSearching={isSearching}
           searchError={searchError}
-          results={searchResults}
+          results={summaryMode ? summarySearchResults : searchResults}
           selectedSearchResultPosition={selectedSearchResultPosition}
           setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
             ((searchResultsRef as any).current[index] = el)
