@@ -17,7 +17,7 @@ interface Config {
   config_api_key?: string;
 
   // App
-  config_app_ux?: string;
+  config_ux?: string;
   config_app_title?: string;
   config_enable_app_header?: string;
   config_enable_app_footer?: string;
@@ -282,7 +282,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_api_key,
 
         // App
-        config_app_ux,
+        config_ux,
         config_app_title,
         config_enable_app_header,
         config_enable_app_footer,
@@ -380,7 +380,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
-        isEnabled: config_app_ux == "summary" ?? true,
+        isEnabled: config_ux == "summary" ?? true,
         defaultLanguage: validateLanguage(
           config_summary_default_language as SummaryLanguage,
           "auto"
