@@ -16,9 +16,10 @@ import { AppHeader } from "./chrome/AppHeader";
 import { AppFooter } from "./chrome/AppFooter";
 import { useConfigContext } from "../../contexts/ConfigurationContext";
 import { HistoryDrawer } from "./controls/HistoryDrawer";
-import "./searchView.scss";
 import { DeserializedSearchResult } from "./types";
-import { reorderSearchResults, reorderSummaryCitations } from "./reorderCitations";
+import { reorderSummaryCitations } from "./utils/reorderSummaryCitations";
+import { reorderSearchResults } from "./utils/reorderSearchResults";
+import "./searchView.scss";
 
 export const SearchView = () => {
   const { isConfigLoaded, app } = useConfigContext();
@@ -71,11 +72,12 @@ export const SearchView = () => {
     let summarySearchResults: DeserializedSearchResult[] = [];
     if (unorderedSummary) {
       summary = reorderSummaryCitations(unorderedSummary);
-      if (searchResults)
+      if (searchResults) {
         summarySearchResults = reorderSearchResults(
           searchResults,
           unorderedSummary
         );
+      }
     }
 
     content = (
@@ -106,7 +108,7 @@ export const SearchView = () => {
           results={summaryMode ? summarySearchResults : searchResults}
           selectedSearchResultPosition={selectedSearchResultPosition}
           setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-            ((searchResultsRef).current[index] = el)
+            (searchResultsRef.current[index] = el)
           }
           summaryMode={summaryMode}
         />
