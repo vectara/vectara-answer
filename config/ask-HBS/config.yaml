@@ -11,7 +11,7 @@ summary_num_results: 10
 rerank: true
 rerank_num_results: 100
 
-enable_summary: false
+ux: "summary"
 
 enable_source_filters: False
 source: ""

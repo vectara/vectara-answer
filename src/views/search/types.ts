@@ -10,7 +10,7 @@ export type SearchError = {
       message?: string;
     };
   };
-}
+};
 
 export type SearchResponseDoc = {
   id: string;
@@ -105,3 +105,5 @@ const codeToLanguageMap: Record<SummaryLanguage, string> = {
 export const humanizeLanguage = (language: SummaryLanguage): string => {
   return codeToLanguageMap[language];
 };
+
+export type UxMode = "search" | "summary";

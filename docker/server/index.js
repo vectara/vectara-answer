@@ -41,6 +41,7 @@ app.post("/config", (req, res) => {
     api_key,
 
     // App
+    ux,
     app_title,
     enable_app_header,
     enable_app_footer,
@@ -57,8 +58,7 @@ app.post("/config", (req, res) => {
     enable_source_filters,
     sources,
 
-    // summary
-    enable_summary,
+    // Summary
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
@@ -93,6 +93,7 @@ app.post("/config", (req, res) => {
     api_key,
 
     // App
+    ux,
     app_title,
     enable_app_header,
     enable_app_footer,
@@ -110,7 +111,6 @@ app.post("/config", (req, res) => {
     sources,
 
     // summary
-    enable_summary,
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
@@ -139,5 +139,6 @@ app.post("/config", (req, res) => {
 });
 
 app.listen(port, () => {
+  xw
   console.log(`Example app listening at http://localhost:${port}`);
 });

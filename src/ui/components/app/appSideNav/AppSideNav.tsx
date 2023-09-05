@@ -82,6 +82,7 @@ export const VuiAppSideNav = ({ items = [], content }: Props) => {
                     <BiChevronLeft />
                   </VuiIcon>
                 </VuiFlexItem>
+
                 <VuiFlexItem shrink={false} grow={false}>
                   Collapse nav
                 </VuiFlexItem>

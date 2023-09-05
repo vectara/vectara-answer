@@ -7,7 +7,11 @@ import {
 } from "react";
 import axios from "axios";
 
-import { SummaryLanguage, SUMMARY_LANGUAGES } from "../views/search/types";
+import {
+  SummaryLanguage,
+  SUMMARY_LANGUAGES,
+  UxMode,
+} from "../views/search/types";
 
 interface Config {
   // Search
@@ -17,6 +21,7 @@ interface Config {
   config_api_key?: string;
 
   // App
+  config_ux?: UxMode;
   config_app_title?: string;
   config_enable_app_header?: string;
   config_enable_app_footer?: string;
@@ -51,7 +56,6 @@ interface Config {
   config_full_story_org_id?: string;
 
   // Summary
-  config_enable_summary?: string;
   config_summary_default_language?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
@@ -76,6 +80,7 @@ type App = {
   isHeaderEnabled: boolean;
   isFooterEnabled: boolean;
   title: string;
+  uxMode: UxMode;
 };
 
 type AppHeader = {
@@ -99,7 +104,6 @@ type Filters = {
 };
 
 type Summary = {
-  isEnabled: boolean;
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;
@@ -212,6 +216,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     isHeaderEnabled: false,
     isFooterEnabled: false,
     title: "",
+    uxMode: "summary",
   });
   const [appHeader, setAppHeader] = useState<AppHeader>({
     logo: {},
@@ -234,7 +239,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
   });
 
   const [summary, setSummary] = useState<Summary>({
-    isEnabled: true,
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
@@ -282,6 +286,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_api_key,
 
         // App
+        config_ux,
         config_app_title,
         config_enable_app_header,
         config_enable_app_footer,
@@ -320,7 +325,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_rerank_num_results,
 
         // Summary
-        config_enable_summary,
         config_summary_default_language,
         config_summary_num_results,
         config_summary_num_sentences,
@@ -337,6 +341,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         title: config_app_title ?? "",
         isHeaderEnabled: isTrue(config_enable_app_header ?? "True"),
         isFooterEnabled: isTrue(config_enable_app_footer ?? "True"),
+        uxMode: config_ux ?? "summary",
       });
 
       setAppHeader({
@@ -380,7 +385,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
-        isEnabled: isTrue(config_enable_summary ?? "True"),
         defaultLanguage: validateLanguage(
           config_summary_default_language as SummaryLanguage,
           "auto"
@@ -417,7 +421,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
     };
     loadConfig();
-  });
+  }, []);
 
   return (
     <ConfigContext.Provider

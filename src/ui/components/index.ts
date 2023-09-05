@@ -1,3 +1,4 @@
+import { VuiAccordion } from "./accordion/Accordion";
 import { VuiAccountMenu } from "./accountMenu/AccountMenu";
 import { VuiAppContent } from "./app/AppContent";
 import { VuiAppHeader } from "./app/AppHeader";
@@ -14,23 +15,27 @@ import { VuiIconButton } from "./button/IconButton";
 import { VuiCallout } from "./callout/Callout";
 import { VuiCard } from "./card/Card";
 import { CALLOUT_COLOR, CALLOUT_SIZE, CalloutColor } from "./callout/types";
-import { ChatTurn } from "./chat/types";
+import { ChatTurn, ChatStyle, ChatLanguage } from "./chat/types";
 import { VuiChat } from "./chat/Chat";
 import { VuiCode } from "./code/Code";
+import { CodeLanguage } from "./code/types";
 import { VuiCopyButton } from "./copyButton/CopyButton";
 import { VuiDrawer } from "./drawer/Drawer";
 import { VuiFlexContainer } from "./flex/FlexContainer";
 import { VuiFlexItem } from "./flex/FlexItem";
-import { VuiCheckbox, VuiLabel, VuiNumberInput, VuiSelect, VuiTextInput } from "./form";
+import { VuiCheckbox, VuiLabel, VuiNumberInput, VuiSelect, VuiTextInput, VuiTextArea } from "./form";
 import { VuiFormGroup } from "./formGroup/FormGroup";
 import { VuiHorizontalRule } from "./horizontalRule/HorizontalRule";
 import { VuiIcon } from "./icon/Icon";
 import { ICON_COLOR, ICON_SIZE } from "./icon/types";
 import { VuiInfoTable, InfoTableColumnAlign, InfoTableRow, InfoTableRowType } from "./infoTable/InfoTable";
 import { VuiLink, VuiLinkInternal } from "./link/Link";
+import { VuiList } from "./list/List";
 import { VuiMenu } from "./menu/Menu";
 import { VuiMenuItem } from "./menu/MenuItem";
 import { VuiModal } from "./modal/Modal";
+import { VuiNotifications } from "./notification/Notifications";
+import { Notification } from "./notification/Notification";
 import { VuiOptionsButton } from "./optionsButton/OptionsButton";
 import { VuiOptionsList } from "./optionsList/OptionsList";
 import { VuiOptionsListItem } from "./optionsList/OptionsListItem";
@@ -64,10 +69,14 @@ export type {
   AppContentPadding,
   ButtonColor,
   CalloutColor,
+  ChatLanguage,
+  ChatStyle,
   ChatTurn,
+  CodeLanguage,
   InfoTableColumnAlign,
   InfoTableRow,
   InfoTableRowType,
+  Notification,
   OptionListItem,
   TabSize,
   SearchResult,
@@ -92,6 +101,7 @@ export {
   TEXT_COLOR,
   TEXT_SIZE,
   TITLE_SIZE,
+  VuiAccordion,
   VuiAccountMenu,
   VuiAppContent,
   VuiAppHeader,
@@ -118,9 +128,11 @@ export {
   VuiLabel,
   VuiLink,
   VuiLinkInternal,
+  VuiList,
   VuiMenu,
   VuiMenuItem,
   VuiModal,
+  VuiNotifications,
   VuiNumberInput,
   VuiOptionsButton,
   VuiOptionsList,
@@ -143,6 +155,7 @@ export {
   VuiTabbedRoutes,
   VuiTabs,
   VuiText,
+  VuiTextArea,
   VuiTextColor,
   VuiTextInput,
   VuiTitle,

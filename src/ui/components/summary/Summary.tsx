@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { VuiText } from "../typography/Text";
 import { VuiSummaryCitation } from "./SummaryCitation";
-import { extractCitations } from "./extractCitations";
+import { extractCitations } from "../../utils/citations/extractCitations";
 
 type Props = {
   summary?: string;

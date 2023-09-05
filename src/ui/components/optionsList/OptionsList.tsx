@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { VuiOptionsListItem } from "./OptionsListItem";
 import { OptionListItem } from "./types";
 
-const SIZE = ["s", "m"] as const;
+const SIZE = ["s", "m", "l"] as const;
 
 export type Props<T> = {
   className?: string;

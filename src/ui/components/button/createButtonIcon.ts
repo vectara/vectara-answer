@@ -8,11 +8,20 @@ const sizeToIconSizeMap = {
   m: "s"
 };
 
+const defaultColorToIconColorMap = {
+  accent: "accent",
+  primary: "primary",
+  success: "success",
+  danger: "danger",
+  warning: "warning",
+  neutral: "neutral"
+};
+
 export const createButtonIcon = (
   icon: BaseButtonProps["icon"],
   size: BaseButtonProps["size"],
   color: ButtonColor,
-  colorToIconColorMap: Record<ButtonColor, string>
+  colorToIconColorMap: Record<ButtonColor, string> = defaultColorToIconColorMap
 ) => {
   return icon
     ? cloneElement(icon, {
