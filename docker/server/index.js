@@ -139,6 +139,5 @@ app.post("/config", (req, res) => {
 });
 
 app.listen(port, () => {
-  xw
   console.log(`Example app listening at http://localhost:${port}`);
 });
