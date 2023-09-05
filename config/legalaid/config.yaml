@@ -5,5 +5,9 @@ app_title: "Illinois Legal Aid Online"
 search_title: "Illinois Legal Aid Online"
 search_description: "Information based on www.illinoislegalaid.org. This is not an ILAO project or created by ILAO and does not constitute legal advice."
 
+summary_default_language: "eng"
+summary_num_sentences: 3
+summary_num_results: 10
+
 enable_source_filters: False
 source: ""

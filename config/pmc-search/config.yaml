@@ -8,3 +8,5 @@ enable_source_filters: False
 sources: ""
 
 summary_default_language: "eng"
+summary_num_sentences: 3
+summary_num_results: 10
