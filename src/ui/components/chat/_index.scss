@@ -1,16 +1,18 @@
+@import "chatTurn";
+
 $minChatHeight: 600px;
 $minChatWidth: 600px;
 
 .vuiChatButton,
 .vuiChat {
   position: fixed;
-  right: $sizeL;
-  bottom: $sizeM;
+  right: $sizeXxs;
+  bottom: $sizeXxs;
   z-index: $chatZIndex;
 }
 
 .vuiChatButton-isHidden,
-.vuiChat-isHidden {
+.vuiChat--closed {
   // If we used display: none, then the button's animation would play every
   // time the button is shown.
   visibility: hidden;
@@ -20,15 +22,18 @@ $minChatWidth: 600px;
 }
 
 .vuiChatButton {
-  border-radius: $sizeXs;
-  padding: $sizeXs $sizeL;
+  padding: $sizeXs $sizeS;
   font-size: $fontSizeStandard;
-  color: $colorEmptyShade;
-  background-color: $colorDarkerShade;
+  color: $colorText;
+  background-color: $colorPrimaryLightShade;
+  border: 1px solid $borderColor;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: all $transitionSpeed;
   animation: popUp 0.4s cubic-bezier(0.5, 0, 0.5, 1) 1;
 
   &:hover {
-    background-color: $colorAccent;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    translate: translateY(-20px);
   }
 }
 
@@ -53,7 +58,7 @@ $minChatWidth: 600px;
   border-radius: $sizeXs;
   overflow: hidden;
   border: 1px solid $borderColor;
-  background-color: $colorEmptyShade;
+  background-color: $colorLightShade;
 
   @media screen and (max-height: $minChatHeight) {
     & {
@@ -75,10 +80,17 @@ $minChatWidth: 600px;
   }
 }
 
-.vuiChat-isFullScreen {
+.vuiChat--tall {
   bottom: $sizeXxs;
   height: calc(100vh - 2 * #{$sizeXxs});
-  right: $sizeXxs;
+
+  .vuiChat__conversation {
+    max-height: 100%;
+  }
+}
+
+.vuiChat--fullScreen {
+  height: calc(100vh - 2 * #{$sizeXxs});
   width: calc(100vw - 2 * #{$sizeXxs});
   max-width: 100% !important;
 
@@ -94,7 +106,7 @@ $minChatWidth: 600px;
   background-color: $colorPrimaryLightShade;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   // Ensure shadow overlaps on top of conversation.
-  z-index: 1;
+  z-index: 2;
 }
 
 .vuiChat__conversation {
@@ -109,33 +121,11 @@ $minChatWidth: 600px;
 }
 
 .vuiChat__turns {
-  padding: 0 0 $sizeM 0;
   font-size: $fontSizeStandard;
 }
 
-.vuiChat__turn {
-  border-top: 1px solid $colorLightShade;
-  border-right: 1px solid $colorLightShade;
-  border-bottom: 1px solid $colorLightShade;
-  background-color: $colorLightShade;
-  padding: $sizeM $sizeS $sizeM $sizeL;
-  margin-right: $sizeS;
-  transition: all $transitionSpeed;
-
-  &:hover {
-    border-color: $borderColor;
-  }
-}
-
-.vuiChat__turn + .vuiChat__turn {
-  margin-top: $sizeM;
-}
-
-.vuiChat__question {
-  color: $colorAccent;
-  font-weight: $fontWeightBold;
-  font-size: $fontSizeStandard;
-  margin-bottom: $sizeXs;
+.vuiChat__conversationActions {
+  padding: $sizeS;
 }
 
 .vuiChat__input {
@@ -143,6 +133,16 @@ $minChatWidth: 600px;
   padding: $sizeXs $sizeS;
 }
 
-.vuiChat__inspectButton {
-  margin-top: -$sizeXxs;
+.vuiChatPanel {
+  position: absolute;
+  z-index: 5;
+  top: $sizeXxs;
+  left: $sizeXxs;
+  right: $sizeXxs;
+  bottom: $sizeXxs;
+  padding: $sizeXxs $sizeS;
+  overflow-y: auto;
+  background-color: $colorEmptyShade;
+  border: 1px solid $borderColor;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }

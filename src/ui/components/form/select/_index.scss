@@ -42,3 +42,9 @@
     top: calc(50% - 14px);
   }
 }
+
+.vuiSelect-isInvalid {
+  select {
+    border-color: $colorDanger;
+  }
+}

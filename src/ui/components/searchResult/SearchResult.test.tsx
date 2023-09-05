@@ -37,7 +37,7 @@ describe("VuiSearchResult", () => {
               1
             </div>
             <a
-              class="vuiLink vuiTitle vuiTitle--s vuiTitle--left"
+              class="vuiLink vuiTitle vuiTitle--s"
               href="/url#:~:text=text"
               rel="noopener"
               target="_blank"
@@ -144,7 +144,7 @@ describe("VuiSearchResult", () => {
               1
             </div>
             <h3
-              class="vuiTitle vuiTitle--s vuiTitle--left"
+              class="vuiTitle vuiTitle--s"
             >
               title
             </h3>
@@ -195,7 +195,7 @@ describe("VuiSearchResult", () => {
               1
             </div>
             <a
-              class="vuiLink vuiTitle vuiTitle--s vuiTitle--left"
+              class="vuiLink vuiTitle vuiTitle--s"
               href="/url#:~:text=text"
               rel="noopener"
               target="_blank"

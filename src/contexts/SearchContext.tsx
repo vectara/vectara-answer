@@ -43,7 +43,6 @@ interface SearchContextType {
   isSearching: boolean;
   searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
-  summaryMode: boolean;
   isSummarizing: boolean;
   summarizationError: unknown;
   summarizationResponse: SearchResponse | undefined;
@@ -72,7 +71,8 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank } = useConfigContext();
+  const { isConfigLoaded, search, summary, rerank, app } = useConfigContext();
+  const isSummaryEnabled = app.uxMode === "summary";
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -123,7 +123,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         | undefined,
       isPersistable: false,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   const searchResults = deserializeSearchResponse(searchResponse);
@@ -227,7 +227,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       }
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
-      if (summary.isEnabled) {
+      if (isSummaryEnabled) {
         try {
           const response = await sendSearchRequest({
             filter,
@@ -286,7 +286,6 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSearching,
         searchError,
         searchResults,
-        summaryMode: summary.isEnabled,
         isSummarizing,
         summarizationError,
         summarizationResponse,

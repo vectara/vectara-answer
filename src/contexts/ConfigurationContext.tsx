@@ -7,7 +7,11 @@ import {
 } from "react";
 import axios from "axios";
 
-import { SummaryLanguage, SUMMARY_LANGUAGES } from "../views/search/types";
+import {
+  SummaryLanguage,
+  SUMMARY_LANGUAGES,
+  UxMode,
+} from "../views/search/types";
 
 interface Config {
   // Search
@@ -17,7 +21,7 @@ interface Config {
   config_api_key?: string;
 
   // App
-  config_ux?: string;
+  config_ux?: UxMode;
   config_app_title?: string;
   config_enable_app_header?: string;
   config_enable_app_footer?: string;
@@ -76,6 +80,7 @@ type App = {
   isHeaderEnabled: boolean;
   isFooterEnabled: boolean;
   title: string;
+  uxMode: UxMode;
 };
 
 type AppHeader = {
@@ -99,7 +104,6 @@ type Filters = {
 };
 
 type Summary = {
-  isEnabled: boolean;
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;
@@ -212,6 +216,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     isHeaderEnabled: false,
     isFooterEnabled: false,
     title: "",
+    uxMode: "summary",
   });
   const [appHeader, setAppHeader] = useState<AppHeader>({
     logo: {},
@@ -234,7 +239,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
   });
 
   const [summary, setSummary] = useState<Summary>({
-    isEnabled: true,
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
@@ -337,6 +341,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         title: config_app_title ?? "",
         isHeaderEnabled: isTrue(config_enable_app_header ?? "True"),
         isFooterEnabled: isTrue(config_enable_app_footer ?? "True"),
+        uxMode: config_ux ?? "summary",
       });
 
       setAppHeader({
@@ -380,7 +385,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
-        isEnabled: config_ux == "summary" ?? true,
         defaultLanguage: validateLanguage(
           config_summary_default_language as SummaryLanguage,
           "auto"

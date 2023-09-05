@@ -32,3 +32,9 @@
     padding: ($sizeXxs + 1px) $sizeS;
   }
 }
+
+.vuiOptionsList--l {
+  .vuiOptionsListItem {
+    padding: $sizeXs $sizeS;
+  }
+}

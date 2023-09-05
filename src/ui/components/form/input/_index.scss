@@ -2,7 +2,6 @@
   appearance: none;
   border-radius: $sizeXxs;
   border: 1px solid $colorMediumShade;
-  width: 100%;
 }
 
 .vuiInput--m {
@@ -17,4 +16,8 @@
 
 .vuiInput--fullWidth {
   width: 100%;
+}
+
+.vuiInput-isInvalid {
+  border-color: $colorDanger;
 }

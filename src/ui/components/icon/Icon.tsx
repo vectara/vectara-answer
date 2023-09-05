@@ -18,11 +18,16 @@ type Props = {
   color?: (typeof ICON_COLOR)[number];
   className?: string;
   size?: (typeof ICON_SIZE)[number];
+  inline?: boolean;
 };
 
-export const VuiIcon = ({ children, size = "m", color = "inherit", className }: Props) => {
-  const classes = classNames(className, "vuiIcon__inner", {
+export const VuiIcon = ({ children, size = "m", color = "inherit", className, inline }: Props) => {
+  const innerClasses = classNames(className, "vuiIcon__inner", {
     [`vuiIcon--${color}`]: color
+  });
+
+  const classes = classNames("vuiIcon", {
+    "vuiIcon--inline": inline
   });
 
   const icon = cloneElement(children as React.ReactElement, {
@@ -30,8 +35,8 @@ export const VuiIcon = ({ children, size = "m", color = "inherit", className }: 
   });
 
   return (
-    <IconContext.Provider value={{ className: classes }}>
-      <div className="vuiIcon">{icon}</div>
+    <IconContext.Provider value={{ className: innerClasses }}>
+      <div className={classes}>{icon}</div>
     </IconContext.Provider>
   );
 };

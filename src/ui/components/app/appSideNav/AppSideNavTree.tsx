@@ -70,6 +70,7 @@ const AppSideNavTreeSection = ({ name, path, children, iconBefore, iconAfter, is
       />
 
       <VuiIconButton
+        size="s"
         className="vuiAppSideNavTreeToggleButton"
         onClick={() => setIsOpen(!isOpen)}
         color="neutral"

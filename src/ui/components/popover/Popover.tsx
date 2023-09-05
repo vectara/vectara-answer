@@ -6,6 +6,7 @@ import { FocusOn } from "react-focus-on";
 export type Props = {
   button: React.ReactElement;
   children?: React.ReactNode;
+  className?: string;
   header?: React.ReactNode;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -29,6 +30,7 @@ const getPosition = (button: HTMLElement | null): Position | undefined => {
 export const VuiPopover = ({
   button: originalButton,
   children,
+  className,
   header,
   isOpen,
   setIsOpen,
@@ -90,6 +92,8 @@ export const VuiPopover = ({
   // of the button changes.
   const position = getPosition(buttonRef.current);
 
+  const classes = classNames("vuiPopover", className);
+
   const contentClasses = classNames("vuiPopoverContent", {
     "vuiPopoverContent--padding": padding
   });
@@ -113,7 +117,7 @@ export const VuiPopover = ({
             // Enable scrolling of the page.
             preventScrollOnFocus={false}
           >
-            <div className="vuiPopover" style={{ top: `${position.top}px`, right: `${position.right}px` }} {...rest}>
+            <div className={classes} style={{ top: `${position.top}px`, right: `${position.right}px` }} {...rest}>
               {header && typeof header === "string" ? <div className="vuiPopoverTitle">{header}</div> : header}
               {children && <div className={contentClasses}>{children}</div>}
             </div>

@@ -63,6 +63,7 @@ export const VuiDrawer = ({ className, color = "primary", title, children, isOpe
                   {onClose && (
                     <VuiFlexItem>
                       <VuiIconButton
+                        data-testid="drawerCloseButton"
                         onClick={onCloseDelayed}
                         color="neutral"
                         icon={

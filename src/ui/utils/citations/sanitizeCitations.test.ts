@@ -9,8 +9,7 @@ describe("sanitizeCitations", () => {
   });
 
   test("sanitize multiple comma-delimited citations", () => {
-    const summary =
-      "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7] and without spaces [1,2,3].";
+    const summary = "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7] and without spaces [1,2,3].";
 
     expect(sanitizeCitations(summary)).toEqual(
       "Two citations [1][2] and seven citations [1][2][3][4][5][6][7] and without spaces [1][2][3]."

@@ -26,3 +26,19 @@ $color: (
     }
   }
 }
+
+// Size
+.vuiIconButton--xs {
+  padding: $sizeXxs;
+  height: 24px;
+}
+
+.vuiIconButton--s {
+  padding: $sizeXs * 0.75;
+  height: 28px;
+}
+
+.vuiIconButton--m {
+  padding: $sizeXs;
+  height: 34px;
+}

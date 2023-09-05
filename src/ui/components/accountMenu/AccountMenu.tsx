@@ -1,8 +1,10 @@
+import { VuiHorizontalRule } from "../horizontalRule/HorizontalRule";
 import { VuiPopover } from "../popover/Popover";
+import { VuiSpacer } from "../spacer/Spacer";
 
 type AccountMenuInfo = Array<{
   title: string;
-  value: string;
+  value: React.ReactNode;
 }>;
 
 type Props = {
@@ -16,6 +18,7 @@ type Props = {
 export const VuiAccountMenu = ({ isOpen, setIsOpen, button, info, children }: Props) => {
   return (
     <VuiPopover
+      className="vuiAccountMenu"
       isOpen={isOpen}
       setIsOpen={() => setIsOpen(!isOpen)}
       button={button}
@@ -27,6 +30,13 @@ export const VuiAccountMenu = ({ isOpen, setIsOpen, button, info, children }: Pr
               <div key={index} className="vuiAccountMenuHeaderItem">
                 <div className="vuiAccountMenuHeaderItem__title">{item.title}</div>
                 <div className="vuiAccountMenuHeaderItem__value">{item.value}</div>
+                {index < info.length - 1 && (
+                  <>
+                    <VuiSpacer size="xs" />
+                    <VuiHorizontalRule />
+                    <VuiSpacer size="xs" />
+                  </>
+                )}
               </div>
             ))}
           </div>

@@ -3,6 +3,10 @@
   line-height: 0;
 }
 
+.vuiIcon--inline {
+  display: inline-block;
+}
+
 $colors: (
   accent: $colorAccent,
   primary: $colorPrimary,

@@ -28,9 +28,7 @@ const decorateSummary = (
 
       references.forEach((reference, referenceIndex) => {
         if (referenceIndex > 0) {
-          accum.push(
-            <span key={`spaceInner${index}-${referenceIndex}`}> </span>
-          );
+          accum.push(<span key={`spaceInner${index}-${referenceIndex}`}> </span>);
         }
 
         const position = parseInt(reference, 10);
@@ -45,9 +43,7 @@ const decorateSummary = (
         );
 
         const followingCitation = citations[index + 1];
-        const marginAfter = ![",", ".", "!", "?", ":", ";"].includes(
-          followingCitation?.text?.[0]
-        );
+        const marginAfter = ![",", ".", "!", "?", ":", ";"].includes(followingCitation?.text?.[0]);
         if (marginAfter) {
           accum.push(<span key={`spaceAfter${position}`}> </span>);
         }
@@ -59,20 +55,10 @@ const decorateSummary = (
   }, [] as JSX.Element[]);
 };
 
-export const VuiSummary = ({
-  summary,
-  selectedCitationPosition,
-  onClickCitation,
-  children,
-  className,
-}: Props) => {
+export const VuiSummary = ({ summary, selectedCitationPosition, onClickCitation, children, className }: Props) => {
   let content;
   if (summary) {
-    content = decorateSummary(
-      summary,
-      onClickCitation,
-      selectedCitationPosition
-    );
+    content = decorateSummary(summary, onClickCitation, selectedCitationPosition);
   } else {
     content = children;
   }
