@@ -7,6 +7,10 @@ google_client_id: "258293899065-0tdl3krtmsccuqcmm5o4pu2d95ufs2cd.apps.googleuser
 enable_source_filters: True
 sources: "website,notion,jira,docusaurus,discourse,github"
 
+summary_default_language: "eng"
+summary_num_sentences: 3
+summary_num_results: 10
+
 app_title: "Workplace search"
 search_title: "Workplace search"
 search_logo_src: ""

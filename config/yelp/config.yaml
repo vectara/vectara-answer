@@ -9,7 +9,7 @@ summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 10
 rerank: true
-rerank_num_results: 20
+rerank_num_results: 25
 
 enable_source_filters: False
 source: ""
