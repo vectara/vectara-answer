@@ -118,7 +118,7 @@ export const sendSearchRequest = async ({
       summaryStatus.length > 0 &&
       summaryStatus[0]["code"] === "BAD_REQUEST"
     ) {
-      throw new Error(`BAD REQUEST: ${summaryStatus[0]["statusDetail"]}`);
+      throw new Error(`BAD REQUEST: Too much text for the summarizer to summarize. Please try reducing the number of search results to summarize, or the context of each result by adjusting the 'summary_num_sentences', and 'summary_num_results' parameters respectively.`);
     }
   }
 
