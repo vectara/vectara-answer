@@ -1,6 +1,7 @@
 import { VuiCallout, VuiText, VuiTextColor } from "../../../ui";
 
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   searchError: any;
 };
 

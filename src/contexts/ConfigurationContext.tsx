@@ -421,6 +421,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
     };
     loadConfig();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
