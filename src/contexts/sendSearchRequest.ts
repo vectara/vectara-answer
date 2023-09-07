@@ -110,5 +110,17 @@ export const sendSearchRequest = async ({
   if (status.length > 0 && status[0]["code"] === "UNAUTHORIZED") {
     console.log("UNAUTHORIZED access; check your API key and customer ID");
   }
+
+  if (summaryMode) {
+    const summaryStatus =
+      result["data"]["responseSet"][0]["summary"][0]["status"];
+    if (
+      summaryStatus.length > 0 &&
+      summaryStatus[0]["code"] === "BAD_REQUEST"
+    ) {
+      throw new Error(`BAD REQUEST: ${summaryStatus[0]["statusDetail"]}`);
+    }
+  }
+
   return result["data"]["responseSet"][0];
 };
