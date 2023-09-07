@@ -7,7 +7,7 @@ search_description: "Restaurants in St. Louis"
 
 summary_default_language: "eng"
 summary_num_sentences: 3
-summary_num_results: 10
+summary_num_results: 7
 rerank: true
 rerank_num_results: 25
 

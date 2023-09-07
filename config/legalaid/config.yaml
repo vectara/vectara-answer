@@ -7,7 +7,7 @@ search_description: "Information based on www.illinoislegalaid.org. This is not 
 
 summary_default_language: "eng"
 summary_num_sentences: 3
-summary_num_results: 10
+summary_num_results: 7
 
 enable_source_filters: False
 source: ""

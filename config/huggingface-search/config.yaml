@@ -5,7 +5,7 @@ search_title: "Huggingface GitHub Search"
 
 summary_default_language: "eng"
 summary_num_sentences: 3
-summary_num_results: 10
+summary_num_results: 7
 
 enable_source_filters: False
 sources: ""

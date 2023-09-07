@@ -9,7 +9,7 @@ sources: "website,notion,jira,docusaurus,discourse,github"
 
 summary_default_language: "eng"
 summary_num_sentences: 3
-summary_num_results: 10
+summary_num_results: 7
 
 app_title: "Workplace search"
 search_title: "Workplace search"
