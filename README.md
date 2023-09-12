@@ -186,13 +186,18 @@ The way summarization works can be configured as follows:
 ux: "summary"
 
 # Default language for summary response (if not specified defaults to "auto")
-summary_default_language: "en"
+summary_default_language: "eng"
 
 # Number of sentences before and after relevant text segment used for summarization
 summary_num_sentences: 3
 
 # Number of results used for summarization
 summary_num_results: 10
+
+# The name of the summarization prompt in Vectara
+# If you are a Vectara scale customer you can use custom prompts.
+# This field names a custom prompt, otherwise it uses the default for the account.
+summary_prompt_name: vectara-summary-ext-v1.2.2_lang
 ```
 
 #### Reranking (optional)

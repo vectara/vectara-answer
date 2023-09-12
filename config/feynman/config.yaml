@@ -1,4 +1,4 @@
-corpus_id: 184
+corpus_id: 222
 customer_id: 1526022105
 
 app_title: "Ask Feynman"
@@ -8,7 +8,8 @@ search_description: "All of Richard Feynman's lectures"
 summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 7
-rerank: false
+
+summary_prompt_name: vectara-summary-ext-v1.2.2_lang
 
 enable_source_filters: False
 source: ""

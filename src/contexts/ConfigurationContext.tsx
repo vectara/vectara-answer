@@ -59,6 +59,7 @@ interface Config {
   config_summary_default_language?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
+  config_summary_prompt_name?: string
 
   // rerank
   config_rerank?: string;
@@ -107,6 +108,7 @@ type Summary = {
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;
+  summaryPromptName: string;
 };
 
 type SearchHeader = {
@@ -242,6 +244,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
+    summaryPromptName: "vectara-summary-ext-v1.2.2_lang",
   });
 
   useEffect(() => {
@@ -328,6 +331,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_default_language,
         config_summary_num_results,
         config_summary_num_sentences,
+        config_summary_prompt_name,
       } = config;
 
       setSearch({
@@ -391,6 +395,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         ),
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
+        summaryPromptName: config_summary_prompt_name ?? "vectara-summary-ext-v1.2.2_lang",
       });
 
       setSearchHeader({
