@@ -395,7 +395,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         ),
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
-        summaryPromptName: config_summary_prompt_name ?? "vectara-summary-ext-v1.2.2_lang",
+        summaryPromptName: config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
       });
 
       setSearchHeader({

@@ -197,7 +197,7 @@ summary_num_results: 10
 # The name of the summarization prompt in Vectara
 # If you are a Vectara scale customer you can use custom prompts.
 # This field names a custom prompt, otherwise it uses the default for the account.
-summary_prompt_name: vectara-summary-ext-v1.2.2_lang
+summary_prompt_name: vectara-summary-ext-v1.2.0
 ```
 
 #### Reranking (optional)
