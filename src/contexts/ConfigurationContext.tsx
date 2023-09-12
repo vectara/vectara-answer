@@ -244,7 +244,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
-    summaryPromptName: "vectara-summary-ext-v1.2.2_lang",
+    summaryPromptName: "vectara-summary-ext-v1.2.0",
   });
 
   useEffect(() => {
