@@ -46,15 +46,18 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
       "vuiSearchResultPosition--selected": isSelected
     });
 
+    const hasTitle = title && title.trim().length > 0;
+    const hasUrl = url && url.trim().length > 0;
+
     return (
       <div className={classes} ref={ref} {...rest}>
         <div className={positionClasses}>{position}</div>
 
-        {(title || url) && (
+        {(hasTitle || hasUrl) && (
           <VuiTitle size="s">
-            {url ? (
+            {hasUrl ? (
               <VuiLink href={highlightUrl(url, text)} target="_blank">
-                <h3>{title ?? url}</h3>
+                <h3>{hasTitle ? title : url}</h3>
               </VuiLink>
             ) : (
               <h3>{title}</h3>

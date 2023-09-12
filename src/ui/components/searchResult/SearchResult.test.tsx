@@ -225,5 +225,109 @@ describe("VuiSearchResult", () => {
         </DocumentFragment>
       `);
     });
+
+    test("has empty title but has url", () => {
+      const { asFragment } = render(
+        <VuiSearchResult
+          result={{
+            title: "  ",
+            url: "url",
+            snippet: { pre: "pre", text: "text", post: "" }
+          }}
+          position={1}
+        >
+          <div>children</div>
+        </VuiSearchResult>,
+        { wrapper: MemoryRouter }
+      );
+
+      expect(asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div
+            class="vuiSearchResult fs-mask"
+          >
+            <div
+              class="vuiSearchResultPosition"
+            >
+              1
+            </div>
+            <a
+              class="vuiLink vuiTitle vuiTitle--s"
+              href="/url#:~:text=text"
+              rel="noopener"
+              target="_blank"
+            >
+              <h3>
+                url
+              </h3>
+            </a>
+            <div
+              class="vuiText vuiText--s"
+            >
+              <p>
+                pre 
+                <strong>
+                  text
+                </strong>
+                 
+              </p>
+            </div>
+            <div
+              class="vuiSpacer vuiSpacer--s"
+            />
+            <div>
+              children
+            </div>
+          </div>
+        </DocumentFragment>
+      `);
+    });
+
+    test("has empty title and empty url", () => {
+      const { asFragment } = render(
+        <VuiSearchResult
+          result={{
+            title: "  ",
+            url: "  ",
+            snippet: { pre: "pre", text: "text", post: "" }
+          }}
+          position={1}
+        >
+          <div>children</div>
+        </VuiSearchResult>,
+        { wrapper: MemoryRouter }
+      );
+
+      expect(asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div
+            class="vuiSearchResult fs-mask"
+          >
+            <div
+              class="vuiSearchResultPosition"
+            >
+              1
+            </div>
+            <div
+              class="vuiText vuiText--s"
+            >
+              <p>
+                pre 
+                <strong>
+                  text
+                </strong>
+                 
+              </p>
+            </div>
+            <div
+              class="vuiSpacer vuiSpacer--s"
+            />
+            <div>
+              children
+            </div>
+          </div>
+        </DocumentFragment>
+      `);
+    });
   });
 });
