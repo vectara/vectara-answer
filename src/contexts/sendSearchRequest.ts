@@ -11,6 +11,7 @@ type Config = {
   rerankNumResults?: number;
   summaryNumResults?: number;
   summaryNumSentences?: number;
+  summaryPromptName?: string;
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -26,14 +27,15 @@ export const sendSearchRequest = async ({
   rerankNumResults,
   summaryNumResults,
   summaryNumSentences,
+  summaryPromptName,
   customerId,
   corpusId,
   endpoint,
   apiKey,
 }: Config) => {
   const lambda =
-    typeof query_str === "undefined" || query_str.trim().split(" ").length > 1
-      ? 0.025
+    typeof query_str === "undefined" || query_str.trim().split(" ").length > 2
+      ? 0
       : 0.1;
   const corpusKeyList = corpusId.split(",").map((id) => {
     return {
@@ -65,6 +67,7 @@ export const sendSearchRequest = async ({
                 {
                   responseLang: language,
                   maxSummarizedResults: summaryNumResults,
+                  summarizer_prompt_name: summaryPromptName,
                 },
               ],
             }
@@ -119,6 +122,13 @@ export const sendSearchRequest = async ({
       summaryStatus[0]["code"] === "BAD_REQUEST"
     ) {
       throw new Error(`BAD REQUEST: Too much text for the summarizer to summarize. Please try reducing the number of search results to summarize, or the context of each result by adjusting the 'summary_num_sentences', and 'summary_num_results' parameters respectively.`);
+    }
+    if (
+      summaryStatus.length > 0 &&
+      summaryStatus[0]["code"] === "NOT_FOUND" &&
+      summaryStatus[0]["statusDetail"] === "Failed to retrieve summarizer."
+    ) {
+      throw new Error(`BAD REQUEST: summarizer ${summaryPromptName} is invalid for this account.`);
     }
   }
 

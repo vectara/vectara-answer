@@ -1,8 +1,0 @@
-{
-    "questions": [
-        "what is a conditional prompt?",
-        "How to use Vectara with LangChain?",
-        "can you build a chatbot with LangChain?",
-        "How do Text splitters work with a vector database?"
-    ]
-}
