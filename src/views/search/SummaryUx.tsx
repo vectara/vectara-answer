@@ -42,6 +42,7 @@ export const SummaryUx = () => {
     if (isSearching) {
       items = [
         {
+          key: "retrieveInfo",
           isComplete: true,
           render: () => (
             <VuiFlexContainer alignItems="center" spacing="xs">
@@ -58,6 +59,7 @@ export const SummaryUx = () => {
           ),
         },
         {
+          key: "generateSummary",
           isComplete: false,
           render: () => (
             <VuiText>
@@ -71,6 +73,7 @@ export const SummaryUx = () => {
     } else {
       items = [
         {
+          key: "retrieveInfo",
           isComplete: true,
           render: () => (
             <VuiFlexContainer alignItems="center" spacing="xs">
@@ -89,6 +92,7 @@ export const SummaryUx = () => {
           ),
         },
         {
+          key: "generateSummary",
           isComplete: true,
           render: () => (
             <VuiFlexContainer alignItems="center" spacing="xs">

@@ -73,8 +73,9 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank, app } = useConfigContext();
-  const isSummaryEnabled = app.uxMode === "summary";
+  const { isConfigLoaded, search, summary, rerank, uxMode } =
+    useConfigContext();
+  const isSummaryEnabled = uxMode === "summary";
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");

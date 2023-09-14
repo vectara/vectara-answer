@@ -21,7 +21,7 @@ const uxModeToComponentMap = {
 } as const;
 
 export const SearchView = () => {
-  const { isConfigLoaded, app } = useConfigContext();
+  const { isConfigLoaded, app, uxMode } = useConfigContext();
 
   const {
     isSearching,
@@ -59,7 +59,7 @@ export const SearchView = () => {
   ) {
     content = <ExampleQuestions />;
   } else {
-    content = uxModeToComponentMap[app.uxMode];
+    content = uxModeToComponentMap[uxMode];
   }
 
   return (

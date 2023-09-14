@@ -15,11 +15,23 @@ import {
   VuiTitle,
 } from "../../../ui";
 import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
+import { useConfigContext } from "../../../contexts/ConfigurationContext";
 
 const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
   value: code,
   text: humanizeLanguage(code),
 }));
+
+const uxModeOptions = [
+  {
+    value: "summary",
+    text: "Summary",
+  },
+  {
+    value: "search",
+    text: "Search",
+  },
+];
 
 type Props = {
   isOpen: boolean;
@@ -27,7 +39,10 @@ type Props = {
 };
 
 export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
+  const { uxMode, setUxMode } = useConfigContext();
   const { language, onSearch } = useSearchContext();
+
+  const [newUxMode, setNewUxMode] = useState(uxMode);
   const [newLanguage, setNewLanguage] = useState<SummaryLanguage>(language);
 
   return (
@@ -69,6 +84,23 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
         />
       </VuiFormGroup>
 
+      <VuiSpacer size="m" />
+
+      <VuiFormGroup
+        label="UX mode"
+        labelFor="uxModeSelect"
+        helpText="Focus the user experience on the search results or the summary."
+      >
+        <VuiSelect
+          id="uxModeSelect"
+          options={uxModeOptions}
+          value={newUxMode}
+          onChange={(e: any) => {
+            setNewUxMode(e.target.value);
+          }}
+        />
+      </VuiFormGroup>
+
       <VuiSpacer size="l" />
 
       <VuiHorizontalRule />
@@ -86,9 +118,13 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
           <VuiButtonPrimary
             color="primary"
             onClick={() => {
-              onSearch({
-                language: newLanguage as SummaryLanguage,
-              });
+              if (newLanguage !== language) {
+                onSearch({
+                  language: newLanguage as SummaryLanguage,
+                });
+              }
+
+              setUxMode(newUxMode);
               onClose();
             }}
           >
