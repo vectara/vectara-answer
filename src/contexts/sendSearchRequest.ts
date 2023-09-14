@@ -67,7 +67,7 @@ export const sendSearchRequest = async ({
                 {
                   responseLang: language,
                   maxSummarizedResults: summaryNumResults,
-                  summarizer_prompt_name: summaryPromptName,
+                  summarizerPromptName: summaryPromptName,
                 },
               ],
             }
