@@ -13,6 +13,7 @@ import {
   VuiPopover,
   VuiOptionsList,
   VuiButtonSecondary,
+  VuiLink,
 } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
@@ -94,11 +95,11 @@ export const SearchControls = ({
             {searchHeader.title && (
               <VuiFlexItem grow={false}>
                 <VuiTitle size="m">
-                  <a href="/" target="_self" className="no-underline">
+                  <VuiLink href="/">
                     <h2>
                       <strong>{searchHeader.title}</strong>
                     </h2>
-                  </a>
+                  </VuiLink>
                 </VuiTitle>
               </VuiFlexItem>
             )}
