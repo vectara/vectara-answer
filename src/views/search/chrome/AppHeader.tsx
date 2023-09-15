@@ -71,7 +71,7 @@ export const AppHeader = () => {
             {appHeader.learnMore.link && (
               <VuiFlexItem>
                 <VuiButtonTertiary
-                  color="accent"
+                  color="primary"
                   size="m"
                   href={appHeader.learnMore.link}
                   target="_blank"
@@ -90,7 +90,7 @@ export const AppHeader = () => {
 
             <VuiFlexItem>
               <VuiButtonPrimary
-                color="accent"
+                color="primary"
                 size="m"
                 href="https://console.vectara.com/"
                 target="_blank"
