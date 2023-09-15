@@ -1,17 +1,4 @@
-import { BiCheck } from "react-icons/bi";
-import {
-  VuiFlexContainer,
-  VuiFlexItem,
-  VuiSpacer,
-  VuiTitle,
-  VuiSpinner,
-  VuiHorizontalRule,
-  VuiIcon,
-  VuiText,
-  VuiTextColor,
-  VuiList,
-  VuiSummary,
-} from "../../ui";
+import { VuiSpacer, VuiTitle, VuiHorizontalRule, VuiSummary } from "../../ui";
 import {
   sanitizeCitations,
   reorderCitations,
@@ -21,6 +8,7 @@ import { useSearchContext } from "../../contexts/SearchContext";
 import { SearchErrorCallout } from "./results/SearchErrorCallout";
 import { SummaryErrorCallout } from "./results/SummaryErrorCallout";
 import { SearchResultList } from "./results/SearchResultList";
+import { ProgressReport } from "./progressReport/ProgressReport";
 import { DeserializedSearchResult } from "./types";
 
 export const SummaryUx = () => {
@@ -36,79 +24,7 @@ export const SummaryUx = () => {
     selectSearchResultAt,
   } = useSearchContext();
 
-  if (isSearching || isSummarizing) {
-    let items;
-
-    if (isSearching) {
-      items = [
-        {
-          isComplete: true,
-          render: () => (
-            <VuiFlexContainer alignItems="center" spacing="xs">
-              <VuiFlexItem>
-                <VuiSpinner size="s" />
-              </VuiFlexItem>
-
-              <VuiFlexItem grow={false}>
-                <VuiText>
-                  <p>Retrieving information</p>
-                </VuiText>
-              </VuiFlexItem>
-            </VuiFlexContainer>
-          ),
-        },
-        {
-          isComplete: false,
-          render: () => (
-            <VuiText>
-              <p>
-                <VuiTextColor color="subdued">Generate summary</VuiTextColor>
-              </p>
-            </VuiText>
-          ),
-        },
-      ];
-    } else {
-      items = [
-        {
-          isComplete: true,
-          render: () => (
-            <VuiFlexContainer alignItems="center" spacing="xs">
-              <VuiFlexItem>
-                <VuiIcon size="s" color="success">
-                  <BiCheck />
-                </VuiIcon>
-              </VuiFlexItem>
-
-              <VuiFlexItem grow={false}>
-                <VuiText>
-                  <p>Retrieved information</p>
-                </VuiText>
-              </VuiFlexItem>
-            </VuiFlexContainer>
-          ),
-        },
-        {
-          isComplete: true,
-          render: () => (
-            <VuiFlexContainer alignItems="center" spacing="xs">
-              <VuiFlexItem>
-                <VuiSpinner size="s" />
-              </VuiFlexItem>
-
-              <VuiFlexItem grow={false}>
-                <VuiText>
-                  <p>Generating summary</p>
-                </VuiText>
-              </VuiFlexItem>
-            </VuiFlexContainer>
-          ),
-        },
-      ];
-    }
-
-    return <VuiList items={items} />;
-  } else if (searchError || summarizationError) {
+  if (searchError || summarizationError) {
     return searchError ? (
       <SearchErrorCallout searchError={searchError} />
     ) : (
@@ -122,6 +38,7 @@ export const SummaryUx = () => {
 
   let summary = "";
   let summarySearchResults: DeserializedSearchResult[] = [];
+
   if (!isSummarizing && unorderedSummary) {
     summary = reorderCitations(unorderedSummary);
     if (searchResults) {
@@ -134,6 +51,10 @@ export const SummaryUx = () => {
 
   return (
     <>
+      <ProgressReport isSearching={isSearching} isSummarizing={isSummarizing} />
+
+      <VuiSpacer size="l" />
+
       <VuiTitle size="xs">
         <h2>
           <strong>Summary</strong>

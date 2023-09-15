@@ -59,7 +59,7 @@ interface Config {
   config_summary_default_language?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
-  config_summary_prompt_name?: string
+  config_summary_prompt_name?: string;
 
   // rerank
   config_rerank?: string;
@@ -81,7 +81,6 @@ type App = {
   isHeaderEnabled: boolean;
   isFooterEnabled: boolean;
   title: string;
-  uxMode: UxMode;
 };
 
 type AppHeader = {
@@ -134,6 +133,8 @@ type Rerank = { isEnabled: boolean; numResults?: number };
 interface ConfigContextType {
   isConfigLoaded: boolean;
   missingConfigProps: string[];
+  uxMode: UxMode;
+  setUxMode: (uxMode: UxMode) => void;
   search: Search;
   app: App;
   appHeader: AppHeader;
@@ -213,12 +214,12 @@ const validateLanguage = (
 export const ConfigContextProvider = ({ children }: Props) => {
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);
   const [missingConfigProps, setMissingConfigProps] = useState<string[]>([]);
+  const [uxMode, setUxMode] = useState<UxMode>("summary");
   const [search, setSearch] = useState<Search>({});
   const [app, setApp] = useState<App>({
     isHeaderEnabled: false,
     isFooterEnabled: false,
     title: "",
-    uxMode: "summary",
   });
   const [appHeader, setAppHeader] = useState<AppHeader>({
     logo: {},
@@ -334,6 +335,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_prompt_name,
       } = config;
 
+      setUxMode(config_ux ?? "summary");
+
       setSearch({
         endpoint: config_endpoint,
         corpusId: config_corpus_id,
@@ -345,7 +348,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         title: config_app_title ?? "",
         isHeaderEnabled: isTrue(config_enable_app_header ?? "True"),
         isFooterEnabled: isTrue(config_enable_app_footer ?? "True"),
-        uxMode: config_ux ?? "summary",
       });
 
       setAppHeader({
@@ -395,7 +397,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         ),
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
-        summaryPromptName: config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
+        summaryPromptName:
+          config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
       });
 
       setSearchHeader({
@@ -426,7 +429,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
     };
     loadConfig();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -434,6 +437,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       value={{
         isConfigLoaded,
         missingConfigProps,
+        uxMode,
+        setUxMode,
         search,
         app,
         appHeader,

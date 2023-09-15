@@ -1,11 +1,27 @@
 .vuiFlexItem {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   flex-basis: 0%;
 }
 
 .vuiFlexItem--truncate {
   min-width: 40px;
+}
+
+// alignItems
+$alignItems: (
+  alignItemsBaseline: baseline,
+  alignItemsCenter: center,
+  alignItemsEnd: end,
+  alignItemsStart: start,
+  alignItemsStretch: stretch,
+);
+
+@each $alignItemsName, $alignItemsValue in $alignItems {
+  .vuiFlexItem--#{$alignItemsName} {
+    align-items: $alignItemsValue;
+  }
 }
 
 @for $i from 0 through 10 {

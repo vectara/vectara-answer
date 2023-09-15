@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   VuiFlexContainer,
   VuiFlexItem,
@@ -12,7 +11,6 @@ import { useSearchContext } from "../../contexts/SearchContext";
 import { AppHeader } from "./chrome/AppHeader";
 import { AppFooter } from "./chrome/AppFooter";
 import { useConfigContext } from "../../contexts/ConfigurationContext";
-import { HistoryDrawer } from "./controls/HistoryDrawer";
 import { SearchUx } from "./SearchUx";
 import { SummaryUx } from "./SummaryUx";
 import "./searchView.scss";
@@ -23,7 +21,7 @@ const uxModeToComponentMap = {
 } as const;
 
 export const SearchView = () => {
-  const { isConfigLoaded, app } = useConfigContext();
+  const { isConfigLoaded, app, uxMode } = useConfigContext();
 
   const {
     isSearching,
@@ -33,8 +31,6 @@ export const SearchView = () => {
     summarizationError,
     summarizationResponse,
   } = useSearchContext();
-
-  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   let content;
 
@@ -63,7 +59,7 @@ export const SearchView = () => {
   ) {
     content = <ExampleQuestions />;
   } else {
-    content = uxModeToComponentMap[app.uxMode];
+    content = uxModeToComponentMap[uxMode];
   }
 
   return (
@@ -77,22 +73,13 @@ export const SearchView = () => {
       >
         {isConfigLoaded && (
           <VuiFlexItem className="searchControlsContainer">
-            <SearchControls
-              isHistoryOpen={isHistoryOpen}
-              onToggleHistory={() => setIsHistoryOpen(!isHistoryOpen)}
-              hasQuery={Boolean(isSearching || searchResults)}
-            />
+            <SearchControls hasQuery={Boolean(isSearching || searchResults)} />
           </VuiFlexItem>
         )}
 
         <VuiFlexItem grow={1} className="searchContent">
           {content}
         </VuiFlexItem>
-
-        <HistoryDrawer
-          isOpen={isHistoryOpen}
-          onClose={() => setIsHistoryOpen(false)}
-        />
 
         {app.isFooterEnabled && <AppFooter />}
       </VuiFlexContainer>
