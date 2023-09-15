@@ -1,4 +1,10 @@
-import { VuiFlexContainer, VuiFlexItem, VuiTitle, VuiSpinner } from "../../ui";
+import {
+  VuiFlexContainer,
+  VuiFlexItem,
+  VuiTitle,
+  VuiSpinner,
+  VuiSpacer,
+} from "../../ui";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { SearchResultList } from "./results/SearchResultList";
 import { SearchErrorCallout } from "./results/SearchErrorCallout";
@@ -12,8 +18,10 @@ export const SearchUx = () => {
     selectedSearchResultPosition,
   } = useSearchContext();
 
+  let content;
+
   if (isSearching) {
-    return (
+    content = (
       <VuiFlexContainer alignItems="center" spacing="m">
         <VuiFlexItem>
           <VuiSpinner size="s" />
@@ -27,15 +35,23 @@ export const SearchUx = () => {
       </VuiFlexContainer>
     );
   } else if (searchError) {
-    return <SearchErrorCallout searchError={searchError} />;
+    content = <SearchErrorCallout searchError={searchError} />;
+  } else {
+    content = (
+      <SearchResultList
+        results={searchResults ?? []}
+        selectedSearchResultPosition={selectedSearchResultPosition}
+        setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
+          (searchResultsRef.current[index] = el)
+        }
+      />
+    );
   }
+
   return (
-    <SearchResultList
-      results={searchResults ?? []}
-      selectedSearchResultPosition={selectedSearchResultPosition}
-      setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-        (searchResultsRef.current[index] = el)
-      }
-    />
+    <>
+      <VuiSpacer size="m" />
+      {content}
+    </>
   );
 };

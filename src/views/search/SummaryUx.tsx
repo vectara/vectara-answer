@@ -53,47 +53,51 @@ export const SummaryUx = () => {
     <>
       <ProgressReport isSearching={isSearching} isSummarizing={isSummarizing} />
 
-      <VuiSpacer size="l" />
+      {summary && (
+        <>
+          <VuiSpacer size="l" />
 
-      <VuiTitle size="xs">
-        <h2>
-          <strong>Summary</strong>
-        </h2>
-      </VuiTitle>
+          <VuiTitle size="xs">
+            <h2>
+              <strong>Summary</strong>
+            </h2>
+          </VuiTitle>
 
-      <VuiSpacer size="s" />
+          <VuiSpacer size="s" />
 
-      <VuiSummary
-        summary={summary}
-        selectedCitationPosition={
-          selectedSearchResultPosition === undefined
-            ? undefined
-            : selectedSearchResultPosition + 1
-        }
-        onClickCitation={(position: number) =>
-          selectSearchResultAt(position - 1)
-        }
-      />
+          <VuiSummary
+            summary={summary}
+            selectedCitationPosition={
+              selectedSearchResultPosition === undefined
+                ? undefined
+                : selectedSearchResultPosition + 1
+            }
+            onClickCitation={(position: number) =>
+              selectSearchResultAt(position - 1)
+            }
+          />
 
-      <VuiSpacer size="l" />
-      <VuiHorizontalRule />
-      <VuiSpacer size="l" />
+          <VuiSpacer size="l" />
+          <VuiHorizontalRule />
+          <VuiSpacer size="l" />
 
-      <VuiTitle size="xs">
-        <h2>
-          <strong>References</strong>
-        </h2>
-      </VuiTitle>
+          <VuiTitle size="xs">
+            <h2>
+              <strong>References</strong>
+            </h2>
+          </VuiTitle>
 
-      <VuiSpacer size="s" />
+          <VuiSpacer size="s" />
 
-      <SearchResultList
-        results={summarySearchResults}
-        selectedSearchResultPosition={selectedSearchResultPosition}
-        setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-          (searchResultsRef.current[index] = el)
-        }
-      />
+          <SearchResultList
+            results={summarySearchResults}
+            selectedSearchResultPosition={selectedSearchResultPosition}
+            setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
+              (searchResultsRef.current[index] = el)
+            }
+          />
+        </>
+      )}
     </>
   );
 };

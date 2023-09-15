@@ -44,9 +44,11 @@ interface SearchContextType {
   isSearching: boolean;
   searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
+  searchTime: number;
   isSummarizing: boolean;
   summarizationError: unknown;
   summarizationResponse: SearchResponse | undefined;
+  summaryTime: number;
   language: SummaryLanguage;
   summaryNumResults: number;
   summaryNumSentences: number;
@@ -92,12 +94,14 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<SearchError | undefined>();
   const [searchResponse, setSearchResponse] = useState<SearchResponse>();
+  const [searchTime, setSearchTime] = useState<number>(0);
 
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<unknown>();
   const [summarizationResponse, setSummarizationResponse] =
     useState<SearchResponse>();
+  const [summaryTime, setSummaryTime] = useState<number>(0);
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -206,6 +210,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       setSelectedSearchResultPosition(undefined);
 
       try {
+        const startTime = Date.now();
         const response = await sendSearchRequest({
           filter,
           query_str: value,
@@ -216,12 +221,15 @@ export const SearchContextProvider = ({ children }: Props) => {
           endpoint: search.endpoint!,
           apiKey: search.apiKey!,
         });
+        const totalTime = Date.now() - startTime;
+
         // If we send multiple requests in rapid succession, we only want to
         // display the results of the most recent request.
         if (searchId === searchCount) {
           setIsSearching(false);
           setSearchError(undefined);
           setSearchResponse(response);
+          setSearchTime(totalTime);
         }
       } catch (error) {
         setIsSearching(false);
@@ -231,6 +239,7 @@ export const SearchContextProvider = ({ children }: Props) => {
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
       if (isSummaryEnabled) {
+        const startTime = Date.now();
         try {
           const response = await sendSearchRequest({
             filter,
@@ -247,6 +256,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             endpoint: search.endpoint!,
             apiKey: search.apiKey!,
           });
+          const totalTime = Date.now() - startTime;
 
           // If we send multiple requests in rapid succession, we only want to
           // display the results of the most recent request.
@@ -254,6 +264,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             setIsSummarizing(false);
             setSummarizationError(undefined);
             setSummarizationResponse(response);
+            setSummaryTime(totalTime);
           }
         } catch (error) {
           setIsSummarizing(false);
@@ -290,9 +301,11 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSearching,
         searchError,
         searchResults,
+        searchTime,
         isSummarizing,
         summarizationError,
         summarizationResponse,
+        summaryTime,
         language: getLanguage(),
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,

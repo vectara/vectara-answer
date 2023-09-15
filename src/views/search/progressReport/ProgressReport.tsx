@@ -12,7 +12,12 @@ import {
   VuiAccordion,
   VuiButtonSecondary,
 } from "../../../ui";
+import { useSearchContext } from "../../../contexts/SearchContext";
 import { SearchResultsDrawer } from "./SearchResultsDrawer";
+
+const humanizeTime = (ms: number) => {
+  return `${(ms / 1000).toFixed(2)} seconds`;
+};
 
 type Props = {
   isSearching: boolean;
@@ -20,7 +25,8 @@ type Props = {
 };
 
 export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { searchTime, summaryTime } = useSearchContext();
+  const [isOpen, setIsOpen] = useState(true);
   const [isReviewSearchResultsOpen, setIsReviewSearchResultsOpen] =
     useState(false);
 
@@ -75,7 +81,7 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
 
         <VuiFlexItem grow={false} alignItems="start">
           <VuiText>
-            <p>Retrieved search results</p>
+            <p>Retrieved search results in {humanizeTime(searchTime)}</p>
           </VuiText>
 
           <VuiSpacer size="xs" />
@@ -140,7 +146,7 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
 
         <VuiFlexItem grow={false}>
           <VuiText>
-            <p>Generated summary</p>
+            <p>Generated summary in {humanizeTime(summaryTime)}</p>
           </VuiText>
         </VuiFlexItem>
       </VuiFlexContainer>
