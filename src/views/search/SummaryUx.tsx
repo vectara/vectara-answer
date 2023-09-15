@@ -51,11 +51,7 @@ export const SummaryUx = () => {
 
   return (
     <>
-      <ProgressReport
-        isSearching={isSearching}
-        isSummarizing={isSummarizing}
-        searchResults={searchResults}
-      />
+      <ProgressReport isSearching={isSearching} isSummarizing={isSummarizing} />
 
       <VuiSpacer size="l" />
 

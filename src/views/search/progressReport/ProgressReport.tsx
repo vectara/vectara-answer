@@ -12,20 +12,14 @@ import {
   VuiAccordion,
   VuiButtonSecondary,
 } from "../../../ui";
-import { DeserializedSearchResult } from "../types";
 import { SearchResultsDrawer } from "./SearchResultsDrawer";
 
 type Props = {
   isSearching: boolean;
   isSummarizing: boolean;
-  searchResults?: DeserializedSearchResult[];
 };
 
-export const ProgressReport = ({
-  isSearching,
-  isSummarizing,
-  searchResults,
-}: Props) => {
+export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isReviewSearchResultsOpen, setIsReviewSearchResultsOpen] =
     useState(false);
