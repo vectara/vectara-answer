@@ -1,4 +1,4 @@
-import { reorderSearchResults } from "./reorderSearchResults";
+import { applyCitationOrder } from "./applyCitationOrder";
 
 const searchResult1 = {
   id: "id1",
@@ -60,10 +60,10 @@ const searchResult4 = {
   },
 };
 
-describe("reorderSearchResults", () => {
-  test("reorders search results to match what's described in the summary", () => {
+describe("applyCitationOrder", () => {
+  test("reorders search results to match the order of the citations in the summary", () => {
     expect(
-      reorderSearchResults(
+      applyCitationOrder(
         [searchResult1, searchResult2, searchResult3, searchResult4],
         "summary [4] some words [1][3] and stuff at the end"
       )

@@ -1,3 +1,4 @@
+import { BiCheck } from "react-icons/bi";
 import {
   VuiFlexContainer,
   VuiFlexItem,
@@ -11,14 +12,16 @@ import {
   VuiList,
   VuiSummary,
 } from "../../ui";
-import { DeserializedSearchResult } from "./types";
-import { reorderSummaryCitations } from "./utils/reorderSummaryCitations";
-import { reorderSearchResults } from "./utils/reorderSearchResults";
+import {
+  sanitizeCitations,
+  reorderCitations,
+  applyCitationOrder,
+} from "../../ui/utils/citations";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { SearchErrorCallout } from "./results/SearchErrorCallout";
 import { SummaryErrorCallout } from "./results/SummaryErrorCallout";
-import { BiCheck } from "react-icons/bi";
 import { SearchResultList } from "./results/SearchResultList";
+import { DeserializedSearchResult } from "./types";
 
 export const SummaryUx = () => {
   const {
@@ -113,14 +116,16 @@ export const SummaryUx = () => {
     );
   }
 
-  const unorderedSummary = summarizationResponse?.summary[0]?.text;
+  const unorderedSummary = sanitizeCitations(
+    summarizationResponse?.summary[0]?.text
+  );
 
   let summary = "";
   let summarySearchResults: DeserializedSearchResult[] = [];
   if (!isSummarizing && unorderedSummary) {
-    summary = reorderSummaryCitations(unorderedSummary);
+    summary = reorderCitations(unorderedSummary);
     if (searchResults) {
-      summarySearchResults = reorderSearchResults(
+      summarySearchResults = applyCitationOrder(
         searchResults,
         unorderedSummary
       );

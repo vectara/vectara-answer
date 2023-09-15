@@ -1,4 +1,4 @@
-export const reorderSummaryCitations = (unorderedSummary: string) => {
+export const reorderCitations = (unorderedSummary: string) => {
   const allCitations = unorderedSummary.match(/\[\d+\]/g) || [];
 
   const uniqueCitations = [...new Set(allCitations)];
