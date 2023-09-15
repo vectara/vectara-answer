@@ -1,10 +1,8 @@
-import { DeserializedSearchResult } from "../types";
-
-export const reorderSearchResults = (
-  searchResults: DeserializedSearchResult[],
+export const applyCitationOrder = (
+  searchResults: any[],
   unorderedSummary: string
 ) => {
-  const newSearchResults: DeserializedSearchResult[] = [];
+  const orderedSearchResults: any[] = [];
   const allCitations = unorderedSummary.match(/\[\d+\]/g) || [];
 
   const addedIndices = new Set<number>();
@@ -13,9 +11,9 @@ export const reorderSearchResults = (
     const index = Number(citation.slice(1, citation.length - 1)) - 1;
 
     if (addedIndices.has(index)) continue;
-    newSearchResults.push(searchResults[index]);
+    orderedSearchResults.push(searchResults[index]);
     addedIndices.add(index);
   }
 
-  return newSearchResults;
+  return orderedSearchResults;
 };

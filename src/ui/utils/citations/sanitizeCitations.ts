@@ -1,4 +1,6 @@
-export const sanitizeCitations = (summary: string) => {
+export const sanitizeCitations = (summary?: string) => {
+  if (!summary) return summary;
+
   // Match citations.
   const regex = /\[(\d+(,*\s*\d*)*)\]/g;
 
