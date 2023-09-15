@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BiCheck } from "react-icons/bi";
+import { BiCheck, BiDetail } from "react-icons/bi";
 import {
   VuiFlexContainer,
   VuiFlexItem,
@@ -13,6 +13,7 @@ import {
   VuiButtonSecondary,
 } from "../../../ui";
 import { DeserializedSearchResult } from "../types";
+import { SearchResultsDrawer } from "./SearchResultsDrawer";
 
 type Props = {
   isSearching: boolean;
@@ -26,6 +27,8 @@ export const ProgressReport = ({
   searchResults,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isReviewSearchResultsOpen, setIsReviewSearchResultsOpen] =
+    useState(false);
 
   const receivedQuestionStep = {
     key: "receivedQuestionStep",
@@ -76,14 +79,23 @@ export const ProgressReport = ({
           </VuiIcon>
         </VuiFlexItem>
 
-        <VuiFlexItem grow={false}>
+        <VuiFlexItem grow={false} alignItems="start">
           <VuiText>
             <p>Retrieved search results</p>
           </VuiText>
 
           <VuiSpacer size="xs" />
 
-          <VuiButtonSecondary size="s" color="primary">
+          <VuiButtonSecondary
+            size="s"
+            color="primary"
+            onClick={() => setIsReviewSearchResultsOpen(true)}
+            icon={
+              <VuiIcon>
+                <BiDetail />
+              </VuiIcon>
+            }
+          >
             Review results
           </VuiButtonSecondary>
         </VuiFlexItem>
@@ -152,13 +164,20 @@ export const ProgressReport = ({
   }
 
   return (
-    <VuiAccordion
-      header="Progress report"
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-    >
-      <VuiSpacer size="s" />
-      <VuiList size="s" items={items} alignItems="start" />
-    </VuiAccordion>
+    <>
+      <VuiAccordion
+        header="Progress report"
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      >
+        <VuiSpacer size="s" />
+        <VuiList size="s" items={items} alignItems="start" />
+      </VuiAccordion>
+
+      <SearchResultsDrawer
+        isOpen={isReviewSearchResultsOpen}
+        onClose={() => setIsReviewSearchResultsOpen(false)}
+      />
+    </>
   );
 };
