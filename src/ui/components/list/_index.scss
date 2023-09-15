@@ -1,16 +1,26 @@
 .vuiListNumber {
   display: flex;
   flex-direction: column;
-  width: $sizeM;
-  height: $sizeM;
-  padding: $sizeM;
   border-radius: $sizeL;
   background-color: $colorLightShade;
   color: $colorSubdued;
-  font-size: $fontSizeMedium;
   font-weight: $fontWeightBold;
   line-height: 0;
   align-items: center;
+}
+
+.vuiListNumber--m {
+  width: $sizeM;
+  height: $sizeM;
+  padding: $sizeM;
+  font-size: $fontSizeMedium;
+}
+
+.vuiListNumber--s {
+  width: $sizeS;
+  height: $sizeS;
+  padding: $sizeS;
+  font-size: $fontSizeSmall;
 }
 
 .vuiListNumber-isComplete {

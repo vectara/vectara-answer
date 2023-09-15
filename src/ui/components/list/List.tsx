@@ -12,20 +12,30 @@ type ListItem = {
 
 type Props = {
   items: ListItem[];
+  size?: "s" | "m";
+  alignItems?: "start" | "center" | "end";
 };
 
-export const VuiList = ({ items }: Props) => {
+export const VuiList = ({
+  items,
+  size = "m",
+  alignItems = "center",
+}: Props) => {
   return (
     <>
       {items.map((item, index) => {
         const humanizedStep = index + 1;
-        const numberClasses = classNames("vuiListNumber", {
-          "vuiListNumber-isComplete": item.isComplete,
-        });
+        const numberClasses = classNames(
+          "vuiListNumber",
+          `vuiListNumber--${size}`,
+          {
+            "vuiListNumber-isComplete": item.isComplete,
+          }
+        );
 
         return (
           <Fragment key={item.key}>
-            <VuiFlexContainer alignItems="center">
+            <VuiFlexContainer alignItems={alignItems} spacing={size}>
               <VuiFlexItem grow={false} shrink={false}>
                 <div
                   className={numberClasses}
