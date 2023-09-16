@@ -1,11 +1,13 @@
 import classNames from "classnames";
+import { BiX } from "react-icons/bi";
 import { VuiText } from "../typography/Text";
 import { VuiTextColor } from "../typography/TextColor";
 import { VuiFlexContainer } from "../flex/FlexContainer";
 import { VuiFlexItem } from "../flex/FlexItem";
 import { VuiIconButton } from "../button/IconButton";
 import { VuiIcon } from "../icon/Icon";
-import { BiX } from "react-icons/bi";
+import { VuiSpacer } from "../spacer/Spacer";
+import { VuiHorizontalRule } from "../horizontalRule/HorizontalRule";
 
 export type Notification = {
   color: "primary" | "success" | "warning" | "danger";
@@ -15,12 +17,15 @@ export type Notification = {
 type Props = {
   notification: Notification;
   onDismiss: (notification: Notification) => void;
-  placeholder?: boolean;
+  notificationsCount: number;
+  children?: React.ReactNode;
 };
 
-export const VuiNotification = ({ notification, onDismiss, placeholder }: Props) => {
+export const VuiNotification = ({ notification, onDismiss, notificationsCount, children }: Props) => {
   const { color, message } = notification;
   const classes = classNames("vuiNotification", `vuiNotification--${color}`);
+  const hasManyNotifications = notificationsCount > 1;
+
   return (
     <div className="vuiNotificationContainer">
       <div className={classes}>
@@ -42,11 +47,30 @@ export const VuiNotification = ({ notification, onDismiss, placeholder }: Props)
             <VuiText>
               <VuiTextColor color={color}>{message}</VuiTextColor>
             </VuiText>
+
+            {hasManyNotifications && (
+              <>
+                <VuiSpacer size="xxs" />
+                <VuiText size="xs">
+                  <VuiTextColor color="subdued">+{notificationsCount - 1} more</VuiTextColor>
+                </VuiText>
+              </>
+            )}
           </VuiFlexItem>
         </VuiFlexContainer>
+
+        {children && (
+          <>
+            <VuiSpacer size="s" />
+            <VuiHorizontalRule />
+            <VuiSpacer size="xxs" />
+            {children}
+          </>
+        )}
       </div>
 
-      {placeholder && <div className="vuiNotification vuiNotification--placeholder" />}
+      {notificationsCount > 1 && <div className="vuiNotification vuiNotification--placeholder" />}
+      {notificationsCount > 2 && <div className="vuiNotification vuiNotification--placeholder2" />}
     </div>
   );
 };

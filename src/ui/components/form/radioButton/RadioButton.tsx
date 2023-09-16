@@ -9,7 +9,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export const VuiCheckbox = ({ checked, onChange, label, id, disabled, ...rest }: Props) => {
+export const VuiRadioButton = ({ checked, onChange, label, id, disabled, ...rest }: Props) => {
   // Enable a lazy developer to just use the label as the ID,
   // though this risks accidental duplication of IDs.
   const idOrLabel = id ?? label;
@@ -17,7 +17,7 @@ export const VuiCheckbox = ({ checked, onChange, label, id, disabled, ...rest }:
   const checkbox = (
     <input
       id={label ? idOrLabel : undefined}
-      type="checkbox"
+      type="radio"
       checked={checked}
       onChange={onChange}
       disabled={disabled}
@@ -36,7 +36,7 @@ export const VuiCheckbox = ({ checked, onChange, label, id, disabled, ...rest }:
       </VuiFlexItem>
 
       <VuiFlexItem grow={false} shrink={false}>
-        <label className="vuiCheckboxLabel" htmlFor={idOrLabel}>
+        <label className="vuiRadioButtonLabel" htmlFor={idOrLabel}>
           {label}
         </label>
       </VuiFlexItem>

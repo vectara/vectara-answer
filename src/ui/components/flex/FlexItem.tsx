@@ -9,7 +9,7 @@ const alignItemsToClassNameMap = {
   center: "vuiFlexItem--alignItemsCenter",
   end: "vuiFlexItem--alignItemsEnd",
   start: "vuiFlexItem--alignItemsStart",
-  stretch: "vuiFlexItem--alignItemsStretch",
+  stretch: "vuiFlexItem--alignItemsStretch"
 } as const;
 
 type Props = {
@@ -41,7 +41,7 @@ export const VuiFlexItem = ({
       "vuiFlexItem--flexGrowNone": isGrowNone,
       [`vuiFlexItem--flexShrink${shrink}`]: typeof shrink === "number",
       "vuiFlexItem--flexShrinkNone": isShrinkNone,
-      "vuiFlexItem--truncate": truncate,
+      "vuiFlexItem--truncate": truncate
     },
     className
   );

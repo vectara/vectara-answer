@@ -10,6 +10,7 @@ import {
   VuiFormGroup,
   VuiHorizontalRule,
   VuiIcon,
+  VuiRadioButton,
   VuiSelect,
   VuiSpacer,
   VuiTitle,
@@ -21,17 +22,6 @@ const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
   value: code,
   text: humanizeLanguage(code),
 }));
-
-const uxModeOptions = [
-  {
-    value: "summary",
-    text: "Summary",
-  },
-  {
-    value: "search",
-    text: "Search",
-  },
-];
 
 type Props = {
   isOpen: boolean;
@@ -91,14 +81,21 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
         labelFor="uxModeSelect"
         helpText="Focus the user experience on the search results or the summary."
       >
-        <VuiSelect
-          id="uxModeSelect"
-          options={uxModeOptions}
-          value={newUxMode}
-          onChange={(e: any) => {
-            setNewUxMode(e.target.value);
-          }}
-        />
+        <>
+          <VuiRadioButton
+            label="Summary"
+            onChange={() => setNewUxMode("summary")}
+            checked={newUxMode === "summary"}
+          />
+
+          <VuiSpacer size="xs" />
+
+          <VuiRadioButton
+            label="Search"
+            onChange={() => setNewUxMode("search")}
+            checked={newUxMode === "search"}
+          />
+        </>
       </VuiFormGroup>
 
       <VuiSpacer size="l" />
