@@ -20,6 +20,7 @@ export type Props = {
   target?: LinkProps["target"];
   track?: LinkProps["track"];
   tabIndex?: number;
+  title?: string;
 };
 
 export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(

@@ -28,6 +28,7 @@ export const VuiOptionsButton = ({
   ...rest
 }: Props) => {
   const Button = type === "primary" ? VuiButtonPrimary : VuiButtonSecondary;
+
   return (
     <VuiFlexContainer spacing="none" alignItems="center" className={className}>
       <VuiFlexItem grow={false}>

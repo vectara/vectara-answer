@@ -10,6 +10,7 @@ type Props = {
   options?: OptionsButtonProps["options"];
   size: OptionsButtonProps["size"];
   label?: string;
+  title?: string;
 };
 
 const sizeToIconSizeMap = {
@@ -20,7 +21,7 @@ const sizeToIconSizeMap = {
   xl: "m"
 } as const;
 
-export const VuiCopyButton = ({ value, options, label, size = "s" }: Props) => {
+export const VuiCopyButton = ({ value, options, label, size = "s", ...rest }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -65,6 +66,7 @@ export const VuiCopyButton = ({ value, options, label, size = "s" }: Props) => {
         setIsOpen(false);
       }}
       options={options}
+      {...rest}
     >
       {label}
     </VuiOptionsButton>
@@ -76,6 +78,7 @@ export const VuiCopyButton = ({ value, options, label, size = "s" }: Props) => {
       onClick={() => {
         copy(value);
       }}
+      {...rest}
     >
       {label}
     </VuiButtonSecondary>

@@ -8,7 +8,6 @@
 
 .vuiNotificationList__notifications {
   padding: $sizeXxs;
-  background-color: $colorMediumShade;
   border-bottom-left-radius: $sizeM;
   transition: all $transitionSpeed;
 }
@@ -25,7 +24,7 @@
 
 .vuiNotification {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   border-radius: $sizeS;
   padding: $sizeS;
   font-size: $fontSizeStandard;
@@ -37,9 +36,14 @@
 
 .vuiNotification--placeholder {
   position: absolute;
-  z-index: 0;
+  z-index: 1;
   bottom: -$sizeXxs;
-  opacity: 0.5;
+}
+
+.vuiNotification--placeholder2 {
+  position: absolute;
+  z-index: 0;
+  bottom: -$sizeXxs * 1.75;
 }
 
 @keyframes popLeft {

@@ -49,7 +49,7 @@ export const VuiChatTurn = ({ turn, isInspectionEnabled, setInspectedTurn, onRet
         )}
       </VuiFlexContainer>
 
-      <div className="vuiChat__answer">
+      <div className="vuiChatAnswer">
         {turn.isLoading ? (
           <VuiFlexContainer alignItems="center" spacing="xs">
             <VuiFlexItem grow={false}>

@@ -23,7 +23,7 @@ import { VuiCopyButton } from "./copyButton/CopyButton";
 import { VuiDrawer } from "./drawer/Drawer";
 import { VuiFlexContainer } from "./flex/FlexContainer";
 import { VuiFlexItem } from "./flex/FlexItem";
-import { VuiCheckbox, VuiLabel, VuiNumberInput, VuiSelect, VuiTextInput, VuiTextArea } from "./form";
+import { VuiCheckbox, VuiLabel, VuiNumberInput, VuiRadioButton, VuiSelect, VuiTextInput, VuiTextArea } from "./form";
 import { VuiFormGroup } from "./formGroup/FormGroup";
 import { VuiHorizontalRule } from "./horizontalRule/HorizontalRule";
 import { VuiIcon } from "./icon/Icon";
@@ -141,6 +141,7 @@ export {
   VuiPortal,
   VuiProgressBar,
   VuiPrompt,
+  VuiRadioButton,
   VuiScreenBlock,
   VuiSearchInput,
   VuiSearchResult,

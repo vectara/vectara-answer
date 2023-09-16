@@ -4,9 +4,11 @@
   width: 100%;
 
   select {
+    background-color: $colorEmptyShade;
     appearance: none;
     border-radius: $sizeXxs;
     border: 1px solid $colorMediumShade;
+    color: $colorFullShade;
     width: 100%;
   }
 }

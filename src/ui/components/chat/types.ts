@@ -29,7 +29,7 @@ export const CHAT_LANGUAGES = [
   "spa",
   "jpn",
   "pol",
-  "tur"
+  "tur",
 ] as const;
 
 export type ChatLanguage = (typeof CHAT_LANGUAGES)[number];
