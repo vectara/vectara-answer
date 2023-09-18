@@ -1,7 +1,8 @@
 ## `main`
 
 **Bug fixes**
-...
+
+- Removed use of `any` from `OptionsDrawer`.
 
 **Non-breaking changes**
 ...
