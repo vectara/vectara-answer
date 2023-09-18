@@ -41,7 +41,7 @@ When submitting a pull request, please ensure that your changes meet the followi
 - You should have documented your changes clearly and comprehensively.
 - Please do not include any unrelated or "extra" small tweaks or changes.
 
-## Versioining and releases
+## Versioning and releases
 
 As you submit changes, note the changes in the [CHANGELOG](./CHANGELOG.md) under the `main` section.
 
