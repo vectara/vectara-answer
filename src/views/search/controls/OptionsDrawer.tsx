@@ -68,8 +68,8 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
           id="languageSelect"
           options={languageOptions}
           value={newLanguage}
-          onChange={(e: any) => {
-            setNewLanguage(e.target.value);
+          onChange={(e) => {
+            setNewLanguage(e.target.value as SummaryLanguage);
           }}
         />
       </VuiFormGroup>
