@@ -123,7 +123,8 @@ export const SearchContextProvider = ({ children }: Props) => {
     const urlParams = new URLSearchParams(searchParams);
 
     onSearch({
-      value: getQueryParam(urlParams, "query"),
+      // Set to an empty string to wipe out any existing search value.
+      value: getQueryParam(urlParams, "query") ?? "",
       filter: getQueryParam(urlParams, "filter"),
       language: getQueryParam(urlParams, "language") as
         | SummaryLanguage
