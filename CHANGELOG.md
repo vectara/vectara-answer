@@ -2,14 +2,20 @@
 
 **Bug fixes**
 
-- Removed use of `any` from `OptionsDrawer`.
-- Clicking the search title now clears the search value.
+...
 
 **Non-breaking changes**
 ...
 
 **Breaking changes**
 ...
+
+## `1.5.1`
+
+**Bug fixes**
+
+- Removed use of `any` from `OptionsDrawer`.
+- Clicking the search title now clears the search value.
 
 ## `1.5.0`
 
