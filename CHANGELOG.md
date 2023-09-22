@@ -10,6 +10,13 @@
 **Breaking changes**
 ...
 
+## `1.5.2`
+
+**Non-breaking changes**
+
+- Added support for Hybrid search in configuration
+- Added support for reranker ID in the configuration
+
 ## `1.5.1`
 
 **Bug fixes**
