@@ -61,9 +61,15 @@ interface Config {
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
 
+  // hybrid search
+  config_hybrid_search_num_words?: number;
+  config_hybrid_search_lambda_long?: number;
+  config_hybrid_search_lambda_short?: number;
+
   // rerank
   config_rerank?: string;
   config_rerank_num_results?: number;
+  config_reranker_id?: number;
 }
 
 type ConfigProp = keyof Config;
@@ -128,7 +134,8 @@ type Analytics = {
   googleAnalyticsTrackingCode?: string;
   fullStoryOrgId?: string;
 };
-type Rerank = { isEnabled: boolean; numResults?: number };
+type Rerank = { isEnabled: boolean; numResults?: number; id?: number };
+type Hybrid = { numWords: number, lambdaLong: number, lambdaShort: number };
 
 interface ConfigContextType {
   isConfigLoaded: boolean;
@@ -141,6 +148,7 @@ interface ConfigContextType {
   filters: Filters;
   summary: Summary;
   rerank: Rerank;
+  hybrid: Hybrid;
   searchHeader: SearchHeader;
   exampleQuestions: ExampleQuestions;
   auth: Auth;
@@ -239,6 +247,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [rerank, setRerank] = useState<Rerank>({
     isEnabled: false,
     numResults: 100,
+    id: 272725717
+  });
+  const [hybrid, setHybrid] = useState<Hybrid>({
+    numWords: 2,
+    lambdaLong: 0.1,
+    lambdaShort: 0.0
   });
 
   const [summary, setSummary] = useState<Summary>({
@@ -327,6 +341,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // rerank
         config_rerank,
         config_rerank_num_results,
+        config_reranker_id,
+
+        // hybrid search
+        config_hybrid_search_num_words,
+        config_hybrid_search_lambda_long,
+        config_hybrid_search_lambda_short,
 
         // Summary
         config_summary_default_language,
@@ -426,7 +446,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setRerank({
         isEnabled: isTrue(config_rerank),
         numResults: config_rerank_num_results ?? rerank.numResults,
+        id: config_reranker_id ?? 272725717,
       });
+
+      setHybrid({
+        numWords: config_hybrid_search_num_words ?? hybrid.numWords,
+        lambdaLong: config_hybrid_search_lambda_long ?? hybrid.lambdaLong,
+        lambdaShort: config_hybrid_search_lambda_short ?? hybrid.lambdaShort,
+      });
+
     };
     loadConfig();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -445,6 +473,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         filters,
         summary,
         rerank,
+        hybrid,
         searchHeader,
         exampleQuestions,
         auth,

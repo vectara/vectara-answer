@@ -75,7 +75,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank, uxMode } =
+  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
     useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
@@ -217,6 +217,10 @@ export const SearchContextProvider = ({ children }: Props) => {
           query_str: value,
           rerank: rerank.isEnabled,
           rerankNumResults: rerank.numResults,
+          rerankerId: rerank.id,
+          hybridNumWords: hybrid.numWords,
+          hybridLambdaLong: hybrid.lambdaLong,
+          hybridLambdaShort: hybrid.lambdaShort,
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
@@ -248,9 +252,13 @@ export const SearchContextProvider = ({ children }: Props) => {
             summaryMode: true,
             rerank: rerank.isEnabled,
             rerankNumResults: rerank.numResults,
+            rerankerId: rerank.id,
             summaryNumResults: summary.summaryNumResults,
             summaryNumSentences: summary.summaryNumSentences,
             summaryPromptName: summary.summaryPromptName,
+            hybridNumWords: hybrid.numWords,
+            hybridLambdaLong: hybrid.lambdaLong,
+            hybridLambdaShort: hybrid.lambdaShort,
             language,
             customerId: search.customerId!,
             corpusId: search.corpusId!,

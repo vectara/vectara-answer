@@ -67,6 +67,12 @@ app.post("/config", (req, res) => {
     // rerank
     rerank,
     rerank_num_results,
+    reranker_id,
+
+    // hybrid search
+    hybrid_search_num_words,
+    hybrid_search_lambda_long,
+    hybrid_search_lambda_short,
 
     // Search header
     search_logo_link,
@@ -117,9 +123,15 @@ app.post("/config", (req, res) => {
     summary_num_sentences,
     summary_prompt_name,
 
+    // hybrid search
+    hybrid_search_num_words,
+    hybrid_search_lambda_long,
+    hybrid_search_lambda_short,
+
     // rerank
     rerank,
     rerank_num_results,
+    reranker_id,
 
     // Search header
     search_logo_link,

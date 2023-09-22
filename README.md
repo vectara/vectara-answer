@@ -200,6 +200,17 @@ summary_num_results: 10
 summary_prompt_name: vectara-summary-ext-v1.2.0
 ```
 
+#### Hybrid Search (optional)
+
+By default, vectara-answer utilizes hybrid search with lambda=0.1 for short queries (num_words<=2) and lambda=0 (pure neural search) otherwise, but other values can be defined here.
+
+```yaml
+# hybrid search
+hybrid_search_num_words: 2
+hybrid_search_lambda_long: 0.0
+hybrid_search_lambda_short: 0.1
+```
+
 #### Reranking (optional)
 
 Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "false".
@@ -207,6 +218,7 @@ Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference
 ```yaml
 # Reranking: true or false and number of results to use for reranking
 rerank: "true"
+reranker_id: 272725717
 rerank_num_results: 50
 ```
 
