@@ -202,7 +202,7 @@ summary_prompt_name: vectara-summary-ext-v1.2.0
 
 #### Hybrid Search (optional)
 
-By default, vectara-answer utilizes hybrid search with lambda=0.1 for short queries (num_words<=2) and lambda=0 (pure neural search) otherwise, but other values can be defined here.
+By default, vectara-answer utilizes hybrid search with lambda=0.1 for short queries (num_words<=2) and lambda=0 (pure neural search) otherwise, but you can define other values here.
 
 ```yaml
 # hybrid search

@@ -446,7 +446,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setRerank({
         isEnabled: isTrue(config_rerank),
         numResults: config_rerank_num_results ?? rerank.numResults,
-        id: config_reranker_id ?? 272725717,
+        id: config_reranker_id ?? rerank.id,
       });
 
       setHybrid({
