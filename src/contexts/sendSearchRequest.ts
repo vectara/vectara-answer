@@ -9,6 +9,10 @@ type Config = {
   summaryMode?: boolean;
   rerank?: boolean;
   rerankNumResults?: number;
+  rerankerId?: number;
+  hybridNumWords: number;
+  hybridLambdaShort?: number;
+  hybridLambdaLong?: number;
   summaryNumResults?: number;
   summaryNumSentences?: number;
   summaryPromptName?: string;
@@ -25,6 +29,10 @@ export const sendSearchRequest = async ({
   summaryMode,
   rerank,
   rerankNumResults,
+  rerankerId,
+  hybridNumWords,
+  hybridLambdaShort,
+  hybridLambdaLong,
   summaryNumResults,
   summaryNumSentences,
   summaryPromptName,
@@ -34,9 +42,9 @@ export const sendSearchRequest = async ({
   apiKey,
 }: Config) => {
   const lambda =
-    typeof query_str === "undefined" || query_str.trim().split(" ").length > 2
-      ? 0
-      : 0.1;
+    typeof query_str === "undefined" || query_str.trim().split(" ").length > hybridNumWords
+      ? hybridLambdaLong
+      : hybridLambdaShort;
   const corpusKeyList = corpusId.split(",").map((id) => {
     return {
       customerId,
@@ -75,7 +83,7 @@ export const sendSearchRequest = async ({
         ...(rerank
           ? {
               reranking_config: {
-                reranker_id: 272725717,
+                reranker_id: rerankerId,
               },
             }
           : {}),
