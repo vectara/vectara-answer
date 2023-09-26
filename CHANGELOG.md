@@ -10,6 +10,12 @@
 **Breaking changes**
 ...
 
+## `1.5.3`
+
+**Non-breaking changes**
+
+- Hotfix: switched default lambdaLong and lambdaShort values
+
 ## `1.5.2`
 
 **Non-breaking changes**
