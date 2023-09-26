@@ -251,8 +251,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
   });
   const [hybrid, setHybrid] = useState<Hybrid>({
     numWords: 2,
-    lambdaLong: 0.1,
-    lambdaShort: 0.0
+    lambdaLong: 0.0,
+    lambdaShort: 0.1
   });
 
   const [summary, setSummary] = useState<Summary>({
