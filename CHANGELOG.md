@@ -2,7 +2,7 @@
 
 **Bug fixes**
 
-...
+- Summary UX mode now surfaces search and summary errors, including when there are 0 search results.
 
 **Non-breaking changes**
 ...

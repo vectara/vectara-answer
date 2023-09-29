@@ -46,7 +46,7 @@ interface SearchContextType {
   searchResults: DeserializedSearchResult[] | undefined;
   searchTime: number;
   isSummarizing: boolean;
-  summarizationError: unknown;
+  summarizationError: SearchError | undefined;
   summarizationResponse: SearchResponse | undefined;
   summaryTime: number;
   language: SummaryLanguage;
@@ -98,7 +98,9 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summarizationError, setSummarizationError] = useState<unknown>();
+  const [summarizationError, setSummarizationError] = useState<
+    SearchError | undefined
+  >();
   const [summarizationResponse, setSummarizationResponse] =
     useState<SearchResponse>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
@@ -210,9 +212,11 @@ export const SearchContextProvider = ({ children }: Props) => {
       setIsSummarizing(true);
       setSelectedSearchResultPosition(undefined);
 
+      let initialSearchResponse;
+
       try {
         const startTime = Date.now();
-        const response = await sendSearchRequest({
+        initialSearchResponse = await sendSearchRequest({
           filter,
           query_str: value,
           rerank: rerank.isEnabled,
@@ -232,11 +236,19 @@ export const SearchContextProvider = ({ children }: Props) => {
         // display the results of the most recent request.
         if (searchId === searchCount) {
           setIsSearching(false);
-          setSearchError(undefined);
-          setSearchResponse(response);
           setSearchTime(totalTime);
+          setSearchResponse(initialSearchResponse);
+
+          if (initialSearchResponse.response.length > 0) {
+            setSearchError(undefined);
+          } else {
+            setSearchError({
+              message: "There weren't any results for your search.",
+            });
+          }
         }
       } catch (error) {
+        console.log("Search error", error);
         setIsSearching(false);
         setSearchError(error as SearchError);
         setSearchResponse(undefined);
@@ -244,40 +256,49 @@ export const SearchContextProvider = ({ children }: Props) => {
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
       if (isSummaryEnabled) {
-        const startTime = Date.now();
-        try {
-          const response = await sendSearchRequest({
-            filter,
-            query_str: value,
-            summaryMode: true,
-            rerank: rerank.isEnabled,
-            rerankNumResults: rerank.numResults,
-            rerankerId: rerank.id,
-            summaryNumResults: summary.summaryNumResults,
-            summaryNumSentences: summary.summaryNumSentences,
-            summaryPromptName: summary.summaryPromptName,
-            hybridNumWords: hybrid.numWords,
-            hybridLambdaLong: hybrid.lambdaLong,
-            hybridLambdaShort: hybrid.lambdaShort,
-            language,
-            customerId: search.customerId!,
-            corpusId: search.corpusId!,
-            endpoint: search.endpoint!,
-            apiKey: search.apiKey!,
-          });
-          const totalTime = Date.now() - startTime;
+        if (initialSearchResponse.response.length > 0) {
+          const startTime = Date.now();
+          try {
+            const response = await sendSearchRequest({
+              filter,
+              query_str: value,
+              summaryMode: true,
+              rerank: rerank.isEnabled,
+              rerankNumResults: rerank.numResults,
+              rerankerId: rerank.id,
+              summaryNumResults: summary.summaryNumResults,
+              summaryNumSentences: summary.summaryNumSentences,
+              summaryPromptName: summary.summaryPromptName,
+              hybridNumWords: hybrid.numWords,
+              hybridLambdaLong: hybrid.lambdaLong,
+              hybridLambdaShort: hybrid.lambdaShort,
+              language,
+              customerId: search.customerId!,
+              corpusId: search.corpusId!,
+              endpoint: search.endpoint!,
+              apiKey: search.apiKey!,
+            });
+            const totalTime = Date.now() - startTime;
 
-          // If we send multiple requests in rapid succession, we only want to
-          // display the results of the most recent request.
-          if (searchId === searchCount) {
+            // If we send multiple requests in rapid succession, we only want to
+            // display the results of the most recent request.
+            if (searchId === searchCount) {
+              setIsSummarizing(false);
+              setSummarizationError(undefined);
+              setSummarizationResponse(response);
+              setSummaryTime(totalTime);
+            }
+          } catch (error) {
+            console.log("Summary error", error);
             setIsSummarizing(false);
-            setSummarizationError(undefined);
-            setSummarizationResponse(response);
-            setSummaryTime(totalTime);
+            setSummarizationError(error as SearchError);
+            setSummarizationResponse(undefined);
           }
-        } catch (error) {
+        } else {
           setIsSummarizing(false);
-          setSummarizationError(error);
+          setSummarizationError({
+            message: "No search results to summarize",
+          });
           setSummarizationResponse(undefined);
         }
       }
