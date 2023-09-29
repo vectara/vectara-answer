@@ -3,6 +3,7 @@ import { BiSlider } from "react-icons/bi";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import {
   VuiButtonPrimary,
+  VuiButtonSecondary,
   VuiButtonTertiary,
   VuiDrawer,
   VuiFlexContainer,
@@ -10,9 +11,12 @@ import {
   VuiFormGroup,
   VuiHorizontalRule,
   VuiIcon,
+  VuiLabel,
   VuiRadioButton,
-  VuiSelect,
+  VuiSearchSelect,
   VuiSpacer,
+  VuiText,
+  VuiTextColor,
   VuiTitle,
 } from "../../../ui";
 import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
@@ -20,7 +24,7 @@ import { useConfigContext } from "../../../contexts/ConfigurationContext";
 
 const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
   value: code,
-  text: humanizeLanguage(code),
+  label: humanizeLanguage(code),
 }));
 
 type Props = {
@@ -33,8 +37,9 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
   const { language, onSearch } = useSearchContext();
 
   const [newUxMode, setNewUxMode] = useState(uxMode);
+  const [isLanguageMenuOpen, seIisLanguageMenuOpen] = useState(false);
   const [newLanguage, setNewLanguage] = useState<SummaryLanguage>(language);
-
+  console.log(newLanguage);
   return (
     <VuiDrawer
       isOpen={isOpen}
@@ -59,20 +64,32 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
         </VuiFlexContainer>
       }
     >
-      <VuiFormGroup
-        label="Summary language"
-        labelFor="languageSelect"
-        helpText="Summaries will be written in this language."
+      <VuiLabel>Summary language</VuiLabel>
+
+      <VuiSpacer size="xs" />
+
+      <VuiText size="xs">
+        <VuiTextColor color="subdued">
+          <p>Summaries will be written in this language.</p>
+        </VuiTextColor>
+      </VuiText>
+
+      <VuiSpacer size="xs" />
+
+      <VuiSearchSelect
+        isOpen={isLanguageMenuOpen}
+        setIsOpen={seIisLanguageMenuOpen}
+        onSelect={(value: string[]) => {
+          setNewLanguage(value[0] as SummaryLanguage);
+        }}
+        selected={[newLanguage]}
+        options={languageOptions}
+        isMultiSelect={false}
       >
-        <VuiSelect
-          id="languageSelect"
-          options={languageOptions}
-          value={newLanguage}
-          onChange={(e) => {
-            setNewLanguage(e.target.value as SummaryLanguage);
-          }}
-        />
-      </VuiFormGroup>
+        <VuiButtonSecondary color="neutral" size="m">
+          {humanizeLanguage(newLanguage)}
+        </VuiButtonSecondary>
+      </VuiSearchSelect>
 
       <VuiSpacer size="m" />
 
