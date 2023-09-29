@@ -5,8 +5,6 @@ import {
   applyCitationOrder,
 } from "../../ui/utils/citations";
 import { useSearchContext } from "../../contexts/SearchContext";
-import { SearchErrorCallout } from "./results/SearchErrorCallout";
-import { SummaryErrorCallout } from "./results/SummaryErrorCallout";
 import { SearchResultList } from "./results/SearchResultList";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { DeserializedSearchResult } from "./types";
@@ -14,23 +12,21 @@ import { DeserializedSearchResult } from "./types";
 export const SummaryUx = () => {
   const {
     isSearching,
-    searchError,
     searchResults,
     isSummarizing,
-    summarizationError,
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
     selectSearchResultAt,
   } = useSearchContext();
 
-  if (searchError || summarizationError) {
-    return searchError ? (
-      <SearchErrorCallout searchError={searchError} />
-    ) : (
-      <SummaryErrorCallout summarizationError={summarizationError} />
-    );
-  }
+  // if (searchError || summarizationError) {
+  //   return searchError ? (
+  //     <SearchErrorCallout searchError={searchError} />
+  //   ) : (
+  //     <SummaryErrorCallout summarizationError={summarizationError} />
+  //   );
+  // }
 
   const unorderedSummary = sanitizeCitations(
     summarizationResponse?.summary[0]?.text

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BiCheck, BiDetail } from "react-icons/bi";
+import { BiCheck, BiX, BiDetail, BiError } from "react-icons/bi";
 import {
   VuiFlexContainer,
   VuiFlexItem,
@@ -25,7 +25,15 @@ type Props = {
 };
 
 export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
-  const { searchTime, summaryTime } = useSearchContext();
+  const {
+    searchTime,
+    summaryTime,
+    searchResults,
+    searchError,
+    summarizationResponse,
+    summarizationError,
+  } = useSearchContext();
+
   const [isOpen, setIsOpen] = useState(true);
   const [isReviewSearchResultsOpen, setIsReviewSearchResultsOpen] =
     useState(false);
@@ -36,6 +44,7 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
     render: () => (
       <VuiFlexContainer alignItems="start" spacing="xs">
         <VuiFlexItem>
+          <VuiSpacer size="xxxs" />
           <VuiIcon size="s" color="success">
             <BiCheck />
           </VuiIcon>
@@ -71,36 +80,63 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
   const retrievedSearchResultsStep = {
     key: "retrievedSearchResultsStep",
     isComplete: true,
-    render: () => (
-      <VuiFlexContainer alignItems="start" spacing="xs">
-        <VuiFlexItem>
+    render: () => {
+      const numSearchResults = searchResults?.length ?? 0;
+      const icon =
+        numSearchResults > 0 ? (
           <VuiIcon size="s" color="success">
             <BiCheck />
           </VuiIcon>
-        </VuiFlexItem>
+        ) : (
+          <VuiIcon size="s" color="danger">
+            <BiError />
+          </VuiIcon>
+        );
 
-        <VuiFlexItem grow={false} alignItems="start">
-          <VuiText>
-            <p>Retrieved search results in {humanizeTime(searchTime)}</p>
-          </VuiText>
+      return (
+        <VuiFlexContainer alignItems="start" spacing="xs">
+          <VuiFlexItem>
+            <VuiSpacer size="xxxs" />
+            {icon}
+          </VuiFlexItem>
 
-          <VuiSpacer size="xs" />
+          <VuiFlexItem grow={false} alignItems="start">
+            {numSearchResults > 0 ? (
+              <>
+                <VuiText>
+                  <p>
+                    Retrieved search {numSearchResults} results in{" "}
+                    {humanizeTime(searchTime)}
+                  </p>
+                </VuiText>
+                <VuiSpacer size="xs" />
 
-          <VuiButtonSecondary
-            size="s"
-            color="primary"
-            onClick={() => setIsReviewSearchResultsOpen(true)}
-            icon={
-              <VuiIcon>
-                <BiDetail />
-              </VuiIcon>
-            }
-          >
-            Review results
-          </VuiButtonSecondary>
-        </VuiFlexItem>
-      </VuiFlexContainer>
-    ),
+                <VuiButtonSecondary
+                  size="s"
+                  color="primary"
+                  onClick={() => setIsReviewSearchResultsOpen(true)}
+                  icon={
+                    <VuiIcon>
+                      <BiDetail />
+                    </VuiIcon>
+                  }
+                >
+                  Review results
+                </VuiButtonSecondary>
+              </>
+            ) : (
+              <VuiText>
+                <VuiTextColor color="danger">
+                  <p>
+                    {searchError?.message ?? "We couldn't run your search."}
+                  </p>
+                </VuiTextColor>
+              </VuiText>
+            )}
+          </VuiFlexItem>
+        </VuiFlexContainer>
+      );
+    },
   };
 
   const generateSummaryStep = {
@@ -133,24 +169,70 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
     ),
   };
 
-  const generatedSummaryStep = {
-    key: "generatedSummaryStep",
+  const canceledSummaryStep = {
+    key: "canceledSummaryStep",
     isComplete: true,
     render: () => (
       <VuiFlexContainer alignItems="start" spacing="xs">
         <VuiFlexItem>
-          <VuiIcon size="s" color="success">
-            <BiCheck />
+          <VuiSpacer size="xxxs" />
+          <VuiIcon color="subdued">
+            <BiX />
           </VuiIcon>
         </VuiFlexItem>
 
         <VuiFlexItem grow={false}>
           <VuiText>
-            <p>Generated summary in {humanizeTime(summaryTime)}</p>
+            <VuiTextColor color="subdued">
+              <p>Summary canceled</p>
+            </VuiTextColor>
           </VuiText>
         </VuiFlexItem>
       </VuiFlexContainer>
     ),
+  };
+
+  const generatedSummaryStep = {
+    key: "generatedSummaryStep",
+    isComplete: true,
+    render: () => {
+      const hasSummary = summarizationResponse?.summary;
+      const icon = hasSummary ? (
+        <VuiIcon size="s" color="success">
+          <BiCheck />
+        </VuiIcon>
+      ) : (
+        <VuiIcon size="s" color="danger">
+          <BiError />
+        </VuiIcon>
+      );
+
+      return (
+        <VuiFlexContainer alignItems="start" spacing="xs">
+          <VuiFlexItem>
+            <VuiSpacer size="xxxs" />
+            {icon}
+          </VuiFlexItem>
+
+          <VuiFlexItem grow={false}>
+            {hasSummary ? (
+              <VuiText>
+                <p>Generated summary in {humanizeTime(summaryTime)}</p>
+              </VuiText>
+            ) : (
+              <VuiText>
+                <VuiTextColor color="danger">
+                  <p>
+                    {summarizationError?.message ??
+                      "We couldn't generate a summary."}
+                  </p>
+                </VuiTextColor>
+              </VuiText>
+            )}
+          </VuiFlexItem>
+        </VuiFlexContainer>
+      );
+    },
   };
 
   let items = [receivedQuestionStep];
@@ -159,6 +241,10 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
     items = items.concat([retrievingSearchResultsStep, generateSummaryStep]);
   } else if (isSummarizing) {
     items = items.concat([retrievedSearchResultsStep, generatingSummaryStep]);
+  } else if (searchError) {
+    items = items.concat([retrievedSearchResultsStep, canceledSummaryStep]);
+  } else if (summarizationError) {
+    items = items.concat([retrievedSearchResultsStep, generatedSummaryStep]);
   } else {
     items = items.concat([retrievedSearchResultsStep, generatedSummaryStep]);
   }
