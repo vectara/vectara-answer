@@ -5,9 +5,11 @@
 - Summary UX mode now surfaces search and summary errors, including when there are 0 search results.
 
 **Non-breaking changes**
-...
+
+- Users can now search for a language instead of having to scroll through a long list.
 
 **Breaking changes**
+
 ...
 
 ## `1.5.3`
