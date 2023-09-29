@@ -39,7 +39,7 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
   const [newUxMode, setNewUxMode] = useState(uxMode);
   const [isLanguageMenuOpen, seIisLanguageMenuOpen] = useState(false);
   const [newLanguage, setNewLanguage] = useState<SummaryLanguage>(language);
-  console.log(newLanguage);
+
   return (
     <VuiDrawer
       isOpen={isOpen}
