@@ -190,7 +190,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     setSearchValue(value);
     setFilterValue(filter);
     setLanguageValue(language);
-    console.log("onSearch");
+
     if (value?.trim()) {
       // Save to history.
       setHistory(addHistoryItem({ query: value, filter, language }, history));
