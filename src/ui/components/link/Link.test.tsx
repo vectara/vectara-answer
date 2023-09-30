@@ -25,16 +25,13 @@ describe("VuiLink", () => {
       `);
     });
     it("disallows referrer information when false (default)", () => {
-      const { asFragment } = render(
-        <VuiLink href="https://www.vectara.com">Link</VuiLink>,
-        { wrapper: MemoryRouter }
-      );
+      const { asFragment } = render(<VuiLink href="https://www.vectara.com">Link</VuiLink>, { wrapper: MemoryRouter });
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <a
             class="vuiLink"
             href="https://www.vectara.com"
-            rel="noopener noreferrer"
+            rel="noopener"
           >
             Link
           </a>

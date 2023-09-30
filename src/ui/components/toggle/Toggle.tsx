@@ -1,3 +1,4 @@
+import { createId } from "../../utils/createId";
 import { VuiFlexContainer } from "../flex/FlexContainer";
 import { VuiFlexItem } from "../flex/FlexItem";
 
@@ -8,16 +9,36 @@ type Props = {
 };
 
 export const VuiToggle = ({ checked, onChange, label, ...rest }: Props) => {
+  let labelId;
+
+  const inputProps: Record<string, string> = {};
+
+  if (label) {
+    labelId = createId();
+    inputProps["aria-labelledby"] = labelId;
+  }
+
   return (
     <VuiFlexContainer alignItems="center" spacing="s">
       <VuiFlexItem grow={false}>
         <label className="vuiToggle">
-          <input className="vuiToggle__input" type="checkbox" checked={checked} onChange={onChange} {...rest} />
-          <span className="vuiToggle__button"></span>
+          <input
+            className="vuiToggle__input"
+            type="checkbox"
+            checked={checked}
+            onChange={onChange}
+            {...inputProps}
+            {...rest}
+          />
+          <span className="vuiToggle__button" />
         </label>
       </VuiFlexItem>
 
-      {label && <VuiFlexItem grow={false}>{label}</VuiFlexItem>}
+      {label && (
+        <VuiFlexItem grow={false}>
+          <div id={labelId}>{label}</div>
+        </VuiFlexItem>
+      )}
     </VuiFlexContainer>
   );
 };

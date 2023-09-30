@@ -1,5 +1,5 @@
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
-import { VuiFlexContainer, VuiFlexItem, VuiIcon, VuiPrompt, VuiSpacer, VuiTextColor, VuiText } from "../../../ui";
+import { VuiFlexContainer, VuiFlexItem, VuiPrompt, VuiSpacer, VuiTextColor, VuiText } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./exampleQuestions.scss";
 

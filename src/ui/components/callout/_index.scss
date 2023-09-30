@@ -5,11 +5,19 @@
 }
 
 .vuiCallout--m {
-  padding: $sizeM $sizeL;
+  padding: $sizeM;
+
+  .vuiCallout__closeButton {
+    margin: -$sizeM * 0.5;
+  }
 }
 
 .vuiCallout--s {
-  padding: $sizeXs $sizeS;
+  padding: $sizeS;
+
+  .vuiCallout__closeButton {
+    margin: -$sizeS * 0.5;
+  }
 }
 
 // Color
@@ -18,7 +26,7 @@ $color: (
     "background-color": transparentize($colorAccent, 0.9)
   ),
   primary: (
-    "background-color": $colorPrimaryLight
+    "background-color": $colorPrimaryLightShade
   ),
   success: (
     "background-color": transparentize($colorSuccess, 0.9)
@@ -27,9 +35,9 @@ $color: (
     "background-color": transparentize($colorWarning, 0.9)
   ),
   danger: (
-    "background-color": $colorDangerLight
+    "background-color": $colorDangerLightShade
   ),
-  normal: (
+  neutral: (
     "background-color": $colorLightShade
   )
 );

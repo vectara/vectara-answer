@@ -1,0 +1,52 @@
+@use "sass:map";
+
+.vuiButtonTertiary {
+  padding-left: $sizeXs;
+  padding-right: $sizeXs;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.vuiButtonTertiary-noPadding {
+  padding: 0;
+}
+
+// Color
+$color: (
+  accent: (
+    "color": $colorAccent,
+    "selected-color": transparentize($colorAccent, 0.9)
+  ),
+  primary: (
+    "color": $colorPrimary,
+    "selected-color": transparentize($colorPrimary, 0.9)
+  ),
+  success: (
+    "color": $colorSuccess,
+    "selected-color": transparentize($colorSuccess, 0.9)
+  ),
+  danger: (
+    "color": $colorDanger,
+    "selected-color": transparentize($colorDanger, 0.9)
+  ),
+  warning: (
+    "color": $colorWarning,
+    "selected-color": transparentize($colorWarning, 0.9)
+  ),
+  neutral: (
+    "color": $colorText,
+    "selected-color": transparentize($colorText, 0.9)
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiButtonTertiary--#{$colorName} {
+    color: #{map.get($colorValue, "color")};
+
+    &.vuiButtonTertiary-isSelected {
+      background-color: #{map.get($colorValue, "selected-color")};
+    }
+  }
+}

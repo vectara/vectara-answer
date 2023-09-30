@@ -1,0 +1,72 @@
+.vuiBaseButtonIconContainer {
+  // Ensures custom icons and vertically centered.
+  line-height: 0;
+}
+
+.vuiBaseButtonLinkWrapper {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.vuiBaseButton {
+  white-space: nowrap;
+  border-radius: $sizeXxs;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  box-shadow: $shadowSmallStart;
+  transition: all $transitionSpeed;
+  line-height: 1;
+}
+
+.vuiBaseButton-isInert,
+.vuiBaseButton-isDisabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+.vuiBaseButton-isDisabled {
+  opacity: 0.5;
+}
+
+.vuiBaseButton--left {
+  .vuiBaseButtonIconContainer {
+    margin-right: $sizeXs;
+  }
+}
+
+.vuiBaseButton--right {
+  flex-direction: row-reverse;
+
+  .vuiBaseButtonIconContainer {
+    margin-left: $sizeXs;
+    margin-right: 0;
+  }
+}
+
+.vuiBaseButton--fullWidth {
+  width: 100%;
+}
+
+// Size
+.vuiBaseButton--xs {
+  font-size: $fontSizeStandard;
+  padding: $sizeXxs $sizeXs;
+  height: 24px;
+}
+
+.vuiBaseButton--s {
+  font-size: $fontSizeStandard;
+  padding: $sizeXs * 0.75 $sizeXs;
+  height: 28px;
+}
+
+.vuiBaseButton--m {
+  font-size: $fontSizeMedium;
+  padding: $sizeXs $size;
+  height: 34px;
+}

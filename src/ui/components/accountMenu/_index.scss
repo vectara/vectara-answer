@@ -1,0 +1,21 @@
+.vuiAccountMenu {
+  min-width: 260px;
+}
+
+.vuiAccounrMenuHeader {
+  padding: $sizeS;
+  border-bottom: 1px solid $borderColorLight;
+  background-color: $colorLightShade;
+}
+
+.vuiAccountMenuHeaderItem__title {
+  font-size: $fontSizeSmall;
+  font-weight: $fontWeightBold;
+  color: $colorDarkerShade;
+}
+
+.vuiAccountMenuHeaderItem__value {
+  font-size: $fontSizeStandard;
+  color: $colorDarkerShade;
+  margin-top: $sizeXxs;
+}

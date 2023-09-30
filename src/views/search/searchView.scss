@@ -1,4 +1,4 @@
-@import "../../ui/globalStyling/index.scss";
+@import "../../ui/styleUtils/index.scss";
 @import "../../variables.scss";
 
 $appHeaderHeight: 52px;
@@ -18,7 +18,7 @@ $appHeaderHeight: 52px;
 }
 
 .searchContent {
-  padding: $sizeL $sizeXxl * 2;
+  padding: $sizeM $sizeXxl * 2 $sizeL;
   max-width: $pageWidth;
   width: 100%;
   min-height: calc(100vh - 280px);

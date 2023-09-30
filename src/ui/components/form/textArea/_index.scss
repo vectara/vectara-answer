@@ -1,0 +1,14 @@
+.vuiTextArea {
+  appearance: none;
+  border-radius: $sizeXxs;
+  border: 1px solid $colorMediumShade;
+  max-width: 100%;
+  resize: none;
+  min-height: 80px;
+  font-size: $fontSizeStandard;
+  padding: $sizeS;
+}
+
+.vuiTextArea--fullWidth {
+  width: 100%;
+}

@@ -1,12 +1,11 @@
-import { MouseEvent } from "react";
 import classNames from "classnames";
 import { Link, To } from "react-router-dom";
 
 type Props = {
   children: React.ReactNode;
   className?: string;
-  to: To;
-  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+  to?: To;
+  onClick?: () => void;
   isActive?: boolean;
 };
 
@@ -15,9 +14,17 @@ export const VuiTab = ({ children, className, to, onClick, isActive = false, ...
     "vuiTab-isActive": isActive
   });
 
+  if (to) {
+    return (
+      <Link className={classes} to={to} onClick={onClick} {...rest}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <Link className={classes} to={to} onClick={onClick} {...rest}>
+    <button className={classes} onClick={onClick} {...rest}>
       {children}
-    </Link>
+    </button>
   );
 };

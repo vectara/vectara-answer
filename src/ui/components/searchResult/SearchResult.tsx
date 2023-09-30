@@ -6,7 +6,7 @@ import { VuiSpacer } from "../spacer/Spacer";
 import { VuiText } from "../typography/Text";
 import { VuiTextColor } from "../typography/TextColor";
 
-export type SearchResultType = {
+export type SearchResult = {
   title?: string;
   url?: string;
   date?: string;
@@ -18,7 +18,7 @@ export type SearchResultType = {
 };
 
 type Props = {
-  result: SearchResultType;
+  result: SearchResult;
   position: number;
   isSelected?: boolean;
   subTitle?: React.ReactNode;
@@ -38,21 +38,26 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
       snippet: { pre, post, text }
     } = result;
 
-    const classes = classNames("vuiSearchResult", className);
+    // Protect users' privacy in FullStory.
+    // https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-FullStory-#01F5DPW1AJHZHR8TBM9YQEDRMH
+    const classes = classNames("vuiSearchResult", "fs-mask", className);
 
     const positionClasses = classNames("vuiSearchResultPosition", {
       "vuiSearchResultPosition--selected": isSelected
     });
 
+    const hasTitle = title && title.trim().length > 0;
+    const hasUrl = url && url.trim().length > 0;
+
     return (
       <div className={classes} ref={ref} {...rest}>
         <div className={positionClasses}>{position}</div>
 
-        {(title || url) && (
+        {(hasTitle || hasUrl) && (
           <VuiTitle size="s">
-            {url ? (
+            {hasUrl ? (
               <VuiLink href={highlightUrl(url, text)} target="_blank">
-                <h3>{title ?? url}</h3>
+                <h3>{hasTitle ? title : url}</h3>
               </VuiLink>
             ) : (
               <h3>{title}</h3>

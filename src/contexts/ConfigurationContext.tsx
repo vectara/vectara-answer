@@ -10,6 +10,7 @@ import axios from "axios";
 import {
   SummaryLanguage,
   SUMMARY_LANGUAGES,
+  UxMode,
 } from "../views/search/types";
 
 interface Config {
@@ -20,6 +21,7 @@ interface Config {
   config_api_key?: string;
 
   // App
+  config_ux?: UxMode;
   config_app_title?: string;
   config_enable_app_header?: string;
   config_enable_app_footer?: string;
@@ -54,14 +56,20 @@ interface Config {
   config_full_story_org_id?: string;
 
   // Summary
-  config_enable_summary?: string;
   config_summary_default_language?: string;
-  config_summary_num_results?: number,
-  config_summary_num_sentences?: number,
+  config_summary_num_results?: number;
+  config_summary_num_sentences?: number;
+  config_summary_prompt_name?: string;
+
+  // hybrid search
+  config_hybrid_search_num_words?: number;
+  config_hybrid_search_lambda_long?: number;
+  config_hybrid_search_lambda_short?: number;
 
   // rerank
   config_rerank?: string;
   config_rerank_num_results?: number;
+  config_reranker_id?: number;
 }
 
 type ConfigProp = keyof Config;
@@ -102,10 +110,10 @@ type Filters = {
 };
 
 type Summary = {
-  isEnabled: boolean;
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;
+  summaryPromptName: string;
 };
 
 type SearchHeader = {
@@ -122,18 +130,25 @@ type SearchHeader = {
 
 type ExampleQuestions = string[];
 type Auth = { isEnabled: boolean; googleClientId?: string };
-type Analytics = { googleAnalyticsTrackingCode?: string; fullStoryOrgId?: string };
-type Rerank = { isEnabled: boolean; numResults?: number };
+type Analytics = {
+  googleAnalyticsTrackingCode?: string;
+  fullStoryOrgId?: string;
+};
+type Rerank = { isEnabled: boolean; numResults?: number; id?: number };
+type Hybrid = { numWords: number, lambdaLong: number, lambdaShort: number };
 
 interface ConfigContextType {
   isConfigLoaded: boolean;
   missingConfigProps: string[];
+  uxMode: UxMode;
+  setUxMode: (uxMode: UxMode) => void;
   search: Search;
   app: App;
   appHeader: AppHeader;
   filters: Filters;
-  summary: Summary,
-  rerank: Rerank,
+  summary: Summary;
+  rerank: Rerank;
+  hybrid: Hybrid;
   searchHeader: SearchHeader;
   exampleQuestions: ExampleQuestions;
   auth: Auth;
@@ -194,7 +209,10 @@ const prefixConfig = (
   return prefixedConfig;
 };
 
-const validateLanguage = (lang: string, defaultLanguage: SummaryLanguage): SummaryLanguage => {
+const validateLanguage = (
+  lang: string,
+  defaultLanguage: SummaryLanguage
+): SummaryLanguage => {
   if ((SUMMARY_LANGUAGES as readonly string[]).includes(lang)) {
     return lang as SummaryLanguage;
   }
@@ -204,6 +222,7 @@ const validateLanguage = (lang: string, defaultLanguage: SummaryLanguage): Summa
 export const ConfigContextProvider = ({ children }: Props) => {
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);
   const [missingConfigProps, setMissingConfigProps] = useState<string[]>([]);
+  const [uxMode, setUxMode] = useState<UxMode>("summary");
   const [search, setSearch] = useState<Search>({});
   const [app, setApp] = useState<App>({
     isHeaderEnabled: false,
@@ -225,13 +244,22 @@ export const ConfigContextProvider = ({ children }: Props) => {
   );
   const [auth, setAuth] = useState<Auth>({ isEnabled: false });
   const [analytics, setAnalytics] = useState<Analytics>({});
-  const [rerank, setRerank] = useState<Rerank>({ isEnabled: false, numResults: 100 });
+  const [rerank, setRerank] = useState<Rerank>({
+    isEnabled: false,
+    numResults: 100,
+    id: 272725717
+  });
+  const [hybrid, setHybrid] = useState<Hybrid>({
+    numWords: 2,
+    lambdaLong: 0.0,
+    lambdaShort: 0.1
+  });
 
   const [summary, setSummary] = useState<Summary>({
-    isEnabled: true,
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
+    summaryPromptName: "vectara-summary-ext-v1.2.0",
   });
 
   useEffect(() => {
@@ -276,6 +304,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_api_key,
 
         // App
+        config_ux,
         config_app_title,
         config_enable_app_header,
         config_enable_app_footer,
@@ -312,13 +341,21 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // rerank
         config_rerank,
         config_rerank_num_results,
+        config_reranker_id,
+
+        // hybrid search
+        config_hybrid_search_num_words,
+        config_hybrid_search_lambda_long,
+        config_hybrid_search_lambda_short,
 
         // Summary
-        config_enable_summary,
         config_summary_default_language,
         config_summary_num_results,
         config_summary_num_sentences,
+        config_summary_prompt_name,
       } = config;
+
+      setUxMode(config_ux ?? "summary");
 
       setSearch({
         endpoint: config_endpoint,
@@ -356,9 +393,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       const sourceValueToLabelMap = sources.length
         ? sources.reduce((accum, { label, value }) => {
-          accum[value] = label;
-          return accum;
-        }, {} as Record<string, string>)
+            accum[value] = label;
+            return accum;
+          }, {} as Record<string, string>)
         : undefined;
 
       if (isFilteringEnabled && sources.length === 0) {
@@ -374,10 +411,14 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setSummary({
-        isEnabled: isTrue(config_enable_summary ?? "True"),
-        defaultLanguage: validateLanguage(config_summary_default_language as SummaryLanguage, "auto"),
+        defaultLanguage: validateLanguage(
+          config_summary_default_language as SummaryLanguage,
+          "auto"
+        ),
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
+        summaryPromptName:
+          config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
       });
 
       setSearchHeader({
@@ -405,10 +446,18 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setRerank({
         isEnabled: isTrue(config_rerank),
         numResults: config_rerank_num_results ?? rerank.numResults,
+        id: config_reranker_id ?? rerank.id,
+      });
+
+      setHybrid({
+        numWords: config_hybrid_search_num_words ?? hybrid.numWords,
+        lambdaLong: config_hybrid_search_lambda_long ?? hybrid.lambdaLong,
+        lambdaShort: config_hybrid_search_lambda_short ?? hybrid.lambdaShort,
       });
 
     };
     loadConfig();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -416,12 +465,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
       value={{
         isConfigLoaded,
         missingConfigProps,
+        uxMode,
+        setUxMode,
         search,
         app,
         appHeader,
         filters,
         summary,
         rerank,
+        hybrid,
         searchHeader,
         exampleQuestions,
         auth,

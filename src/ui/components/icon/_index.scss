@@ -3,6 +3,10 @@
   line-height: 0;
 }
 
+.vuiIcon--inline {
+  display: inline-block;
+}
+
 $colors: (
   accent: $colorAccent,
   primary: $colorPrimary,
@@ -10,7 +14,7 @@ $colors: (
   warning: $colorWarning,
   danger: $colorDanger,
   subdued: $colorSubdued,
-  normal: $colorText,
+  neutral: $colorText,
   empty: #ffffff
 );
 

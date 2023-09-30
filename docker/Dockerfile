@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:18
+FROM --platform=linux/amd64 node:20.2-slim
 
 COPY docker/package.json ./
 RUN npm install

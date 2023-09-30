@@ -3,7 +3,7 @@
 .vuiPrompt {
   position: relative;
   border-radius: $sizeM;
-  transition: all 0.2s;
+  transition: all $transitionSpeed;
   word-wrap: break-word;
 }
 
@@ -40,7 +40,7 @@ $color: (
     "color": $colorDanger,
     "background-color": $colorDangerLightShade
   ),
-  normal: (
+  neutral: (
     "color": $colorDarkShade,
     "background-color": $colorLightShade
   )

@@ -1,0 +1,54 @@
+.vuiCard {
+  display: flex;
+  flex-direction: column;
+  background-color: $colorEmptyShade;
+  border-radius: $sizeXs;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 0 0 0, rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 100%;
+  height: 100%;
+  transition: all $transitionSpeed;
+}
+
+.vuiCard--interactive {
+  &:hover {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    z-index: 1;
+  }
+}
+
+.vuiCard--center {
+  align-items: center;
+  text-align: center;
+
+  .vuiCard__content,
+  .vuiCard__footer {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.vuiCard--left {
+  align-items: flex-start;
+  text-align: left;
+
+  .vuiCard__content,
+  .vuiCard__footer {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+.vuiCard__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: $sizeM $sizeL;
+}
+
+.vuiCard__footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid $borderColorLight;
+  padding: $sizeM $sizeL;
+}

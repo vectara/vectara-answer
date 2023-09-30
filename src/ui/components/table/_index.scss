@@ -1,0 +1,70 @@
+.vuiTable {
+  width: 100%;
+  table-layout: fixed;
+
+  thead {
+    border-bottom: 1px solid $borderColor;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid $borderColorLight;
+
+    &.vuiTableRow-isBeingActedUpon,
+    &:not(.vuiTableRow--inert):hover {
+      background-color: $colorLightShade;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid $borderColor;
+    }
+  }
+
+  th {
+    font-size: $fontSizeStandard;
+    font-weight: $fontWeightBold;
+    padding: $sizeXxs;
+  }
+
+  td {
+    font-size: $fontSizeStandard;
+    padding: $sizeXxs;
+    vertical-align: middle;
+    word-break: break-word;
+  }
+}
+
+.vuiTable--fluid {
+  table-layout: auto;
+}
+
+.vuiTableCell {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.vuiTableActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.vuiTableManyPagesToken {
+  padding: 0 $sizeXs;
+}
+
+.vuiTableManyPagesToken-isDisabled {
+  opacity: 0.5;
+}
+
+.vuiTableHeaderSelect {
+  width: 32px;
+}
+
+.vuiTableHeaderActions {
+  width: 42px;
+}
+
+.vuiTableContent {
+  height: 80px;
+}

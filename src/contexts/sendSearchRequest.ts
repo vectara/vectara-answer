@@ -1,16 +1,21 @@
 import axios from "axios";
 import { START_TAG, END_TAG } from "../utils/parseSnippet";
-import { SUMMARY_LANGUAGES, SummaryLanguage } from "../views/search/types";
+import { SummaryLanguage } from "../views/search/types";
 
 type Config = {
   filter: string;
   query_str?: string;
   language?: SummaryLanguage;
-  includeSummary?: boolean;
+  summaryMode?: boolean;
   rerank?: boolean;
   rerankNumResults?: number;
+  rerankerId?: number;
+  hybridNumWords: number;
+  hybridLambdaShort?: number;
+  hybridLambdaLong?: number;
   summaryNumResults?: number;
   summaryNumSentences?: number;
+  summaryPromptName?: string;
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -21,20 +26,25 @@ export const sendSearchRequest = async ({
   filter,
   query_str,
   language,
-  includeSummary,
+  summaryMode,
   rerank,
   rerankNumResults,
+  rerankerId,
+  hybridNumWords,
+  hybridLambdaShort,
+  hybridLambdaLong,
   summaryNumResults,
   summaryNumSentences,
+  summaryPromptName,
   customerId,
   corpusId,
   endpoint,
   apiKey,
 }: Config) => {
   const lambda =
-    typeof query_str === "undefined" || query_str.trim().split(" ").length > 1
-      ? 0.025
-      : 0.1;
+    typeof query_str === "undefined" || query_str.trim().split(" ").length > hybridNumWords
+      ? hybridLambdaLong
+      : hybridLambdaShort;
   const corpusKeyList = corpusId.split(",").map((id) => {
     return {
       customerId,
@@ -54,27 +64,29 @@ export const sendSearchRequest = async ({
         numResults: rerank ? rerankNumResults : 10,
         corpusKey: corpusKeyList,
         context_config: {
-          sentences_before: includeSummary ? summaryNumSentences : 2,
-          sentences_after: includeSummary ? summaryNumSentences : 2,
+          sentences_before: summaryMode ? summaryNumSentences : 2,
+          sentences_after: summaryMode ? summaryNumSentences : 2,
           start_tag: START_TAG,
           end_tag: END_TAG,
         },
-        ...(includeSummary
+        ...(summaryMode
           ? {
-            summary: [
-              {
-                responseLang: language,
-                maxSummarizedResults: summaryNumResults,
-              },
-            ],
-          }
+              summary: [
+                {
+                  responseLang: language,
+                  maxSummarizedResults: summaryNumResults,
+                  summarizerPromptName: summaryPromptName,
+                },
+              ],
+            }
           : {}),
         ...(rerank
           ? {
-            reranking_config: {
-              reranker_id: 272725717
-            },
-          } : {}),
+              reranking_config: {
+                reranker_id: rerankerId,
+              },
+            }
+          : {}),
       },
     ],
   };
@@ -103,12 +115,30 @@ export const sendSearchRequest = async ({
       },
     };
   }
-  console.log(url);
   const result = await axios.post(url, body, headers);
 
   const status = result["data"]["responseSet"][0]["status"];
   if (status.length > 0 && status[0]["code"] === "UNAUTHORIZED") {
     console.log("UNAUTHORIZED access; check your API key and customer ID");
   }
+
+  if (summaryMode) {
+    const summaryStatus =
+      result["data"]["responseSet"][0]["summary"][0]["status"];
+    if (
+      summaryStatus.length > 0 &&
+      summaryStatus[0]["code"] === "BAD_REQUEST"
+    ) {
+      throw new Error(`BAD REQUEST: Too much text for the summarizer to summarize. Please try reducing the number of search results to summarize, or the context of each result by adjusting the 'summary_num_sentences', and 'summary_num_results' parameters respectively.`);
+    }
+    if (
+      summaryStatus.length > 0 &&
+      summaryStatus[0]["code"] === "NOT_FOUND" &&
+      summaryStatus[0]["statusDetail"] === "Failed to retrieve summarizer."
+    ) {
+      throw new Error(`BAD REQUEST: summarizer ${summaryPromptName} is invalid for this account.`);
+    }
+  }
+
   return result["data"]["responseSet"][0];
 };

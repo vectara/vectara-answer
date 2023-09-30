@@ -1,9 +1,8 @@
 import classNames from "classnames";
-
-const SIZE = ["xxs", "xs", "s", "m", "l", "xl", "xxl"] as const;
+import { SPACER_SIZE } from "./types";
 
 interface Props {
-  size: (typeof SIZE)[number];
+  size: (typeof SPACER_SIZE)[number];
 }
 
 export const VuiSpacer = ({ size = "m" }: Props) => {

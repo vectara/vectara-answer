@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ReactNode } from "react";
 
-const COLOR = ["danger", "normal"] as const;
+const COLOR = ["danger", "neutral"] as const;
 
 const paddingToClassNameMap = {
   xs: "vuiPrompt--paddingXs",
@@ -21,7 +21,14 @@ type Props = {
   isSpeechBubble?: boolean;
 };
 
-export const VuiPrompt = ({ children, className, onClick, color = "normal", padding = "l", isSpeechBubble }: Props) => {
+export const VuiPrompt = ({
+  children,
+  className,
+  onClick,
+  color = "neutral",
+  padding = "l",
+  isSpeechBubble
+}: Props) => {
   const Component = onClick ? "button" : "div";
   const classes = classNames(className, "vuiPrompt", `vuiPrompt--${color}`, paddingToClassNameMap[padding], {
     "vuiPrompt--interactive": onClick !== undefined,

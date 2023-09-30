@@ -1,4 +1,4 @@
-@import "../../../ui/globalStyling/index.scss";
+@import "../../../ui/styleUtils/index.scss";
 @import "../../../variables.scss";
 
 .searchControls {
@@ -13,8 +13,4 @@
 
 .filtersBar {
   height: 34px;
-}
-
-.no-underline {
-  text-decoration: none;
 }

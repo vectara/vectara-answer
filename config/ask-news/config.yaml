@@ -10,9 +10,7 @@ search_logo_height: "20"
 
 summary_default_language: "eng"
 summary_num_sentences: 3
-summary_num_results: 10
-rerank: true
-rerank_num_results: 100
+summary_num_results: 7
 
 enable_source_filters: True
 sources: "BBC,NPR,FOX,CNBC,CNN"

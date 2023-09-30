@@ -1,5 +1,11 @@
 .vuiCodeContainer {
   position: relative;
+  border-left: $sizeXxs solid $colorMediumShade;
+  max-height: 480px;
+}
+
+.vuiCodeContainer--fullHeight {
+  max-height: 100%;
 }
 
 .vuiCodeCopyButton {
@@ -8,14 +14,20 @@
   top: $sizeXxs;
 }
 
+.vuiCodePre {
+  padding: 0 !important;
+  margin: 0 !important;
+  max-height: inherit;
+}
+
 .vuiCode {
   display: block;
   width: 100%;
-  padding: $sizeXxs $sizeL;
+  padding: $sizeM $sizeL;
   background-color: $colorLightShade;
   color: $colorText;
-  border-left: $sizeXxs solid $colorMediumShade;
   font-family: "Roboto Mono", monospace;
   word-wrap: break-word;
   white-space: pre-wrap;
+  font-size: $fontSizeSmall !important;
 }

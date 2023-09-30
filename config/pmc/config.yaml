@@ -1,0 +1,16 @@
+corpus_id: 162
+customer_id: 1526022105
+
+search_title: "Rare Disease search"
+search_description: "Demo only. Not for clinical use."
+
+enable_source_filters: False
+sources: ""
+
+hybrid_search_num_words: 2
+hybrid_search_lambda_long: 0.0
+hybrid_search_lambda_short: 0.0
+
+summary_default_language: "eng"
+summary_num_sentences: 3
+summary_num_results: 7

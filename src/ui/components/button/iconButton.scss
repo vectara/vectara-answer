@@ -1,0 +1,44 @@
+.vuiIconButton {
+  display: inline-block;
+  border-radius: $sizeXxs;
+  padding: $sizeXxs;
+  line-height: 1;
+}
+
+// Color
+$color: (
+  accent: $colorAccent,
+  primary: $colorPrimary,
+  success: $colorSuccess,
+  warning: $colorWarning,
+  danger: $colorDanger,
+  neutral: $colorText
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiIconButton--#{$colorName} {
+    color: $colorValue;
+    background-color: transparentize($color: $colorValue, $amount: 1);
+    transition: all $transitionSpeed;
+
+    &:hover {
+      background-color: transparentize($color: $colorValue, $amount: 0.9);
+    }
+  }
+}
+
+// Size
+.vuiIconButton--xs {
+  padding: $sizeXxs;
+  height: 24px;
+}
+
+.vuiIconButton--s {
+  padding: $sizeXs * 0.75;
+  height: 28px;
+}
+
+.vuiIconButton--m {
+  padding: $sizeXs;
+  height: 34px;
+}

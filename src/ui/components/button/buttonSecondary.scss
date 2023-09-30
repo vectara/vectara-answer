@@ -1,0 +1,50 @@
+@use "sass:map";
+
+.vuiButtonSecondary {
+  &:hover {
+    box-shadow: $shadowSmallEnd;
+  }
+}
+
+.vuiButtonSecondary--solid {
+  background-color: $colorEmptyShade;
+}
+
+// Color
+$color: (
+  accent: (
+    "border-color": transparentize($colorAccent, 0.5),
+    "color": $colorAccent
+  ),
+  primary: (
+    "border-color": transparentize($colorPrimary, 0.5),
+    "color": $colorPrimary
+  ),
+  success: (
+    "border-color": transparentize($colorSuccess, 0.5),
+    "color": $colorSuccess
+  ),
+  danger: (
+    "border-color": transparentize($colorDanger, 0.5),
+    "color": $colorDanger
+  ),
+  warning: (
+    "border-color": transparentize($colorWarning, 0.5),
+    "color": $colorWarning
+  ),
+  neutral: (
+    "border-color": $borderColor,
+    "color": $colorText
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiButtonSecondary--#{$colorName} {
+    border: 1px solid #{map.get($colorValue, "border-color")};
+    color: #{map.get($colorValue, "color")};
+
+    &.vuiButtonSecondary-isSelected {
+      box-shadow: inset rgba(0, 0, 0, 0.1) 0px 2px 2px;
+    }
+  }
+}

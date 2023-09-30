@@ -5,7 +5,7 @@ $color: (
   warning: $colorWarning,
   danger: $colorDanger,
   subdued: $colorSubdued,
-  normal: $colorText
+  neutral: $colorText
 );
 
 @each $colorName, $colorValue in $color {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   createContext,
   useContext,
@@ -11,6 +12,7 @@ import {
   DeserializedSearchResult,
   SearchResponse,
   SummaryLanguage,
+  SearchError,
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -40,15 +42,17 @@ interface SearchContextType {
   }) => void;
   reset: () => void;
   isSearching: boolean;
-  searchError: any;
+  searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
-  includeSummary: boolean;
+  searchTime: number;
   isSummarizing: boolean;
-  summarizationError: any;
+  summarizationError: SearchError | undefined;
   summarizationResponse: SearchResponse | undefined;
+  summaryTime: number;
   language: SummaryLanguage;
   summaryNumResults: number;
   summaryNumSentences: number;
+  summaryPromptName: string;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -71,7 +75,9 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank } = useConfigContext();
+  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
+    useConfigContext();
+  const isSummaryEnabled = uxMode === "summary";
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
@@ -86,14 +92,18 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   // Basic search
   const [isSearching, setIsSearching] = useState(false);
-  const [searchError, setSearchError] = useState<any>();
+  const [searchError, setSearchError] = useState<SearchError | undefined>();
   const [searchResponse, setSearchResponse] = useState<SearchResponse>();
+  const [searchTime, setSearchTime] = useState<number>(0);
 
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
-  const [summarizationError, setSummarizationError] = useState<any>();
+  const [summarizationError, setSummarizationError] = useState<
+    SearchError | undefined
+  >();
   const [summarizationResponse, setSummarizationResponse] =
     useState<SearchResponse>();
+  const [summaryTime, setSummaryTime] = useState<number>(0);
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -115,13 +125,15 @@ export const SearchContextProvider = ({ children }: Props) => {
     const urlParams = new URLSearchParams(searchParams);
 
     onSearch({
-      value: getQueryParam(urlParams, "query"),
+      // Set to an empty string to wipe out any existing search value.
+      value: getQueryParam(urlParams, "query") ?? "",
       filter: getQueryParam(urlParams, "filter"),
       language: getQueryParam(urlParams, "language") as
         | SummaryLanguage
         | undefined,
       isPersistable: false,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
 
   const searchResults = deserializeSearchResponse(searchResponse);
@@ -200,58 +212,93 @@ export const SearchContextProvider = ({ children }: Props) => {
       setIsSummarizing(true);
       setSelectedSearchResultPosition(undefined);
 
+      let initialSearchResponse;
+
       try {
-        const response = await sendSearchRequest({
+        const startTime = Date.now();
+        initialSearchResponse = await sendSearchRequest({
           filter,
           query_str: value,
           rerank: rerank.isEnabled,
           rerankNumResults: rerank.numResults,
+          rerankerId: rerank.id,
+          hybridNumWords: hybrid.numWords,
+          hybridLambdaLong: hybrid.lambdaLong,
+          hybridLambdaShort: hybrid.lambdaShort,
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
           apiKey: search.apiKey!,
         });
+        const totalTime = Date.now() - startTime;
+
         // If we send multiple requests in rapid succession, we only want to
         // display the results of the most recent request.
         if (searchId === searchCount) {
           setIsSearching(false);
-          setSearchError(undefined);
-          setSearchResponse(response);
+          setSearchTime(totalTime);
+          setSearchResponse(initialSearchResponse);
+
+          if (initialSearchResponse.response.length > 0) {
+            setSearchError(undefined);
+          } else {
+            setSearchError({
+              message: "There weren't any results for your search.",
+            });
+          }
         }
       } catch (error) {
+        console.log("Search error", error);
         setIsSearching(false);
-        setSearchError(error);
+        setSearchError(error as SearchError);
         setSearchResponse(undefined);
       }
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
-      if (summary.isEnabled) {
-        try {
-          const response = await sendSearchRequest({
-            filter,
-            query_str: value,
-            includeSummary: true,
-            rerank: rerank.isEnabled,
-            rerankNumResults: rerank.numResults,
-            summaryNumResults: summary.summaryNumResults,
-            summaryNumSentences: summary.summaryNumSentences,
-            language,
-            customerId: search.customerId!,
-            corpusId: search.corpusId!,
-            endpoint: search.endpoint!,
-            apiKey: search.apiKey!,
-          });
+      if (isSummaryEnabled) {
+        if (initialSearchResponse.response.length > 0) {
+          const startTime = Date.now();
+          try {
+            const response = await sendSearchRequest({
+              filter,
+              query_str: value,
+              summaryMode: true,
+              rerank: rerank.isEnabled,
+              rerankNumResults: rerank.numResults,
+              rerankerId: rerank.id,
+              summaryNumResults: summary.summaryNumResults,
+              summaryNumSentences: summary.summaryNumSentences,
+              summaryPromptName: summary.summaryPromptName,
+              hybridNumWords: hybrid.numWords,
+              hybridLambdaLong: hybrid.lambdaLong,
+              hybridLambdaShort: hybrid.lambdaShort,
+              language,
+              customerId: search.customerId!,
+              corpusId: search.corpusId!,
+              endpoint: search.endpoint!,
+              apiKey: search.apiKey!,
+            });
+            const totalTime = Date.now() - startTime;
 
-          // If we send multiple requests in rapid succession, we only want to
-          // display the results of the most recent request.
-          if (searchId === searchCount) {
+            // If we send multiple requests in rapid succession, we only want to
+            // display the results of the most recent request.
+            if (searchId === searchCount) {
+              setIsSummarizing(false);
+              setSummarizationError(undefined);
+              setSummarizationResponse(response);
+              setSummaryTime(totalTime);
+            }
+          } catch (error) {
+            console.log("Summary error", error);
             setIsSummarizing(false);
-            setSummarizationError(undefined);
-            setSummarizationResponse(response);
+            setSummarizationError(error as SearchError);
+            setSummarizationResponse(undefined);
           }
-        } catch (error) {
+        } else {
           setIsSummarizing(false);
-          setSummarizationError(error);
+          setSummarizationError({
+            message: "No search results to summarize",
+          });
           setSummarizationResponse(undefined);
         }
       }
@@ -284,13 +331,15 @@ export const SearchContextProvider = ({ children }: Props) => {
         isSearching,
         searchError,
         searchResults,
-        includeSummary: summary.isEnabled,
+        searchTime,
         isSummarizing,
         summarizationError,
         summarizationResponse,
+        summaryTime,
         language: getLanguage(),
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
+        summaryPromptName: summary.summaryPromptName,
         history,
         clearHistory,
         searchResultsRef,

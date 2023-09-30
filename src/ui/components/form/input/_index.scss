@@ -1,0 +1,24 @@
+.vuiInput {
+  appearance: none;
+  border-radius: $sizeXxs;
+  border: 1px solid $colorMediumShade;
+  background-color: $colorEmptyShade;
+}
+
+.vuiInput--m {
+  padding: $sizeXs $size;
+  font-size: $fontSizeStandard;
+}
+
+.vuiInput--l {
+  padding: $sizeS $sizeM;
+  font-size: $fontSizeLarge;
+}
+
+.vuiInput--fullWidth {
+  width: 100%;
+}
+
+.vuiInput-isInvalid {
+  border-color: $colorDanger;
+}

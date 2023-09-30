@@ -1,14 +1,40 @@
 .vuiOptionsList {
   display: flex;
   flex-direction: column;
+  font-size: $fontSizeStandard;
+}
+
+.vuiOptionsList--scrollable {
+  max-height: 220px;
+  overflow-y: auto;
 }
 
 .vuiOptionsListItem {
-  padding: $sizeXxs $sizeXs;
   background-color: $colorEmptyShade;
+  color: $colorText;
+  text-decoration: none;
 
   &:hover {
     background-color: $colorLightShade;
+    color: $colorText;
     text-decoration: underline;
+  }
+}
+
+.vuiOptionsList--s {
+  .vuiOptionsListItem {
+    padding: ($sizeXxs + 1px) $sizeXs;
+  }
+}
+
+.vuiOptionsList--m {
+  .vuiOptionsListItem {
+    padding: ($sizeXxs + 1px) $sizeS;
+  }
+}
+
+.vuiOptionsList--l {
+  .vuiOptionsListItem {
+    padding: $sizeXs $sizeS;
   }
 }

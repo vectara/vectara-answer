@@ -1,0 +1,29 @@
+.vuiListNumber {
+  display: flex;
+  flex-direction: column;
+  border-radius: $sizeL;
+  background-color: $colorLightShade;
+  color: $colorSubdued;
+  font-weight: $fontWeightBold;
+  line-height: 0;
+  align-items: center;
+}
+
+.vuiListNumber--m {
+  width: $sizeM;
+  height: $sizeM;
+  padding: $sizeM;
+  font-size: $fontSizeMedium;
+}
+
+.vuiListNumber--s {
+  width: $sizeS;
+  height: $sizeS;
+  padding: $sizeS;
+  font-size: $fontSizeSmall;
+}
+
+.vuiListNumber-isComplete {
+  background-color: $colorAccentLightShade;
+  color: $colorAccent;
+}

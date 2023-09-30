@@ -1,12 +1,14 @@
+import classNames from "classnames";
 import { VuiText } from "../typography/Text";
 import { VuiSummaryCitation } from "./SummaryCitation";
-import { extractCitations } from "./extractCitations";
+import { extractCitations } from "../../utils/citations/extractCitations";
 
 type Props = {
   summary?: string;
   children?: React.ReactNode;
   selectedCitationPosition?: number;
   onClickCitation?: (position: number) => void;
+  className?: string;
 };
 
 const decorateSummary = (
@@ -32,8 +34,6 @@ const decorateSummary = (
         const position = parseInt(reference, 10);
         accum.push(
           <VuiSummaryCitation
-            marginBefore={false}
-            marginAfter={false}
             onClick={() => onClickCitation && onClickCitation(position)}
             key={`${text}-${index}-${reference}-${referenceIndex}`}
             isSelected={selectedCitationPosition === position}
@@ -55,7 +55,7 @@ const decorateSummary = (
   }, [] as JSX.Element[]);
 };
 
-export const VuiSummary = ({ summary, selectedCitationPosition, onClickCitation, children }: Props) => {
+export const VuiSummary = ({ summary, selectedCitationPosition, onClickCitation, children, className }: Props) => {
   let content;
   if (summary) {
     content = decorateSummary(summary, onClickCitation, selectedCitationPosition);
@@ -63,8 +63,12 @@ export const VuiSummary = ({ summary, selectedCitationPosition, onClickCitation,
     content = children;
   }
 
+  // Protect users' privacy in FullStory.
+  // https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-FullStory-#01F5DPW1AJHZHR8TBM9YQEDRMH
+  const classes = classNames("vuiSummary", "fs-mask", className);
+
   return (
-    <div className="vuiSummary">
+    <div className={classes}>
       <VuiText size="m">{content}</VuiText>
     </div>
   );

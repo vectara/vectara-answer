@@ -1,9 +1,14 @@
 .vuiSummary {
-  font-size: $fontSize;
+  font-size: $fontSizeMedium;
 }
 
 .vuiSummaryCitation {
   position: relative;
   top: -2px;
   display: inline-block !important;
+}
+
+.vuiSummaryCitation-isSelected {
+  background-color: $colorPrimary;
+  color: $colorEmptyShade;
 }

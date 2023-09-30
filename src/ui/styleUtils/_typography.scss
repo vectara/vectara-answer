@@ -1,0 +1,19 @@
+@use "sass:map";
+
+$fontSizeSmall: 12px;
+$fontSizeStandard: 14px;
+$fontSizeMedium: 16px;
+$fontSizeLarge: 18px;
+$fontSizeXLarge: 24px;
+$fontSizeXxLarge: 30px;
+$fontSizeXxxLarge: 40px;
+
+$colorText: $colorDarkerShade;
+$colorSubdued: $colorDarkShade;
+
+$fontWeightNormal: 400;
+$fontWeightBold: 600;
+
+$labelFontSize: $fontSizeStandard;
+$labelFontWeight: $fontWeightBold;
+$labelColor: $colorText;

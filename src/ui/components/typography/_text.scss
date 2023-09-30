@@ -1,29 +1,56 @@
-@mixin defineTextStyles($factor) {
+.vuiText {
+  overflow-wrap: break-word;
+  word-break: break-word;
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: auto;
+  }
+
+  ul,
+  ol {
+    margin-left: $sizeM;
+    margin-bottom: $sizeXs;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.vuiText--truncate {
+  @include truncateText;
+}
+
+@mixin defineTextStyles($fontSize) {
   color: $colorText;
-  font-size: $fontSize * $factor;
+  font-size: $fontSize;
   line-height: 1.4;
 
   p {
-    font-size: $fontSize * $factor;
+    font-size: $fontSize;
     line-height: 1.4;
-    margin-bottom: 0;
-  }
+    margin-bottom: $sizeXs;
 
-  p + p {
-    margin-top: $sizeS * $factor;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
 $size: (
-  xs: 0.75,
-  s: 0.875,
-  m: 1,
-  l: 1.125
+  xs: $fontSizeSmall,
+  s: $fontSizeStandard,
+  m: $fontSizeMedium,
+  l: $fontSizeLarge
 );
 
-@each $sizeName, $sizeFactor in $size {
+@each $sizeName, $fontSize in $size {
   .vuiText--#{$sizeName} {
-    @include defineTextStyles($sizeFactor);
+    @include defineTextStyles($fontSize);
   }
 }
 

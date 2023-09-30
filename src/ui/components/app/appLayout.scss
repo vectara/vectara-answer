@@ -1,0 +1,20 @@
+.vuiAppLayout {
+  display: flex;
+  flex-direction: row;
+  padding-top: $appHeaderHeight;
+  height: 100vh;
+}
+
+.vuiAppLayout__sideNav {
+  border-right: 1px solid $colorMediumShade;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.vuiAppLayout__content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+}

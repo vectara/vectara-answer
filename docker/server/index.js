@@ -41,6 +41,7 @@ app.post("/config", (req, res) => {
     api_key,
 
     // App
+    ux,
     app_title,
     enable_app_header,
     enable_app_footer,
@@ -57,15 +58,21 @@ app.post("/config", (req, res) => {
     enable_source_filters,
     sources,
 
-    // summary
-    enable_summary,
+    // Summary
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
+    summary_prompt_name,
 
     // rerank
     rerank,
     rerank_num_results,
+    reranker_id,
+
+    // hybrid search
+    hybrid_search_num_words,
+    hybrid_search_lambda_long,
+    hybrid_search_lambda_short,
 
     // Search header
     search_logo_link,
@@ -93,6 +100,7 @@ app.post("/config", (req, res) => {
     api_key,
 
     // App
+    ux,
     app_title,
     enable_app_header,
     enable_app_footer,
@@ -110,14 +118,20 @@ app.post("/config", (req, res) => {
     sources,
 
     // summary
-    enable_summary,
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
+    summary_prompt_name,
+
+    // hybrid search
+    hybrid_search_num_words,
+    hybrid_search_lambda_long,
+    hybrid_search_lambda_short,
 
     // rerank
     rerank,
     rerank_num_results,
+    reranker_id,
 
     // Search header
     search_logo_link,

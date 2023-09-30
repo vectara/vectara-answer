@@ -6,9 +6,9 @@ import {
   VuiFlexItem,
   VuiTitle,
   VuiTextColor,
-  VuiButtonEmpty,
-  VuiButton,
+  VuiButtonTertiary,
   VuiText,
+  VuiButtonPrimary,
 } from "../../../ui";
 import "./appHeader.scss";
 
@@ -23,6 +23,10 @@ export const AppHeader = () => {
         <VuiFlexItem grow={1}>
           <VuiFlexContainer alignItems="center" wrap={true} spacing="xxs">
             <VuiFlexItem>
+              {/* We want this disabled so we can track outbound links. Enabling
+          this would add the rel="noopener noreferrer" attribute to the
+          link. */}
+              {/* eslint-disable-next-line react/jsx-no-target-blank */}
               <a
                 href={appHeader.logo.link ?? "https://vectara.com/"}
                 target="_blank"
@@ -57,17 +61,17 @@ export const AppHeader = () => {
                   </VuiText>
                 </VuiFlexItem>
                 <VuiFlexItem>
-                  <VuiButtonEmpty color="normal" size="m" onClick={logOut}>
+                  <VuiButtonTertiary color="neutral" size="m" onClick={logOut}>
                     Log out
-                  </VuiButtonEmpty>
+                  </VuiButtonTertiary>
                 </VuiFlexItem>
               </>
             )}
 
             {appHeader.learnMore.link && (
               <VuiFlexItem>
-                <VuiButtonEmpty
-                  color="accent"
+                <VuiButtonTertiary
+                  color="primary"
                   size="m"
                   href={appHeader.learnMore.link}
                   target="_blank"
@@ -80,13 +84,13 @@ export const AppHeader = () => {
                   }}
                 >
                   {appHeader.learnMore.text ?? "About"}
-                </VuiButtonEmpty>
+                </VuiButtonTertiary>
               </VuiFlexItem>
             )}
 
             <VuiFlexItem>
-              <VuiButton
-                color="accent"
+              <VuiButtonPrimary
+                color="primary"
                 size="m"
                 href="https://console.vectara.com/"
                 target="_blank"
@@ -99,7 +103,7 @@ export const AppHeader = () => {
                 }}
               >
                 Try Vectara now
-              </VuiButton>
+              </VuiButtonPrimary>
             </VuiFlexItem>
           </VuiFlexContainer>
         </VuiFlexItem>

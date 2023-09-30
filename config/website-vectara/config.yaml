@@ -1,0 +1,11 @@
+corpus_id: 2
+customer_id: 1169579801
+
+search_title: "Vectara website search"
+
+enable_source_filters: False
+source: ""
+
+summary_default_language: "eng"
+summary_num_sentences: 3
+summary_num_results: 7

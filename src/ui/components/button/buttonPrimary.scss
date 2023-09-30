@@ -1,0 +1,47 @@
+@use "sass:map";
+
+.vuiButtonPrimary {
+  &:hover {
+    box-shadow: $shadowSmallEnd;
+  }
+}
+
+// Color
+$color: (
+  accent: (
+    "color": #ffffff,
+    "background-color": $colorAccent
+  ),
+  primary: (
+    "color": #ffffff,
+    "background-color": $colorPrimary
+  ),
+  success: (
+    "color": #ffffff,
+    "background-color": $colorSuccess
+  ),
+  danger: (
+    "color": #ffffff,
+    "background-color": $colorDanger
+  ),
+  warning: (
+    "color": #ffffff,
+    "background-color": $colorWarning
+  ),
+  neutral: (
+    "color": $colorText,
+    "background-color": transparentize($colorText, 0.9)
+  )
+);
+
+@each $colorName, $colorValue in $color {
+  .vuiButtonPrimary--#{$colorName} {
+    color: #{map.get($colorValue, "color")};
+    background-color: #{map.get($colorValue, "background-color")};
+    border: 1px solid #{map.get($colorValue, "background-color")};
+
+    &.vuiButtonPrimary-isSelected {
+      box-shadow: inset rgba(50, 50, 93, 0.25) 0px 6px 8px -2px, inset rgba(0, 0, 0, 0.3) 0px 3px 4px -3px;
+    }
+  }
+}

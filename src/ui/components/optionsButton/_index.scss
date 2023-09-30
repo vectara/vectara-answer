@@ -1,0 +1,42 @@
+.vuiOptionsButtonLeft {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+}
+
+.vuiOptionsButtonRight {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 1px solid;
+}
+
+// Color
+$colorPrimaryButton: (
+  accent: transparentize($colorEmptyShade, 0.5),
+  primary: transparentize($colorEmptyShade, 0.5),
+  success: transparentize($colorEmptyShade, 0.5),
+  danger: transparentize($colorEmptyShade, 0.5),
+  warning: transparentize($colorEmptyShade, 0.5),
+  neutral: transparentize($colorText, 0.8)
+);
+
+@each $colorName, $colorValue in $colorPrimaryButton {
+  .vuiButtonPrimary.vuiOptionsButtonRight--#{$colorName} {
+    border-left-color: $colorValue;
+  }
+}
+
+$coloSecondaryButton: (
+  accent: transparentize($colorAccent, 0.7),
+  primary: transparentize($colorPrimary, 0.7),
+  success: transparentize($colorSuccess, 0.7),
+  danger: transparentize($colorDanger, 0.7),
+  warning: transparentize($colorWarning, 0.7),
+  neutral: transparentize($colorText, 0.8)
+);
+
+@each $colorName, $colorValue in $coloSecondaryButton {
+  .vuiButtonSecondary.vuiOptionsButtonRight--#{$colorName} {
+    border-left-color: $colorValue;
+  }
+}

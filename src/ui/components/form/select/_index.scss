@@ -4,9 +4,11 @@
   width: 100%;
 
   select {
+    background-color: $colorEmptyShade;
     appearance: none;
     border-radius: $sizeXxs;
     border: 1px solid $colorMediumShade;
+    color: $colorFullShade;
     width: 100%;
   }
 }
@@ -22,7 +24,7 @@
 .vuiSelect--m {
   select {
     padding: $sizeXs $size;
-    font-size: $fontSizeXs;
+    font-size: $fontSizeStandard;
     padding-right: 32px;
   }
 
@@ -34,11 +36,17 @@
 .vuiSelect--l {
   select {
     padding: $sizeS $sizeM;
-    font-size: $fontSizeM;
+    font-size: $fontSizeLarge;
     padding-right: 48px;
   }
 
   .vuiSelect__caret {
     top: calc(50% - 14px);
+  }
+}
+
+.vuiSelect-isInvalid {
+  select {
+    border-color: $colorDanger;
   }
 }

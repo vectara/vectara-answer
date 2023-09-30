@@ -1,0 +1,26 @@
+@use "sass:map";
+
+.vuiAppContent {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.vuiAppContent--fullWidth {
+  max-width: 100%;
+}
+
+// Padding
+$padding: (
+  None: 0,
+  Xs: $sizeXs $sizeXs * 1.25,
+  S: $sizeS $sizeS * 1.25,
+  M: $sizeM $sizeM * 1.25,
+  L: $sizeL $sizeL * 1.25,
+  Xl: $sizeXl $sizeXl * 1.25
+);
+
+@each $paddingName, $paddingValue in $padding {
+  .vuiAppContent--padding#{$paddingName} {
+    padding: #{$paddingValue};
+  }
+}

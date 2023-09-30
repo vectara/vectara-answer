@@ -182,17 +182,33 @@ sources: "BBC,NPR,FOX,CNBC,CNN"
 The way summarization works can be configured as follows:
 
 ```yaml
-# Hide or show summary (if not specified defaults to True). When set to False, it hides the summary and prevents the call to the summarization API.
-enable_summary: True
+# Switches the mode of the ux to "summary" mode or "search" mode (if not specified defaults to summary mode). When set to "summary", a summary is shown along with references used in the summary. When set to "search", only search results are shown and no calls made to the summarization API.
+ux: "summary"
 
 # Default language for summary response (if not specified defaults to "auto")
-summary_default_language: "en"
+summary_default_language: "eng"
 
 # Number of sentences before and after relevant text segment used for summarization
 summary_num_sentences: 3
 
 # Number of results used for summarization
 summary_num_results: 10
+
+# The name of the summarization prompt in Vectara
+# If you are a Vectara scale customer you can use custom prompts.
+# This field names a custom prompt, otherwise it uses the default for the account.
+summary_prompt_name: vectara-summary-ext-v1.2.0
+```
+
+#### Hybrid Search (optional)
+
+By default, vectara-answer utilizes hybrid search with lambda=0.1 for short queries (num_words<=2) and lambda=0 (pure neural search) otherwise, but you can define other values here.
+
+```yaml
+# hybrid search
+hybrid_search_num_words: 2
+hybrid_search_lambda_long: 0.0
+hybrid_search_lambda_short: 0.1
 ```
 
 #### Reranking (optional)
@@ -202,6 +218,7 @@ Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference
 ```yaml
 # Reranking: true or false and number of results to use for reranking
 rerank: "true"
+reranker_id: 272725717
 rerank_num_results: 50
 ```
 

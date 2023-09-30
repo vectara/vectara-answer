@@ -19,7 +19,7 @@ $buttonSize: $toggleHeight - ($buttonOffset * 2);
     background-color: $colorPrimary;
   }
 
-  &:focus + .vuiToggle__button {
+  &:focus-visible + .vuiToggle__button {
     outline: 2px solid transparentize($colorPrimary, 0.25);
     outline-offset: 2px;
   }
