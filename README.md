@@ -313,15 +313,8 @@ The container generated is called `vanswer`, and after it is started, you can:
 
 ### Cloud deployment
 
-You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP.
-
-1. Create your configuration file for the project under the `config/` directory.
-2. Run `python3 prepare_config.py <config_file_name>` to generate the `.env` file
-3. Push the docker to the cloud specific docker container registry:
-   - [AWS instructions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html).
-   - [Azure instructions](https://learn.microsoft.com/en-us/azure/container-apps/get-started-existing-container-image-portal?pivots=container-apps-private-registry).
-   - [GCP instructions](https://cloud.google.com/run/docs/quickstarts/build-and-deploy).
-4. Launch the container on a VM instance based on the Docker image now hosted in your cloud environment. Make sure to load the `.env` and the `config/` directory as volumes that the Docker recognizes as shown in `run.sh`.
+You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP as well as on specialized cloud services like Render or Heroku.
+See [detailed instructions](HOSTING.MD)
 
 ## FAQs
 
