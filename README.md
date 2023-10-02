@@ -173,6 +173,9 @@ If your application uses more than one corpus, you can define source filters to 
 # Hide or show source filters.
 enable_source_filters: True
 
+# whether the "all source" button should be enabled or not (default true)
+all_sources: True
+
 # A comma-separated list of the sources on which users can filter.
 sources: "BBC,NPR,FOX,CNBC,CNN"
 ```

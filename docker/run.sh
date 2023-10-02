@@ -24,6 +24,10 @@ else
     correct_path="$PWD/$1"
 fi
 docker run --platform=linux/amd64 -d  -v $correct_path/queries.json:/usr/src/app/build/queries.json  --env-file .env --name vanswer -p 127.0.0.1:80:3000/tcp vectara-answer
-echo "Success! Application is running at http://localhost:80.\nTo shut it down use: docker container stop vanswer."
-sleep 5
-open http://localhost
+if [ $? -eq 0 ]; then
+  echo "Success! Application is running at http://localhost:80.\nTo shut it down use: docker container stop vanswer."
+  sleep 5
+  open http://localhost
+else
+  echo "Container failed to start."
+fi

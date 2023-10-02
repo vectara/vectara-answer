@@ -36,6 +36,7 @@ interface Config {
 
   // Filters
   config_enable_source_filters?: string;
+  config_all_sources?: string;
   config_sources?: string;
 
   // Search header
@@ -106,6 +107,7 @@ type Source = { value: string; label: string };
 type Filters = {
   isEnabled: boolean;
   sources: Source[];
+  allSources: boolean;
   sourceValueToLabelMap?: Record<string, string>;
 };
 
@@ -236,6 +238,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [filters, setFilters] = useState<Filters>({
     isEnabled: false,
     sources: [],
+    allSources: true,
     sourceValueToLabelMap: {},
   });
   const [searchHeader, setSearchHeader] = useState<SearchHeader>({ logo: {} });
@@ -311,6 +314,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
         // Filters
         config_enable_source_filters,
+        config_all_sources,
         config_sources,
 
         // App header
@@ -384,6 +388,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       const isFilteringEnabled = isTrue(config_enable_source_filters);
+      const allSources = (config_all_sources === undefined) ? true : isTrue(config_all_sources);
 
       const sources =
         config_sources?.split(",").map((source) => ({
@@ -406,6 +411,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       setFilters({
         isEnabled: isFilteringEnabled,
+        allSources: allSources,
         sources,
         sourceValueToLabelMap,
       });

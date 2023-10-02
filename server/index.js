@@ -55,6 +55,7 @@ app.post("/config", (req, res) => {
 
     // Filters
     enable_source_filters,
+    all_sources,
     sources,
 
     // summary
@@ -114,6 +115,7 @@ app.post("/config", (req, res) => {
 
     // Filters
     enable_source_filters,
+    all_sources,
     sources,
 
     // summary
