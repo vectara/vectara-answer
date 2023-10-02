@@ -49,6 +49,8 @@ export const SearchControls = ({ hasQuery }: Props) => {
       });
     }
 
+    // if allSources is false, then we set the filterValue is set to the first source
+    // In this case the "All sources" button is not there, and the first source is selected by default
     if (!filters.allSources && filterValue === "") {
       setFilterValue(filters.sources[0].value)
     }
