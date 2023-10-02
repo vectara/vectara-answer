@@ -79,6 +79,19 @@ export const SUMMARY_LANGUAGES = [
   "jpn",
   "pol",
   "tur",
+  "heb",
+  "vie",
+  "ind",
+  "ces",
+  "ukr",
+  "ell",
+  "fas",
+  "hin",
+  "urd",
+  "swe",
+  "ben",
+  "msa",
+  "ron",
 ] as const;
 
 export type SummaryLanguage = (typeof SUMMARY_LANGUAGES)[number];
@@ -100,6 +113,19 @@ const codeToLanguageMap: Record<SummaryLanguage, string> = {
   jpn: "Japanese",
   pol: "Polish",
   tur: "Turkish",
+  heb: "Hebrew",
+  vie: "Vietnamese",
+  ind: "Indonesian",
+  ces: "Czech",
+  ukr: "Ukrainian",
+  ell: "Greek",
+  fas: "Farsi",
+  hin: "Hindi",
+  urd: "Urdu",
+  swe: "Swedish",
+  ben: "Bengali",
+  msa: "Malay",
+  ron: "Romanian",
 } as const;
 
 export const humanizeLanguage = (language: SummaryLanguage): string => {
