@@ -105,7 +105,7 @@ export const ProgressReport = ({ isSearching, isSummarizing }: Props) => {
               <>
                 <VuiText>
                   <p>
-                    Retrieved search {numSearchResults} results in{" "}
+                    Retrieved {numSearchResults} search results in{" "}
                     {humanizeTime(searchTime)}
                   </p>
                 </VuiText>
