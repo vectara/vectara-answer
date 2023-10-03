@@ -71,6 +71,7 @@ interface Config {
   config_rerank?: string;
   config_rerank_num_results?: number;
   config_reranker_id?: number;
+  config_rerank_diversity_bias?: number;
 }
 
 type ConfigProp = keyof Config;
@@ -136,7 +137,7 @@ type Analytics = {
   googleAnalyticsTrackingCode?: string;
   fullStoryOrgId?: string;
 };
-type Rerank = { isEnabled: boolean; numResults?: number; id?: number };
+type Rerank = { isEnabled: boolean; numResults?: number; id?: number, diversityBias?: number };
 type Hybrid = { numWords: number, lambdaLong: number, lambdaShort: number };
 
 interface ConfigContextType {
@@ -250,7 +251,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [rerank, setRerank] = useState<Rerank>({
     isEnabled: false,
     numResults: 100,
-    id: 272725717
+    id: 272725717,
+    diversityBias: 0.3
   });
   const [hybrid, setHybrid] = useState<Hybrid>({
     numWords: 2,
@@ -346,6 +348,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_rerank,
         config_rerank_num_results,
         config_reranker_id,
+        config_rerank_diversity_bias,
 
         // hybrid search
         config_hybrid_search_num_words,
@@ -453,6 +456,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         isEnabled: isTrue(config_rerank),
         numResults: config_rerank_num_results ?? rerank.numResults,
         id: config_reranker_id ?? rerank.id,
+        diversityBias: config_rerank_diversity_bias ?? rerank.diversityBias
       });
 
       setHybrid({

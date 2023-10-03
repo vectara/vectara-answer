@@ -73,6 +73,7 @@ app.post("/config", (req, res) => {
     rerank,
     rerank_num_results,
     reranker_id,
+    rerank_diversity_bias,
 
     // Search header
     search_logo_link,
@@ -133,6 +134,7 @@ app.post("/config", (req, res) => {
     rerank,
     rerank_num_results,
     reranker_id,
+    rerank_diversity_bias,
 
     // Search header
     search_logo_link,

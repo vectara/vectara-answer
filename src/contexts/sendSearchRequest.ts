@@ -10,6 +10,7 @@ type Config = {
   rerank?: boolean;
   rerankNumResults?: number;
   rerankerId?: number;
+  rerankDiversityBias?: number;
   hybridNumWords: number;
   hybridLambdaShort?: number;
   hybridLambdaLong?: number;
@@ -30,6 +31,7 @@ export const sendSearchRequest = async ({
   rerank,
   rerankNumResults,
   rerankerId,
+  rerankDiversityBias,
   hybridNumWords,
   hybridLambdaShort,
   hybridLambdaLong,
@@ -84,6 +86,9 @@ export const sendSearchRequest = async ({
           ? {
               reranking_config: {
                 reranker_id: rerankerId,
+                mmrConfig: {
+                  diversityBias: rerankDiversityBias,
+                }
               },
             }
           : {}),

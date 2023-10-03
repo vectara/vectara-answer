@@ -69,6 +69,7 @@ app.post("/config", (req, res) => {
     rerank,
     rerank_num_results,
     reranker_id,
+    rerank_diversity_bias,
 
     // hybrid search
     hybrid_search_num_words,
@@ -134,6 +135,7 @@ app.post("/config", (req, res) => {
     rerank,
     rerank_num_results,
     reranker_id,
+    rerank_diversity_bias,
 
     // Search header
     search_logo_link,
