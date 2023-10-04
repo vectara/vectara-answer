@@ -86,8 +86,8 @@ export const sendSearchRequest = async ({
           ? {
               reranking_config: {
                 reranker_id: rerankerId,
-                mmrConfig: {
-                  diversityBias: rerankDiversityBias,
+                mmr_config: {
+                  diversity_bias: rerankDiversityBias,
                 }
               },
             }
