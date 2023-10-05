@@ -1,6 +1,6 @@
 import axios from "axios";
 import { START_TAG, END_TAG } from "../utils/parseSnippet";
-import { SummaryLanguage } from "../views/search/types";
+import { SummaryLanguage, mmr_reranker_id } from "../views/search/types";
 
 type Config = {
   filter: string;
@@ -86,7 +86,7 @@ export const sendSearchRequest = async ({
           ? {
               reranking_config: {
                 reranker_id: rerankerId,
-                ...(rerankerId === 272725718 ? {
+                ...(rerankerId === mmr_reranker_id ? {
                       mmr_config: {
                         diversity_bias: rerankDiversityBias,
                       }

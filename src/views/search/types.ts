@@ -132,4 +132,7 @@ export const humanizeLanguage = (language: SummaryLanguage): string => {
   return codeToLanguageMap[language];
 };
 
+export const normal_reranker_id = 272725717
+export const mmr_reranker_id = 272725718
+
 export type UxMode = "search" | "summary";

@@ -11,6 +11,7 @@ import {
   SummaryLanguage,
   SUMMARY_LANGUAGES,
   UxMode,
+  normal_reranker_id, mmr_reranker_id
 } from "../views/search/types";
 
 interface Config {
@@ -461,7 +462,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setRerank({
         isEnabled: isTrue(config_mmr) || isTrue(config_rerank),
         numResults: isTrue(config_mmr) ? config_mmr_num_results : config_rerank_num_results ?? rerank.numResults,
-        id: isTrue(config_mmr) ? 272725718 : 272725717,
+        id: isTrue(config_mmr) ? mmr_reranker_id : normal_reranker_id,
         diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias
       });
 
