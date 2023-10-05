@@ -86,9 +86,12 @@ export const sendSearchRequest = async ({
           ? {
               reranking_config: {
                 reranker_id: rerankerId,
-                mmr_config: {
-                  diversity_bias: rerankDiversityBias,
-                }
+                ...(rerankerId === 272725718 ? {
+                      mmr_config: {
+                        diversity_bias: rerankDiversityBias,
+                      }
+                    } : {}
+                ),
               },
             }
           : {}),
