@@ -219,10 +219,25 @@ hybrid_search_lambda_short: 0.1
 Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "false".
 
 ```yaml
-# Reranking: true or false and number of results to use for reranking
-rerank: "true"
-reranker_id: 272725717
+# Reranking: true or false
+rerank: false
+
+# number of results to use for reranking
 rerank_num_results: 50
+```
+
+Whether to use Vectara's MMR (maximum marginal relevance) functionality. 
+Note that if mmr=true, it will disable rerank=true, as both cannot co-exist
+
+```yaml
+# mmr enabled: true or false
+mmr: true
+
+# diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
+mmr_diversity_bias: 0.3
+
+# number of results to use for reranking
+mmr_num_results: 50
 ```
 
 #### Search header (optional)

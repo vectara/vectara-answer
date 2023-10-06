@@ -11,6 +11,7 @@ import {
   SummaryLanguage,
   SUMMARY_LANGUAGES,
   UxMode,
+  normal_reranker_id, mmr_reranker_id
 } from "../views/search/types";
 
 interface Config {
@@ -70,7 +71,11 @@ interface Config {
   // rerank
   config_rerank?: string;
   config_rerank_num_results?: number;
-  config_reranker_id?: number;
+
+  // MMR
+  config_mmr?: string;
+  config_mmr_num_results?: number;
+  config_mmr_diversity_bias?: number;
 }
 
 type ConfigProp = keyof Config;
@@ -136,7 +141,7 @@ type Analytics = {
   googleAnalyticsTrackingCode?: string;
   fullStoryOrgId?: string;
 };
-type Rerank = { isEnabled: boolean; numResults?: number; id?: number };
+type Rerank = { isEnabled: boolean; numResults?: number; id?: number, diversityBias?: number };
 type Hybrid = { numWords: number, lambdaLong: number, lambdaShort: number };
 
 interface ConfigContextType {
@@ -249,8 +254,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [analytics, setAnalytics] = useState<Analytics>({});
   const [rerank, setRerank] = useState<Rerank>({
     isEnabled: false,
-    numResults: 100,
-    id: 272725717
+    numResults: 50,
+    id: 272725718,
+    diversityBias: 0.3
   });
   const [hybrid, setHybrid] = useState<Hybrid>({
     numWords: 2,
@@ -345,7 +351,11 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // rerank
         config_rerank,
         config_rerank_num_results,
-        config_reranker_id,
+
+        // MMR
+        config_mmr,
+        config_mmr_diversity_bias,
+        config_mmr_num_results,
 
         // hybrid search
         config_hybrid_search_num_words,
@@ -450,9 +460,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       setRerank({
-        isEnabled: isTrue(config_rerank),
-        numResults: config_rerank_num_results ?? rerank.numResults,
-        id: config_reranker_id ?? rerank.id,
+        isEnabled: isTrue(config_mmr) || isTrue(config_rerank),
+        numResults: isTrue(config_mmr) ? config_mmr_num_results : config_rerank_num_results ?? rerank.numResults,
+        id: isTrue(config_mmr) ? mmr_reranker_id : normal_reranker_id,
+        diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias
       });
 
       setHybrid({
