@@ -12,6 +12,15 @@
 
 ...
 
+## `1.5.4`
+
+**Non-breaking changes**
+
+- Enable user to search languages using search select. 
+- added new languages and fixed display for RTL languages
+- update to how "sources" work to enable no "all_source" option
+- Implemented MMR (max marginal relevance)
+
 ## `1.5.3`
 
 **Non-breaking changes**
