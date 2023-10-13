@@ -108,6 +108,8 @@ There are specific example applications such as AskNews (news search), Wikipedia
 
 The UI source code is all in the `src/` directory. See the [UI README.md](https://github.com/vectara/vectara-answer/blob/main/src) to learn how to make changes to the UI source.
 
+NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
+
 ## Example applications
 
 The `config/` directory contains example configurations of a `vectara-answer` application. Each example has its own sub-directory that contains two files:
