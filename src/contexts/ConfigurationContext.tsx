@@ -59,6 +59,7 @@ interface Config {
 
   // Summary
   config_summary_default_language?: string;
+  config_summary_default_style?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
@@ -118,6 +119,7 @@ type Filters = {
 
 type Summary = {
   defaultLanguage: string;
+  defaultStyle: string;
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
@@ -266,6 +268,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
   const [summary, setSummary] = useState<Summary>({
     defaultLanguage: "auto",
+    defaultStyle: "default",
     summaryNumResults: 7,
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
@@ -364,6 +367,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
         // Summary
         config_summary_default_language,
+        config_summary_default_style,
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
@@ -431,6 +435,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
           config_summary_default_language as SummaryLanguage,
           "auto"
         ),
+        defaultStyle: config_summary_default_style ?? "default",
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:

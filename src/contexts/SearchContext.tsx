@@ -13,6 +13,7 @@ import {
   SearchResponse,
   SummaryLanguage,
   SearchError,
+  SummaryStyle,
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -33,11 +34,13 @@ interface SearchContextType {
     value,
     filter,
     language,
+    style,
     isPersistable,
   }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
+    style?: SummaryStyle;
     isPersistable?: boolean;
   }) => void;
   reset: () => void;
@@ -50,6 +53,7 @@ interface SearchContextType {
   summarizationResponse: SearchResponse | undefined;
   summaryTime: number;
   language: SummaryLanguage;
+  style: SummaryStyle;
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
@@ -84,8 +88,9 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Language
+  // Language & Style
   const [languageValue, setLanguageValue] = useState<SummaryLanguage>();
+  const [styleValue, setStyleValue] = useState<SummaryStyle>();
 
   // History
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -131,6 +136,9 @@ export const SearchContextProvider = ({ children }: Props) => {
       language: getQueryParam(urlParams, "language") as
         | SummaryLanguage
         | undefined,
+      style: getQueryParam(urlParams, "style") as
+        | SummaryStyle
+        | undefined,
       isPersistable: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -174,15 +182,20 @@ export const SearchContextProvider = ({ children }: Props) => {
   const getLanguage = (): SummaryLanguage =>
     (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
+  const getStyle = (): SummaryStyle =>
+    (styleValue ?? summary.defaultStyle) as SummaryStyle;
+
   const onSearch = async ({
     value = searchValue,
     filter = filterValue,
     language = getLanguage(),
+    style = getStyle(),
     isPersistable = true,
   }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
+    style?: SummaryStyle;
     isPersistable?: boolean;
   }) => {
     const searchId = ++searchCount;
@@ -190,6 +203,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     setSearchValue(value);
     setFilterValue(filter);
     setLanguageValue(language);
+    setStyleValue(style);
 
     if (value?.trim()) {
       // Save to history.
@@ -255,6 +269,8 @@ export const SearchContextProvider = ({ children }: Props) => {
         setSearchResponse(undefined);
       }
 
+      const styledPromptName = summary.summaryPromptName + '_' + style;
+
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
       if (isSummaryEnabled) {
         if (initialSearchResponse.response.length > 0) {
@@ -270,7 +286,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               rerankDiversityBias: rerank.diversityBias,
               summaryNumResults: summary.summaryNumResults,
               summaryNumSentences: summary.summaryNumSentences,
-              summaryPromptName: summary.summaryPromptName,
+              summaryPromptName: styledPromptName,
               hybridNumWords: hybrid.numWords,
               hybridLambdaLong: hybrid.lambdaLong,
               hybridLambdaShort: hybrid.lambdaShort,
@@ -339,6 +355,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationResponse,
         summaryTime,
         language: getLanguage(),
+        style: getStyle(),
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
