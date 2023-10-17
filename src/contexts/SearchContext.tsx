@@ -13,8 +13,8 @@ import {
   SearchResponse,
   SummaryLanguage,
   SearchError,
-  SummaryStyle,
 } from "../views/search/types";
+import { SummaryStyle } from "../views/search/styles";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
 import {
@@ -57,6 +57,7 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  summaryStyledPrompt: string;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -269,6 +270,12 @@ export const SearchContextProvider = ({ children }: Props) => {
         setSearchResponse(undefined);
       }
 
+      // Scale customers can use custom prompts.
+      // This feature demonstrates a specific way to do thi
+      // 1. Talk to Vectara sales about joining a Scale plan
+      // 2. Define a series of prompt names, all ending with "_<style>"
+      // 3. Update "styles.ts" to match these styles
+      // 4. Update "config.json" to include the correct base prompt name
       const styledPromptName = summary.summaryPromptName + '_' + style;
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
@@ -359,6 +366,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
+        summaryStyledPrompt: summary.summaryStyledPrompt,
         history,
         clearHistory,
         searchResultsRef,

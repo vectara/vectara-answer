@@ -63,6 +63,7 @@ interface Config {
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
+  config_summary_styled_prompt?: string;
 
   // hybrid search
   config_hybrid_search_num_words?: number;
@@ -123,6 +124,7 @@ type Summary = {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  summaryStyledPrompt: string;
 };
 
 type SearchHeader = {
@@ -272,6 +274,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryNumResults: 7,
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
+    summaryStyledPrompt: "false",
   });
 
   useEffect(() => {
@@ -371,6 +374,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
+        config_summary_styled_prompt,
       } = config;
 
       setUxMode(config_ux ?? "summary");
@@ -440,6 +444,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
+        summaryStyledPrompt: config_summary_styled_prompt ?? "false",
       });
 
       setSearchHeader({

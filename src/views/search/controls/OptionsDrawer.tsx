@@ -20,7 +20,7 @@ import {
   VuiTitle,
 } from "../../../ui";
 import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
-import { SUMMARY_STYLES, SummaryStyle, humanizeStyle } from "../types";
+import { SUMMARY_STYLES, SummaryStyle, humanizeStyle } from "../styles";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
 
 const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
@@ -39,7 +39,7 @@ type Props = {
 };
 
 export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
-  const { uxMode, setUxMode } = useConfigContext();
+  const { uxMode, setUxMode, summary } = useConfigContext();
   const { language, style, onSearch } = useSearchContext();
 
   const [newUxMode, setNewUxMode] = useState(uxMode);
@@ -102,35 +102,40 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
 
       <VuiSpacer size="m" />
 
-      <VuiLabel>Summary Style</VuiLabel>
+      { summary.summaryStyledPrompt === "true" ? (
+        <>
 
-      <VuiSpacer size="xs" />
+          <VuiLabel>Summary Style</VuiLabel>
 
-      <VuiText size="xs">
-        <VuiTextColor color="subdued">
-          <p>Summaries will be created in this style or format.</p>
-        </VuiTextColor>
-      </VuiText>
+          <VuiSpacer size="xs" />
 
-      <VuiSpacer size="xs" />
+          <VuiText size="xs">
+            <VuiTextColor color="subdued">
+              <p>Summaries will be created in this style or format.</p>
+            </VuiTextColor>
+          </VuiText>
 
-      <VuiSearchSelect
-        isOpen={isStyleMenuOpen}
-        setIsOpen={seIisStyleMenuOpen}
-        onSelect={(value: string[]) => {
-          setNewStyle(value[0] as SummaryStyle);
-        }}
-        selected={[newStyle]}
-        options={styleOptions}
-        isMultiSelect={false}
-      >
-        <VuiButtonSecondary color="neutral" size="m">
-          {newStyle}
-        </VuiButtonSecondary>
-      </VuiSearchSelect>
+          <VuiSpacer size="xs" />
 
+          <VuiSearchSelect
+            isOpen={isStyleMenuOpen}
+            setIsOpen={seIisStyleMenuOpen}
+            onSelect={(value: string[]) => {
+              setNewStyle(value[0] as SummaryStyle);
+            }}
+            selected={[newStyle]}
+            options={styleOptions}
+            isMultiSelect={false}
+          >
+            <VuiButtonSecondary color="neutral" size="m">
+              {newStyle}
+            </VuiButtonSecondary>
+          </VuiSearchSelect>
 
-      <VuiSpacer size="m" />
+          <VuiSpacer size="m" />
+        </>
+       ) : null 
+      }
 
       <VuiFormGroup
         label="UX mode"

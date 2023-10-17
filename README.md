@@ -203,6 +203,12 @@ summary_num_results: 10
 # If you are a Vectara scale customer you can use custom prompts.
 # This field names a custom prompt, otherwise it uses the default for the account.
 summary_prompt_name: vectara-summary-ext-v1.2.0
+
+# "true" if you want to enable prompt styling, any other value considered false
+# prompt styling enables customized prompt for style of response
+# This is only possible with the Vectara Scale plan.
+summary_styled_prompt: "false"
+
 ```
 
 #### Hybrid Search (optional)

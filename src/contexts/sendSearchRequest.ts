@@ -17,6 +17,7 @@ type Config = {
   summaryNumResults?: number;
   summaryNumSentences?: number;
   summaryPromptName?: string;
+  summaryStyledPrompt?: string;
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -38,6 +39,7 @@ export const sendSearchRequest = async ({
   summaryNumResults,
   summaryNumSentences,
   summaryPromptName,
+  summaryStyledPrompt,
   customerId,
   corpusId,
   endpoint,
