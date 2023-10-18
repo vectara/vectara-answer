@@ -39,7 +39,6 @@ export const sendSearchRequest = async ({
   summaryNumResults,
   summaryNumSentences,
   summaryPromptName,
-  summaryStyledPrompt,
   customerId,
   corpusId,
   endpoint,

@@ -209,6 +209,8 @@ summary_prompt_name: vectara-summary-ext-v1.2.0
 # This is only possible with the Vectara Scale plan.
 summary_styled_prompt: "false"
 
+# if using styled prompt, you can optionally define the default prompt
+summary_default_style: "default"
 ```
 
 #### Hybrid Search (optional)

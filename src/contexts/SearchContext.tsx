@@ -276,7 +276,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       // 2. Define a series of prompt names, all ending with "_<style>"
       // 3. Update "styles.ts" to match these styles
       // 4. Update "config.json" to include the correct base prompt name
-      const styledPromptName = summary.summaryPromptName + '_' + style;
+      const styledPromptName = summary.summaryStyledPrompt ? summary.summaryPromptName + '_' + style : summary.summaryPromptName;
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
       if (isSummaryEnabled) {
