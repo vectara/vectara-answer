@@ -17,7 +17,7 @@ type Config = {
   summaryNumResults?: number;
   summaryNumSentences?: number;
   summaryPromptName?: string;
-  summaryStyledPrompt?: string;
+  summaryStyledPrompt?: boolean;
   customerId: string;
   corpusId: string;
   endpoint: string;

@@ -102,7 +102,7 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
 
       <VuiSpacer size="m" />
 
-      { summary.summaryStyledPrompt === "true" ? (
+      { summary.summaryStyledPrompt ? (
         <>
 
           <VuiLabel>Summary Style</VuiLabel>

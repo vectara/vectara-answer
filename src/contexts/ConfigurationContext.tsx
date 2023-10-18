@@ -83,6 +83,8 @@ interface Config {
 type ConfigProp = keyof Config;
 
 const requiredConfigVars = ["corpus_id", "customer_id", "api_key", "endpoint"];
+const DEFAULT_LANG = "auto"
+const DEFAULT_STYLE = "default"
 
 type Search = {
   endpoint?: string;
@@ -124,7 +126,7 @@ type Summary = {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
-  summaryStyledPrompt: string;
+  summaryStyledPrompt: boolean;
 };
 
 type SearchHeader = {
@@ -269,12 +271,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
   });
 
   const [summary, setSummary] = useState<Summary>({
-    defaultLanguage: "auto",
-    defaultStyle: "default",
+    defaultLanguage: DEFAULT_LANG,
+    defaultStyle: DEFAULT_STYLE,
     summaryNumResults: 7,
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
-    summaryStyledPrompt: "false",
+    summaryStyledPrompt: false,
   });
 
   useEffect(() => {
@@ -437,14 +439,14 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setSummary({
         defaultLanguage: validateLanguage(
           config_summary_default_language as SummaryLanguage,
-          "auto"
+          DEFAULT_LANG
         ),
-        defaultStyle: config_summary_default_style ?? "default",
+        defaultStyle: config_summary_default_style ?? DEFAULT_STYLE,
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
-        summaryStyledPrompt: config_summary_styled_prompt ?? "false",
+        summaryStyledPrompt: isTrue(config_summary_styled_prompt),
       });
 
       setSearchHeader({

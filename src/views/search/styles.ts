@@ -19,7 +19,7 @@ const styleToPromptMap: Record<SummaryStyle, string> = {
   legal: "As a lawyer using legal terms",
   developer: "In the style of a software developer",
   pooh: "In the style of Winnie the Pooh",
-  thompson: "In the style of journalist Hunter Thompson",
+  thompson: "In the style of journalist Hunter S. Thompson",
 } as const;
 
 export const humanizeStyle = (style: SummaryStyle): string => {

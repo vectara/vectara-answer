@@ -57,7 +57,7 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
-  summaryStyledPrompt: string;
+  summaryStyledPrompt: boolean;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -217,7 +217,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           new URLSearchParams(
             `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
               filter
-            )}&language=${encodeURIComponent(language)}`
+            )}&language=${encodeURIComponent(language)}&style=${encodeURIComponent(style)}`
           )
         );
       }

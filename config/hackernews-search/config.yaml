@@ -8,8 +8,7 @@ summary_default_language: "eng"
 summary_num_sentences: 3
 summary_num_results: 7
 
-summary_prompt_name: vectara-summary-ext-v1.4.0
-#summary_prompt_name: vectara-summary-ext-v1.2.0
+summary_prompt_name: vectara-summary-ext-v1.3.4
 
 enable_source_filters: False
 
