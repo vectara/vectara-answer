@@ -60,9 +60,11 @@ app.post("/config", (req, res) => {
 
     // summary
     summary_default_language,
+    summary_default_style,
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
+    summary_styled_prompt,
 
     // hybrid search
     hybrid_search_num_words,
@@ -124,9 +126,11 @@ app.post("/config", (req, res) => {
 
     // summary
     summary_default_language,
+    summary_default_style,
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
+    summary_styled_prompt,
 
     // hybrid search
     hybrid_search_num_words,

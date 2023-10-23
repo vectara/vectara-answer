@@ -2,6 +2,15 @@
   overflow-wrap: break-word;
   word-break: break-word;
 
+  a {
+    color: $colorPrimary !important;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   ul {
     list-style: disc;
   }
@@ -17,6 +26,34 @@
 
     &:last-child {
       margin-bottom: 0;
+    }
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border: 1px solid $borderColorLight;
+
+    thead {
+      background-color: $colorLightShade;
+      border-bottom: 1px solid $borderColorLight;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid $borderColorLight;
+    }
+
+    th {
+      font-size: $fontSizeSmall;
+      font-weight: $fontWeightBold;
+      padding: $sizeXs $sizeS;
+      text-align: left;
+    }
+
+    td {
+      font-size: $fontSizeStandard;
+      vertical-align: middle;
+      padding: $sizeS $sizeS;
     }
   }
 }
@@ -39,13 +76,41 @@
       margin-bottom: 0;
     }
   }
+
+  h1 {
+    font-size: $fontSize * 2;
+    line-height: 1.4;
+    font-weight: $fontWeightBold;
+    margin-bottom: $sizeXs;
+  }
+
+  h2 {
+    font-size: $fontSize * 1.5;
+    line-height: 1.4;
+    margin-bottom: $sizeXs;
+  }
+
+  h3 {
+    font-size: $fontSize * 1.25;
+    line-height: 1.4;
+    font-weight: $fontWeightBold;
+    margin-bottom: $sizeXs;
+    color: $colorSubdued;
+  }
+
+  h4 {
+    font-size: $fontSize;
+    line-height: 1.4;
+    font-weight: $fontWeightBold;
+    margin-bottom: $sizeXs;
+  }
 }
 
 $size: (
   xs: $fontSizeSmall,
   s: $fontSizeStandard,
   m: $fontSizeMedium,
-  l: $fontSizeLarge
+  l: $fontSizeLarge,
 );
 
 @each $sizeName, $fontSize in $size {

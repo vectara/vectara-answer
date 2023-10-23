@@ -59,9 +59,11 @@ interface Config {
 
   // Summary
   config_summary_default_language?: string;
+  config_summary_default_style?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
+  config_summary_styled_prompt?: string;
 
   // hybrid search
   config_hybrid_search_num_words?: number;
@@ -81,6 +83,8 @@ interface Config {
 type ConfigProp = keyof Config;
 
 const requiredConfigVars = ["corpus_id", "customer_id", "api_key", "endpoint"];
+const DEFAULT_LANG = "auto"
+const DEFAULT_STYLE = "default"
 
 type Search = {
   endpoint?: string;
@@ -118,9 +122,11 @@ type Filters = {
 
 type Summary = {
   defaultLanguage: string;
+  defaultStyle: string;
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  summaryStyledPrompt: boolean;
 };
 
 type SearchHeader = {
@@ -265,10 +271,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
   });
 
   const [summary, setSummary] = useState<Summary>({
-    defaultLanguage: "auto",
+    defaultLanguage: DEFAULT_LANG,
+    defaultStyle: DEFAULT_STYLE,
     summaryNumResults: 7,
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
+    summaryStyledPrompt: false,
   });
 
   useEffect(() => {
@@ -364,9 +372,11 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
         // Summary
         config_summary_default_language,
+        config_summary_default_style,
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
+        config_summary_styled_prompt,
       } = config;
 
       setUxMode(config_ux ?? "summary");
@@ -429,12 +439,14 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setSummary({
         defaultLanguage: validateLanguage(
           config_summary_default_language as SummaryLanguage,
-          "auto"
+          DEFAULT_LANG
         ),
+        defaultStyle: config_summary_default_style ?? DEFAULT_STYLE,
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
+        summaryStyledPrompt: isTrue(config_summary_styled_prompt),
       });
 
       setSearchHeader({

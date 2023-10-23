@@ -5,7 +5,20 @@
 .vuiSummaryCitation {
   position: relative;
   top: -2px;
-  display: inline-block !important;
+  display: inline-block;
+  background-color: $colorPrimaryLightShade;
+  color: $colorPrimary;
+  padding: $sizeXxs $sizeXs;
+  font-size: $fontSizeSmall;
+  border-radius: $sizeXxs;
+  font-weight: $fontWeightBold;
+  line-height: 1.4;
+  border: 1px solid $colorPrimaryLightShade;
+  transition: border-color $transitionSpeed;
+
+  &:hover {
+    border-color: $colorPrimary;
+  }
 }
 
 .vuiSummaryCitation-isSelected {
