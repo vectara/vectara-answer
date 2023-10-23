@@ -17,14 +17,8 @@ export const VuiSummaryCitation = ({
   });
 
   return (
-    <VuiButtonSecondary
-      color="primary"
-      size="xs"
-      className={classes}
-      onClick={onClick}
-      isSelected={isSelected}
-    >
+    <button className={classes} onClick={onClick}>
       {reference}
-    </VuiButtonSecondary>
+    </button>
   );
 };
