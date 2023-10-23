@@ -137,9 +137,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       language: getQueryParam(urlParams, "language") as
         | SummaryLanguage
         | undefined,
-      style: getQueryParam(urlParams, "style") as
-        | SummaryStyle
-        | undefined,
+      style: getQueryParam(urlParams, "style") as SummaryStyle | undefined,
       isPersistable: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -217,7 +215,9 @@ export const SearchContextProvider = ({ children }: Props) => {
           new URLSearchParams(
             `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
               filter
-            )}&language=${encodeURIComponent(language)}&style=${encodeURIComponent(style)}`
+            )}&language=${encodeURIComponent(
+              language
+            )}&style=${encodeURIComponent(style)}`
           )
         );
       }
@@ -276,7 +276,9 @@ export const SearchContextProvider = ({ children }: Props) => {
       // 2. Define a series of prompt names, all ending with "_<style>"
       // 3. Update "styles.ts" to match these styles
       // 4. Update "config.json" to include the correct base prompt name
-      const styledPromptName = summary.summaryStyledPrompt ? summary.summaryPromptName + '_' + style : summary.summaryPromptName;
+      const styledPromptName = summary.summaryStyledPrompt
+        ? summary.summaryPromptName + "_" + style
+        : summary.summaryPromptName;
 
       // Second call - search and summarize (if summary is enabled); this may take a while to return results
       if (isSummaryEnabled) {
