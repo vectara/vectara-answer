@@ -1,94 +1,437 @@
 import { render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { VuiSummary } from "./Summary";
+import { VuiSummaryCitation } from "./SummaryCitation";
 
 describe("VuiSummary", () => {
-  describe("renders citations with correct spacing", () => {
-    test("with single citations", () => {
-      const summary =
-        "[1] Beginning of summary. [2][3] Multiple at beginning of sentence, and before comma [4], single at middle [5] of sentence. At end of sentence [6].";
+  describe("renders markdown", () => {
+    test("without citations", () => {
+      const summary = `
+# Here's a heading 1
 
-      const { asFragment } = render(<VuiSummary summary={summary} />);
+## Here's a heading 2
+
+### Here's a heading 3
+
+#### Here's a heading 4
+
+With some **bold** and _emphasized_ test. Here is a [link](https://www.vectara.com).
+
+* An
+* Unordered
+* List
+
+1. An
+1. Ordered
+1. List
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
+`;
+
+      const { asFragment } = render(
+        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
+      );
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div
             class="vuiSummary fs-mask"
+            dir="auto"
           >
             <div
               class="vuiText vuiText--m"
             >
-              <span />
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                1
-              </button>
-              <span>
-                 
-              </span>
-              <span>
-                Beginning of summary.
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                2
-              </button>
-              <span>
-                 
-              </span>
-              <span />
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                3
-              </button>
-              <span>
-                 
-              </span>
-              <span>
-                Multiple at beginning of sentence, and before comma
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                4
-              </button>
-              <span>
-                , single at middle
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                5
-              </button>
-              <span>
-                 
-              </span>
-              <span>
-                of sentence. At end of sentence
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                6
-              </button>
-              <span>
-                .
-              </span>
+              <div>
+                <h1
+                  id="heres-a-heading-1"
+                >
+                  Here's a heading 1
+                </h1>
+                <h2
+                  id="heres-a-heading-2"
+                >
+                  Here's a heading 2
+                </h2>
+                <h3
+                  id="heres-a-heading-3"
+                >
+                  Here's a heading 3
+                </h3>
+                <h4
+                  id="heres-a-heading-4"
+                >
+                  Here's a heading 4
+                </h4>
+                <p>
+                  With some 
+                  <strong>
+                    bold
+                  </strong>
+                   and 
+                  <em>
+                    emphasized
+                  </em>
+                   test. Here is a 
+                  <a
+                    href="https://www.vectara.com"
+                  >
+                    link
+                  </a>
+                  .
+                </p>
+                <ul>
+                  <li>
+                    An
+                  </li>
+                  <li>
+                    Unordered
+                  </li>
+                  <li>
+                    List
+                  </li>
+                </ul>
+                <ol
+                  start="1"
+                >
+                  <li>
+                    An
+                  </li>
+                  <li>
+                    Ordered
+                  </li>
+                  <li>
+                    List
+                  </li>
+                </ol>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Syntax
+                      </th>
+                      <th>
+                        Description
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Header
+                      </td>
+                      <td>
+                        Title
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Paragraph
+                      </td>
+                      <td>
+                        Text
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </DocumentFragment>
+      `);
+    });
+
+    test("with citations", () => {
+      const summary = `
+# [1] Here's a heading 1
+
+## [1] Here's a heading 2
+
+### [1] Here's a heading 3
+
+#### [1] Here's a heading 4
+
+With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https://www.vectara.com) [2][3].
+
+* An [2][3]
+* Unordered [2][3]
+* List [2][3]
+
+1. An [2][3]
+1. Ordered [2][3]
+1. List [2][3]
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title [2][3]       |
+| Paragraph   | Text        |
+      `;
+
+      const { asFragment } = render(
+        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
+      );
+
+      expect(asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div
+            class="vuiSummary fs-mask"
+            dir="auto"
+          >
+            <div
+              class="vuiText vuiText--m"
+            >
+              <div>
+                <h1
+                  id="summarycitation-reference1-----heres-a-heading-1"
+                >
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    1
+                  </button>
+                      Here's a heading 1
+                </h1>
+                <h2
+                  id="summarycitation-reference1-----heres-a-heading-2"
+                >
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    1
+                  </button>
+                      Here's a heading 2
+                </h2>
+                <h3
+                  id="summarycitation-reference1-----heres-a-heading-3"
+                >
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    1
+                  </button>
+                      Here's a heading 3
+                </h3>
+                <h4
+                  id="summarycitation-reference1-----heres-a-heading-4"
+                >
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    1
+                  </button>
+                      Here's a heading 4
+                </h4>
+                <p>
+                  With some 
+                  <strong>
+                    bold
+                  </strong>
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    2
+                  </button>
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    3
+                  </button>
+                      and 
+                  <em>
+                    emphasized
+                  </em>
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    2
+                  </button>
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    3
+                  </button>
+                      test. Here is a 
+                  <a
+                    href="https://www.vectara.com"
+                  >
+                    link
+                  </a>
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    2
+                  </button>
+                  <button
+                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  >
+                    3
+                  </button>
+                   .
+                </p>
+                <ul>
+                  <li>
+                    An  
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      2
+                    </button>
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li>
+                    Unordered  
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      2
+                    </button>
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li>
+                    List  
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      2
+                    </button>
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      3
+                    </button>
+                  </li>
+                </ul>
+                <ol
+                  start="1"
+                >
+                  <li>
+                    An  
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      2
+                    </button>
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li>
+                    Ordered  
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      2
+                    </button>
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li>
+                    List  
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      2
+                    </button>
+                    <button
+                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    >
+                      3
+                    </button>
+                  </li>
+                </ol>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>
+                        Syntax
+                      </th>
+                      <th>
+                        Description
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Header
+                      </td>
+                      <td>
+                        Title  
+                        <button
+                          class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                        >
+                          2
+                        </button>
+                        <button
+                          class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                        >
+                          3
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Paragraph
+                      </td>
+                      <td>
+                        Text
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </DocumentFragment>
+      `);
+    });
+  });
+
+  describe("renders citations with correct spacing", () => {
+    test("with single citations", () => {
+      const summary =
+        "[1] Beginning of summary. [2][3] Multiple at beginning of sentence, and before comma [4], single at middle [5] of sentence. At end of sentence [6].";
+
+      const { asFragment } = render(
+        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
+      );
+
+      expect(asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div
+            class="vuiSummary fs-mask"
+            dir="auto"
+          >
+            <div
+              class="vuiText vuiText--m"
+            >
+              <div>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  1
+                </button>
+                <pre>
+                  <code>
+                    Beginning of summary.  &lt;SummaryCitation reference={2} /&gt;    &lt;SummaryCitation reference={3} /&gt;    Multiple at beginning of sentence, and before comma  &lt;SummaryCitation reference={4} /&gt; , single at middle  &lt;SummaryCitation reference={5} /&gt;    of sentence. At end of sentence  &lt;SummaryCitation reference={6} /&gt; .
+                  </code>
+                </pre>
+              </div>
             </div>
           </div>
         </DocumentFragment>
@@ -97,30 +440,27 @@ describe("VuiSummary", () => {
 
     test("at the end of the summary", () => {
       const summary = "End of summary. [1]";
-      const { asFragment } = render(<VuiSummary summary={summary} />);
+      const { asFragment } = render(
+        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
+      );
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div
             class="vuiSummary fs-mask"
+            dir="auto"
           >
             <div
               class="vuiText vuiText--m"
             >
-              <span>
-                End of summary.
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                1
-              </button>
-              <span>
-                 
-              </span>
+              <p>
+                End of summary.  
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  1
+                </button>
+              </p>
             </div>
           </div>
         </DocumentFragment>
@@ -128,104 +468,71 @@ describe("VuiSummary", () => {
     });
 
     test("with multiple comma-delimited citations", () => {
-      const summary = "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7].";
-      const { asFragment } = render(<VuiSummary summary={summary} />);
+      const summary =
+        "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7].";
+      const { asFragment } = render(
+        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
+      );
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div
             class="vuiSummary fs-mask"
+            dir="auto"
           >
             <div
               class="vuiText vuiText--m"
             >
-              <span>
-                Two citations
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                1
-              </button>
-              <span>
-                 
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                2
-              </button>
-              <span>
-                 
-              </span>
-              <span>
-                and seven citations
-              </span>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                1
-              </button>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                2
-              </button>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                3
-              </button>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                4
-              </button>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                5
-              </button>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                6
-              </button>
-              <span>
-                 
-              </span>
-              <button
-                class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
-              >
-                7
-              </button>
-              <span>
-                .
-              </span>
+              <p>
+                Two citations  
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  1
+                </button>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  2
+                </button>
+                    and seven citations  
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  1
+                </button>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  2
+                </button>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  3
+                </button>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  4
+                </button>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  5
+                </button>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  6
+                </button>
+                <button
+                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                >
+                  7
+                </button>
+                 .
+              </p>
             </div>
           </div>
         </DocumentFragment>
