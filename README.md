@@ -108,6 +108,8 @@ There are specific example applications such as AskNews (news search), Wikipedia
 
 The UI source code is all in the `src/` directory. See the [UI README.md](https://github.com/vectara/vectara-answer/blob/main/src) to learn how to make changes to the UI source.
 
+NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
+
 ## Example applications
 
 The `config/` directory contains example configurations of a `vectara-answer` application. Each example has its own sub-directory that contains two files:
@@ -173,6 +175,9 @@ If your application uses more than one corpus, you can define source filters to 
 # Hide or show source filters.
 enable_source_filters: True
 
+# whether the "all source" button should be enabled or not (default true)
+all_sources: True
+
 # A comma-separated list of the sources on which users can filter.
 sources: "BBC,NPR,FOX,CNBC,CNN"
 ```
@@ -216,10 +221,25 @@ hybrid_search_lambda_short: 0.1
 Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "false".
 
 ```yaml
-# Reranking: true or false and number of results to use for reranking
-rerank: "true"
-reranker_id: 272725717
+# Reranking: true or false
+rerank: false
+
+# number of results to use for reranking
 rerank_num_results: 50
+```
+
+Whether to use Vectara's MMR (maximum marginal relevance) functionality. 
+Note that if mmr=true, it will disable rerank=true, as both cannot co-exist
+
+```yaml
+# mmr enabled: true or false
+mmr: true
+
+# diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
+mmr_diversity_bias: 0.3
+
+# number of results to use for reranking
+mmr_num_results: 50
 ```
 
 #### Search header (optional)

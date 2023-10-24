@@ -1,6 +1,6 @@
 import axios from "axios";
 import { START_TAG, END_TAG } from "../utils/parseSnippet";
-import { SummaryLanguage } from "../views/search/types";
+import { SummaryLanguage, mmr_reranker_id } from "../views/search/types";
 
 type Config = {
   filter: string;
@@ -10,6 +10,7 @@ type Config = {
   rerank?: boolean;
   rerankNumResults?: number;
   rerankerId?: number;
+  rerankDiversityBias?: number;
   hybridNumWords: number;
   hybridLambdaShort?: number;
   hybridLambdaLong?: number;
@@ -30,6 +31,7 @@ export const sendSearchRequest = async ({
   rerank,
   rerankNumResults,
   rerankerId,
+  rerankDiversityBias,
   hybridNumWords,
   hybridLambdaShort,
   hybridLambdaLong,
@@ -49,7 +51,7 @@ export const sendSearchRequest = async ({
     return {
       customerId,
       corpusId: id,
-      lexical_interpolation_config: {
+      lexicalInterpolationConfig: {
         lambda: lambda,
       },
       metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
@@ -63,11 +65,11 @@ export const sendSearchRequest = async ({
         start: 0,
         numResults: rerank ? rerankNumResults : 10,
         corpusKey: corpusKeyList,
-        context_config: {
-          sentences_before: summaryMode ? summaryNumSentences : 2,
-          sentences_after: summaryMode ? summaryNumSentences : 2,
-          start_tag: START_TAG,
-          end_tag: END_TAG,
+        contextConfig: {
+          sentencesBefore: summaryMode ? summaryNumSentences : 2,
+          sentencesAfter: summaryMode ? summaryNumSentences : 2,
+          startTag: START_TAG,
+          endTag: END_TAG,
         },
         ...(summaryMode
           ? {
@@ -82,8 +84,14 @@ export const sendSearchRequest = async ({
           : {}),
         ...(rerank
           ? {
-              reranking_config: {
-                reranker_id: rerankerId,
+              rerankingConfig: {
+                rerankerId: rerankerId,
+                ...(rerankerId === mmr_reranker_id ? {
+                      mmrConfig: {
+                        diversityBias: rerankDiversityBias,
+                      }
+                    } : {}
+                ),
               },
             }
           : {}),

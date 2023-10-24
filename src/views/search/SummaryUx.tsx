@@ -7,6 +7,7 @@ import {
 import { useSearchContext } from "../../contexts/SearchContext";
 import { SearchResultList } from "./results/SearchResultList";
 import { ProgressReport } from "./progressReport/ProgressReport";
+import { SummaryCitation } from "./summary/SummaryCitation";
 import { DeserializedSearchResult } from "./types";
 
 export const SummaryUx = () => {
@@ -17,20 +18,11 @@ export const SummaryUx = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
-    selectSearchResultAt,
   } = useSearchContext();
 
-  // if (searchError || summarizationError) {
-  //   return searchError ? (
-  //     <SearchErrorCallout searchError={searchError} />
-  //   ) : (
-  //     <SummaryErrorCallout summarizationError={summarizationError} />
-  //   );
-  // }
+  const rawSummary = summarizationResponse?.summary[0]?.text;
 
-  const unorderedSummary = sanitizeCitations(
-    summarizationResponse?.summary[0]?.text
-  );
+  const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
   let summarySearchResults: DeserializedSearchResult[] = [];
@@ -61,17 +53,7 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          <VuiSummary
-            summary={summary}
-            selectedCitationPosition={
-              selectedSearchResultPosition === undefined
-                ? undefined
-                : selectedSearchResultPosition + 1
-            }
-            onClickCitation={(position: number) =>
-              selectSearchResultAt(position - 1)
-            }
-          />
+          <VuiSummary summary={summary} SummaryCitation={SummaryCitation} />
 
           <VuiSpacer size="l" />
           <VuiHorizontalRule />

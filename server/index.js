@@ -55,6 +55,7 @@ app.post("/config", (req, res) => {
 
     // Filters
     enable_source_filters,
+    all_sources,
     sources,
 
     // summary
@@ -71,7 +72,11 @@ app.post("/config", (req, res) => {
     // rerank
     rerank,
     rerank_num_results,
-    reranker_id,
+
+    // MMR
+    mmr,
+    mmr_num_results,
+    mmr_diversity_bias,
 
     // Search header
     search_logo_link,
@@ -114,6 +119,7 @@ app.post("/config", (req, res) => {
 
     // Filters
     enable_source_filters,
+    all_sources,
     sources,
 
     // summary
@@ -130,7 +136,11 @@ app.post("/config", (req, res) => {
     // rerank
     rerank,
     rerank_num_results,
-    reranker_id,
+
+    // MMR
+    mmr,
+    mmr_num_results,
+    mmr_diversity_bias,
 
     // Search header
     search_logo_link,

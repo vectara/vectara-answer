@@ -24,7 +24,7 @@ type Props = {
 };
 
 export const SearchControls = ({ hasQuery }: Props) => {
-  const { filterValue, searchValue, setSearchValue, onSearch, reset } =
+  const { filterValue, setFilterValue, searchValue, setSearchValue, onSearch, reset } =
     useSearchContext();
   const { searchHeader, filters } = useConfigContext();
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
@@ -42,10 +42,18 @@ export const SearchControls = ({ hasQuery }: Props) => {
   const filterOptions: Array<{ value: string; text: string }> = [];
 
   if (filters.isEnabled) {
-    filterOptions.push({
-      text: "All sources",
-      value: "",
-    });
+    if (filters.allSources) {
+      filterOptions.push({
+        text: "All sources",
+        value: "",
+      });
+    }
+
+    // if allSources is false, then we set the filterValue is set to the first source
+    // In this case the "All sources" button is not there, and the first source is selected by default
+    if (!filters.allSources && filterValue === "") {
+      setFilterValue(filters.sources[0].value)
+    }
 
     filters.sources.forEach(({ value, label }) => {
       filterOptions.push({ text: label, value });
