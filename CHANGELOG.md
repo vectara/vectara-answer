@@ -12,6 +12,15 @@
 
 ...
 
+## `1.5.5`
+
+**Non-breaking changes**
+
+- updated doc to reflect 'url' metadata field usage
+- updated all variables to camelCase
+- Render summary as Markdown (no-op)
+- More detailed hosting docs (for Render)
+  
 ## `1.5.4`
 
 **Non-breaking changes**

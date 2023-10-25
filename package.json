@@ -1,6 +1,6 @@
 {
   "name": "vectara-answer",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "private": true,
   "dependencies": {
     "@fullstory/browser": "^1.7.1",
