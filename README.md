@@ -334,7 +334,7 @@ The container generated is called `vanswer`, and after it is started, you can:
 ### Cloud deployment
 
 You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP as well as on specialized cloud services like Render or Heroku.
-See [detailed instructions](HOSTING.MD)
+See [detailed instructions](HOSTING.md)
 
 ## FAQs
 
