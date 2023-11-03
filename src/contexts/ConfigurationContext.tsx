@@ -11,7 +11,8 @@ import {
   SummaryLanguage,
   SUMMARY_LANGUAGES,
   UxMode,
-  normal_reranker_id, mmr_reranker_id
+  normal_reranker_id,
+  mmr_reranker_id,
 } from "../views/search/types";
 
 interface Config {
@@ -76,6 +77,9 @@ interface Config {
   config_mmr?: string;
   config_mmr_num_results?: number;
   config_mmr_diversity_bias?: number;
+
+  // questions
+  config_questions?: string;
 }
 
 type ConfigProp = keyof Config;
@@ -141,8 +145,13 @@ type Analytics = {
   googleAnalyticsTrackingCode?: string;
   fullStoryOrgId?: string;
 };
-type Rerank = { isEnabled: boolean; numResults?: number; id?: number, diversityBias?: number };
-type Hybrid = { numWords: number, lambdaLong: number, lambdaShort: number };
+type Rerank = {
+  isEnabled: boolean;
+  numResults?: number;
+  id?: number;
+  diversityBias?: number;
+};
+type Hybrid = { numWords: number; lambdaLong: number; lambdaShort: number };
 
 interface ConfigContextType {
   isConfigLoaded: boolean;
@@ -179,21 +188,6 @@ const fetchConfig = async () => {
   };
   const result = await axios.post("/config", undefined, headers);
   return result;
-};
-
-const fetchQueries = async () => {
-  try {
-    const result = await fetch("queries.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    const data = await result.json();
-    return data;
-  } catch (e) {
-    console.log("Could not load queries.json Detail: " + e);
-  }
 };
 
 const isTrue = (value: string | undefined) => value === "True";
@@ -256,12 +250,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
     isEnabled: false,
     numResults: 50,
     id: 272725718,
-    diversityBias: 0.3
+    diversityBias: 0.3,
   });
   const [hybrid, setHybrid] = useState<Hybrid>({
     numWords: 2,
     lambdaLong: 0.0,
-    lambdaShort: 0.1
+    lambdaShort: 0.1,
   });
 
   const [summary, setSummary] = useState<Summary>({
@@ -278,12 +272,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         const result = await fetchConfig();
         config = prefixConfig(result.data);
 
-        const queriesResponse = await fetchQueries();
-        if (queriesResponse) {
-          const questions = queriesResponse.questions;
-          if (questions) {
-            setExampleQuestions(questions);
-          }
+        if (config.config_questions) {
+          setExampleQuestions(JSON.parse(config.config_questions));
         }
       } else {
         config = prefixConfig(process.env, "REACT_APP_");
@@ -398,7 +388,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       });
 
       const isFilteringEnabled = isTrue(config_enable_source_filters);
-      const allSources = (config_all_sources === undefined) ? true : isTrue(config_all_sources);
+      const allSources =
+        config_all_sources === undefined ? true : isTrue(config_all_sources);
 
       const sources =
         config_sources?.split(",").map((source) => ({
@@ -461,9 +452,11 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       setRerank({
         isEnabled: isTrue(config_mmr) || isTrue(config_rerank),
-        numResults: isTrue(config_mmr) ? config_mmr_num_results : config_rerank_num_results ?? rerank.numResults,
+        numResults: isTrue(config_mmr)
+          ? config_mmr_num_results
+          : config_rerank_num_results ?? rerank.numResults,
         id: isTrue(config_mmr) ? mmr_reranker_id : normal_reranker_id,
-        diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias
+        diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias,
       });
 
       setHybrid({
@@ -471,7 +464,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         lambdaLong: config_hybrid_search_lambda_long ?? hybrid.lambdaLong,
         lambdaShort: config_hybrid_search_lambda_short ?? hybrid.lambdaShort,
       });
-
     };
     loadConfig();
     // eslint-disable-next-line react-hooks/exhaustive-deps

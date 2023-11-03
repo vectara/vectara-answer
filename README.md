@@ -19,119 +19,87 @@
 
 ## About
 
-Customize and deploy a pre-built conversational search UI connected to the data you've ingested into [Vectara](https://vectara.com/). With Vectara’s [APIs](https://docs.vectara.com/docs/) you can create conversational experiences with your data, such as chatbots, semantic search, and workplace search.
+Vectara Answer is an open source React project that enables you to quickly configure GenAI user interfaces, powered by the [Vectara Platform](https://vectara.com/)'s semantic search and summarization APIs.
 
-`vectara-answer` is an open source React project that provides a configurable conversational search user interface. You can deploy it to end users so they can ask questions of your data and get back accurate, dependable answers, or refer to the source code when building your own conversational search applications.
+For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com).
+
+## Prerequisites
+
+To get started, the minimum requirement is to install [npm and node](https://nodejs.org/en/download). That's it!
 
 ## Quickstart
 
-Let’s create a simple conversational application. We'll base it on [Paul Graham's essays](http://www.paulgraham.com/index.html), so you'll be able to ask questions and get back answers based on what he's written. This guide assumes you've followed the [`vectara-ingest` Quickstart](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) to ingest this content into a corpus.
+Vectara Answer comes packaged with preset configurations that allow you spin up a sample application using Vectara's public datastores. To quickly get started, run the following command:
 
-### 1. Install dependencies
+`npm run bootstrap`
 
-Install [Docker](https://docs.docker.com/engine/install/).
+This one-liner installs dependencies, runs the configuration script, and spins up the local application. **When prompted for which application to create, simply select one of the three default apps, and you're good to go!** We'll work on setting up a custom application later in this doc.
 
-Install [pyyaml](https://pypi.org/project/PyYAML/): `pip3 install pyyaml`.
+If you would like to run the setup steps individually, you can run:
 
-Install [npm and node](https://nodejs.org/en/download).
+- `npm install`: for installing dependencies
+- `npm run configure`: for running the configuration script
+- `npm run start`: for running the application locally
 
-Clone this repository:
+Congratulations! You've just setup and run a sample app powered by Vectara!
 
-```sh
-git clone https://github.com/vectara/vectara-answer.git
-```
+### Deployment
 
-From the root directory, run these commands to install JavaScript dependencies and build the front-end application:
+To set up a deployable docker image, do the following:
 
-```sh
-npm install && npm run build
-```
+- Install [Docker](https://docs.docker.com/engine/install/). Then make sure it's running on your machine.
+- Run `bash docker/run.sh`
+- View app logs with `docker logs -f vanswer`
+- Stop the app with `docker stop vanswer`
 
-### 2. Run Docker
+`run.sh` creates a deployable docker image and runs it. The app should be accessible at `http://localhost:80`.
 
-Find and open Docker. When you run your application, it will use Docker to host your application inside a container.
+## Building Your Own Application
 
-### 3. Set configuration
+### Prerequisites
 
-Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`.
+When building your own application, you will need to:
 
-Edit the `secrets.toml` file and change the `api_key` value to be your Vectara API Key.
+- [Create a corpus](https://docs.vectara.com/docs/console-ui/creating-a-corpus) via the Vectara Console
+- [Ingest data](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) into the corpus you just created
 
-Make a duplicate of the `config/vectara-website-search/` directory and rename it `pg-search/`.
+### Running Your Custom App
 
-Update the `config/pg-search/config.yaml` file with these changes:
+If you choose `[Create Your Own]` from the application selection prompt, you will be asked to provide:
 
-- Change the **corpus_id** value to the ID of the corpus into which you ingested Paul Graham's essays as part of the [`vectara-ingest` Quickstart](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart).
-- Change the **account_id** value to the ID of your account. You can click on your username in the top-right corner to copy it to your clipboard.
-- Change the **app_title** to "Ask Paul Graham".
+- your Vectara customer ID
+- the ID of the corpus you created as a prerequisite to this process
+- the API key of your selected Vectara corpus (**NOTE: Depending on your set up, this may be visible to users. To ensure safe sharing, ensure that this key is set up to only have query access.**)
+- any sample questions to display on the site, to get your users started.
 
-Edit the `config/pg-search/queries.json` file and update the four questions to a set of curated questions you'd like to include in the user interface. For example: "What is a maker schedule?"
+Once provided, the values above will go into your own customized configuration, and your site will be ready to go via `npm start` or the Docker script.
 
-### 4. Run the application
+### Deploying Your App
 
-Execute the run script from the root directory using your `config/` directory, assigning the **default** profile from your secrets file:
+You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP as well as on specialized cloud services like Render or Heroku.
+See [detailed instructions](HOSTING.md)
 
-```sh
-bash docker/run.sh config/pg-search default
-```
+## Make It Your Own!
 
-The application executes inside of a [Docker container](https://www.docker.com/resources/what-container/) to avoid any issues with existing environments and installed packages.
+Whether you choose to set up a preset application or build a custom app, you have the ability to make it your own.
 
-When the container is set up, the `run.sh` launch script will open up a browser at `localhost:80`.
-
-### 5. Done!
-
-Your application is now up and running. Try a few queries to see how it works.
-
-You can view your application's logs by running `docker logs -f vanswer`. You can stop the application and shut down the container with `docker stop vanswer`.
-
-## Project architecture
-
-### Goals
-
-`vectara-answer` provides example code of a modern user-interface for GenAI conversational search. We created it with two goals in mind:
-
-1. To help you create custom conversational search applications with Vectara. You can customize the user experience, launch the application locally, and deploy it to production.
-2. To demonstrate how a conversational search user can be implemented in JavaScript, so you can refer to it when writing your own code.
-
-There are specific example applications such as AskNews (news search), Wikipedia search, and Hacker News search inside of the `config/` directory. Each example application has its own sub-directory. See [Example applications](#example-applications) for more info.
-
-### Docker
-
-`vectara-answer` uses a Docker container to reduce the complexities of specific development environments. Developers can run it locally or take pieces from this reference implementation and use them within their own application. See the [Dockerfile](https://github.com/vectara/vectara-answer/blob/main/docker/Dockerfile) for more information on the Docker file structure and build.
-
-### Connecting to your Vectara data
-
-`vectara-answer` requires a Vectara API key for querying. For this you will need to create a file called `secrets.toml` in the root directory. See `secrets.example.toml` for an example. This file uses the [TOML](https://toml.io/en/) format, which supports the definition of one or more profiles. Under each profile you can add the line `api_key="XXX"` where `XXX` is the Vectara API key you want to use in that profile.
-
-### UI
+### Modifying the UI
 
 The UI source code is all in the `src/` directory. See the [UI README.md](https://github.com/vectara/vectara-answer/blob/main/src) to learn how to make changes to the UI source.
 
 NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
 
-## Example applications
+### Modifying the Proxy Server
 
-The `config/` directory contains example configurations of a `vectara-answer` application. Each example has its own sub-directory that contains two files:
+While the app run via `npm run start` works with a local client that accesses the Vectara API directly, running the app via Docker spins up a full-stack solution, using a proxy server to make Vectara API requests.
 
-- `config.yaml` defines the general behavior and look of the user interface.
-- `queries.json` defines a set of pre-defined questions to display in the UI.
+In order to modify the request handlers, make changes to `/server/index.js`.
 
-You can use the command line to try out an example locally:
+## Configuration
 
-```sh
-bash docker/run.sh config/{name of sub-directory} default
-```
+After the configuration process has created your `.env` file, you are free to make modifications to it to suit your development needs.
 
-If you like the UX of an example application, you can duplicate the sub-directory and configure it to connect to your own data.
-
-## Configuring an application
-
-### `config.yaml` file
-
-You can configure the appearance and behavior of your app by editing these values in your application's `config.yaml` file.
-
-#### Search (required)
+### Search (required)
 
 ```yaml
 # These config vars are required for connecting to your Vectara data and issuing requests.
@@ -140,7 +108,7 @@ customer_id: 0000000001
 api_key: "zwt_abcdef..."
 ```
 
-#### Application (optional)
+### Application (optional)
 
 These configuration parameters allow you to configure the look and feel of the application header, including title, logo and header/footer.
 
@@ -228,7 +196,7 @@ rerank: false
 rerank_num_results: 50
 ```
 
-Whether to use Vectara's MMR (maximum marginal relevance) functionality. 
+Whether to use Vectara's MMR (maximum marginal relevance) functionality.
 Note that if mmr=true, it will disable rerank=true, as both cannot co-exist
 
 ```yaml
@@ -292,49 +260,6 @@ google_analytics_tracking_code: "884327434"
 # Track user experience with Full Story
 full_story_org_id: "org1123"
 ```
-
-### `queries.json` file
-
-the `queries.json` defines four questions that are displayed underneath the search bar and can be clicked by the user as a shortcut to typing that question in.
-
-The file is structured as follows:
-
-```
-[
-    {
-      question: "What is the meaning of life 1?"
-    },
-    {
-      question: "What is the meaning of life 2?"
-    },
-    {
-      question: "What is the meaning of life 3?"
-    },
-    {
-      question: "What is the meaning of life 4?"
-    }
-]
-```
-
-## Deployment
-
-### Local deployment
-
-To run `vectara-answer` locally using Docker, perform the following steps:
-
-1. Make sure you have [docker installed](https://docs.docker.com/engine/install/) on your machine.
-2. Clone this repo into a local directory using `git clone https://github.com/vectara/vectara-answer.git`.
-3. From the root, run `sh docker/run.sh config/<config-directory> <profile_name>`. This configures the Docker container with the parameters specified in your configuration directory, and builds the Docker image. Then it starts up the Docker container and opens up `localhost:80` in your browser which now contains the main search interface starting point. `<profile_name>` is the name of the profile in your `secrets.toml` file where the `api_key` is defined to use with this search application.
-
-The container generated is called `vanswer`, and after it is started, you can:
-
-- View logs by using `docker logs -f vanswer`
-- Stop the container with `docker stop vanswer`
-
-### Cloud deployment
-
-You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP as well as on specialized cloud services like Render or Heroku.
-See [detailed instructions](HOSTING.md)
 
 ## FAQs
 
