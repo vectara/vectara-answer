@@ -2,6 +2,8 @@
 
 .prompt {
   min-width: 400px;
+  flex-grow: 1;
+  text-align: left;
 }
 
 @media screen and (max-width: $breakpointExampleQuestionsAreCramped) {

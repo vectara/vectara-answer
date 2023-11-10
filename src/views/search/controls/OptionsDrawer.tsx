@@ -100,6 +100,7 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
       >
         <>
           <VuiRadioButton
+            groupName="uxMode"
             label="Summary"
             onChange={() => setNewUxMode("summary")}
             checked={newUxMode === "summary"}
@@ -108,6 +109,7 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
           <VuiSpacer size="xs" />
 
           <VuiRadioButton
+            groupName="uxMode"
             label="Search"
             onChange={() => setNewUxMode("search")}
             checked={newUxMode === "search"}
