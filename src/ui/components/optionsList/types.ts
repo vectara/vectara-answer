@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import { TextColor } from "../typography/types";
 
 // Value could be undefined, but the consumer is the one
@@ -7,6 +8,7 @@ import { TextColor } from "../typography/types";
 export type OptionListItem<T> = {
   value: T;
   label: string;
+  icon?: ReactElement | null;
   href?: string;
   target?: string;
   onClick?: (value: T) => void;

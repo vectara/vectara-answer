@@ -35,12 +35,12 @@
   color: $colorSubdued;
   text-decoration: none;
   transition: all $transitionSpeed;
-  box-shadow: transparent 0px 1px 0px;
+  box-shadow: transparent 0px 1px 0px, transparent 0px -1px 0px inset;
   cursor: pointer;
 
   &:hover,
   &:active {
-    color: $colorAccent;
+    color: $colorText;
     text-decoration: none;
   }
 
@@ -48,12 +48,8 @@
     background-color: $colorLightShade;
   }
 
-  &:active {
-    background-color: transparentize($colorAccent, 0.9);
-  }
-
   &.vuiTab-isActive {
     color: $colorText;
-    box-shadow: $colorAccent 0px 1px 0px;
+    box-shadow: $colorPrimary 0px 1px 0px, $colorPrimary 0px -1px 0px inset;
   }
 }

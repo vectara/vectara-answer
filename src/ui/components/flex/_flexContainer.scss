@@ -64,7 +64,8 @@ $spacing: (
   spacingS: $sizeS,
   spacingM: $sizeM,
   spacingL: $sizeL,
-  spacingXl: $sizeXl
+  spacingXl: $sizeXl,
+  spacingXxl: $sizeXxl
 );
 
 @each $spacingName, $spacingValue in $spacing {

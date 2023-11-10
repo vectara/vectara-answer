@@ -1,0 +1,50 @@
+.vuiGridContainer {
+  container-type: inline-size;
+}
+
+.vuiGrid {
+  display: grid;
+}
+
+// spacing
+$spacing: (
+  xss: $sizeXxs,
+  xs: $sizeXs,
+  s: $sizeS,
+  m: $sizeM,
+  l: $sizeL,
+  xl: $sizeXl,
+  xxl: $sizeXxl
+);
+
+@each $spacingName, $spacingValue in $spacing {
+  .vuiGrid--#{$spacingName} {
+    column-gap: $spacingValue;
+    row-gap: $spacingValue;
+  }
+}
+
+.vuiGrid--columns1 {
+  grid-template-columns: 1fr;
+}
+
+.vuiGrid--columns2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.vuiGrid--columns3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@container (width < 800px) {
+  .vuiGrid--columns3 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@container (width < 500px) {
+  .vuiGrid--columns2,
+  .vuiGrid--columns3 {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,10 +1,10 @@
 $size: 16px !default;
 
-$sizeXxxs: 2px !default;
-$sizeXxs: 4px !default;
-$sizeXs: 8px !default;
-$sizeS: 12px !default;
-$sizeM: $size !default;
-$sizeL: 24px !default;
-$sizeXl: 32px !default;
-$sizeXxl: 40px !default;
+$sizeXxxs: 2px !default; // $size * 0.125
+$sizeXxs: 4px !default; // $size * 0.25
+$sizeXs: 8px !default; // $size * 0.5
+$sizeS: 12px !default; // $size * 0.75
+$sizeM: $size !default; // $size * 1
+$sizeL: 24px !default; // $size * 1.5
+$sizeXl: 32px !default; // $size * 2
+$sizeXxl: 40px !default; // $size * 2.5

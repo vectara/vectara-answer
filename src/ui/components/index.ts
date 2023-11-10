@@ -23,8 +23,19 @@ import { VuiCopyButton } from "./copyButton/CopyButton";
 import { VuiDrawer } from "./drawer/Drawer";
 import { VuiFlexContainer } from "./flex/FlexContainer";
 import { VuiFlexItem } from "./flex/FlexItem";
-import { VuiCheckbox, VuiLabel, VuiNumberInput, VuiRadioButton, VuiSelect, VuiTextInput, VuiTextArea } from "./form";
+import {
+  RadioButtonConfig,
+  VuiCheckbox,
+  VuiLabel,
+  VuiNumberInput,
+  VuiRadioButton,
+  VuiSelect,
+  VuiSuperRadioGroup,
+  VuiTextInput,
+  VuiTextArea
+} from "./form";
 import { VuiFormGroup } from "./formGroup/FormGroup";
+import { VuiGrid } from "./grid/Grid";
 import { VuiHorizontalRule } from "./horizontalRule/HorizontalRule";
 import { VuiIcon } from "./icon/Icon";
 import { ICON_COLOR, ICON_SIZE } from "./icon/types";
@@ -54,6 +65,7 @@ import { SPACER_SIZE } from "./spacer/types";
 import { VuiSpinner } from "./spinner/Spinner";
 import { SPINNER_SIZE } from "./spinner/types";
 import { VuiSummary } from "./summary/Summary";
+import { VuiSummaryCitation } from "./summary/SummaryCitation";
 import { VuiTable } from "./table/Table";
 import { VuiTab } from "./tabs/Tab";
 import { VuiTabbedRoutes } from "./tabs/TabbedRoutes";
@@ -64,6 +76,7 @@ import { VuiTextColor } from "./typography/TextColor";
 import { TEXT_COLOR, TEXT_SIZE, TITLE_SIZE } from "./typography/types";
 import { VuiTitle } from "./typography/Title";
 import { VuiToggle } from "./toggle/Toggle";
+import { VuiTopicButton } from "./topicButton/TopicButton";
 
 export type {
   AppContentPadding,
@@ -78,10 +91,11 @@ export type {
   InfoTableRowType,
   Notification,
   OptionListItem,
-  TabSize,
+  RadioButtonConfig,
   SearchResult,
   Sections,
   SectionItem,
+  TabSize,
   Tree,
   TreeItem
 };
@@ -122,6 +136,7 @@ export {
   VuiFlexContainer,
   VuiFlexItem,
   VuiFormGroup,
+  VuiGrid,
   VuiHorizontalRule,
   VuiIcon,
   VuiInfoTable,
@@ -151,6 +166,8 @@ export {
   VuiSpacer,
   VuiSpinner,
   VuiSummary,
+  VuiSummaryCitation,
+  VuiSuperRadioGroup,
   VuiTable,
   VuiTab,
   VuiTabbedRoutes,
@@ -160,5 +177,6 @@ export {
   VuiTextColor,
   VuiTextInput,
   VuiTitle,
-  VuiToggle
+  VuiToggle,
+  VuiTopicButton
 };

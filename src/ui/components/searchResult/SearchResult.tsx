@@ -51,7 +51,9 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
 
     return (
       <div className={classes} ref={ref} {...rest}>
-        <div className={positionClasses}>{position}</div>
+        <div data-testid={`searchResultCitation-${position}`} className={positionClasses}>
+          {position}
+        </div>
 
         {(hasTitle || hasUrl) && (
           <VuiTitle size="s">

@@ -33,6 +33,7 @@ describe("VuiSearchResult", () => {
           >
             <div
               class="vuiSearchResultPosition"
+              data-testid="searchResultCitation-1"
             >
               1
             </div>
@@ -94,6 +95,7 @@ describe("VuiSearchResult", () => {
           >
             <div
               class="vuiSearchResultPosition"
+              data-testid="searchResultCitation-1"
             >
               1
             </div>
@@ -140,6 +142,7 @@ describe("VuiSearchResult", () => {
           >
             <div
               class="vuiSearchResultPosition"
+              data-testid="searchResultCitation-1"
             >
               1
             </div>
@@ -191,6 +194,7 @@ describe("VuiSearchResult", () => {
           >
             <div
               class="vuiSearchResultPosition"
+              data-testid="searchResultCitation-1"
             >
               1
             </div>
@@ -248,6 +252,7 @@ describe("VuiSearchResult", () => {
           >
             <div
               class="vuiSearchResultPosition"
+              data-testid="searchResultCitation-1"
             >
               1
             </div>
@@ -305,6 +310,7 @@ describe("VuiSearchResult", () => {
           >
             <div
               class="vuiSearchResultPosition"
+              data-testid="searchResultCitation-1"
             >
               1
             </div>

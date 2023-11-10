@@ -31,6 +31,10 @@ $color: (
   neutral: (
     "color": $colorText,
     "background-color": transparentize($colorText, 0.9)
+  ),
+  subdued: (
+    "color": $colorSubdued,
+    "background-color": transparentize($colorSubdued, 0.9)
   )
 );
 

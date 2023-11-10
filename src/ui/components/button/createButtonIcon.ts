@@ -14,7 +14,8 @@ const defaultColorToIconColorMap = {
   success: "success",
   danger: "danger",
   warning: "warning",
-  neutral: "neutral"
+  neutral: "neutral",
+  subdued: "subdued"
 };
 
 export const createButtonIcon = (

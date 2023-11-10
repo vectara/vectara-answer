@@ -35,6 +35,10 @@ $color: (
   neutral: (
     "border-color": $borderColor,
     "color": $colorText
+  ),
+  subdued: (
+    "border-color": $borderColorLight,
+    "color": $colorSubdued
   )
 );
 

@@ -18,6 +18,7 @@ type Props = {
   onCopy?: () => void;
   children?: string;
   fullHeight?: boolean;
+  "data-testid"?: string;
 };
 
 // PrismJS clears highlighting when language-none is set.
@@ -33,6 +34,8 @@ export const VuiCode = ({ onCopy, language = "none", fullHeight, children = "", 
   const classes = classNames("vuiCode", `language-${language}`, {
     "vuiCode--fullHeight": fullHeight
   });
+
+  const testId = rest["data-testid"];
 
   return (
     <div className={containerClasses} {...rest}>
@@ -54,6 +57,13 @@ export const VuiCode = ({ onCopy, language = "none", fullHeight, children = "", 
           if (onCopy) onCopy();
         }}
       />
+
+      {/* Expose this for tests to assert against. */}
+      {testId && (
+        <div data-testid={`${testId}-hidden`} hidden>
+          {children}
+        </div>
+      )}
     </div>
   );
 };

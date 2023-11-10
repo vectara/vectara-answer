@@ -54,6 +54,7 @@ $minChatWidth: 600px;
 .vuiChat {
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-width: 420px;
   border-radius: $sizeXs;
   overflow: hidden;

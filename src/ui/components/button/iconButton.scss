@@ -12,7 +12,8 @@ $color: (
   success: $colorSuccess,
   warning: $colorWarning,
   danger: $colorDanger,
-  neutral: $colorText
+  neutral: $colorText,
+  subdued: $colorSubdued
 );
 
 @each $colorName, $colorValue in $color {

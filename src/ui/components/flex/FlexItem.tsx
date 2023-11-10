@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 
 const GROW = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 const SHRINK = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
+const BASIS = ["auto", "content", "fill", "maxContent", "minContent", "none"] as const;
 
 const alignItemsToClassNameMap = {
   baseline: "vuiFlexItem--alignItemsBaseline",
@@ -16,6 +17,7 @@ type Props = {
   children?: ReactNode;
   grow?: (typeof GROW)[number] | boolean;
   shrink?: (typeof SHRINK)[number] | boolean;
+  basis?: (typeof BASIS)[number];
   alignItems?: keyof typeof alignItemsToClassNameMap;
   className?: string;
   truncate?: boolean;
@@ -25,6 +27,7 @@ export const VuiFlexItem = ({
   children,
   grow,
   shrink,
+  basis = "auto",
   alignItems = "stretch",
   className,
   truncate,
@@ -35,6 +38,7 @@ export const VuiFlexItem = ({
 
   const classes = classNames(
     "vuiFlexItem",
+    `vuiFlexItem--${basis}`,
     alignItemsToClassNameMap[alignItems],
     {
       [`vuiFlexItem--flexGrow${grow}`]: typeof grow === "number",

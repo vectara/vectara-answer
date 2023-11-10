@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex-basis: 0%;
 }
 
 .vuiFlexItem--truncate {
@@ -24,6 +23,7 @@ $alignItems: (
   }
 }
 
+// Grow
 @for $i from 0 through 10 {
   .vuiFlexItem--flexGrow#{$i} {
     flex-grow: $i;
@@ -35,6 +35,7 @@ $alignItems: (
   flex-grow: 0;
 }
 
+// Shrink
 @for $i from 0 through 10 {
   .vuiFlexItem--flexShrink#{$i} {
     flex-shrink: $i;
@@ -44,4 +45,20 @@ $alignItems: (
 .vuiFlexItem--flexShrinkNone {
   flex-basis: auto;
   flex-shrink: 0;
+}
+
+// Basis
+$basis: (
+  auto: auto,
+  content: content,
+  fill: fill,
+  maxContent: max-content,
+  minContent: min-content,
+  none: 0
+);
+
+@each $basisName, $basisValue in $basis {
+  .vuiFlexItem--#{$basisName} {
+    flex-basis: $basisValue;
+  }
 }

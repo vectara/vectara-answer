@@ -33,7 +33,8 @@ const spacingToClassNameMap: Record<FlexSpacing, string> = {
   s: "vuiFlexContainer--spacingS",
   m: "vuiFlexContainer--spacingM",
   l: "vuiFlexContainer--spacingL",
-  xl: "vuiFlexContainer--spacingXl"
+  xl: "vuiFlexContainer--spacingXl",
+  xxl: "vuiFlexContainer--spacingXxl"
 } as const;
 
 export type Props = {

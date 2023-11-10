@@ -1,42 +1,34 @@
+import { createId } from "../../../utils/createId";
 import { VuiFlexContainer } from "../../flex/FlexContainer";
 import { VuiFlexItem } from "../../flex/FlexItem";
 
 type Props = {
   checked: boolean;
   onChange: () => void;
+  groupName: string;
   label?: string;
-  id?: string;
   disabled?: boolean;
 };
 
-export const VuiRadioButton = ({ checked, onChange, label, id, disabled, ...rest }: Props) => {
-  // Enable a lazy developer to just use the label as the ID,
-  // though this risks accidental duplication of IDs.
-  const idOrLabel = id ?? label;
+export const VuiRadioButton = ({ checked, onChange, label, groupName, disabled, ...rest }: Props) => {
+  const id = createId();
 
-  const checkbox = (
-    <input
-      id={label ? idOrLabel : undefined}
-      type="radio"
-      checked={checked}
-      onChange={onChange}
-      disabled={disabled}
-      {...rest}
-    />
+  const radioButton = (
+    <input id={id} type="radio" checked={checked} onChange={onChange} disabled={disabled} {...rest} />
   );
 
   if (!label) {
-    return checkbox;
+    return radioButton;
   }
 
   return (
     <VuiFlexContainer spacing="xs" alignItems="center">
       <VuiFlexItem grow={false} shrink={false}>
-        {checkbox}
+        {radioButton}
       </VuiFlexItem>
 
       <VuiFlexItem grow={false} shrink={false}>
-        <label className="vuiRadioButtonLabel" htmlFor={idOrLabel}>
+        <label className="vuiRadioButtonLabel" htmlFor={id}>
           {label}
         </label>
       </VuiFlexItem>

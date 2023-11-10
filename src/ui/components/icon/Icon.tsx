@@ -21,7 +21,7 @@ type Props = {
   inline?: boolean;
 };
 
-export const VuiIcon = ({ children, size = "m", color = "inherit", className, inline }: Props) => {
+export const VuiIcon = ({ children, size = "m", color = "inherit", className, inline, ...rest }: Props) => {
   const innerClasses = classNames(className, "vuiIcon__inner", {
     [`vuiIcon--${color}`]: color
   });
@@ -36,7 +36,9 @@ export const VuiIcon = ({ children, size = "m", color = "inherit", className, in
 
   return (
     <IconContext.Provider value={{ className: innerClasses }}>
-      <div className={classes}>{icon}</div>
+      <div className={classes} {...rest}>
+        {icon}
+      </div>
     </IconContext.Provider>
   );
 };

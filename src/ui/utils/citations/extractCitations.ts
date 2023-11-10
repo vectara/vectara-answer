@@ -17,7 +17,7 @@ export const extractCitations = (summary: string) => {
     // so normalize to the latter.
     citations.push({
       text,
-      references: reference.replace(/\s/g, "").split(","),
+      references: reference.replace(/\s/g, "").split(",")
     });
     lastIndex = index + match[0].length;
   }
