@@ -161,7 +161,10 @@ export const VuiTable = <T extends Row>({
                       selectedIds[rowId] = true;
                     }
 
-                    onSelectRow(Object.keys(selectedIds).map((id) => rows.find((row) => rowId === id) as T));
+                    const selectedRowIds = Object.keys(selectedIds);
+                    // Map selected row IDs to selected rows.
+                    const selectedRows = selectedRowIds.map((id) => rows.find((row) => row.id === id) as T);
+                    onSelectRow(selectedRows);
                   }}
                 />
               </VuiTableCell>

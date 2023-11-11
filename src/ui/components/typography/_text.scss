@@ -110,7 +110,7 @@ $size: (
   xs: $fontSizeSmall,
   s: $fontSizeStandard,
   m: $fontSizeMedium,
-  l: $fontSizeLarge,
+  l: $fontSizeLarge
 );
 
 @each $sizeName, $fontSize in $size {

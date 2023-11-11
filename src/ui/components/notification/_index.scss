@@ -3,7 +3,7 @@
   top: 0;
   right: 0;
   z-index: $notificationsZIndex;
-  animation: popLeft 0.4s cubic-bezier(0.5, 0, 0.5, 1) 1;
+  animation: popTop 0.4s cubic-bezier(0.5, 0, 0.5, 1) 1;
 }
 
 .vuiNotificationList__notifications {
@@ -24,7 +24,7 @@
 
 .vuiNotification {
   position: relative;
-  z-index: 2;
+  z-index: 1;
   border-radius: $sizeS;
   padding: $sizeS;
   font-size: $fontSizeStandard;
@@ -34,30 +34,66 @@
   background-color: $colorEmptyShade;
 }
 
-.vuiNotification--placeholder {
-  position: absolute;
-  z-index: 1;
-  bottom: -$sizeXxs;
-}
-
-.vuiNotification--placeholder2 {
+.vuiNotificationPlaceholder {
   position: absolute;
   z-index: 0;
-  bottom: -$sizeXxs * 1.75;
+  bottom: 0;
 }
 
-@keyframes popLeft {
+.vuiNotificationPlaceholder1-isVisible {
+  bottom: -$sizeXxs;
+  animation: popBottom1 0.2s cubic-bezier(0.5, 0, 0.5, 1) 1;
+}
+
+.vuiNotificationPlaceholder2-isVisible {
+  bottom: -$sizeXxs * 1.75;
+  animation: popBottom2 0.2s cubic-bezier(0.5, 0, 0.5, 1) 1;
+}
+
+@keyframes popTop {
   0% {
-    transform: translateX(40px);
+    transform: translateY(-100%);
     opacity: 0;
   }
 
   50% {
-    transform: translateX(-10px);
+    transform: translateY(10px);
     opacity: 1;
   }
 
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes popBottom1 {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateY(2px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes popBottom2 {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateY(8x);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
   }
 }

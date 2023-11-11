@@ -1,9 +1,20 @@
+import { cloneElement } from "react";
 import { Link } from "react-router-dom";
 import { BiCheck } from "react-icons/bi";
 import { VuiFlexContainer } from "../flex/FlexContainer";
 import { VuiFlexItem } from "../flex/FlexItem";
 import { VuiIcon } from "../icon/Icon";
 import { OptionListItem } from "./types";
+import classNames from "classnames";
+
+export const colorIcon = (icon: OptionListItem<string>["icon"], color: OptionListItem<string>["color"]) => {
+  return icon
+    ? cloneElement(icon, {
+        color,
+        size: "s"
+      })
+    : null;
+};
 
 type Props<T> = OptionListItem<T> & {
   isSelectable?: boolean;
@@ -15,6 +26,7 @@ type Props<T> = OptionListItem<T> & {
 export const VuiOptionsListItem = <T extends unknown = unknown>({
   value,
   label,
+  icon,
   color = "neutral",
   href,
   target,
@@ -24,6 +36,17 @@ export const VuiOptionsListItem = <T extends unknown = unknown>({
   testId,
   ...rest
 }: Props<T>) => {
+  const labelContent = icon ? (
+    <VuiFlexContainer alignItems="center" spacing="xs">
+      <VuiFlexItem grow={false} shrink={false}>
+        {colorIcon(icon, color)}
+      </VuiFlexItem>
+      <VuiFlexItem grow={1}>{label}</VuiFlexItem>
+    </VuiFlexContainer>
+  ) : (
+    label
+  );
+
   const content = (
     <VuiFlexContainer alignItems="center" spacing="xs">
       {isSelectable && (
@@ -33,14 +56,16 @@ export const VuiOptionsListItem = <T extends unknown = unknown>({
           </VuiIcon>
         </VuiFlexItem>
       )}
-      <VuiFlexItem grow={false}>{label}</VuiFlexItem>
+      <VuiFlexItem grow={false}>{labelContent}</VuiFlexItem>
     </VuiFlexContainer>
   );
+
+  const classes = classNames("vuiOptionsListItem", `vuiOptionsListItem--${color}`);
 
   if (href) {
     return (
       <Link
-        className="vuiOptionsListItem"
+        className={classes}
         to={href}
         target={target}
         onClick={() => onClick?.(value)}
@@ -53,7 +78,7 @@ export const VuiOptionsListItem = <T extends unknown = unknown>({
   }
 
   return (
-    <button className="vuiOptionsListItem" onClick={() => onClick?.(value)} data-testid={testId} {...rest}>
+    <button className={classes} onClick={() => onClick?.(value)} data-testid={testId} {...rest}>
       {content}
     </button>
   );

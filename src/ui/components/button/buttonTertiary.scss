@@ -38,6 +38,10 @@ $color: (
   neutral: (
     "color": $colorText,
     "selected-color": transparentize($colorText, 0.9)
+  ),
+  subdued: (
+    "color": $colorSubdued,
+    "selected-color": transparentize($colorSubdued, 0.9)
   )
 );
 

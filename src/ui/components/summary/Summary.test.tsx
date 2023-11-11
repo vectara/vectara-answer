@@ -31,9 +31,7 @@ With some **bold** and _emphasized_ test. Here is a [link](https://www.vectara.c
 | Paragraph   | Text        |
 `;
 
-      const { asFragment } = render(
-        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
-      );
+      const { asFragment } = render(<VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />);
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
@@ -169,9 +167,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
 | Paragraph   | Text        |
       `;
 
-      const { asFragment } = render(
-        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
-      );
+      const { asFragment } = render(<VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />);
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
@@ -187,7 +183,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   id="summarycitation-reference1-----heres-a-heading-1"
                 >
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     1
                   </button>
@@ -197,7 +193,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   id="summarycitation-reference1-----heres-a-heading-2"
                 >
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     1
                   </button>
@@ -207,7 +203,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   id="summarycitation-reference1-----heres-a-heading-3"
                 >
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     1
                   </button>
@@ -217,7 +213,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   id="summarycitation-reference1-----heres-a-heading-4"
                 >
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     1
                   </button>
@@ -229,12 +225,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                     bold
                   </strong>
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     2
                   </button>
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     3
                   </button>
@@ -243,12 +239,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                     emphasized
                   </em>
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     2
                   </button>
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     3
                   </button>
@@ -259,12 +255,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                     link
                   </a>
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     2
                   </button>
                   <button
-                    class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                    class="vuiSummaryCitation"
                   >
                     3
                   </button>
@@ -274,12 +270,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   <li>
                     An  
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       2
                     </button>
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       3
                     </button>
@@ -287,12 +283,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   <li>
                     Unordered  
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       2
                     </button>
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       3
                     </button>
@@ -300,12 +296,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   <li>
                     List  
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       2
                     </button>
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       3
                     </button>
@@ -317,12 +313,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   <li>
                     An  
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       2
                     </button>
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       3
                     </button>
@@ -330,12 +326,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   <li>
                     Ordered  
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       2
                     </button>
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       3
                     </button>
@@ -343,12 +339,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   <li>
                     List  
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       2
                     </button>
                     <button
-                      class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                      class="vuiSummaryCitation"
                     >
                       3
                     </button>
@@ -373,12 +369,12 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                       <td>
                         Title  
                         <button
-                          class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                          class="vuiSummaryCitation"
                         >
                           2
                         </button>
                         <button
-                          class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                          class="vuiSummaryCitation"
                         >
                           3
                         </button>
@@ -407,9 +403,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
       const summary =
         "[1] Beginning of summary. [2][3] Multiple at beginning of sentence, and before comma [4], single at middle [5] of sentence. At end of sentence [6].";
 
-      const { asFragment } = render(
-        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
-      );
+      const { asFragment } = render(<VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />);
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
@@ -422,7 +416,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
             >
               <div>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   1
                 </button>
@@ -440,9 +434,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
 
     test("at the end of the summary", () => {
       const summary = "End of summary. [1]";
-      const { asFragment } = render(
-        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
-      );
+      const { asFragment } = render(<VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />);
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
@@ -456,7 +448,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
               <p>
                 End of summary.  
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   1
                 </button>
@@ -468,11 +460,8 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
     });
 
     test("with multiple comma-delimited citations", () => {
-      const summary =
-        "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7].";
-      const { asFragment } = render(
-        <VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />
-      );
+      const summary = "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7].";
+      const { asFragment } = render(<VuiSummary summary={summary} SummaryCitation={VuiSummaryCitation} />);
 
       expect(asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
@@ -486,48 +475,48 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
               <p>
                 Two citations  
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   1
                 </button>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   2
                 </button>
                     and seven citations  
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   1
                 </button>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   2
                 </button>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   3
                 </button>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   4
                 </button>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   5
                 </button>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   6
                 </button>
                 <button
-                  class="vuiBaseButton vuiSummaryCitation vuiButtonSecondary vuiButtonSecondary--primary vuiBaseButton--xs"
+                  class="vuiSummaryCitation"
                 >
                   7
                 </button>

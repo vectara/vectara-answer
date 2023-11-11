@@ -10,7 +10,7 @@ $size: (
   m: $sizeM,
   l: $sizeL,
   xl: $sizeXl,
-  xxl: $sizeXxl,
+  xxl: $sizeXxl
 );
 
 @each $sizeName, $sizeValue in $size {

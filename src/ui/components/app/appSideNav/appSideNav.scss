@@ -51,7 +51,9 @@
 
 .vuiAppSideNavExpandButton {
   margin-top: -$sizeXxs;
-  margin-bottom: $sizeS;
+  // Ensure the content below the expand/collapse button remains
+  // at the same vertical position when collapsed and expanded.
+  margin-bottom: 6px;
 }
 
 .vuiAppSideNavLink {

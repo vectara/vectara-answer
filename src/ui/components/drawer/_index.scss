@@ -1,6 +1,6 @@
 @use "sass:map";
 
-$drawerWidth: 500px;
+$drawerWidth: 680px;
 
 @keyframes drawerIn {
   0% {
@@ -32,7 +32,7 @@ $drawerWidth: 500px;
 }
 
 .vuiDrawerContent {
-  overflow-y: scroll;
+  overflow-y: auto;
   overscroll-behavior: contain;
 }
 

@@ -11,39 +11,36 @@ describe("extractCitations", () => {
       { text: "", references: ["3"] },
       {
         text: " Multiple at beginning of sentence, and before comma ",
-        references: ["4"],
+        references: ["4"]
       },
       { text: ", single at middle ", references: ["5"] },
       {
         text: " of sentence. At end of sentence ",
-        references: ["6"],
+        references: ["6"]
       },
-      { text: "." },
+      { text: "." }
     ]);
   });
 
   test("extracts citation at the end of the summary", () => {
     const summary = "End of summary. [1]";
-    expect(extractCitations(summary)).toEqual([
-      { text: "End of summary. ", references: ["1"] },
-    ]);
+    expect(extractCitations(summary)).toEqual([{ text: "End of summary. ", references: ["1"] }]);
   });
 
   test("extracts multiple comma-delimited citations", () => {
-    const summary =
-      "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7] and without spaces [1,2,3].";
+    const summary = "Two citations [1, 2] and seven citations [1, 2, 3, 4, 5, 6, 7] and without spaces [1,2,3].";
 
     expect(extractCitations(summary)).toEqual([
       { text: "Two citations ", references: ["1", "2"] },
       {
         text: " and seven citations ",
-        references: ["1", "2", "3", "4", "5", "6", "7"],
+        references: ["1", "2", "3", "4", "5", "6", "7"]
       },
       {
         text: " and without spaces ",
-        references: ["1", "2", "3"],
+        references: ["1", "2", "3"]
       },
-      { text: "." },
+      { text: "." }
     ]);
   });
 });

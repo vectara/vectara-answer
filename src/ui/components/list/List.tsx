@@ -34,7 +34,9 @@ export const VuiList = ({ items, size = "m", alignItems = "center" }: Props) => 
                 </div>
               </VuiFlexItem>
 
-              <VuiFlexItem grow={1}>{item.render()}</VuiFlexItem>
+              <VuiFlexItem grow={1} alignItems="start">
+                {item.render()}
+              </VuiFlexItem>
             </VuiFlexContainer>
 
             {index < items.length - 1 && <VuiSpacer size="s" />}

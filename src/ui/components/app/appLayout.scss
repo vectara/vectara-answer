@@ -5,6 +5,10 @@
   height: 100vh;
 }
 
+.vuiAppLayout--full {
+  padding-top: 0;
+}
+
 .vuiAppLayout__sideNav {
   border-right: 1px solid $colorMediumShade;
   flex-shrink: 0;

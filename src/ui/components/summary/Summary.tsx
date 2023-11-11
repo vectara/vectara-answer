@@ -24,9 +24,7 @@ const markDownCitations = (summary: string) => {
 
           const followingCitation = citations[index + 1];
 
-          const marginAfter = ![",", ".", "!", "?", ":", ";"].includes(
-            followingCitation?.text?.[0]
-          );
+          const marginAfter = ![",", ".", "!", "?", ":", ";"].includes(followingCitation?.text?.[0]);
 
           if (marginAfter) {
             accum.push(" ");
@@ -62,9 +60,9 @@ export const VuiSummary = ({ summary, className, SummaryCitation }: Props) => {
             forceBlock: true,
             overrides: {
               SummaryCitation: {
-                component: SummaryCitation,
-              },
-            },
+                component: SummaryCitation
+              }
+            }
           }}
         />
       </VuiText>

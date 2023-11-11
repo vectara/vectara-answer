@@ -26,6 +26,14 @@ export const VuiNotification = ({ notification, onDismiss, notificationsCount, c
   const classes = classNames("vuiNotification", `vuiNotification--${color}`);
   const hasManyNotifications = notificationsCount > 1;
 
+  const placeholder1Classes = classNames("vuiNotification", "vuiNotificationPlaceholder", {
+    "vuiNotificationPlaceholder1-isVisible": notificationsCount > 1
+  });
+
+  const placeholder2Classes = classNames("vuiNotification", "vuiNotificationPlaceholder", {
+    "vuiNotificationPlaceholder2-isVisible": notificationsCount > 2
+  });
+
   return (
     <div className="vuiNotificationContainer">
       <div className={classes}>
@@ -69,8 +77,8 @@ export const VuiNotification = ({ notification, onDismiss, notificationsCount, c
         )}
       </div>
 
-      {notificationsCount > 1 && <div className="vuiNotification vuiNotification--placeholder" />}
-      {notificationsCount > 2 && <div className="vuiNotification vuiNotification--placeholder2" />}
+      <div className={placeholder2Classes} />
+      <div className={placeholder1Classes} />
     </div>
   );
 };

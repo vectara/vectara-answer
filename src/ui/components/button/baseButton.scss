@@ -14,13 +14,14 @@
 .vuiBaseButton {
   white-space: nowrap;
   border-radius: $sizeXxs;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 500;
   box-shadow: $shadowSmallStart;
   transition: all $transitionSpeed;
   line-height: 1;
+  cursor: pointer;
 }
 
 .vuiBaseButton-isInert,

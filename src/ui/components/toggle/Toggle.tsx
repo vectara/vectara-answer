@@ -3,12 +3,13 @@ import { VuiFlexContainer } from "../flex/FlexContainer";
 import { VuiFlexItem } from "../flex/FlexItem";
 
 type Props = {
+  id?: string;
   checked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   label?: string;
 };
 
-export const VuiToggle = ({ checked, onChange, label, ...rest }: Props) => {
+export const VuiToggle = ({ id, checked, onChange, label, ...rest }: Props) => {
   let labelId;
 
   const inputProps: Record<string, string> = {};
@@ -27,6 +28,7 @@ export const VuiToggle = ({ checked, onChange, label, ...rest }: Props) => {
             type="checkbox"
             checked={checked}
             onChange={onChange}
+            id={id}
             {...inputProps}
             {...rest}
           />

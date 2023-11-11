@@ -19,6 +19,7 @@ export type Props = {
   href?: LinkProps["href"];
   target?: LinkProps["target"];
   track?: LinkProps["track"];
+  htmlFor?: string;
   tabIndex?: number;
   title?: string;
 };
@@ -39,6 +40,7 @@ export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(
       href,
       target,
       track,
+      htmlFor,
       ...rest
     }: Props,
     ref
@@ -52,11 +54,23 @@ export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(
 
     const iconContainer = icon ? <span className="vuiBaseButtonIconContainer">{icon}</span> : null;
 
+    // This is useful for controlling other elements, e.g. creating an <input type="file" />
+    // for uploading files and adding a button to trigger it.
+    if (htmlFor) {
+      return (
+        <label htmlFor={htmlFor} className={classes} tabIndex={tabIndex} {...rest}>
+          {iconContainer}
+          {children}
+        </label>
+      );
+    }
+
     if (href) {
       return (
         <Link
           className="vuiBaseButtonLinkWrapper"
           to={href}
+          onClick={onClick}
           target={target}
           tabIndex={tabIndex}
           {...rest}

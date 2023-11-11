@@ -221,18 +221,23 @@ export const VuiChat = ({
           {(introduction || suggestions) && (
             <div className="vuiChat__introduction">
               {introduction}
+
               {introduction && <VuiSpacer size="s" />}
+
               {suggestions?.map((suggestion) => (
-                <VuiButtonTertiary
-                  size="s"
-                  color="primary"
-                  key={suggestion}
-                  onClick={() => onInput(suggestion)}
-                  noPadding
-                >
-                  {suggestion}
-                </VuiButtonTertiary>
+                <div>
+                  <VuiButtonTertiary
+                    size="s"
+                    color="primary"
+                    key={suggestion}
+                    onClick={() => onInput(suggestion)}
+                    noPadding
+                  >
+                    {suggestion}
+                  </VuiButtonTertiary>
+                </div>
               ))}
+
               {suggestions && suggestions.length > 0 && <VuiSpacer size="s" />}
             </div>
           )}

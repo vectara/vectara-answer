@@ -17,7 +17,7 @@ const paddingToClassNameMap = {
   xl: "vuiAppContent--paddingXl"
 };
 
-export const VuiAppContent = ({ children, className, fullWidth, padding = "none" }: Props) => {
+export const VuiAppContent = ({ children, className, fullWidth, padding = "none", ...rest }: Props) => {
   const classes = classNames(
     "vuiAppContent",
     paddingToClassNameMap[padding],
@@ -26,5 +26,9 @@ export const VuiAppContent = ({ children, className, fullWidth, padding = "none"
     },
     className
   );
-  return <div className={classes}>{children}</div>;
+  return (
+    <div className={classes} {...rest}>
+      {children}
+    </div>
+  );
 };

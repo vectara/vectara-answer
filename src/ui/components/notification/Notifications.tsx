@@ -61,14 +61,14 @@ export const VuiNotifications = ({ notifications, onShowAll, onDismiss, onDismis
 
               <VuiFlexContainer alignItems="center" justifyContent="spaceBetween">
                 <VuiFlexItem>
-                  <VuiButtonTertiary size="s" color="primary" onClick={onShowAll}>
-                    See all
+                  <VuiButtonTertiary size="s" color="primary" onClick={onDismissAll}>
+                    Dismiss all
                   </VuiButtonTertiary>
                 </VuiFlexItem>
 
                 <VuiFlexItem>
-                  <VuiButtonSecondary size="s" color="primary" onClick={onDismissAll}>
-                    Dismiss all
+                  <VuiButtonSecondary size="s" color="primary" onClick={onShowAll}>
+                    See all
                   </VuiButtonSecondary>
                 </VuiFlexItem>
               </VuiFlexContainer>
