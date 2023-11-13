@@ -33,15 +33,19 @@ Vectara Answer comes packaged with preset configurations that allow you spin up 
 
 `npm run bootstrap`
 
-This one-liner installs dependencies, runs the configuration script, and spins up the local application. **When prompted for which application to create, simply select one of the three default apps, and you're good to go!** We'll work on setting up a custom application later in this doc.
+When prompted for which application to create, simply select one of the three default apps, and you'll have the app running in your browser at `http://localhost:4444`.
+
+Congratulations! You've just setup and run a sample app powered by Vectara! We'll work on setting up a custom application later in this doc.
+
+### Under the hood
+
+The bootstrap command installs dependencies, runs the configuration script, and spins up the local application.
 
 If you would like to run the setup steps individually, you can run:
 
 - `npm install`: for installing dependencies
 - `npm run configure`: for running the configuration script
 - `npm run start`: for running the application locally
-
-Congratulations! You've just setup and run a sample app powered by Vectara!
 
 ### Deployment
 
@@ -60,8 +64,8 @@ To set up a deployable docker image, do the following:
 
 When building your own application, you will need to:
 
-- [Create a corpus](https://docs.vectara.com/docs/console-ui/creating-a-corpus) via the Vectara Console
-- [Ingest data](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) into the corpus you just created
+- **Create a data store:** Log into the [Vectara Console](https://console.vectara.com/) and create a data store(https://docs.vectara.com/docs/console-ui/creating-a-corpus).
+- **Add data to the data store.** You can use [Vectara Ingest](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) to crawl datasets and websites, or use our [Indexing APIs](https://docs.vectara.com/docs/api-reference/indexing-apis/indexing) directly.
 
 ### Running Your Custom App
 

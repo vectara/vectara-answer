@@ -10,6 +10,7 @@ const DEFAULT_CONFIGS = {
     customerId: "1366999410",
     corpusId: "1",
     apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
+    appTitle: "Vectara Docs Search",
     questions: JSON.stringify(vectaraDocsQuestions.questions),
   },
 
@@ -17,6 +18,7 @@ const DEFAULT_CONFIGS = {
     customerId: "1366999410",
     corpusId: "2",
     apiKey: "zqt_UXrBcnnt4156FZqMtzK8OEoZqcR0OrecS5Bb6Q",
+    appTitle: "Vectara Website Search",
     questions: JSON.stringify(vectaraWebsiteQuestions.questions),
   },
 
@@ -24,6 +26,7 @@ const DEFAULT_CONFIGS = {
     customerId: "1366999410",
     corpusId: "3",
     apiKey: "zqt_UXrBclYURJiAW9MiKT1L60EJC6iaIoWYj_bSJg",
+    appTitle: "Ask Feynman",
     questions: JSON.stringify(askFeynmanQuestions.questions),
   },
 };
@@ -67,6 +70,13 @@ export default function (plop) {
         presetAppName = presetAppNameAns.presetAppName;
         return;
       }
+
+      const appTitleAns = await inquirer.prompt({
+        when: checkNeedsConfiguration,
+        type: "input",
+        name: "appTitle",
+        message: "What would you like to name your application?",
+      });
 
       const customerIdAns = await inquirer.prompt({
         when: checkNeedsConfiguration,
@@ -122,10 +132,11 @@ export default function (plop) {
       return {
         ...acknowledgeAns,
         ...presetAppNameAns,
+        ...appTitleAns,
         ...customerIdAns,
         ...corpusIdAns,
         ...apiKeyAns,
-        questions: JSON.stringify(questions).replace('"', '\\"'),
+        questions: JSON.stringify(questions),
       };
     },
     actions: [
@@ -134,6 +145,7 @@ export default function (plop) {
         data: () => {
           // Check our cached app name since this function does
           // not have a reference to the current Plop context.
+
           if (presetAppName) {
             return DEFAULT_CONFIGS[presetAppName];
           }

@@ -13,7 +13,7 @@ import {
 import "./appHeader.scss";
 
 export const AppHeader = () => {
-  const { appHeader } = useConfigContext();
+  const { app, appHeader } = useConfigContext();
 
   const { isAuthEnabled, logOut, user } = useAuthenticationContext();
 
@@ -44,7 +44,7 @@ export const AppHeader = () => {
             <VuiFlexItem grow={1}>
               <VuiTitle size="xs" align="left">
                 <VuiTextColor color="subdued">
-                  <h1>Sample app</h1>
+                  <h1>{app.title ?? "Sample app"}</h1>
                 </VuiTextColor>
               </VuiTitle>
             </VuiFlexItem>
