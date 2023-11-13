@@ -179,6 +179,21 @@ type Props = {
 
 const isProduction = process.env.NODE_ENV === "production";
 
+const fetchQueries = async () => {
+  try {
+    const result = await fetch("queries.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    const data = await result.json();
+    return data;
+  } catch (e) {
+    console.log("Could not load queries.json Detail: " + e);
+  }
+};
+
 const fetchConfig = async () => {
   const headers = {
     headers: {
@@ -274,6 +289,14 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
         if (config.config_questions) {
           setExampleQuestions(JSON.parse(config.config_questions));
+        } else {
+          const queriesResponse = await fetchQueries();
+          if (queriesResponse) {
+            const questions = queriesResponse.questions;
+            if (questions) {
+              setExampleQuestions(questions);
+            }
+          }
         }
       } else {
         config = prefixConfig(process.env, "REACT_APP_");
