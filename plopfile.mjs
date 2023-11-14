@@ -11,6 +11,8 @@ const DEFAULT_CONFIGS = {
     corpusId: "1",
     apiKey: "zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA",
     appTitle: "Vectara Docs Search",
+    searchTitle: "Vectara Docs Search",
+    searchDescription: "All of Vectara's Platform Documentation",
     questions: JSON.stringify(vectaraDocsQuestions.questions),
   },
 
@@ -19,6 +21,8 @@ const DEFAULT_CONFIGS = {
     corpusId: "2",
     apiKey: "zqt_UXrBcnnt4156FZqMtzK8OEoZqcR0OrecS5Bb6Q",
     appTitle: "Vectara Website Search",
+    searchTitle: "Vectara Website Search",
+    searchDescription: "All the content on Vectara's Website",
     questions: JSON.stringify(vectaraWebsiteQuestions.questions),
   },
 
@@ -27,6 +31,8 @@ const DEFAULT_CONFIGS = {
     corpusId: "3",
     apiKey: "zqt_UXrBclYURJiAW9MiKT1L60EJC6iaIoWYj_bSJg",
     appTitle: "Ask Feynman",
+    searchTitle: "Ask Feynman",
+    searchDescription: "All of Richard Feynman's Lectures",
     questions: JSON.stringify(askFeynmanQuestions.questions),
   },
 };
