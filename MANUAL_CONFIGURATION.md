@@ -1,4 +1,4 @@
-## Legacy Deployment
+## Manual Configuration
 
 ### 1. Install dependencies
 

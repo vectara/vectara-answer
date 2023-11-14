@@ -21,7 +21,7 @@
 
 Vectara Answer is an open source React project that enables you to quickly configure GenAI user interfaces, powered by the [Vectara Platform](https://vectara.com/)'s semantic search and summarization APIs.
 
-For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com).
+For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com) or [LegalAid](https://legalaid.demo.vectara.com).
 
 ## Prerequisites
 
@@ -33,7 +33,13 @@ Vectara Answer comes packaged with preset configurations that allow you spin up 
 
 `npm run bootstrap`
 
-When prompted for which application to create, simply select one of the three default apps, and you'll have the app running in your browser at `http://localhost:4444`.
+When prompted for which application to create, simply select from one of three default apps:
+
+1. `Vectara Docs` - Answer questions about Vectara documentation
+2. `Vectara.com` - Answer questions about the content of the Vectara company website
+3. `AskFeynman` - Answer questions about Richard Feynman's lectures
+
+After selecting which application to create, you'll have the app running in your browser at `http://localhost:4444`.
 
 Congratulations! You've just setup and run a sample app powered by Vectara! We'll work on setting up a custom application later in this doc.
 
@@ -60,9 +66,9 @@ To set up a deployable docker image, do the following:
 
 In this set up, your app configuration in the .env file is served from the `/config` API endpoint. Data from this endpoint is used at render time.
 
-#### Legacy Deployment
+### Manual Configuration
 
-For steps on deploying Vectara Answer using a config directory, see [LEGACY_DEPLOYMENT.md](LEGACY_DEPLOYMENT.md).
+If you prefer manually setting up Vectara Answer using a config directory, see [MANUAL_CONFIGURATION.md](MANUAL_CONFIGURATION.md).
 
 ## Building Your Own Application
 
@@ -108,6 +114,8 @@ In order to modify the request handlers, make changes to `/server/index.js`.
 ## Configuration
 
 After the configuration process has created your `.env` file, you are free to make modifications to it to suit your development needs.
+
+These variables can be set in your `.env` file, which is created during the quickstart process. If you are [configuring your app manually](MANUAL_CONFIGURATION.md), these can be set in your `config.yaml` file.
 
 ### Search (required)
 
