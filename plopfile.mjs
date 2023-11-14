@@ -51,7 +51,7 @@ export default function (plop) {
         type: "input",
         name: "acknowledgePrimer",
         message:
-          "Welcome to vectara-answer!\nLet's configure your application.\nYou can choose from a pre-configured one, or configure your own.\nNOTE: THIS WILL OVERWRITE EXISTING CONFIGS.\n\nPress Enter to continue.",
+          "Welcome to vectara-answer!\nLet's configure your application.\nYou can choose from a pre-configured one, or configure your own.\nNOTE: THIS WILL OVERWRITE .env CONFIGURATION FILE.\n\nPress Enter to continue.",
       });
 
       const presetAppNameAns = await inquirer.prompt({

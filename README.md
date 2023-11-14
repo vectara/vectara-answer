@@ -39,7 +39,7 @@ Congratulations! You've just setup and run a sample app powered by Vectara! We'l
 
 ### Under the hood
 
-The bootstrap command installs dependencies, runs the configuration script, and spins up the local application.
+The bootstrap command installs dependencies, runs the configuration script to generate an .env file, and spins up the local application.
 
 If you would like to run the setup steps individually, you can run:
 
@@ -56,7 +56,13 @@ To set up a deployable docker image, do the following:
 - View app logs with `docker logs -f vanswer`
 - Stop the app with `docker stop vanswer`
 
-`run.sh` creates a deployable docker image and runs it. The app should be accessible at `http://localhost:80`.
+`run.sh` creates a deployable Docker image and runs it. The app should be accessible at `http://localhost:80`.
+
+In this set up, your app configuration in the .env file is served from the `/config` API endpoint. Data from this endpoint is used at render time.
+
+#### Legacy Deployment
+
+For steps on deploying Vectara Answer using a config directory, see [LEGACY_DEPLOYMENT.md](LEGACY_DEPLOYMENT.md).
 
 ## Building Your Own Application
 
