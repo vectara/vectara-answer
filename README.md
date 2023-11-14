@@ -21,21 +21,28 @@
 
 Vectara Answer is an open source React project that enables you to quickly configure GenAI user interfaces, powered by the [Vectara Platform](https://vectara.com/)'s semantic search and summarization APIs.
 
-For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com).
-
-## Prerequisites
-
-To get started, the minimum requirement is to install [npm and node](https://nodejs.org/en/download). That's it!
+For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com) or [LegalAid](https://legalaid.demo.vectara.com).
 
 ## Quickstart
 
-Vectara Answer comes packaged with preset configurations that allow you spin up a sample application using Vectara's public datastores. To quickly get started, run the following command:
+### Prerequisites
+
+To get started, the minimum requirement is to install [npm and node](https://nodejs.org/en/download). That's it!
+
+### Running a sample app
+
+Vectara Answer comes packaged with preset configurations that allow you spin up a sample application using a few datastores we setup on Vectara. To quickly get started, run the following command:
 
 `npm run bootstrap`
 
-When prompted for which application to create, simply select one of the three default apps, and you'll have the app running in your browser at `http://localhost:4444`.
+You will be prompted to select one of the three sample applications:
+1. `Vectara docs` - question answering with Vectara documentation
+2. `Vectara.com` - question answering about the content of vectara.com website
+3. `AskFeynman` - ask questions about Richard Feynman's lectures.
+  
+After selecting which application to create, you'll have the app running in your browser at `http://localhost:4444`.
 
-Congratulations! You've just setup and run a sample app powered by Vectara! We'll work on setting up a custom application later in this doc.
+Congratulations! You've just setup and run a sample app powered by Vectara! 
 
 ### Under the hood
 
@@ -47,16 +54,6 @@ If you would like to run the setup steps individually, you can run:
 - `npm run configure`: for running the configuration script
 - `npm run start`: for running the application locally
 
-### Deployment
-
-To set up a deployable docker image, do the following:
-
-- Install [Docker](https://docs.docker.com/engine/install/). Then make sure it's running on your machine.
-- Run `bash docker/run.sh`
-- View app logs with `docker logs -f vanswer`
-- Stop the app with `docker stop vanswer`
-
-`run.sh` creates a deployable docker image and runs it. The app should be accessible at `http://localhost:80`.
 
 ## Building Your Own Application
 
@@ -67,20 +64,60 @@ When building your own application, you will need to:
 - **Create a data store:** Log into the [Vectara Console](https://console.vectara.com/) and create a data store(https://docs.vectara.com/docs/console-ui/creating-a-corpus).
 - **Add data to the data store.** You can use [Vectara Ingest](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) to crawl datasets and websites, or use our [Indexing APIs](https://docs.vectara.com/docs/api-reference/indexing-apis/indexing) directly.
 
-### Running Your Custom App
+### Running Your Custom App 
 
-If you choose `[Create Your Own]` from the application selection prompt, you will be asked to provide:
+After you setup your datastore and index your data, you can run `vectara-answer` against this data. Run `bash docker/run.sh`, and choose `[Create Your Own]` from the application selection prompt, you will be asked to provide:
 
-- your Vectara customer ID
-- the ID of the corpus you created as a prerequisite to this process
-- the API key of your selected Vectara corpus (**NOTE: Depending on your set up, this may be visible to users. To ensure safe sharing, ensure that this key is set up to only have query access.**)
+- your Vectara `customer ID`
+- your `corpus ID`: the ID of the corpus you created as a prerequisite to this process
+- the `API key` of your selected Vectara corpus
 - any sample questions to display on the site, to get your users started.
 
-Once provided, the values above will go into your own customized configuration, and your site will be ready to go via `npm start` or the Docker script.
+Once provided, the values above will go into your own customized configuration, and your site will be ready to go via `npm start`.
 
-### Deploying Your App
+ **NOTE**: Depending on your set up and how you use vectara-answer, the api_key may be visible to users. To ensure safe sharing, ensure that this key is set up to only have query access.
 
-You can deploy `vectara-answer` on cloud platforms such as AWS, Azure, or GCP as well as on specialized cloud services like Render or Heroku.
+
+## Running with Docker
+
+The Quickstart is a great way to get started with your application within minutes. `vectara-answer` also supports an option that uses `Docker` and allows more customization to the application configuration. 
+
+### Setting up the environment
+
+First you will have to install a few more things:
+- If it's not already installed, install [Docker](https://docs.docker.com/engine/install/). Then make sure it's running on your machine.
+- Make sure you have a working version of Python>=3.8.
+- pyyaml: `pip3 install pyyaml`.
+
+### Configuring your application
+
+When running with Docker, vectara-answer requires a file called `secrets.toml` in the root directory. This file uses the TOML format, which supports the definition of one or more profiles. Under each profile you can add the line api_key="XXX" where XXX is the Vectara API key you want to use in that profile.
+
+To setup your secrets file, duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`. Then edit the `secrets.toml` file and change the api_key value to be the API Key associated with the Vectara data store you want the application to work with.
+
+In the `/config` file you can create a new folder for your application. For example if you want to call your application `myapp` you can do
+
+`mkdir -p config/myapp`
+
+Then create two files in that folder:
+- `config.yaml` which includes all the configuration parameters
+- `queries.son` which includes the set of queries you want to show
+
+The config folder includes a few example folders that you can look at such as `ask-news`, `sf-search` or `website-vectara`. But you will need to change the config and queries files to fit your application. See the configuration section below for a full list of all configuration options.
+
+### Deploying your application
+
+Once your application configuration is ready, you can run it with docker using the following command:
+
+`bash docker/run.sh config/myapp default`
+
+Where `default` is the secrets profile for your application.
+
+The application executes inside of a Docker container to avoid any issues with existing environments and installed packages. When the container is set up, the run.sh launch script will open up a browser at localhost:80.
+
+To set up a deployable docker image, do the following:
+
+You can also deploy your docker application on cloud platforms such as AWS, Azure, or GCP as well as on specialized cloud services like Render or Heroku.
 See [detailed instructions](HOSTING.md)
 
 ## Make It Your Own!
@@ -101,7 +138,9 @@ In order to modify the request handlers, make changes to `/server/index.js`.
 
 ## Configuration
 
-After the configuration process has created your `.env` file, you are free to make modifications to it to suit your development needs.
+The following defines the full set of configuration parameters available in the `config.yaml` file that you can control. 
+
+When deployed the configuration process creates a `.env` file that is then used inside the docker container or in local deployment, so feel free to update that file as well.
 
 ### Search (required)
 
@@ -205,7 +244,7 @@ Note that if mmr=true, it will disable rerank=true, as both cannot co-exist
 
 ```yaml
 # mmr enabled: true or false
-mmr: true
+mmr: "True"
 
 # diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
 mmr_diversity_bias: 0.3
