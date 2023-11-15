@@ -80,7 +80,7 @@ export default function (plop) {
       const appTitleAns = await inquirer.prompt({
         when: checkNeedsConfiguration,
         type: "input",
-        name: "appTitle",
+        name: "searchTitle",
         message: "What would you like to name your application?",
       });
 

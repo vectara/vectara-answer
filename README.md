@@ -61,7 +61,7 @@ If you would like to run the setup steps individually, you can run:
 
 When building your own application, you will need to:
 
-- **Create a data store:** Log into the [Vectara Console](https://console.vectara.com/) and create a data store(https://docs.vectara.com/docs/console-ui/creating-a-corpus).
+- **Create a data store:** Log into the [Vectara Console](https://console.vectara.com/) and create a data store (https://docs.vectara.com/docs/console-ui/creating-a-corpus).
 - **Add data to the data store.** You can use [Vectara Ingest](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) to crawl datasets and websites, upload files in the [Vectara Console](https://console.vectara.com/), or use our [Indexing APIs](https://docs.vectara.com/docs/api-reference/indexing-apis/indexing) directly. 
 
 ### Running Your Custom App
@@ -77,7 +77,7 @@ Once provided, the values above will go into your own customized configuration (
 
 ## Make It Your Own!
 
-After the configuration process has created your `.env` file (as part of the bootstrap process), you are free to make modifications to it to suit your development needs. Note that the variables in the `.env` file all have the `REACT_APP_` prefix, as is needed to be recognized by Vectara Answer code.
+After the configuration process has created your `.env` file (as part of the bootstrap process), you are free to make modifications to it to suit your development needs. Note that the variables in the `.env` file all have the `REACT_APP` prefix, as is needed to be recognized by Vectara Answer code.
 
 ### Vectara Access (required)
 
@@ -93,6 +93,15 @@ api_key: "zwt_abcdef..."
 These configuration parameters enable you to configure the look and feel of the search header, including the logo.
 
 ```yaml
+# Define the title to render next to the logo.
+search_title: "Search your data"
+
+# Define the description to render opposite the logo and title.
+search_description: "Data that speaks for itself"
+
+# Define the placeholder text inside the search box.
+search_placeholder: "Ask me anything"
+
 # Define the URL the browser will redirect to when the user clicks the logo above the search controls.
 search_logo_link: "https://asknews.demo.vectara.com"
 
@@ -104,15 +113,6 @@ search_logo_alt: "Vectara logo"
 
 # Customize the height at which to render the logo. The width will scale proportionately.
 search_logo_height: 20
-
-# Define the title to render next to the logo.
-search_title: "Search your data"
-
-# Define the description to render opposite the logo and title.
-search_description: "Data that speaks for itself"
-
-# Define the placeholder text inside the search box.
-search_placeholder: "Ask me anything"
 ```
 
 ### Summary paramaters (optional)
@@ -120,7 +120,7 @@ search_placeholder: "Ask me anything"
 The way summarization works can be configured as follows:
 
 ```yaml
-# Switches the mode of the ux to "summary" mode or "search" mode (if not specified defaults to summary mode). When set to "summary", a summary is shown along with references used in the summary. When set to "search", only search results are shown and no calls made to the summarization API.
+# Switches the mode of the ux to "summary" mode or "search" mode (if not specified defaults to "summary" mode). When set to "summary", a summary is shown along with references used in the summary. When set to "search", only search results are shown and no calls made to the summarization API.
 ux: "summary"
 
 # Default language for summary response (if not specified defaults to "auto")
@@ -135,13 +135,14 @@ summary_num_results: 10
 # The name of the summarization prompt in Vectara
 # If you are a Vectara scale customer you can use custom prompts.
 # This field names a custom prompt, otherwise it uses the default for the account.
+# See https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer for available summarization prompts
 summary_prompt_name: vectara-summary-ext-v1.2.0
 ```
 
 #### Hybrid Search (optional)
 
 Hybrid search is a capability that combines the strength of neural (semantic) search with traditional keywords search. 
-By default, Vectara Answer utilizes hybrid search with lambda=0.1 for short queries (num_words<=2) and lambda=0 (pure neural search) otherwise, but you can define other values here.
+By default, Vectara Answer utilizes hybrid search with lambda=0.1 for short queries (num_words<=2) and lambda=0.0 (pure neural search) otherwise, but you can define other values here.
 
 ```yaml
 # hybrid search
@@ -152,7 +153,7 @@ hybrid_search_lambda_short: 0.1
 
 ### Application (optional)
 
-These configuration parameters allow you to configure the look and feel of the application header, including title, logo and header/footer.
+Vectara Answer can display an application header and footer. These configuration parameters allow you to configure the look and feel of thsee header and footer.
 
 ```yaml
 # Hide or show the app header.
@@ -185,7 +186,7 @@ If your application uses more than one corpus, you can define source filters to 
 # Hide or show source filters.
 enable_source_filters: True
 
-# whether the "all source" button should be enabled or not (default true)
+# whether the "all source" button should be enabled or not (default True)
 all_sources: True
 
 # A comma-separated list of the sources on which users can filter.
@@ -194,11 +195,11 @@ sources: "BBC,NPR,FOX,CNBC,CNN"
 
 ### Reranking (optional)
 
-Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "false".
+Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "False".
 
 ```yaml
-# Reranking: true or false
-rerank: false
+# Reranking enabled: True or False
+rerank: False
 
 # number of results to use for reranking
 rerank_num_results: 50
@@ -208,8 +209,8 @@ Whether to use Vectara's MMR (maximum marginal relevance) functionality.
 Note that if mmr=true, it will disable rerank=true, as both cannot co-exist
 
 ```yaml
-# mmr enabled: true or false
-mmr: true
+# mmr enabled: True or False
+mmr: True
 
 # diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
 mmr_diversity_bias: 0.3
@@ -245,32 +246,23 @@ full_story_org_id: "org1123"
 
 ## Customizing the code
 
-Vectara Answer is open source which also allows you to customize it further to your needs. 
+In addition to customization via configuration, you can customize Vectara Answer further by modifying it's code directly in your own fork of the repository.
 
 ### Modifying the UI
 
 The UI source code is all in the `src/` directory. See the [UI README.md](https://github.com/vectara/vectara-answer/blob/main/src) to learn how to make changes to the UI source.
 
-NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
-
 ### Modifying the Proxy Server
 
-While the app run via `npm run start` works with a local client that accesses the Vectara API directly, running the app via Docker spins up a full-stack solution, using a proxy server to make Vectara API requests.
+While the app run via `npm run start` works with a local client that accesses the Vectara API directly, running the app via Docker (see below) spins up a full-stack solution, using a proxy server to make Vectara API requests.
 
 In order to modify the request handlers, make changes to `/server/index.js`.
 
 ## Docker
 
-By default Vectara Answer runs locally on your machine using NodeJS. There is also an option to use Vectara Answer with Docker and deploy the docker container to the cloud.
+By default Vectara Answer runs locally on your machine using `npm run start`. There is also an option to use Vectara Answer with Docker, which also makes it easy to deplot Vectara Answer to a cloud environment.
 
-* Learn how to use Vectara Answer with Docker
-* Deploy Vectara answer with Docker to the cloud
-
-## FAQs
-
-### Why do I get a "Cannot connect to the Docker daemon" error when I try to run my application?
-
-Docker needs to be running before you can run your application. Find and open the Docker app.
+Please see these detailed [instructions](DOCKER.md) for more details on using Docker.
 
 ## Author
 
