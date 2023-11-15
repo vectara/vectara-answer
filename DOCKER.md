@@ -22,9 +22,9 @@ Find and open the Docker Desktop application. When you run your application, it 
 
 ## Setup secrets.toml
 
-Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`. <br>Edit the `secrets.toml` file and change the `api_key` value to be your Vectara API Key.
+Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`. <br>Edit the `secrets.toml` file and change the `api_key` value under "default" to be your Vectara API Key.
 
-Note: The use of `secrets.toml` allows you to create multiple profiles, and store a differnet api key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel.
+Note: The use of `secrets.toml` allows you to create multiple profiles, and store a differnet api key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel. As you can see in the included `secrets.toml` file we've included the API keys (query only) for the existing datasets that are part of the Quickstart: Feynman, vectara.com and vectara docs.
 
 ## Configuring your application
 

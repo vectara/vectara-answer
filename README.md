@@ -260,7 +260,7 @@ In order to modify the request handlers, make changes to `/server/index.js`.
 
 ## Docker
 
-By default Vectara Answer runs locally on your machine using `npm run start`. There is also an option to use Vectara Answer with Docker, which also makes it easy to deplot Vectara Answer to a cloud environment.
+By default Vectara Answer runs locally on your machine using `npm run start`. There is also an option to use Vectara Answer with Docker, which also makes it easy to deploy Vectara Answer to a cloud environment.
 
 Please see these detailed [instructions](DOCKER.md) for more details on using Docker.
 
