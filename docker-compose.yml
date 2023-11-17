@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  vectara-answer:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: vectara-answer
+    ports:
+      - "4444:4444"
