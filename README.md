@@ -43,7 +43,7 @@ When prompted for which application to create, simply select from one of three d
 
 After selecting which application to create, you'll have the app running in your browser at `http://localhost:4444`.
 
-Congratulations! You've just setup and run a sample app powered by Vectara! 
+Congratulations! You've just setup and run a sample app powered by Vectara!
 
 ### Under the hood
 
@@ -61,8 +61,8 @@ If you would like to run the setup steps individually, you can run:
 
 When building your own application, you will need to:
 
-- **Create a data store:** Log into the [Vectara Console](https://console.vectara.com/) and create a data store (https://docs.vectara.com/docs/console-ui/creating-a-corpus).
-- **Add data to the data store.** You can use [Vectara Ingest](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) to crawl datasets and websites, upload files in the [Vectara Console](https://console.vectara.com/), or use our [Indexing APIs](https://docs.vectara.com/docs/api-reference/indexing-apis/indexing) directly. 
+- **Create a data store:** Log into the [Vectara Console](https://console.vectara.com/) and [create a data store](https://docs.vectara.com/docs/console-ui/creating-a-corpus).
+- **Add data to the data store.** You can use [Vectara Ingest](https://github.com/vectara/vectara-ingest/blob/main/README.md#quickstart) to crawl datasets and websites, upload files in the [Vectara Console](https://console.vectara.com/), or use our [Indexing APIs](https://docs.vectara.com/docs/api-reference/indexing-apis/indexing) directly.
 
 ### Running Your Custom App
 
@@ -141,7 +141,7 @@ summary_prompt_name: vectara-summary-ext-v1.2.0
 
 #### Hybrid Search (optional)
 
-Hybrid search is a capability that combines the strength of neural (semantic) search with traditional keywords search. 
+Hybrid search is a capability that combines the strength of neural (semantic) search with traditional keywords search.
 By default, Vectara Answer utilizes hybrid search with lambda=0.1 for short queries (num_words<=2) and lambda=0.0 (pure neural search) otherwise, but you can define other values here.
 
 ```yaml
@@ -218,7 +218,6 @@ mmr_diversity_bias: 0.3
 # number of results to use for reranking
 mmr_num_results: 50
 ```
-
 
 ### Authentication (optional)
 
