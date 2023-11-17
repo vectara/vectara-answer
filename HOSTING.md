@@ -33,17 +33,5 @@ To deploy on Render, please follow these steps:
 
 Then click "Save Changes", and your application should now be deployed.
 
-### Deploy vectara-answer on Heroku
-
-To be added soon
-
-### Deploy vectara-answer on AWS with CloudFormation
-
-To be added soon
-
-### Deploy vectara-answer on GCP
-
-To be added soon
-
 
 

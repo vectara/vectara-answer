@@ -1,0 +1,10 @@
+corpus_id: 1
+customer_id: 1366999410
+app_title: "Vectara Docs Search"
+search_title: "Vectara Docs Search"
+search_description: "All of Vectara's Platform Documentation"
+enable_source_filters: False
+source:
+summary_default_language: eng
+summary_num_sentences: 3
+summary_num_results: 7

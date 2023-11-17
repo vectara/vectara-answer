@@ -40,3 +40,5 @@ npm run start
 If you make changes to the source code, the app will automatically reload with your changes.
 
 if you make changes to your `.env` file, you'll need to end the process and rerun `npm run start` for them to take effect.
+
+NOTE: The UI assumes there is a metadata field called `url` for each document in your Vectara corpus. If the `url` field exists, it will be displayed with search results as a clickable URL. If it does not, the title is used instead, but it will not be clickable.
