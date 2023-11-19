@@ -7,4 +7,4 @@ services:
       dockerfile: docker/Dockerfile
     container_name: vectara-answer
     ports:
-      - "4444:4444"
+      - "3000:3000"
