@@ -15,7 +15,7 @@ WORKDIR /usr/src/app
 COPY --from=build build ./build
 COPY docker/package.json docker/package-lock.json ./
 RUN npm ci
-COPY docker/server ./server
+COPY server ./server
 EXPOSE 3000
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
-CMD ["node server/index.js"]
+CMD ["port=3000 node server/index.js"]

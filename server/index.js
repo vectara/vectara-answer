@@ -2,8 +2,7 @@ const express = require("express");
 const { createProxyMiddleware } = require('http-proxy-middleware');
 require("dotenv").config();
 const app = express();
-const port = 4444; // 4444 for local dev, 3000 for Docker
-
+const port = process.env.port !== undefined ? process.env.port : 4444; // default port 4444 for local development and 3000 for docker
 app.use(express.json());
 app.use("/", express.static("build"));
 
