@@ -53,7 +53,7 @@ export const SummaryUx = () => {
   }
 
   async function getMaxScore() {
-    const scorePromises = (summarySearchResults || []).map((result, index) => {
+    const scorePromises = summarySearchResults.map((result, index) => {
       const { snippet: { pre, post, text } } = result;
       const query = [pre, text, post, "[SEP]", summaryWithoutCitations].join(" ");
       const score = getHEMScore(query);
@@ -62,7 +62,7 @@ export const SummaryUx = () => {
   
     try {
       const scores = await Promise.all(scorePromises);
-      console.log("Scores: ", scores)
+      console.log("Scores: ", scores)  // TEMP
       return Math.max(...scores);
     } catch (error) {
       console.error("An error occurred while processing scores: ", error);
