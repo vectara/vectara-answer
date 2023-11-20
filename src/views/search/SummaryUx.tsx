@@ -21,6 +21,7 @@ export const SummaryUx = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
+    hfToken,
   } = useSearchContext();
 
   const rawSummary = summarizationResponse?.summary[0]?.text;
@@ -41,16 +42,12 @@ export const SummaryUx = () => {
 
   // compute the HEM score
   const summaryWithoutCitations = rawSummary?.replace(/\[[0-9]+\]/g, "");
-
   const API_URL = "https://api-inference.huggingface.co/models/vectara/hallucination_evaluation_model";
-  const API_KEY = "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"; /// TBD: how to read API key from config?
-  const inference = new HfInference(API_KEY)
-  const hem = inference.endpoint(API_URL)
+  const inference = new HfInference(hfToken && hfToken.length > 0 ? hfToken : undefined);
+  const hem = inference.endpoint(API_URL);
 
   async function getHEMScore(inputText: string): Promise<any> {
     const responseData = await hem.textClassification({ inputs: inputText })
-//    console.log("Query = ", inputText)
-//    console.log("Response = ", JSON.stringify(responseData, null, 2))
     const hemScore = responseData[0].score;
     return Math.round(hemScore * 100) / 100; // round to 2 digits
   }
@@ -75,7 +72,7 @@ export const SummaryUx = () => {
 
   const [maxScore, setMaxScore] = useState<number>(-1);
   useEffect(() => {
-    if (summaryWithoutCitations !== undefined && typeof summaryWithoutCitations === 'string' && summaryWithoutCitations.length > 0) {
+    if (summaryWithoutCitations !== undefined && summaryWithoutCitations.length > 0) {
       getMaxScore().then(score => {
         setMaxScore(score);
       }).catch(error => {

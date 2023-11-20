@@ -53,6 +53,7 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  hfToken: string;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -342,6 +343,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
+        hfToken: summary.hfToken,
         history,
         clearHistory,
         searchResultsRef,
