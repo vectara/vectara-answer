@@ -381,7 +381,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_sentences,
         config_summary_prompt_name,
       } = config;
-      console.log(config);
 
       setUxMode(config_ux ?? "summary");
 
