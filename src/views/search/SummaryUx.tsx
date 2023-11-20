@@ -104,14 +104,16 @@ export const SummaryUx = () => {
           <VuiTitle size="xs">
             <h2 style={{ display: 'flex', alignItems: 'center' }}> {/* Flex container */}
               <strong>Summary</strong>
-              <div style={{
-                height: '20px',
-                width: '20px',
-                backgroundColor: getGaugeColor(maxScore),
-                display: 'inline-block',
-                marginLeft: '10px',
-                borderRadius: '50%'
-              }} />
+              {maxScore > 0 && (
+                <div style={{
+                  height: '20px',
+                  width: '20px',
+                  backgroundColor: getGaugeColor(maxScore),
+                  display: 'inline-block',
+                  marginLeft: '10px',
+                  borderRadius: '50%'
+                }} />
+              )}
             </h2>
           </VuiTitle>
 
