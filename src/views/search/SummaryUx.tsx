@@ -84,6 +84,18 @@ export const SummaryUx = () => {
     }
   }, [summarySearchResults]);
 
+  function getGaugeColor(maxScore: number) {
+    if (maxScore > 0 && maxScore <= 0.25) {
+      return 'red';
+    } else if (maxScore > 0.25 && maxScore <= 0.5) {
+      return 'orange';
+    } else if (maxScore > 0.5 && maxScore <= 0.75) {
+      return 'blue';
+    } else {
+      return 'green';
+    }
+  }
+
   return (
     <>
       <ProgressReport isSearching={isSearching} isSummarizing={isSummarizing} />
@@ -93,21 +105,16 @@ export const SummaryUx = () => {
           <VuiSpacer size="l" />
 
           <VuiTitle size="xs">
-            <h2 style={{ display: 'flex', alignItems: 'center' }}>
+            <h2 style={{ display: 'flex', alignItems: 'center' }}> {/* Flex container */}
               <strong>Summary</strong>
-              <div style={{ display: 'flex', marginLeft: '10px' }}>
-                {['red', 'orange', 'blue', 'green'].map((color, index) =>
-                  <div
-                    key={color}
-                    style={{
-                      height: '20px',
-                      width: '25%',
-                      backgroundColor: maxScore > index * 0.25 ? color : 'lightgrey',
-                      border: '1px solid black'
-                    }}
-                  />
-                )}
-              </div>
+              <div style={{
+                height: '20px',
+                width: '20px',
+                backgroundColor: getGaugeColor(maxScore),
+                display: 'inline-block',
+                marginLeft: '10px',
+                borderRadius: '50%'
+              }} />
             </h2>
           </VuiTitle>
 
