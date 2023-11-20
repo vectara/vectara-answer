@@ -18,7 +18,6 @@ export const SummaryUx = () => {
     isSearching,
     searchResults,
     isSummarizing,
-    summaryNumResults,
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
@@ -57,7 +56,7 @@ export const SummaryUx = () => {
   }
 
   async function getMaxScore() {
-    const scorePromises = (searchResults?.slice(0, summaryNumResults) || []).map((result, index) => {
+    const scorePromises = (summarySearchResults || []).map((result, index) => {
       const { snippet: { pre, post, text } } = result;
       const query = [pre, text, post, "[SEP]", summaryWithoutCitations].join(" ");
       const score = getHEMScore(query);
@@ -76,15 +75,26 @@ export const SummaryUx = () => {
 
   const [maxScore, setMaxScore] = useState<number>(-1);
   useEffect(() => {
-    if ((summaryWithoutCitations !== undefined && typeof summaryWithoutCitations === 'string' && summaryWithoutCitations.length > 0) && 
-        (Array.isArray(searchResults) && searchResults.length >= summaryNumResults)) {
+    if (summaryWithoutCitations !== undefined && typeof summaryWithoutCitations === 'string' && summaryWithoutCitations.length > 0) {
       getMaxScore().then(score => {
         setMaxScore(score);
       }).catch(error => {
         console.error("Error getting max score: ", error);
       });
     }
-  }, [searchResults]);
+  }, [summarySearchResults]);
+
+  function getGaugeColor(maxScore: number) {
+    if (maxScore > 0 && maxScore <= 0.25) {
+      return 'red';
+    } else if (maxScore > 0.25 && maxScore <= 0.5) {
+      return 'orange';
+    } else if (maxScore > 0.5 && maxScore <= 0.75) {
+      return 'blue';
+    } else {
+      return 'green';
+    }
+  }
 
   return (
     <>
@@ -95,8 +105,16 @@ export const SummaryUx = () => {
           <VuiSpacer size="l" />
 
           <VuiTitle size="xs">
-            <h2>
-              <strong> {maxScore > 0 ? `Summary (${maxScore})` : 'Summary'} </strong>
+            <h2 style={{ display: 'flex', alignItems: 'center' }}> {/* Flex container */}
+              <strong>Summary</strong>
+              <div style={{
+                height: '20px',
+                width: '20px',
+                backgroundColor: getGaugeColor(maxScore),
+                display: 'inline-block',
+                marginLeft: '10px',
+                borderRadius: '50%'
+              }} />
             </h2>
           </VuiTitle>
 
