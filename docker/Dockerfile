@@ -2,19 +2,21 @@ FROM --platform=linux/amd64 node:20.2-slim AS deps
 COPY package.json ./
 RUN npm install
 
-FROM deps AS build
+FROM deps AS builder
 COPY ../public ./public
 COPY ../img ./img
 COPY ../src ./src
 COPY ../tsconfig.json ./
 COPY ../.eslintrc.js ./
 RUN npm run build
+RUN rm -r node_modules
+COPY docker/package.json docker/package-lock.json ./
+RUN npm ci
 
 FROM --platform=linux/amd64 node:20.2-slim AS runner
 WORKDIR /usr/src/app
-COPY --from=build build ./build
-COPY docker/package.json docker/package-lock.json ./
-RUN npm ci
+COPY --from=builder build ./build
+COPY --from=builder node_modules ./node_modules
 COPY server ./server
 EXPOSE 3000
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
