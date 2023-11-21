@@ -17,11 +17,11 @@ if [[ $1 == /* ]] || [[ $1 == ~* ]]; then
 else
     correct_path="$PWD/$1"
 fi
-docker compose up -d
+docker compose up -v "$correct_path"/queries.json:/usr/src/app/build/queries.json -d
 if [ $? -eq 0 ]; then
-  echo "Success! Application is running at http://localhost:3000.\nTo shut it down use: docker compose down"
+  echo "Success! Application is running at http://localhost:80.\nTo shut it down use: docker compose down"
   sleep 5
-  open http://localhost:3000
+  open http://localhost
 else
   echo "Container failed to start."
 fi
