@@ -1,11 +1,11 @@
-<h1 align="center">Welcome to vectara-answer</h1>
-<p align="center">
+<h1 style="text-align: center;">Welcome to vectara-answer</h1>
+<div style="text-align: center;">
   <img style="max-width: 100%;" alt="logo" src="img/project-logo.png"/>
-</p>
+</div>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
-  <img src="https://img.shields.io/badge/npm-%3E%3D9.5.0-blue.svg" />
-  <img src="https://img.shields.io/badge/node-%3E%3D19.7.0-blue.svg" />
+  <img alt="npm version" src="https://img.shields.io/badge/npm-%3E%3D9.5.0-blue.svg" />
+  <img alt="node version" src="https://img.shields.io/badge/node-%3E%3D19.7.0-blue.svg" />
   <a href="https://github.com/vectara/vectara-answer#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
@@ -21,7 +21,7 @@
 
 Customize and deploy a pre-built conversational search UI connected to the data you've ingested into [Vectara](https://vectara.com/). With Vectara’s [APIs](https://docs.vectara.com/docs/) you can create conversational experiences with your data, such as chatbots, semantic search, and workplace search.
 
-`vectara-answer` is an open source React project that provides a configurable conversational search user interface. You can deploy it to end users so they can ask questions of your data and get back accurate, dependable answers, or refer to the source code when building your own conversational search applications.
+`vectara-answer` is an Open-Source React project that provides a configurable conversational search user interface. You can deploy it to end users, so they can ask questions of your data and get back accurate, dependable answers, or refer to the source code when building your own conversational search applications.
 
 ## Quickstart
 
@@ -33,25 +33,17 @@ Install [Docker](https://docs.docker.com/engine/install/).
 
 Install [pyyaml](https://pypi.org/project/PyYAML/): `pip3 install pyyaml`.
 
-Install [npm and node](https://nodejs.org/en/download).
-
-Clone this repository:
+### 2. Clone this repository:
 
 ```sh
 git clone https://github.com/vectara/vectara-answer.git
 ```
 
-From the root directory, run these commands to install JavaScript dependencies and build the front-end application:
-
-```sh
-npm install && npm run build
-```
-
-### 2. Run Docker
+### 3. Run Docker
 
 Find and open Docker. When you run your application, it will use Docker to host your application inside a container.
 
-### 3. Set configuration
+### 4. Set configuration
 
 Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`.
 
@@ -65,9 +57,9 @@ Update the `config/pg-search/config.yaml` file with these changes:
 - Change the **account_id** value to the ID of your account. You can click on your username in the top-right corner to copy it to your clipboard.
 - Change the **app_title** to "Ask Paul Graham".
 
-Edit the `config/pg-search/queries.json` file and update the four questions to a set of curated questions you'd like to include in the user interface. For example: "What is a maker schedule?"
+Edit the `config/pg-search/queries.json` file and update the four questions to a set of curated questions you'd like to include in the user interface. For example, "What is a maker schedule?"
 
-### 4. Run the application
+### 5. Run the application
 
 Execute the run script from the root directory using your `config/` directory, assigning the **default** profile from your secrets file:
 
@@ -75,7 +67,7 @@ Execute the run script from the root directory using your `config/` directory, a
 bash docker/run.sh config/pg-search default
 ```
 
-The application executes inside of a [Docker container](https://www.docker.com/resources/what-container/) to avoid any issues with existing environments and installed packages.
+The application executes inside a [Docker container](https://www.docker.com/resources/what-container/) to avoid any issues with existing environments and installed packages.
 
 When the container is set up, the `run.sh` launch script will open up a browser at `localhost:80`.
 
@@ -83,7 +75,8 @@ When the container is set up, the `run.sh` launch script will open up a browser 
 
 Your application is now up and running. Try a few queries to see how it works.
 
-You can view your application's logs by running `docker logs -f vanswer`. You can stop the application and shut down the container with `docker stop vanswer`.
+You can view your application's logs by running `docker compose logs -f`.
+You can stop the application and shut down the container with `docker compose down`.
 
 ## Project architecture
 
@@ -94,7 +87,10 @@ You can view your application's logs by running `docker logs -f vanswer`. You ca
 1. To help you create custom conversational search applications with Vectara. You can customize the user experience, launch the application locally, and deploy it to production.
 2. To demonstrate how a conversational search user can be implemented in JavaScript, so you can refer to it when writing your own code.
 
-There are specific example applications such as AskNews (news search), Wikipedia search, and Hacker News search inside of the `config/` directory. Each example application has its own sub-directory. See [Example applications](#example-applications) for more info.
+There are specific example applications such as AskNews (news search),
+Wikipedia search, and Hacker News search inside the `config/` directory.
+Each example application has its own subdirectory.
+See [Example applications](#example-applications) for more info.
 
 ### Docker
 
@@ -112,7 +108,7 @@ NOTE: The UI assumes there is a metadata field called `url` for each document in
 
 ## Example applications
 
-The `config/` directory contains example configurations of a `vectara-answer` application. Each example has its own sub-directory that contains two files:
+The `config/` directory contains example configurations of a `vectara-answer` application. Each example has its own subdirectory that contains two files:
 
 - `config.yaml` defines the general behavior and look of the user interface.
 - `queries.json` defines a set of pre-defined questions to display in the UI.
@@ -123,7 +119,7 @@ You can use the command line to try out an example locally:
 bash docker/run.sh config/{name of sub-directory} default
 ```
 
-If you like the UX of an example application, you can duplicate the sub-directory and configure it to connect to your own data.
+If you like the UX of an example application, you can duplicate the subdirectory and configure it to connect to your own data.
 
 ## Configuring an application
 
@@ -182,7 +178,7 @@ all_sources: True
 sources: "BBC,NPR,FOX,CNBC,CNN"
 ```
 
-#### Summary paramaters (optional)
+#### Summary parameters (optional)
 
 The way summarization works can be configured as follows:
 
@@ -200,7 +196,7 @@ summary_num_sentences: 3
 summary_num_results: 10
 
 # The name of the summarization prompt in Vectara
-# If you are a Vectara scale customer you can use custom prompts.
+# If you are a Vectara scale customer, you can use custom prompts.
 # This field names a custom prompt, otherwise it uses the default for the account.
 summary_prompt_name: vectara-summary-ext-v1.2.0
 ```
@@ -229,7 +225,7 @@ rerank_num_results: 50
 ```
 
 Whether to use Vectara's MMR (maximum marginal relevance) functionality. 
-Note that if mmr=true, it will disable rerank=true, as both cannot co-exist
+Note that if mmr=true, it will disable rerank=true, as both cannot co-exist.
 
 ```yaml
 # mmr enabled: true or false
@@ -295,7 +291,7 @@ full_story_org_id: "org1123"
 
 ### `queries.json` file
 
-the `queries.json` defines four questions that are displayed underneath the search bar and can be clicked by the user as a shortcut to typing that question in.
+The `queries.json` defines four questions that are displayed underneath the search bar and can be clicked by the user as a shortcut to typing that question in.
 
 The file is structured as follows:
 
@@ -324,12 +320,12 @@ To run `vectara-answer` locally using Docker, perform the following steps:
 
 1. Make sure you have [docker installed](https://docs.docker.com/engine/install/) on your machine.
 2. Clone this repo into a local directory using `git clone https://github.com/vectara/vectara-answer.git`.
-3. From the root, run `sh docker/run.sh config/<config-directory> <profile_name>`. This configures the Docker container with the parameters specified in your configuration directory, and builds the Docker image. Then it starts up the Docker container and opens up `localhost:80` in your browser which now contains the main search interface starting point. `<profile_name>` is the name of the profile in your `secrets.toml` file where the `api_key` is defined to use with this search application.
+3. From the root, run `sh docker/run.sh config/<config-directory> <profile_name>`. This configures the Docker container with the parameters specified in your configuration directory, and builds the Docker image. Then it starts up the Docker container and opens up `localhost:80` in your browser, which now contains the main search interface starting point. `<profile_name>` is the name of the profile in your `secrets.toml` file where the `api_key` is defined to use with this search application.
 
-The container generated is called `vanswer`, and after it is started, you can:
+The container generated is called `vectara-answer`, and after it is started, you can:
 
-- View logs by using `docker logs -f vanswer`
-- Stop the container with `docker stop vanswer`
+- View logs by using `docker compose logs -f`
+- Stop the container with `docker compose down`
 
 ### Cloud deployment
 
@@ -354,7 +350,8 @@ Docker needs to be running before you can run your application. Find and open th
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/vectara/vectara-answer/issues). You can also take a look at the [contributing guide](https://github.com/vectara/vectara-answer/blob/master/CONTRIBUTING.md).
+Contributions, issues and feature requests are welcome!</br>
+Feel free to check [issues page](https://github.com/vectara/vectara-answer/issues). You can also take a look at the [contributing guide](https://github.com/vectara/vectara-answer/blob/master/CONTRIBUTING.md).
 
 ## Show your support
 
