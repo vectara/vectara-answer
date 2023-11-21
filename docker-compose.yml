@@ -8,3 +8,5 @@ services:
     container_name: vectara-answer
     ports:
       - "3000:3000"
+    env_file:
+      - .env
