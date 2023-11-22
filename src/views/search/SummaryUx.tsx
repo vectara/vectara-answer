@@ -43,7 +43,7 @@ export const SummaryUx = () => {
   // compute the HEM score
   const summaryWithoutCitations = rawSummary?.replace(/\[[0-9]+\]/g, "");
   const API_URL = "https://api-inference.huggingface.co/models/vectara/hallucination_evaluation_model";
-  const inference = new HfInference(hfToken && hfToken.length > 0 ? hfToken : undefined);
+  const inference = new HfInference((hfToken && hfToken.length > 0) ? hfToken : undefined);
   const hem = inference.endpoint(API_URL);
 
   async function getHEMScore(inputText: string): Promise<any> {
@@ -69,6 +69,11 @@ export const SummaryUx = () => {
     }
   }
 
+  const [serializedResults, setSerializedResults] = useState(JSON.stringify(summarySearchResults));
+  useEffect(() => {
+    setSerializedResults(JSON.stringify(summarySearchResults));
+  }, [summarySearchResults]);
+
   const [maxScore, setMaxScore] = useState<number>(-1);
   useEffect(() => {
     if (summaryWithoutCitations !== undefined && summaryWithoutCitations.length > 0) {
@@ -78,7 +83,7 @@ export const SummaryUx = () => {
         console.error("Error getting max score: ", error);
       });
     }
-  }, [summarySearchResults]);
+  }, [serializedResults]);
 
   function getGaugeColor(maxScore: number) {
     if (maxScore > 0 && maxScore <= 0.25) {
