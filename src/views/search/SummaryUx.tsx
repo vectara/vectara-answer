@@ -62,7 +62,6 @@ export const SummaryUx = () => {
   
     try {
       const scores = await Promise.all(scorePromises);
-      console.log("Scores: ", scores)  // TEMP
       return Math.max(...scores);
     } catch (error) {
       console.error("An error occurred while processing scores: ", error);
@@ -87,7 +86,7 @@ export const SummaryUx = () => {
     } else if (maxScore > 0.25 && maxScore <= 0.5) {
       return 'orange';
     } else if (maxScore > 0.5 && maxScore <= 0.75) {
-      return 'blue';
+      return 'yellow';
     } else {
       return 'green';
     }
