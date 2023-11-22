@@ -67,12 +67,14 @@ def main(config_folder, profile):
     config["endpoint"] = "api.vectara.io"
 
     # read key-value pairs from secrets.toml file
-    secrets = read_toml_file("secrets.toml")[profile]
+    toml = read_toml_file("secrets.toml")
 
     new_config = {}
     for k, v in config.items():
         new_config[k] = v
-    for k, v in secrets.items():
+    for k, v in toml[profile].items():
+        new_config[k] = v
+    for k, v in toml["general"].items():
         new_config[k] = v
 
     with open(".env", "w") as f:

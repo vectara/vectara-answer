@@ -27,6 +27,9 @@ Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`.
 
 Note: The use of `secrets.toml` allows you to create multiple profiles, and store a differnet API key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel. As you can see in the included `secrets.toml` file we've included the API keys (query only) for the existing datasets that are part of the Quickstart: Feynman, vectara.com and vectara docs.
 
+Additionally, there is a special profile called "general". Any secret under "general" is shared among all profiles and will be availale regardless of the profile chosen. This can be useful for example
+for providing a Huggingface token (hf_token)
+
 ## Configuring your application
 
 Make a duplicate of the `config/vectara-website-search/` directory and rename it `config/pg-search/`. Update the `config/pg-search/config.yaml` file with these changes:
