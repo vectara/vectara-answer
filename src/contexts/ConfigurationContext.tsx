@@ -77,6 +77,9 @@ interface Config {
   config_mmr?: string;
   config_mmr_num_results?: number;
   config_mmr_diversity_bias?: number;
+
+  // questions
+  config_questions?: string;
 }
 
 type ConfigProp = keyof Config;
@@ -176,17 +179,6 @@ type Props = {
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const fetchConfig = async () => {
-  const headers = {
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-  };
-  const result = await axios.post("/config", undefined, headers);
-  return result;
-};
-
 const fetchQueries = async () => {
   try {
     const result = await fetch("queries.json", {
@@ -200,6 +192,17 @@ const fetchQueries = async () => {
   } catch (e) {
     console.log("Could not load queries.json Detail: " + e);
   }
+};
+
+const fetchConfig = async () => {
+  const headers = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  };
+  const result = await axios.post("/config", undefined, headers);
+  return result;
 };
 
 const isTrue = (value: string | undefined) => value === "True";
@@ -284,11 +287,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
         const result = await fetchConfig();
         config = prefixConfig(result.data);
 
-        const queriesResponse = await fetchQueries();
-        if (queriesResponse) {
-          const questions = queriesResponse.questions;
-          if (questions) {
-            setExampleQuestions(questions);
+        if (config.config_questions) {
+          setExampleQuestions(JSON.parse(config.config_questions));
+        } else {
+          const queriesResponse = await fetchQueries();
+          if (queriesResponse) {
+            const questions = queriesResponse.questions;
+            if (questions) {
+              setExampleQuestions(questions);
+            }
           }
         }
       } else {
@@ -374,7 +381,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_sentences,
         config_summary_prompt_name,
       } = config;
-      console.log(config);
 
       setUxMode(config_ux ?? "summary");
 

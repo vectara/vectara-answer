@@ -1,5 +1,5 @@
 const express = require("express");
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware } = require("http-proxy-middleware");
 require("dotenv").config();
 const app = express();
 const port = process.env.port !== undefined ? process.env.port : 4444; // default port 4444 for local development and 3000 for docker
@@ -13,7 +13,7 @@ app.get("/", function (req, res) {
 const proxyOptions = {
   target: `https://${process.env.endpoint}`,
   changeOrigin: true,
-  pathRewrite: { '^/v1/query': '/v1/query' },
+  pathRewrite: { "^/v1/query": "/v1/query" },
   onProxyReq: (proxyReq, req) => {
     proxyReq.setHeader("Content-Type", "application/json");
     proxyReq.setHeader("Accept", "application/json");
@@ -23,12 +23,12 @@ const proxyOptions = {
 
     if (req.body) {
       const bodyData = JSON.stringify(req.body);
-      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+      proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyData));
       proxyReq.write(bodyData);
     }
   },
 };
-app.use('/v1/query', createProxyMiddleware(proxyOptions));
+app.use("/v1/query", createProxyMiddleware(proxyOptions));
 
 app.post("/config", (req, res) => {
   const {
@@ -93,6 +93,9 @@ app.post("/config", (req, res) => {
     // Analytics
     google_analytics_tracking_code,
     full_story_org_id,
+
+    // Questions
+    questions,
   } = process.env;
 
   res.send({
@@ -157,6 +160,9 @@ app.post("/config", (req, res) => {
     // Analytics
     google_analytics_tracking_code,
     full_story_org_id,
+
+    // Questions
+    questions,
   });
 });
 
