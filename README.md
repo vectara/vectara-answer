@@ -1,11 +1,11 @@
-<h1 align="center">Welcome to vectara-answer</h1>
-<p align="center">
+<h1 style="text-align: center">Welcome to vectara-answer</h1>
+<p style="text-align: center">
   <img style="max-width: 100%;" alt="logo" src="img/project-logo.png"/>
 </p>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
-  <img src="https://img.shields.io/badge/npm-%3E%3D9.5.0-blue.svg" />
-  <img src="https://img.shields.io/badge/node-%3E%3D19.7.0-blue.svg" />
+  <img alt="npm version" src="https://img.shields.io/badge/npm-%3E%3D9.5.0-blue.svg" />
+  <img alt="node version" src="https://img.shields.io/badge/node-%3E%3D19.7.0-blue.svg" />
   <a href="https://github.com/vectara/vectara-answer#readme" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
@@ -19,7 +19,7 @@
 
 ## About
 
-Vectara Answer is an open source React project that enables you to quickly configure GenAI user interfaces, powered by the [Vectara Platform](https://vectara.com/)'s semantic search and summarization APIs.
+Vectara Answer is an Open-Source React project that enables you to quickly configure GenAI user interfaces, powered by the [Vectara Platform](https://vectara.com/)'s semantic search and summarization APIs.
 
 For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com) or [LegalAid](https://legalaid.demo.vectara.com).
 
@@ -31,11 +31,11 @@ To get started, the minimum requirement is to install [npm and node](https://nod
 
 ### Running A Sample Application
 
-Vectara Answer comes packaged with preset configurations that allow you spin up a sample application using Vectara's public datastores. To quickly get started, run the following command:
+Vectara Answer comes packaged with preset configurations that allow you to spin up a sample application using Vectara's public datastores. To quickly get started, run the following command:
 
 `npm run bootstrap`
 
-When prompted for which application to create, simply select from one of three default apps:
+When prompted for which application to create, select from one of three default apps:
 
 1. `Vectara Docs` - Answer questions about Vectara documentation
 2. `Vectara.com` - Answer questions about the content of the Vectara company website
@@ -68,12 +68,12 @@ When building your own application, you will need to:
 
 When running `npm run bootstrap`, if you choose `[Create Your Own]` from the application selection prompt, you will be asked to provide:
 
-- your Vectara customer ID
-- the ID of the corpus you created
-- the API key of your selected Vectara corpus (**NOTE: Depending on your set up, this may be visible to users. To ensure safe sharing, ensure that this key is set up to only have query access.**)
-- any sample questions to display on the site, to get your users started.
+- Your Vectara customer ID
+- The ID of the corpus you created
+- The API key of your selected Vectara corpus (**NOTE: Depending on your set up, this may be visible to users. To ensure safe sharing, ensure that this key is set up to only have query access.**)
+- Any sample questions to display on the site, to get your users started.
 
-Once provided, the values above will go into your own customized configuration (.env file), and your site will be ready to go via `npm start`.
+Once provided, the values above will go into your own customized configuration (`.env` file), and your site will be ready to go via `npm start`.
 
 ## Make It Your Own!
 
@@ -115,7 +115,7 @@ search_logo_alt: "Vectara logo"
 search_logo_height: 20
 ```
 
-### Summary paramaters (optional)
+### Summary parameters (optional)
 
 The way summarization works can be configured as follows:
 
@@ -153,7 +153,7 @@ hybrid_search_lambda_short: 0.1
 
 ### Application (optional)
 
-Vectara Answer can display an application header and footer. These configuration parameters allow you to configure the look and feel of thsee header and footer.
+Vectara Answer can display an application header and footer. These configuration parameters allow you to configure the look and feel of these header and footer.
 
 ```yaml
 # Hide or show the app header.
@@ -205,14 +205,14 @@ rerank: False
 rerank_num_results: 50
 ```
 
-Whether to use Vectara's MMR (maximum marginal relevance) functionality.
-Note that if mmr=true, it will disable rerank=true, as both cannot co-exist
+Whether to use Vectara's MMR (Maximum Marginal Relevance) functionality.
+Note that if `mmr=true`, it will disable `rerank=true`, as both cannot co-exist
 
 ```yaml
 # mmr enabled: True or False
 mmr: True
 
-# diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
+# Diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
 mmr_diversity_bias: 0.3
 
 # number of results to use for reranking
@@ -245,7 +245,7 @@ full_story_org_id: "org1123"
 
 ## Customizing the code
 
-In addition to customization via configuration, you can customize Vectara Answer further by modifying it's code directly in your own fork of the repository.
+In addition to customization via configuration, you can customize Vectara Answer further by modifying its code directly in your own fork of the repository.
 
 ### Modifying the UI
 
@@ -253,13 +253,13 @@ The UI source code is all in the `src/` directory. See the [UI README.md](https:
 
 ### Modifying the Proxy Server
 
-While the app run via `npm run start` works with a local client that accesses the Vectara API directly, running the app via Docker (see below) spins up a full-stack solution, using a proxy server to make Vectara API requests.
+While the app runs via `npm run start` works with a local client that accesses the Vectara API directly, running the app via Docker (see below) spins up a full-stack solution, using a proxy server to make Vectara API requests.
 
-In order to modify the request handlers, make changes to `/server/index.js`.
+To modify the request handlers, make changes to `/server/index.js`.
 
 ## Docker
 
-By default Vectara Answer runs locally on your machine using `npm run start`. There is also an option to use Vectara Answer with Docker, which also makes it easy to deploy Vectara Answer to a cloud environment.
+By default, Vectara Answer runs locally on your machine using `npm run start`. There is also an option to use Vectara Answer with Docker, which also makes it easy to deploy Vectara Answer to a cloud environment.
 
 Please see these detailed [instructions](DOCKER.md) for more details on using Docker.
 
@@ -275,7 +275,8 @@ Please see these detailed [instructions](DOCKER.md) for more details on using Do
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/vectara/vectara-answer/issues). You can also take a look at the [contributing guide](https://github.com/vectara/vectara-answer/blob/master/CONTRIBUTING.md).
+Contributions, issues and feature requests are welcome!<br/>
+Feel free to check [issues page](https://github.com/vectara/vectara-answer/issues). You can also take a look at the [contributing guide](https://github.com/vectara/vectara-answer/blob/master/CONTRIBUTING.md).
 
 ## Show your support
 

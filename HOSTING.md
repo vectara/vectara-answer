@@ -32,6 +32,3 @@ To deploy on Render, please follow these steps:
 `/bin/bash -c cp /etc/secrets/queries.json ./build/ && cp /etc/secrets/.env ./ && node server/index.js`
 
 Then click "Save Changes", and your application should now be deployed.
-
-
-
