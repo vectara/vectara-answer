@@ -24,7 +24,7 @@ else
 fi
 
 if [ $? -eq 0 ]; then
-  echo "Success! Application is running at http://localhost:80.\nTo shut it down use: docker compose down"
+  printf "Success! Application is running at http://localhost:80.\nTo shut it down use: docker compose down"
   sleep 5
   open http://localhost
 else
