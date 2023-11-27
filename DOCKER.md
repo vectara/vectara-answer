@@ -54,7 +54,7 @@ When the container is set up, the `run.sh` launch script will open up a browser 
 
 Your application is now up and running in Docker. Try a few queries to see how it works.
 
-You can view your application's logs by running `docker compose logs -f`. You can stop the application and shut down the container with `docker compose down`.
+You can view your application's logs by running `docker logs -f vanswer`. You can stop the application and shut down the container with `docker stop vanswer`.
 
 ## Customizing your application
 

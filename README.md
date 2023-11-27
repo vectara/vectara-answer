@@ -253,7 +253,7 @@ The UI source code is all in the `src/` directory. See the [UI README.md](https:
 
 ### Modifying the Proxy Server
 
-While the app runs via `npm run start` works with a local client that accesses the Vectara API directly, running the app via Docker (see below) spins up a full-stack solution, using a proxy server to make Vectara API requests.
+While `npm run start` runs the application with a local client that accesses the Vectara API directly, running the app via Docker (see below) spins up a full-stack solution, using a proxy server to make Vectara API requests.
 
 To modify the request handlers, make changes to `/server/index.js`.
 

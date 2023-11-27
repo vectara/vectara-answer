@@ -20,4 +20,4 @@ COPY --from=builder node_modules ./node_modules
 COPY server ./server
 EXPOSE 3000
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
-CMD ["port=3000 node server/index.js"]
+CMD ["PORT=3000 node server/index.js"]
