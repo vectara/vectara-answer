@@ -1,4 +1,12 @@
-import { VuiSpacer, VuiTitle, VuiHorizontalRule, VuiSummary } from "../../ui";
+import {
+  VuiSpacer,
+  VuiTitle,
+  VuiHorizontalRule,
+  VuiSummary,
+  VuiFlexContainer,
+  VuiFlexItem,
+  VuiButtonTertiary,
+} from "../../ui";
 import {
   sanitizeCitations,
   reorderCitations,
@@ -11,6 +19,8 @@ import { ProgressReport } from "./progressReport/ProgressReport";
 import { SummaryCitation } from "./summary/SummaryCitation";
 import { DeserializedSearchResult } from "./types";
 import { ConfidenceBadge } from "../../utils/ConfidenceBadge";
+import { useState } from "react";
+import { HemDrawer } from "./controls/HemDrawer";
 
 export const SummaryUx = () => {
   const {
@@ -22,6 +32,8 @@ export const SummaryUx = () => {
     selectedSearchResultPosition,
     hfToken,
   } = useSearchContext();
+
+  const [isHemDrawerOpen, setIsHemDrawerOpen] = useState(false);
 
   const rawSummary = summarizationResponse?.summary[0]?.text;
   const unorderedSummary = sanitizeCitations(rawSummary);
@@ -39,13 +51,11 @@ export const SummaryUx = () => {
     }
   }
 
-  const { hemScore, confidenceLevel } = useHemScore(
+  const { confidenceLevel } = useHemScore(
     hfToken,
     rawSummary,
     summarySearchResults
   );
-
-  console.log(hemScore, confidenceLevel);
 
   return (
     <>
@@ -67,7 +77,22 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          <ConfidenceBadge confidenceLevel={confidenceLevel} />
+          <VuiFlexContainer alignItems="center">
+            <VuiFlexItem grow={false} shrink={false}>
+              <ConfidenceBadge confidenceLevel={confidenceLevel} />
+            </VuiFlexItem>
+
+            <VuiFlexItem grow={false} shrink={false}>
+              <VuiButtonTertiary
+                color="subdued"
+                noPadding
+                size="s"
+                onClick={() => setIsHemDrawerOpen(true)}
+              >
+                What's this?
+              </VuiButtonTertiary>
+            </VuiFlexItem>
+          </VuiFlexContainer>
 
           <VuiSpacer size="l" />
           <VuiHorizontalRule />
@@ -87,6 +112,11 @@ export const SummaryUx = () => {
             setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
               (searchResultsRef.current[index] = el)
             }
+          />
+
+          <HemDrawer
+            isOpen={isHemDrawerOpen}
+            onClose={() => setIsHemDrawerOpen(false)}
           />
         </>
       )}
