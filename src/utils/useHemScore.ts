@@ -13,7 +13,6 @@ async function getMaxScore(
   async function getHemScore(inputText: string): Promise<any> {
     const responseData = await hem.textClassification({ inputs: inputText });
     const hemScore = responseData[0].score;
-    console.log(responseData);
     return Math.round(hemScore * 100) / 100; // round to 2 digits
   }
 
@@ -34,6 +33,24 @@ async function getMaxScore(
     return -1; // Optional: early return in case of error
   }
 }
+
+export type ConfidenceLevel = "unavailable" | "low" | "medium" | "high";
+
+const getConfidenceLevel = (score: number): ConfidenceLevel => {
+  if (score < 0) {
+    return "unavailable";
+  }
+
+  if (score <= 0.33) {
+    return "low";
+  }
+
+  if (score <= 0.66) {
+    return "medium";
+  }
+
+  return "high";
+};
 
 export const useHemScore = (
   hfToken: string,
@@ -73,5 +90,5 @@ export const useHemScore = (
     }
   }, [serializedResults]);
 
-  return { hemScore };
+  return { hemScore, confidenceLevel: getConfidenceLevel(hemScore) };
 };

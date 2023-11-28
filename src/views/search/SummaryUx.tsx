@@ -10,6 +10,7 @@ import { SearchResultList } from "./results/SearchResultList";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { SummaryCitation } from "./summary/SummaryCitation";
 import { DeserializedSearchResult } from "./types";
+import { ConfidenceBadge } from "../../utils/ConfidenceBadge";
 
 export const SummaryUx = () => {
   const {
@@ -38,19 +39,13 @@ export const SummaryUx = () => {
     }
   }
 
-  const { hemScore } = useHemScore(hfToken, rawSummary, summarySearchResults);
+  const { hemScore, confidenceLevel } = useHemScore(
+    hfToken,
+    rawSummary,
+    summarySearchResults
+  );
 
-  function getGaugeColor(score: number) {
-    if (score > 0 && score <= 0.25) {
-      return "red";
-    } else if (score > 0.25 && score <= 0.5) {
-      return "orange";
-    } else if (score > 0.5 && score <= 0.75) {
-      return "yellow";
-    } else {
-      return "green";
-    }
-  }
+  console.log(hemScore, confidenceLevel);
 
   return (
     <>
@@ -62,27 +57,17 @@ export const SummaryUx = () => {
 
           <VuiTitle size="xs">
             <h2 style={{ display: "flex", alignItems: "center" }}>
-              {" "}
-              {/* Flex container */}
               <strong>Summary</strong>
-              {hemScore > 0 && (
-                <div
-                  style={{
-                    height: "20px",
-                    width: "20px",
-                    backgroundColor: getGaugeColor(hemScore),
-                    display: "inline-block",
-                    marginLeft: "10px",
-                    borderRadius: "50%",
-                  }}
-                />
-              )}
             </h2>
           </VuiTitle>
 
           <VuiSpacer size="s" />
 
           <VuiSummary summary={summary} SummaryCitation={SummaryCitation} />
+
+          <VuiSpacer size="s" />
+
+          <ConfidenceBadge confidenceLevel={confidenceLevel} />
 
           <VuiSpacer size="l" />
           <VuiHorizontalRule />
