@@ -4,14 +4,12 @@ import {
   reorderCitations,
   applyCitationOrder,
 } from "../../ui/utils/citations";
+import { useHemScore } from "../../utils/useHemScore";
 import { useSearchContext } from "../../contexts/SearchContext";
 import { SearchResultList } from "./results/SearchResultList";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { SummaryCitation } from "./summary/SummaryCitation";
 import { DeserializedSearchResult } from "./types";
-
-import { HfInference } from '@huggingface/inference'
-import { useEffect, useState } from "react";
 
 export const SummaryUx = () => {
   const {
@@ -40,60 +38,17 @@ export const SummaryUx = () => {
     }
   }
 
-  // compute the HEM score
-  const summaryWithoutCitations = rawSummary?.replace(/\[[0-9]+\]/g, "");
-  const API_URL = "https://api-inference.huggingface.co/models/vectara/hallucination_evaluation_model";
-  const inference = new HfInference((hfToken && hfToken.length > 0) ? hfToken : undefined);
-  const hem = inference.endpoint(API_URL);
+  const { hemScore } = useHemScore(hfToken, rawSummary, summarySearchResults);
 
-  async function getHEMScore(inputText: string): Promise<any> {
-    const responseData = await hem.textClassification({ inputs: inputText })
-    const hemScore = responseData[0].score;
-    return Math.round(hemScore * 100) / 100; // round to 2 digits
-  }
-
-  async function getMaxScore() {
-    const scorePromises = summarySearchResults.map((result, index) => {
-      const { snippet: { pre, post, text } } = result;
-      const query = [pre, text, post, "[SEP]", summaryWithoutCitations].join(" ");
-      const score = getHEMScore(query);
-      return score
-    });
-  
-    try {
-      const scores = await Promise.all(scorePromises);
-      return Math.max(...scores);
-    } catch (error) {
-      console.error("An error occurred while processing scores: ", error);
-      return -1; // Optional: early return in case of error
-    }
-  }
-
-  const [serializedResults, setSerializedResults] = useState(JSON.stringify(summarySearchResults));
-  useEffect(() => {
-    setSerializedResults(JSON.stringify(summarySearchResults));
-  }, [summarySearchResults]);
-
-  const [maxScore, setMaxScore] = useState<number>(-1);
-  useEffect(() => {
-    if (summaryWithoutCitations !== undefined && summaryWithoutCitations.length > 0) {
-      getMaxScore().then(score => {
-        setMaxScore(score);
-      }).catch(error => {
-        console.error("Error getting max score: ", error);
-      });
-    }
-  }, [serializedResults]);
-
-  function getGaugeColor(maxScore: number) {
-    if (maxScore > 0 && maxScore <= 0.25) {
-      return 'red';
-    } else if (maxScore > 0.25 && maxScore <= 0.5) {
-      return 'orange';
-    } else if (maxScore > 0.5 && maxScore <= 0.75) {
-      return 'yellow';
+  function getGaugeColor(score: number) {
+    if (score > 0 && score <= 0.25) {
+      return "red";
+    } else if (score > 0.25 && score <= 0.5) {
+      return "orange";
+    } else if (score > 0.5 && score <= 0.75) {
+      return "yellow";
     } else {
-      return 'green';
+      return "green";
     }
   }
 
@@ -106,17 +61,21 @@ export const SummaryUx = () => {
           <VuiSpacer size="l" />
 
           <VuiTitle size="xs">
-            <h2 style={{ display: 'flex', alignItems: 'center' }}> {/* Flex container */}
+            <h2 style={{ display: "flex", alignItems: "center" }}>
+              {" "}
+              {/* Flex container */}
               <strong>Summary</strong>
-              {maxScore > 0 && (
-                <div style={{
-                  height: '20px',
-                  width: '20px',
-                  backgroundColor: getGaugeColor(maxScore),
-                  display: 'inline-block',
-                  marginLeft: '10px',
-                  borderRadius: '50%'
-                }} />
+              {hemScore > 0 && (
+                <div
+                  style={{
+                    height: "20px",
+                    width: "20px",
+                    backgroundColor: getGaugeColor(hemScore),
+                    display: "inline-block",
+                    marginLeft: "10px",
+                    borderRadius: "50%",
+                  }}
+                />
               )}
             </h2>
           </VuiTitle>
@@ -148,4 +107,4 @@ export const SummaryUx = () => {
       )}
     </>
   );
-}
+};
