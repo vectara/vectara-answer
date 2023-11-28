@@ -17,7 +17,7 @@ export const VuiTopicButton = ({ children, className, href, onClick, title, ...r
     <>
       {title && (
         <>
-          <VuiTitle size="s">
+          <VuiTitle size="xs">
             <p>
               <VuiTextColor color="primary">{title}</VuiTextColor>
             </p>
