@@ -57,11 +57,8 @@ export const useHemScore = (
   rawSummary: string | undefined,
   summarySearchResults: DeserializedSearchResult[]
 ) => {
+  const [isFetchingHemScore, setIsFetchingHemScore] = useState<boolean>(false);
   const [hemScore, setHemScore] = useState<number>(-1);
-
-  const [serializedResults, setSerializedResults] = useState(
-    JSON.stringify(summarySearchResults)
-  );
 
   const summaryWithoutCitations = rawSummary?.replace(/\[[0-9]+\]/g, "");
 
@@ -72,23 +69,27 @@ export const useHemScore = (
   const hem = inference.endpoint(API_URL);
 
   useEffect(() => {
-    setSerializedResults(JSON.stringify(summarySearchResults));
-  }, [summarySearchResults]);
-
-  useEffect(() => {
-    if (
-      summaryWithoutCitations !== undefined &&
-      summaryWithoutCitations.length > 0
-    ) {
-      getMaxScore(hem, summaryWithoutCitations, summarySearchResults)
-        .then((score) => {
-          setHemScore(score);
-        })
-        .catch((error) => {
-          console.error("Error getting max score: ", error);
-        });
+    if (summarySearchResults.length === 0 || !summaryWithoutCitations) {
+      setHemScore(-1);
+      return;
     }
-  }, [serializedResults]);
 
-  return { hemScore, confidenceLevel: getConfidenceLevel(hemScore) };
+    console.log("fetch", summaryWithoutCitations);
+    setIsFetchingHemScore(true);
+    getMaxScore(hem, summaryWithoutCitations, summarySearchResults)
+      .then((score) => {
+        setHemScore(score);
+        setIsFetchingHemScore(false);
+      })
+      .catch((error) => {
+        console.error("Error getting max score: ", error);
+        setIsFetchingHemScore(false);
+      });
+  }, [rawSummary]);
+
+  return {
+    isFetchingHemScore,
+    hemScore,
+    confidenceLevel: getConfidenceLevel(hemScore),
+  };
 };

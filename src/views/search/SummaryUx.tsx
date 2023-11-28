@@ -5,7 +5,9 @@ import {
   VuiSummary,
   VuiFlexContainer,
   VuiFlexItem,
-  VuiButtonTertiary,
+  VuiSpinner,
+  VuiText,
+  VuiButtonSecondary,
 } from "../../ui";
 import {
   sanitizeCitations,
@@ -51,7 +53,7 @@ export const SummaryUx = () => {
     }
   }
 
-  const { confidenceLevel } = useHemScore(
+  const { isFetchingHemScore, confidenceLevel } = useHemScore(
     hfToken,
     rawSummary,
     summarySearchResults
@@ -79,18 +81,31 @@ export const SummaryUx = () => {
 
           <VuiFlexContainer alignItems="center">
             <VuiFlexItem grow={false} shrink={false}>
-              <ConfidenceBadge confidenceLevel={confidenceLevel} />
+              {isFetchingHemScore ? (
+                <VuiFlexContainer alignItems="center" spacing="xs">
+                  <VuiFlexItem grow={false}>
+                    <VuiSpinner size="xs" />
+                  </VuiFlexItem>
+
+                  <VuiFlexItem grow={false}>
+                    <VuiText size="s">
+                      <p>Evaluating confidence</p>
+                    </VuiText>
+                  </VuiFlexItem>
+                </VuiFlexContainer>
+              ) : (
+                <ConfidenceBadge confidenceLevel={confidenceLevel} />
+              )}
             </VuiFlexItem>
 
             <VuiFlexItem grow={false} shrink={false}>
-              <VuiButtonTertiary
+              <VuiButtonSecondary
                 color="subdued"
-                noPadding
                 size="s"
                 onClick={() => setIsHemDrawerOpen(true)}
               >
                 What's this?
-              </VuiButtonTertiary>
+              </VuiButtonSecondary>
             </VuiFlexItem>
           </VuiFlexContainer>
 
