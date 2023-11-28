@@ -1,6 +1,7 @@
 FROM --platform=linux/amd64 node:20.2-slim AS deps
 COPY package.json ./
-RUN npm install
+COPY package-lock.json ./
+RUN npm ci
 
 FROM deps AS builder
 COPY ../public ./public
