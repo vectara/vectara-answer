@@ -27,11 +27,11 @@ Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`.
 
 Note: The use of `secrets.toml` allows you to create multiple profiles, and store a differnet API key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel. As you can see in the included `secrets.toml` file we've included the API keys (query only) for the existing datasets that are part of the Quickstart: Feynman, vectara.com and vectara docs. Some secrets are shared among all profiles, and in order to avoid having to copy that secret under each profile, the code designates a special profile called "general" - each secret under this profile will be used in any profile (in addition to the profile-specific secrets). 
 
-Note: when computing the HEM (Hughes Hallucination Evaluation Model), the code calls the HEM huggingface space. If you sign up for a huggingface account you can include your [HF token](https://huggingface.co/docs/hub/security-tokens) under the "general" profile as follows:
+Note: when computing the HEM (Hughes Hallucination Evaluation Model), the code calls the HEM Hugging Face [model](https://huggingface.co/vectara/hallucination_evaluation_model). If you sign up for a Hugging Face account you can include your [HF token](https://huggingface.co/docs/hub/security-tokens) under the "general" profile as follows:
 
 hf_token="<hf_...>"
 
-If this token is found (either in a normal profile or under the "general" profile) it will be used for making HEM calls. Using an hf_token associated with a paid HuggingFace plan ensures these calls are not rate limited (see [here](https://huggingface.co/docs/api-inference/faq)).
+If this token is found (either in a normal profile or under the "general" profile) it will be used for making HEM calls. Using an hf_token associated with a paid Hugging Face plan ensures these calls are not rate limited (see [here](https://huggingface.co/docs/api-inference/faq)).
 
 ## Configuring your application
 
