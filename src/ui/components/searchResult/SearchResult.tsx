@@ -27,15 +27,7 @@ type Props = {
   snippetProps?: any;
 };
 
-const highlightUrl = (url: string, text: string) => {
-  const youtubePatterns = [/youtube\.com\/watch\?v=/, /youtu\.be\//];
-  const isYoutubeUrl = youtubePatterns.some(pattern => pattern.test(url));
-  if (!isYoutubeUrl) {
-      return `${url}#:~:text=${text}`;
-  }
-  // If the URL is a YouTube URL, return the original URL without modification
-  return url;
-};
+const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;
 
 export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
   ({ result, position, isSelected, subTitle, children, className, snippetProps, ...rest }: Props, ref) => {

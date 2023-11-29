@@ -7,12 +7,15 @@ type Props = {
   children?: React.ReactNode;
   className?: string;
   href?: string;
-  onClick: () => void;
+  onClick?: () => void;
   title?: string;
+  fullWidth?: boolean;
 };
 
-export const VuiTopicButton = ({ children, className, href, onClick, title, ...rest }: Props) => {
-  const classes = classNames("vuiTopicButton", className);
+export const VuiTopicButton = ({ children, className, href, onClick, title, fullWidth, ...rest }: Props) => {
+  const classes = classNames("vuiTopicButton", className, {
+    "vuiTopicButton--fullWidth": fullWidth
+  });
   const content = (
     <>
       {title && (
@@ -23,7 +26,7 @@ export const VuiTopicButton = ({ children, className, href, onClick, title, ...r
             </p>
           </VuiTitle>
 
-          <VuiSpacer size="xxs" />
+          {children && <VuiSpacer size="xxs" />}
         </>
       )}
 

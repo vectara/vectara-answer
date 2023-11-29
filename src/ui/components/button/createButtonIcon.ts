@@ -5,7 +5,8 @@ import { ButtonColor } from "./types";
 const sizeToIconSizeMap = {
   xs: "xs",
   s: "xs",
-  m: "s"
+  m: "s",
+  l: "m"
 };
 
 const defaultColorToIconColorMap = {
