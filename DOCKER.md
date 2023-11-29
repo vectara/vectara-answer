@@ -3,17 +3,19 @@
 ## Introduction
 
 Docker provides a container based mechanism that ensures consistency and portability as well as environment isolation. For these reasons, deployment of Vectara \Answer via Docker may be preferred in some cases.<br>
-To demonstrate how to use Vectara Answer with Docker we will now walk through the steps for building an application with the content of Paul Graham's essays website (http://paulgraham.com/). 
+To demonstrate how to use Vectara Answer with Docker we will now walk through the steps for building an application with the content of Paul Graham's essays website (http://paulgraham.com/).
 
 We call this application `AskPG`.
 
 ## Pre-Requisites
 
 For Docker you will first need to follow some additional installation steps:
+
 1. Install [Docker](https://docs.docker.com/engine/install/).
 2. Install [pyyaml](https://pypi.org/project/PyYAML/): `pip3 install pyyaml`.
 
 Then, you will need to create the data store:
+
 1. Log into the Vectara Console and create a data store (https://docs.vectara.com/docs/console-ui/creating-a-corpus).
 2. Use Vectara Ingest to [crawl Paul Graham's website](https://github.com/vectara/vectara-ingest#quickstart) and index it into your data store. Of course you can also index this data on your own via the API.
 
@@ -25,11 +27,11 @@ Find and open the Docker Desktop application. When you run your application, it 
 
 Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`. <br>Edit the `secrets.toml` file and change the `api_key` value under "default" to be your Vectara API key.
 
-Note: The use of `secrets.toml` allows you to create multiple profiles, and store a differnet API key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel. As you can see in the included `secrets.toml` file we've included the API keys (query only) for the existing datasets that are part of the Quickstart: Feynman, vectara.com and vectara docs. Some secrets are shared among all profiles, and in order to avoid having to copy that secret under each profile, the code designates a special profile called "general" - each secret under this profile will be used in any profile (in addition to the profile-specific secrets). 
+Note: The use of `secrets.toml` allows you to create multiple profiles, and store a differnet API key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel. As you can see in the included `secrets.toml` file we've included the API keys (query only) for the existing datasets that are part of the Quickstart: Feynman, vectara.com and vectara docs. Some secrets are shared among all profiles, and in order to avoid having to copy that secret under each profile, the code designates a special profile called "general" - each secret under this profile will be used in any profile (in addition to the profile-specific secrets).
 
-Note: when computing the HEM (Hughes Hallucination Evaluation Model), the code calls the HEM Hugging Face [model](https://huggingface.co/vectara/hallucination_evaluation_model). If you sign up for a Hugging Face account you can include your [HF token](https://huggingface.co/docs/hub/security-tokens) under the "general" profile as follows:
+Note: when computing the Hughes Hallucination Evaluation Model (HEM), the code calls the HEM Hugging Face [model](https://huggingface.co/vectara/hallucination_evaluation_model). If you sign up for a Hugging Face account you can include your [HF token](https://huggingface.co/docs/hub/security-tokens) under the "general" profile as follows:
 
-hf_token="<hf_...>"
+hf*token="<hf*...>"
 
 If this token is found (either in a normal profile or under the "general" profile) it will be used for making HEM calls. Using an hf_token associated with a paid Hugging Face plan ensures these calls are not rate limited (see [here](https://huggingface.co/docs/api-inference/faq)).
 
@@ -74,4 +76,3 @@ With Docker you can deploy your Vectara Answer application on a cloud service li
 ### Why do I get a "Cannot connect to the Docker daemon" error when I try to run my application?
 
 Docker needs to be running before you can run your application. Find and open the Docker app.
-

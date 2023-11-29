@@ -138,7 +138,7 @@ summary_num_results: 10
 # See https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer for available summarization prompts
 summary_prompt_name: vectara-summary-ext-v1.2.0
 
-# Whether to enable the Hughes Hallucination Evalation Model (HEM)
+# Whether to enable the Hughes Hallucination Evaluation Model (HEM)
 summary_enable_hem: False
 ```
 

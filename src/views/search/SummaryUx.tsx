@@ -32,7 +32,7 @@ export const SummaryUx = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
-    summaryEnableHEM,
+    summaryEnableHem,
     hfToken,
   } = useSearchContext();
 
@@ -54,18 +54,23 @@ export const SummaryUx = () => {
     }
   }
 
-  const { isFetchingHemScore, confidenceLevel } = useHemScore(summaryEnableHEM, hfToken, rawSummary, summarySearchResults);
-//    : { isFetchingHemScore: false, confidenceLevel: getConfidenceLevel(0) };
+  const { isFetchingHemScore, confidenceLevel } = useHemScore(
+    summaryEnableHem,
+    hfToken,
+    rawSummary,
+    summarySearchResults
+  );
+  //    : { isFetchingHemScore: false, confidenceLevel: getConfidenceLevel(0) };
 
-//  let isFetchingHemScore = false;
-//  let confidenceLevel = getConfidenceLevel(0);
-//  if (summaryEnableHEM) {
-//    ({ isFetchingHemScore, confidenceLevel } = useHemScore(
-//      hfToken,
-//      rawSummary,
-//      summarySearchResults
-//    ));
-//  }
+  //  let isFetchingHemScore = false;
+  //  let confidenceLevel = getConfidenceLevel(0);
+  //  if (summaryEnableHem) {
+  //    ({ isFetchingHemScore, confidenceLevel } = useHemScore(
+  //      hfToken,
+  //      rawSummary,
+  //      summarySearchResults
+  //    ));
+  //  }
 
   return (
     <>
@@ -87,7 +92,7 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          {summaryEnableHEM && (
+          {summaryEnableHem && (
             <>
               <VuiFlexContainer alignItems="center">
                 <VuiFlexItem grow={false} shrink={false}>

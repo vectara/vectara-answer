@@ -128,7 +128,7 @@ type Summary = {
   summaryNumSentences: number;
   summaryPromptName: string;
   hfToken: string;
-  summaryEnableHEM: boolean;
+  summaryEnableHem: boolean;
 };
 
 type SearchHeader = {
@@ -283,7 +283,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
     hfToken: "",
-    summaryEnableHEM: false,
+    summaryEnableHem: false,
   });
 
   useEffect(() => {
@@ -387,7 +387,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
-        config_summary_enable_hem
+        config_summary_enable_hem,
       } = config;
 
       setUxMode(config_ux ?? "summary");
@@ -458,7 +458,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
         hfToken: config_hf_token ?? "",
-        summaryEnableHEM: isTrue(config_summary_enable_hem) ?? false,
+        summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
       });
 
       setSearchHeader({
