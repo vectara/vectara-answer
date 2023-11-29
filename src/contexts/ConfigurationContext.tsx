@@ -21,6 +21,7 @@ interface Config {
   config_corpus_id?: string;
   config_customer_id?: string;
   config_api_key?: string;
+  config_hf_token?: string;
 
   // App
   config_ux?: UxMode;
@@ -63,6 +64,7 @@ interface Config {
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
+  config_summary_enable_hem?: string;
 
   // hybrid search
   config_hybrid_search_num_words?: number;
@@ -125,6 +127,8 @@ type Summary = {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  hfToken: string;
+  summaryEnableHem: boolean;
 };
 
 type SearchHeader = {
@@ -278,6 +282,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryNumResults: 7,
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
+    hfToken: "",
+    summaryEnableHem: false,
   });
 
   useEffect(() => {
@@ -324,6 +330,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_corpus_id,
         config_customer_id,
         config_api_key,
+        config_hf_token,
 
         // App
         config_ux,
@@ -380,6 +387,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
+        config_summary_enable_hem,
       } = config;
 
       setUxMode(config_ux ?? "summary");
@@ -436,8 +444,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setFilters({
         isEnabled: isFilteringEnabled,
         allSources: allSources,
-        sources,
-        sourceValueToLabelMap,
+        sources: sources,
+        sourceValueToLabelMap: sourceValueToLabelMap,
       });
 
       setSummary({
@@ -449,6 +457,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
+        hfToken: config_hf_token ?? "",
+        summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
       });
 
       setSearchHeader({

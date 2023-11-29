@@ -9,6 +9,7 @@ import { SearchResultList } from "./results/SearchResultList";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { SummaryCitation } from "./summary/SummaryCitation";
 import { DeserializedSearchResult } from "./types";
+import { ConfidenceScore } from "./summary/ConfidenceScore";
 
 export const SummaryUx = () => {
   const {
@@ -18,10 +19,10 @@ export const SummaryUx = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
+    summaryEnableHem,
   } = useSearchContext();
 
   const rawSummary = summarizationResponse?.summary[0]?.text;
-
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
@@ -46,7 +47,7 @@ export const SummaryUx = () => {
           <VuiSpacer size="l" />
 
           <VuiTitle size="xs">
-            <h2>
+            <h2 style={{ display: "flex", alignItems: "center" }}>
               <strong>Summary</strong>
             </h2>
           </VuiTitle>
@@ -54,6 +55,15 @@ export const SummaryUx = () => {
           <VuiSpacer size="s" />
 
           <VuiSummary summary={summary} SummaryCitation={SummaryCitation} />
+
+          <VuiSpacer size="s" />
+
+          {summaryEnableHem && (
+            <ConfidenceScore
+              rawSummary={rawSummary}
+              summarySearchResults={summarySearchResults}
+            />
+          )}
 
           <VuiSpacer size="l" />
           <VuiHorizontalRule />

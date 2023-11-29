@@ -39,6 +39,7 @@ app.post("/config", (req, res) => {
     corpus_id,
     customer_id,
     api_key,
+    hf_token,
 
     // App
     ux,
@@ -64,6 +65,7 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
+    summary_enable_hem,
 
     // rerank
     rerank,
@@ -106,6 +108,7 @@ app.post("/config", (req, res) => {
     corpus_id,
     customer_id,
     api_key,
+    hf_token,
 
     // App
     ux,
@@ -131,6 +134,7 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
+    summary_enable_hem,
 
     // hybrid search
     hybrid_search_num_words,

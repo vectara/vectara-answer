@@ -77,7 +77,7 @@ export const SearchView = () => {
           </VuiFlexItem>
         )}
 
-        <VuiFlexItem grow={1} className="searchContent">
+        <VuiFlexItem grow={1} className="searchContent" alignItems="start">
           {content}
         </VuiFlexItem>
 
