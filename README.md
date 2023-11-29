@@ -137,6 +137,9 @@ summary_num_results: 10
 # This field names a custom prompt, otherwise it uses the default for the account.
 # See https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer for available summarization prompts
 summary_prompt_name: vectara-summary-ext-v1.2.0
+
+# Whether to enable the Hughes Hallucination Evalation Model (HEM)
+summary_enable_hem: False
 ```
 
 #### Hybrid Search (optional)

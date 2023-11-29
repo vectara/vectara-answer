@@ -32,6 +32,7 @@ export const SummaryUx = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
+    summaryEnableHEM,
     hfToken,
   } = useSearchContext();
 
@@ -53,11 +54,18 @@ export const SummaryUx = () => {
     }
   }
 
-  const { isFetchingHemScore, confidenceLevel } = useHemScore(
-    hfToken,
-    rawSummary,
-    summarySearchResults
-  );
+  const { isFetchingHemScore, confidenceLevel } = useHemScore(summaryEnableHEM, hfToken, rawSummary, summarySearchResults);
+//    : { isFetchingHemScore: false, confidenceLevel: getConfidenceLevel(0) };
+
+//  let isFetchingHemScore = false;
+//  let confidenceLevel = getConfidenceLevel(0);
+//  if (summaryEnableHEM) {
+//    ({ isFetchingHemScore, confidenceLevel } = useHemScore(
+//      hfToken,
+//      rawSummary,
+//      summarySearchResults
+//    ));
+//  }
 
   return (
     <>
@@ -79,35 +87,38 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          <VuiFlexContainer alignItems="center">
-            <VuiFlexItem grow={false} shrink={false}>
-              {isFetchingHemScore ? (
-                <VuiFlexContainer alignItems="center" spacing="xs">
-                  <VuiFlexItem grow={false}>
-                    <VuiSpinner size="xs" />
-                  </VuiFlexItem>
+          {summaryEnableHEM && (
+            <>
+              <VuiFlexContainer alignItems="center">
+                <VuiFlexItem grow={false} shrink={false}>
+                  {isFetchingHemScore ? (
+                    <VuiFlexContainer alignItems="center" spacing="xs">
+                      <VuiFlexItem grow={false}>
+                        <VuiSpinner size="xs" />
+                      </VuiFlexItem>
 
-                  <VuiFlexItem grow={false}>
-                    <VuiText size="s">
-                      <p>Evaluating confidence</p>
-                    </VuiText>
-                  </VuiFlexItem>
-                </VuiFlexContainer>
-              ) : (
-                <ConfidenceBadge confidenceLevel={confidenceLevel} />
-              )}
-            </VuiFlexItem>
-
-            <VuiFlexItem grow={false} shrink={false}>
-              <VuiButtonSecondary
-                color="subdued"
-                size="s"
-                onClick={() => setIsHemDrawerOpen(true)}
-              >
-                What's this?
-              </VuiButtonSecondary>
-            </VuiFlexItem>
-          </VuiFlexContainer>
+                      <VuiFlexItem grow={false}>
+                        <VuiText size="s">
+                          <p>Evaluating confidence</p>
+                        </VuiText>
+                      </VuiFlexItem>
+                    </VuiFlexContainer>
+                  ) : (
+                    <ConfidenceBadge confidenceLevel={confidenceLevel} />
+                  )}
+                </VuiFlexItem>
+                <VuiFlexItem grow={false} shrink={false}>
+                  <VuiButtonSecondary
+                    color="subdued"
+                    size="s"
+                    onClick={() => setIsHemDrawerOpen(true)}
+                  >
+                    What's this?
+                  </VuiButtonSecondary>
+                </VuiFlexItem>
+              </VuiFlexContainer>
+            </>
+          )}
 
           <VuiSpacer size="l" />
           <VuiHorizontalRule />

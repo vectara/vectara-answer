@@ -36,7 +36,7 @@ async function getMaxScore(
 
 export type ConfidenceLevel = "unavailable" | "low" | "medium" | "high";
 
-const getConfidenceLevel = (score: number): ConfidenceLevel => {
+export const getConfidenceLevel = (score: number): ConfidenceLevel => {
   if (score < 0) {
     return "unavailable";
   }
@@ -53,6 +53,7 @@ const getConfidenceLevel = (score: number): ConfidenceLevel => {
 };
 
 export const useHemScore = (
+  enable_hem: boolean,
   hfToken: string,
   rawSummary: string | undefined,
   summarySearchResults: DeserializedSearchResult[]
@@ -69,7 +70,7 @@ export const useHemScore = (
   const hem = inference.endpoint(API_URL);
 
   useEffect(() => {
-    if (summarySearchResults.length === 0 || !summaryWithoutCitations) {
+    if (!enable_hem || summarySearchResults.length === 0 || !summaryWithoutCitations) {
       setHemScore(-1);
       return;
     }

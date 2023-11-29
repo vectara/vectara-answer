@@ -53,6 +53,7 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  summaryEnableHEM: boolean;
   hfToken: string;
   history: HistoryItem[];
   clearHistory: () => void;
@@ -343,6 +344,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
+        summaryEnableHEM: summary.summaryEnableHEM,
         hfToken: summary.hfToken,
         history,
         clearHistory,
