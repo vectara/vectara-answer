@@ -5,10 +5,10 @@ import {
   VuiSpacer,
   VuiTextColor,
   VuiText,
-  VuiTopicButton,
 } from "../../../ui";
 import { useSearchContext } from "../../../contexts/SearchContext";
 import "./exampleQuestions.scss";
+import { ExampleQuestion } from "./ExampleQuestion";
 
 export const ExampleQuestions = () => {
   const { exampleQuestions } = useConfigContext();
@@ -34,7 +34,7 @@ export const ExampleQuestions = () => {
       <VuiFlexContainer spacing="m" wrap className="promptList">
         {exampleQuestions.map((exampleQuestion) => (
           <VuiFlexItem grow={1} basis="none" key={exampleQuestion}>
-            <VuiTopicButton
+            <ExampleQuestion
               key={exampleQuestion}
               className="prompt"
               onClick={() => {

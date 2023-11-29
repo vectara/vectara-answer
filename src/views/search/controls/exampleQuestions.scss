@@ -1,3 +1,4 @@
+@import "../../../ui/styleUtils/index.scss";
 @import "../../../variables.scss";
 
 .prompt {
@@ -13,5 +14,23 @@
 
   .prompt {
     min-width: auto;
+  }
+}
+
+.exampleQuestion {
+  display: inline-block;
+  text-decoration: none;
+  background-color: $colorEmptyShade;
+  border-radius: $sizeXs;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 0 0 0, rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  transition: box-shadow $transitionSpeed, border-color $transitionSpeed;
+  overflow: hidden;
+  padding: $sizeM $sizeL;
+
+  &:hover {
+    text-decoration: none;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px, $colorPrimary 0 0 1px 1px;
+    z-index: 1;
   }
 }
