@@ -1,5 +1,5 @@
-import { VuiBadge } from "../ui";
-import { ConfidenceLevel } from "./useHemScore";
+import { VuiBadge } from "../../../ui";
+import { ConfidenceLevel } from "../../../utils/useHemScore";
 
 const confidenceLevelToLabel = {
   unavailable: "Unavailable confidence",

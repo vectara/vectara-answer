@@ -10,7 +10,7 @@ async function getMaxScore(
   summaryWithoutCitations: string,
   summarySearchResults: DeserializedSearchResult[]
 ) {
-  async function getHemScore(inputText: string): Promise<any> {
+  async function getHemScore(inputText: string): Promise<number> {
     const responseData = await hem.textClassification({ inputs: inputText });
     const hemScore = responseData[0].score;
     return Math.round(hemScore * 100) / 100; // round to 2 digits
@@ -36,7 +36,7 @@ async function getMaxScore(
 
 export type ConfidenceLevel = "unavailable" | "low" | "medium" | "high";
 
-export const getConfidenceLevel = (score: number): ConfidenceLevel => {
+const getConfidenceLevel = (score: number): ConfidenceLevel => {
   if (score < 0) {
     return "unavailable";
   }
@@ -53,7 +53,6 @@ export const getConfidenceLevel = (score: number): ConfidenceLevel => {
 };
 
 export const useHemScore = (
-  enable_hem: boolean,
   hfToken: string,
   rawSummary: string | undefined,
   summarySearchResults: DeserializedSearchResult[]
@@ -70,12 +69,11 @@ export const useHemScore = (
   const hem = inference.endpoint(API_URL);
 
   useEffect(() => {
-    if (!enable_hem || summarySearchResults.length === 0 || !summaryWithoutCitations) {
+    if (summarySearchResults.length === 0 || !summaryWithoutCitations) {
       setHemScore(-1);
       return;
     }
 
-    console.log("fetch", summaryWithoutCitations);
     setIsFetchingHemScore(true);
     getMaxScore(hem, summaryWithoutCitations, summarySearchResults)
       .then((score) => {
