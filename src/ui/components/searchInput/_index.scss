@@ -6,7 +6,6 @@
 
 .vuiSearchInput__input {
   flex-grow: 1;
-  padding: $sizeS $sizeM;
   background-color: $colorEmptyShade;
   border: 1px solid $colorMediumShade;
   border-radius: $sizeXs;
@@ -18,8 +17,7 @@
   outline-offset: -1px !important;
 
   &:focus-visible {
-    background-color: $colorLightShade;
-    outline-color: $colorAccent !important;
+    outline-color: $colorPrimary !important;
     box-shadow: $shadowSmallEnd;
   }
 }
@@ -38,12 +36,14 @@
 
 .vuiSearchInput--m {
   .vuiSearchInput__input {
+    padding: $sizeXs $sizeM;
     font-size: $fontSizeStandard;
   }
 }
 
 .vuiSearchInput--l {
   .vuiSearchInput__input {
+    padding: $sizeS $sizeM;
     font-size: $fontSizeLarge;
   }
 }

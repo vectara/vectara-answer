@@ -25,7 +25,8 @@
   align-items: center;
   text-align: center;
 
-  .vuiCard__content,
+  .vuiCard__header,
+  .vuiCard__body,
   .vuiCard__footer {
     align-items: center;
     text-align: center;
@@ -36,57 +37,78 @@
   align-items: flex-start;
   text-align: left;
 
-  .vuiCard__content,
+  .vuiCard__header,
+  .vuiCard__body,
   .vuiCard__footer {
     align-items: flex-start;
     text-align: left;
   }
 }
 
-.vuiCard__content {
+.vuiCard__header {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: $sizeM $sizeL;
+}
+
+.vuiCard__body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px solid $borderColorLight;
+  padding: $sizeM $sizeL;
+  flex-grow: 1;
 }
 
 .vuiCard__footer {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-top: 1px solid $borderColorLight;
-  padding: $sizeM $sizeL;
+  padding: 0 $sizeL $sizeM;
 }
 
 .vuiCard--s {
-  .vuiCard__content,
-  .vuiCard__footer {
+  .vuiCard__header,
+  .vuiCard__body {
     padding: $sizeM $sizeL;
+  }
+
+  .vuiCard__footer {
+    padding: 0 $sizeL $sizeM;
   }
 }
 
 .vuiCard--m {
-  .vuiCard__content,
-  .vuiCard__footer {
+  .vuiCard__header,
+  .vuiCard__body {
     padding: $sizeL $sizeXl;
+  }
+
+  .vuiCard__footer {
+    padding: 0 $sizeXl $sizeL;
   }
 }
 
 .vuiCard--l {
-  .vuiCard__content,
-  .vuiCard__footer {
+  .vuiCard__header,
+  .vuiCard__body {
     padding: $sizeXl $sizeXxl;
+  }
+
+  .vuiCard__footer {
+    padding: 0 $sizeXxl $sizeXl;
   }
 }
 
 .vuiCard--highlight {
   border: 2px solid $colorAccent;
 
-  .vuiCard__content {
+  .vuiCard__header {
     background-color: $colorAccentLightShade;
   }
 
-  .vuiCard__footer {
+  .vuiCard__body {
     border-top: $colorAccentLightShade;
   }
 }
