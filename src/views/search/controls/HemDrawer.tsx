@@ -125,7 +125,7 @@ export const HemDrawer = ({ isOpen, onClose }: Props) => {
             target="_blank"
             href="https://huggingface.co/vectara/hallucination_evaluation_model/tree/main"
           >
-            Hallucination Evaluation Model
+            Hughes Hallucination Evaluation Model
           </VuiLink>
           . Learn more about this model in our{" "}
           <VuiLink
