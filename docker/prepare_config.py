@@ -62,11 +62,15 @@ def main(config_folder, profile):
     )
     if type(config) != dict:
         print(f"Illegal config file format {os.path.join(config_folder, 'config.yaml')}")
-        return
+        sys.exit(1)
 
     config["endpoint"] = "api.vectara.io"
 
     # read key-value pairs from secrets.toml file
+    if not os.path.exists('secrets.toml'):
+        print(f"Missing secrets.toml file in {os.getcwd()}")
+        sys.exit(1)
+
     toml = read_toml_file("secrets.toml")
 
     new_config = {}

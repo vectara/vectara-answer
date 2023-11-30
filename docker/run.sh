@@ -7,6 +7,10 @@ if [ $# -eq 2 ]; then
   fi
 
   python3 docker/prepare_config.py $1 $2
+  if [ $? -ne 0 ]; then
+      echo "prepare_config failed with exit code $?. Exiting..."
+      exit 1
+  fi
 
   if [[ $1 == /* ]] || [[ $1 == ~* ]]; then
     correct_path=$(eval echo $1)
