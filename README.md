@@ -88,6 +88,13 @@ customer_id: 123456789
 api_key: "zwt_abcdef..."
 ```
 
+Note that `corpud_id` can be a set of corpora in which case each query runs against all those corpora.
+In such a case, the format is a comma-separated list of corpus IDs, for example:
+
+```yaml
+corpus_id: "123,234,345"
+```
+
 ### Search header (optional)
 
 These configuration parameters enable you to configure the look and feel of the search header, including the logo.
@@ -184,6 +191,11 @@ app_header_logo_height: 20
 ### Source filters (optional)
 
 If your application uses more than one corpus, you can define source filters to enable the user to narrow their search to a specific corpus.
+This feature assumes the following:
+- You have defined a `source` meta-data field on the Vectara corpus
+- During data ingestion, you've added the source text to each document appropriately (in the `source` metadata field)
+
+The following parameters control how the sources feature works:
 
 ```yaml
 # Hide or show source filters.
@@ -195,6 +207,22 @@ all_sources: True
 # A comma-separated list of the sources on which users can filter.
 sources: "BBC,NPR,FOX,CNBC,CNN"
 ```
+
+The `sources` parameters is a comma-separated list of source names that will be displayed underneath the search bar, and the user can select
+if results returned should be from "all source" or one of the selected sources. 
+In this case you must specify `corpus_id` (see above) to be the list of matching corpus IDs, also comma separated.
+
+For example:
+
+```yaml
+enable_source_filters: True
+all_sources: True
+sources: "BBC,NPR,FOX,CNBC,CNN"
+corpus_id: "123,124,125,126,127"
+```
+
+If `all_sources` is set to False, the application will only display the individual source but not the "All sources" button.
+This means the user will only be able to select a specific source for each query.
 
 ### Reranking (optional)
 
