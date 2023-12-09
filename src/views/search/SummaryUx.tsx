@@ -69,21 +69,25 @@ export const SummaryUx = () => {
           <VuiHorizontalRule />
           <VuiSpacer size="l" />
 
-          <VuiTitle size="xs">
-            <h2>
-              <strong>References</strong>
-            </h2>
-          </VuiTitle>
+          {summarySearchResults.length > 0 && (
+            <>
+              <VuiTitle size="xs">
+                <h2>
+                  <strong>References</strong>
+                </h2>
+              </VuiTitle>
 
-          <VuiSpacer size="s" />
+              <VuiSpacer size="s" />
 
-          <SearchResultList
-            results={summarySearchResults}
-            selectedSearchResultPosition={selectedSearchResultPosition}
-            setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-              (searchResultsRef.current[index] = el)
-            }
-          />
+              <SearchResultList
+                results={summarySearchResults}
+                selectedSearchResultPosition={selectedSearchResultPosition}
+                setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
+                  (searchResultsRef.current[index] = el)
+                }
+              />
+            </>
+          )}
         </>
       )}
     </>
