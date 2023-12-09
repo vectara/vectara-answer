@@ -209,7 +209,14 @@ const fetchConfig = async () => {
   return result;
 };
 
-const isTrue = (value: string | undefined) => value === "True";
+const isTrue = (value: string | undefined) => {
+  if (typeof value !== 'string') {
+      return false;
+  }
+
+  const normalizedValue = value.trim().toLowerCase();
+  return normalizedValue === "true";
+};
 
 // Prefix config vars to avoid collision with other variables.
 const prefixConfig = (
