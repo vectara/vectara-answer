@@ -28,7 +28,7 @@ const markDownCitations = (summary: string) => {
 
       return accum;
     }, [] as string[])
-    .join(" ");
+    .join("");
 };
 
 type Props = {
