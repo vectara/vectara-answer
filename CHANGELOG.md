@@ -11,6 +11,15 @@
 **Breaking changes**
 
 ...
+## `1.5.7`
+
+**Non-breaking changes**
+- Update HOSTING.md documentation
+- Font for questions - now smaller size
+- Surface HEM score (optional)
+- Upgrade VUI to latest version 
+- making run.sh process more robust to missing secrets.toml file
+- do not display references when there is none to display
 
 ## `1.5.5`
 
