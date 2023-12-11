@@ -67,7 +67,7 @@ app.post("/config", (req, res) => {
     summary_prompt_name,
     summary_enable_hem,
 
-    // rerank
+    // Rerank
     rerank,
     rerank_num_results,
 
@@ -76,7 +76,7 @@ app.post("/config", (req, res) => {
     mmr_num_results,
     mmr_diversity_bias,
 
-    // hybrid search
+    // Hybrid search
     hybrid_search_num_words,
     hybrid_search_lambda_long,
     hybrid_search_lambda_short,
@@ -97,6 +97,7 @@ app.post("/config", (req, res) => {
     // Analytics
     google_analytics_tracking_code,
     full_story_org_id,
+    gtm_container_id,
 
     // Questions
     questions,
@@ -129,19 +130,19 @@ app.post("/config", (req, res) => {
     all_sources,
     sources,
 
-    // summary
+    // Summary
     summary_default_language,
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
     summary_enable_hem,
 
-    // hybrid search
+    // Hybrid search
     hybrid_search_num_words,
     hybrid_search_lambda_long,
     hybrid_search_lambda_short,
 
-    // rerank
+    // Rerank
     rerank,
     rerank_num_results,
 
@@ -166,6 +167,7 @@ app.post("/config", (req, res) => {
     // Analytics
     google_analytics_tracking_code,
     full_story_org_id,
+    gtm_container_id,
 
     // Questions
     questions,
