@@ -192,6 +192,7 @@ app_header_logo_height: 20
 
 If your application uses more than one corpus, you can define source filters to enable the user to narrow their search to a specific corpus.
 This feature assumes the following:
+
 - You have defined a `source` meta-data field on the Vectara corpus
 - During data ingestion, you've added the source text to each document appropriately (in the `source` metadata field)
 
@@ -209,7 +210,7 @@ sources: "BBC,NPR,FOX,CNBC,CNN"
 ```
 
 The `sources` parameters is a comma-separated list of source names that will be displayed underneath the search bar, and the user can select
-if results returned should be from "all source" or one of the selected sources. 
+if results returned should be from "all source" or one of the selected sources.
 In this case you must specify `corpus_id` (see above) to be the list of matching corpus IDs, also comma separated.
 
 For example:
@@ -263,8 +264,11 @@ google_client_id: "cb67dbce87wcc"
 ### Analytics (optional)
 
 ```yaml
-# Track user interaction with your app.
-google_analytics_tracking_code: "884327434"
+# Track user interaction with your app using Google Analytics.
+google_analytics_tracking_code: "123456789"
+
+# Track user interaction with your app using Google Tag Manager.
+gtm_container_id: "GTM-1234567"
 ```
 
 ### Full Story (optional)
