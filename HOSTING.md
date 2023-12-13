@@ -33,5 +33,54 @@ To deploy on Render, please follow these steps:
 
 Then click "Save Changes", and your application should now be deployed.
 
+### Deploy vectara-answer on Render Using Render Create Service API
 
+Render provides the API's to manage the services
 
+To deploy the vectara-answer on Render using Api please follow these steps
+
+1. Create API Key: After logging in go to Account Settings and create the API key. Api key can be created on the personal account only.
+2. Add payment method in the account because you can't create free-tier services with the Render API.
+3. Checkout [Render Create Service API](https://api-docs.render.com/reference/create-service) to see the body params
+4. Following is the payload of the API to create the service using github repo. Using the github repo it deploys the in dev mode and need standard plan.
+    #### Payload and NodeJs code to execute the request
+   Note: EnvVars in the payload are for Vectara Docs. You can use your configuration as well
+
+    ```
+    const sdk = require('api')('@render-api/v1.0#aiie8wizhlp1is9bu');
+    sdk.auth('API_KEY');
+    sdk.createService({
+        type: 'web_service',
+        autoDeploy: 'yes',
+        serviceDetails: {
+            pullRequestPreviewsEnabled: 'no',
+            env: 'node',
+            envSpecificDetails: {buildCommand: 'npm install', startCommand: 'npm run start'},
+            plan: 'standard'
+       },
+       name: 'vectara4',
+       ownerId: <Render account Id> Checkout Render Owners API for more details,
+       repo: 'https://github.com/vectara/vectara-answer',
+       branch: 'main',
+       envVars: [
+          {value: '1', key: 'REACT_APP_corpus_id'},
+          {value: '1366999410', key: 'REACT_APP_customer_id'},
+          {value: 'zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA', key: 'REACT_APP_api_key'},
+          {key: 'REACT_APP_endpoint', value: 'api.vectara.io'},
+          {key: 'REACT_APP_app_title', value: 'Vectara Docs Search'},
+          {key: 'REACT_APP_search_title', value: 'Vectara Docs Search'},
+          {key: 'REACT_APP_search_description',
+          value: 'All of Vectara\'s Platform Documentation'},
+         {key: 'REACT_APP_questions',
+         value: '["How do I enable hybrid search?","How is data encrypted?","What is a textless corpus?","How do I configure OAuth?"]'
+         },
+        {key: 'REACT_APP_enable_source_filters', value: 'False'},
+        {key: 'REACT_APP_summary_default_language', value: 'eng'},
+        {key: 'REACT_APP_summary_num_sentences', value: '3'},
+        {key: 'REACT_APP_summary_num_results', value: '7'}
+      ]
+    })
+   .then(({ data }) => console.log(data))
+   .catch(err => console.error(err));
+    ```
+   Above code would create and deploy the vectara answer service on the Render.You can visit the API docs for more information.
