@@ -42,7 +42,7 @@ Follow these steps to deploy Vectara Answer with the Render API:
 1. Create API Key: After logging in go to Account Settings and create the API Key. API Key can be created on the personal account only.
 2. Add payment method in the account because you can't create free-tier services with the Render API.
 3. Check out the [Render Create Service API](https://api-docs.render.com/reference/create-service) to see the body params.
-4. Following is the payload of the API to create the service using GitHub repo. Using the GitHub repo it deploys the in dev mode and needs standard plan.
+4. Following is the payload of the API to create the service using GitHub repo. Using the GitHub repo its deployed in the dev mode and needs standard plan.
     #### Payload and NodeJs code to execute the request
    Note: envVars in the payload are for Vectara Docs. You can use your configuration as well.
 
