@@ -36,6 +36,7 @@ type Props<T> = {
   columns: Column<T>[];
   rows: T[];
   actions?: TableRowActionsProps<T>["actions"];
+  actionsTestIdProvider?: (row: T) => string;
   pagination?: Pagination | Pager;
   selection?: Selection<T>;
   search?: Search;
@@ -75,6 +76,7 @@ export const VuiTable = <T extends Row>({
   columns,
   rows,
   actions,
+  actionsTestIdProvider,
   pagination,
   selection,
   search,
@@ -195,6 +197,7 @@ export const VuiTable = <T extends Row>({
                     setRowBeingActedUpon(undefined);
                   }
                 }}
+                testId={actionsTestIdProvider?.(row) ?? undefined}
               />
             </td>
           )}

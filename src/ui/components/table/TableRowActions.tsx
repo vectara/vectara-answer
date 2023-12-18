@@ -11,22 +11,24 @@ export type Action<T> = {
   isDisabled?: (row: T) => boolean;
   onClick?: (row: T) => void;
   href?: (row: T) => string | undefined;
+  testId?: string;
 };
 
 export type Props<T> = {
   row: any;
   actions: Action<T>[];
   onToggle: (isSelected: boolean) => void;
+  testId?: string;
 };
 
-export const VuiTableRowActions = <T extends Row>({ row, actions, onToggle }: Props<T>) => {
+export const VuiTableRowActions = <T extends Row>({ row, actions, onToggle, testId }: Props<T>) => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Filter out disabled actions.
   const actionOptions = actions.reduce((acc, action) => {
-    const { label, isDisabled, onClick, href } = action;
+    const { label, isDisabled, onClick, href, testId } = action;
     if (!isDisabled?.(row)) {
-      acc.push({ label, onClick, href: href?.(row), value: row });
+      acc.push({ label, onClick, href: href?.(row), value: row, testId });
     }
     return acc;
   }, [] as any);
@@ -51,6 +53,7 @@ export const VuiTableRowActions = <T extends Row>({ row, actions, onToggle }: Pr
               <BiCaretDown />
             </VuiIcon>
           }
+          data-testid={testId}
         />
       }
     >
