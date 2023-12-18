@@ -36,6 +36,9 @@ export const SummaryUx = () => {
         unorderedSummary
       );
     }
+    if (summarySearchResults.length === 0) {
+      summary = unorderedSummary.replace(/\[\d+\]/g, '');
+    }
   }
 
   return (

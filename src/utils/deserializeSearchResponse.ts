@@ -12,7 +12,7 @@ const convertMetadataToObject = (metadata: DocMetadata[]) => {
 const parseMetadata = (rawMetadata: DocMetadata[]) => {
   const metadata = convertMetadataToObject(rawMetadata);
   return {
-    source: metadata.source as string || "unknown_source",
+    source: metadata.source,
     url: metadata.url,
     title: metadata.title || "Untitled",
     metadata
