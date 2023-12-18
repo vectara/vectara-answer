@@ -36,8 +36,12 @@ export const SummaryUx = () => {
         unorderedSummary
       );
     }
+
+    // If there aren't any search results, we can safely sanitize the
+    // summary of any source text citations that might might be contaminating
+    // it.
     if (summarySearchResults.length === 0) {
-      summary = unorderedSummary.replace(/\[\d+\]/g, '');
+      summary = unorderedSummary.replace(/\[\d+\]/g, "");
     }
   }
 
@@ -85,9 +89,10 @@ export const SummaryUx = () => {
               <SearchResultList
                 results={summarySearchResults}
                 selectedSearchResultPosition={selectedSearchResultPosition}
-                setSearchResultRef={(el: HTMLDivElement | null, index: number) =>
-                  (searchResultsRef.current[index] = el)
-                }
+                setSearchResultRef={(
+                  el: HTMLDivElement | null,
+                  index: number
+                ) => (searchResultsRef.current[index] = el)}
               />
             </>
           )}
