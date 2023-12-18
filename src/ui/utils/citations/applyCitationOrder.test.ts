@@ -69,4 +69,13 @@ describe("applyCitationOrder", () => {
       )
     ).toEqual([searchResult4, searchResult1, searchResult3]);
   });
+
+  test("ignores citations that are out of range of search results", () => {
+    expect(
+      applyCitationOrder(
+        [searchResult1, searchResult2, searchResult3, searchResult4],
+        "summary [5] some words [1][3] and stuff at the end"
+      )
+    ).toEqual([searchResult1, searchResult3]);
+  });
 });
