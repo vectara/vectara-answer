@@ -33,7 +33,7 @@ To deploy the application on [Render](https://render.com/), using the `.env` and
 8. Now click "Add Secret File" again and this time name the file `queries.json`, and copy the contents of your local `queries.json` file
 9. Click "Settings" and go to "Docker Command" and click "Edit", the put in the following command: 
 
-`/bin/bash -c cp /etc/secrets/queries.json ./build/ && cp /etc/secrets/.env ./ && node server/index.js`
+`/bin/sh -c cp /etc/secrets/queries.json ./build/ && cp /etc/secrets/.env ./ && node server/index.js`
 
 Then click "Save Changes", and your application should now be deployed.
 
