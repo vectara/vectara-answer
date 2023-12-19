@@ -35,21 +35,21 @@ Then click "Save Changes", and your application should now be deployed.
 
 ### Deploy vectara-answer on Render Using Render Create Service API call
 
-Render provides the APIs to manage the services.
+Render provides APIs to manage its services, which allow us to deploy vectara-answer directly using an API.
 
-Follow these steps to deploy Vectara Answer with the Render API:
+The following describes thbe steps to deploy Vectara Answer using the Render API:
 
 1. Create API Key: Login to your account, go to 'Account Settings' and create an API Key. Checkout the [Render Docs](https://render.com/docs/api) for more information.
 2. Check out the [Render Create Service API](https://api-docs.render.com/reference/create-service) and fill in the 'body params' as follows.
 
    **Field Descriptions:**
    - **type (string):** Type of service, choose the type 'web_service' 
-   - **ownerID (string):** Render account ID. See [Owner APIs](https://api-docs.render.com/reference/get-owners) for more details.
-   - **name (string):** Name of the service.
+   - **ownerID (string):** your Render account ID. See [Owner APIs](https://api-docs.render.com/reference/get-owners) for more details.
+   - **name (string):** Name for the service.
    - **autoDeploy (string):** Choose 'yes' to deploy the created service.
-   - **repo (string):** GitHub url of the Vectara Answer. 
-   - **branch (string):** Branch to deploy. 
-   - **envVars (array of objects):** Env variables to used by Vectara Answer.
+   - **repo (string):** GitHub url of the vectara-answer repository, for example: `https://github.com/vectara/vectara-answer`. 
+   - **branch (string):** The branch to deploy. If you create a custom branch on a fork, you can specify it here. Otherwise choose `main`.
+   - **envVars (array of objects):** Env variables to used by vectara-answer. This is an array of key/value pairs for all environment variables as they show in .env. See below for more details.
    - **serviceDetails (object):** Deployment details of the service.
      - **env (string):** Runtime env, choose node.
      - **plan (string):** Render subscription plan. App is deployed in Dev mode and 2GB ram would enough.
@@ -57,12 +57,8 @@ Follow these steps to deploy Vectara Answer with the Render API:
        - **buildCommand (string):** npm run build
        - **startCommand (string):** npm run start
 
-  Following code would create and deploy Vectara Docs on the Render.
-
-  For the execution.
- - save the code in 'js' file.
- - Replace the owner ID and API key.
- - Run the command 'node <filename.js>'
+3. Now that you have all the parameters, you can use Node to run the deployment command as follows:
+  - create a JS file called `command.js`. Replace the owner ID with your Render user ID,  and the API key with your Vectara API key.
   ```
       const axios = require('axios');
       const payload = JSON.stringify({
@@ -109,6 +105,8 @@ Follow these steps to deploy Vectara Answer with the Render API:
            console.log(JSON.stringify(error))
        })
   ```
-  Above code would create and deploy the Vectara Answer service on the Render. You can visit the [API docs](https://api-docs.render.com/reference/introduction) for more information.
+  - Execute `node <command.js>`
+
+  This would create and deploy the vectara-answer service on Render. You can visit the [API docs](https://api-docs.render.com/reference/introduction) for more information.
   #### Note: You can't create free-tier services with the Render API. Please check out the Render plans for more details. 
 
