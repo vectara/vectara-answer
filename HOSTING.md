@@ -127,7 +127,7 @@ Render provides APIs to manage its services, which allow us to deploy vectara-an
     - **image (object):** Information about the docker image. 
         - **ownerId** (string): Render account ID.
         - **imagePath** (string): Path to the Image. For example 'vectara/vectara-answer'. You can provide custom image as well if you have forked the repo.
-    - **secretFiles (array of objects):** Files to be used by vectara-answer. This is an array of key/value pairs of name and contents of file. See below for more details.
+    - **secretFiles (array of objects):** Files to be used by vectara-answer. This is an array of key/value pairs of name and contents of file. See below for more details. 
     - **serviceDetails (object):** Deployment details of the service.
         - **env (string):** Runtime env, choose image. For more detail [prebuilt images](https://docs.render.com/docs/deploy-an-image).
         - **plan (string):** Render subscription plan. 512 MB ram would be enough to run the App.
@@ -160,10 +160,12 @@ Render provides APIs to manage its services, which allow us to deploy vectara-an
       ownerId: <ownerId>,
       secretFiles: [
       {
+      // local .env file content
       name: ".env",
       contents: "corpus_id=1\ncustomer_id=1366999410\napi_key=zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA\nendpoint=api.vectara.io\napp_title=Vectara Docs Search\nsearch_title=Vectara Docs Search\nsearch_description=All of Vectara's Platform Documentation\nenable_source_filters=False\nsummary_default_language=eng\nsummary_num_sentences=3\nsummary_num_results=7\n"
       },
       {
+      // local queries.json content
       name: "queries.json",
       contents: JSON.stringify({questions: [ "How do I enable hybrid search?","How is data encrypted?","What is a textless corpus?","How do I configure OAuth?"]})
       }
