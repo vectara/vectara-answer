@@ -41,13 +41,13 @@ Then click "Save Changes", and your application should now be deployed.
 
 Render provides APIs to manage its services, which allow us to deploy vectara-answer directly using an API.
 
-The following describes thbe steps to deploy Vectara Answer using the Render API:
+#### The following describes the steps to deploy vectara-answer GitHub repo using the Render API:
 
 1. Create API Key: Login to your account, go to 'Account Settings' and create an API Key. Checkout the [Render Docs](https://render.com/docs/api) for more information.
 2. Check out the [Render Create Service API](https://api-docs.render.com/reference/create-service) and fill in the 'body params' as follows.
 
    **Field Descriptions:**
-   - **type (string):** Type of service, choose the type 'web_service' 
+   - **type (string):** Type of service, choose the type 'web_service'.
    - **ownerID (string):** your Render account ID. See [Owner APIs](https://api-docs.render.com/reference/get-owners) for more details.
    - **name (string):** Name for the service.
    - **autoDeploy (string):** Choose 'yes' to deploy the created service.
@@ -62,7 +62,7 @@ The following describes thbe steps to deploy Vectara Answer using the Render API
        - **startCommand (string):** npm run start
 
 3. Now that you have all the parameters, you can use Node to run the deployment command as follows:
-  - create a JS file called `command.js`. Replace the owner ID with your Render user ID,  and the API key with your Vectara API key.
+  - create a JS file called `command.js`. Replace the owner ID with your Render user ID,  and the API key with your Render API key.
   ```
       const axios = require('axios');
       const payload = JSON.stringify({
@@ -109,8 +109,80 @@ The following describes thbe steps to deploy Vectara Answer using the Render API
            console.log(JSON.stringify(error))
        })
   ```
-  - Execute `node <command.js>`
+  - Execute `node command.js`
 
   This would create and deploy the vectara-answer service on Render. You can visit the [API docs](https://api-docs.render.com/reference/introduction) for more information.
+ 
+ Note that this deployment mode pulls the latest docker container image from [docker-hub](https://hub.docker.com/repository/docker/vectara/vectara-answer/general).
+
+#### The following describes the steps to deploy vectara-answer docker image using the Render API:
+
+1. Create API Key: Login to your account, go to 'Account Settings' and create an API Key. Checkout the [Render Docs](https://render.com/docs/api) for more information.
+2. Create the .env and queries.json file using
+3. Check out the [Render Create Service API](https://api-docs.render.com/reference/create-service) and fill in the 'body params' as follows.
+
+   **Field Descriptions:**
+    - **type (string):** Type of service, choose the type 'web_service'.
+    - **ownerID (string):** your Render account ID. See [Owner APIs](https://api-docs.render.com/reference/get-owners) for more details.
+    - **name (string):** Name for the service.
+    - **autoDeploy (string):** Choose 'yes' to deploy the created service.
+    - **image (object):** Information about the docker image. 
+        - **ownerId** (string): Render account ID.
+        - **imagePath** (string): Path to the Image. For example 'vectara/vectara-answer'. You can provide custom image as well if you have forked the repo.
+    - **secretFiles (array of objects):** Files to be used by vectara-answer. This is an array of key/value pairs of name and contents of file. See below for more details. 
+    - **serviceDetails (object):** Deployment details of the service.
+        - **env (string):** Runtime env, choose image. For more detail [prebuilt images](https://docs.render.com/docs/deploy-an-image).
+        - **plan (string):** Render subscription plan. 512 MB ram would be enough to run the App.
+        - **envSpecificDetails (object):** Details how to build/start the service.
+            - **dockerCommand (string):** Command to be used by docker. See below for more details.
+
+   - create a JS file called `command.js`. Replace the owner ID with your Render user ID,  and the API key with your Render API key.
+   ```
+    const axios = require('axios');
+    const url = 'https://api.render.com/v1/services'
+    const headers = {
+    headers: {
+      'Authorization': 'Bearer <API Key>',
+      'Content-Type': 'application/json'
+    }
+    }
+    const payload = JSON.stringify({
+      type: "web_service",
+      autoDeploy: "yes",
+      image: {ownerId: <ownerId>, imagePath: 'vectara/vectara-answer'},
+      serviceDetails: {
+      pullRequestPreviewsEnabled: "no",
+      env: "image",
+      envSpecificDetails: {
+      dockerCommand: '/bin/bash -c cp /etc/secrets/queries.json ./build/ && cp /etc/secrets/.env ./ && node server/index.js'
+      },
+      plan: "starter"
+      },
+      name: "vecatra docker",
+      ownerId: <ownerId>,
+      secretFiles: [
+      {
+      // local .env file content
+      name: ".env",
+      contents: "corpus_id=1\ncustomer_id=1366999410\napi_key=zqt_UXrBcnI2UXINZkrv4g1tQPhzj02vfdtqYJIDiA\nendpoint=api.vectara.io\napp_title=Vectara Docs Search\nsearch_title=Vectara Docs Search\nsearch_description=All of Vectara's Platform Documentation\nenable_source_filters=False\nsummary_default_language=eng\nsummary_num_sentences=3\nsummary_num_results=7\n"
+      },
+      {
+      // local queries.json content
+      name: "queries.json",
+      contents: JSON.stringify({questions: [ "How do I enable hybrid search?","How is data encrypted?","What is a textless corpus?","How do I configure OAuth?"]})
+      }
+      ]
+    })
+
+    axios.post(url, payload, headers)
+      .then(response => {
+      console.log(JSON.stringify(response.data))
+    })
+      .catch(error => {
+      console.log(JSON.stringify(error))
+    })
+   ```
+    - Execute `node command.js` 
+
   #### Note: You can't create free-tier services with the Render API. Please check out the Render plans for more details. 
 
