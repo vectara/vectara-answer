@@ -112,6 +112,8 @@ Render provides APIs to manage its services, which allow us to deploy vectara-an
   - Execute `node command.js`
 
   This would create and deploy the vectara-answer service on Render. You can visit the [API docs](https://api-docs.render.com/reference/introduction) for more information.
+ 
+ Note that this deployment mode pulls the latest docker container image from [docker-hub](https://hub.docker.com/repository/docker/vectara/vectara-answer/general).
 
 #### The following describes the steps to deploy Vectara Answer docker image using the Render API:
 
