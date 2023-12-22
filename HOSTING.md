@@ -41,7 +41,7 @@ Then click "Save Changes", and your application should now be deployed.
 
 Render provides APIs to manage its services, which allow us to deploy vectara-answer directly using an API.
 
-#### The following describes the steps to deploy Vectara Answer GitHub repo using the Render API:
+#### The following describes the steps to deploy vectara-answer GitHub repo using the Render API:
 
 1. Create API Key: Login to your account, go to 'Account Settings' and create an API Key. Checkout the [Render Docs](https://render.com/docs/api) for more information.
 2. Check out the [Render Create Service API](https://api-docs.render.com/reference/create-service) and fill in the 'body params' as follows.
@@ -115,7 +115,7 @@ Render provides APIs to manage its services, which allow us to deploy vectara-an
  
  Note that this deployment mode pulls the latest docker container image from [docker-hub](https://hub.docker.com/repository/docker/vectara/vectara-answer/general).
 
-#### The following describes the steps to deploy Vectara Answer docker image using the Render API:
+#### The following describes the steps to deploy vectara-answer docker image using the Render API:
 
 1. Create API Key: Login to your account, go to 'Account Settings' and create an API Key. Checkout the [Render Docs](https://render.com/docs/api) for more information.
 2. Create the .env and queries.json file using
