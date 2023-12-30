@@ -44,7 +44,7 @@ $modalWidth: 500px;
 }
 
 .vuiModalContent {
-  overflow-y: scroll;
+  overflow-y: auto;
   overscroll-behavior: contain;
 }
 

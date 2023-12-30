@@ -180,44 +180,44 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
             >
               <div>
                 <h1
-                  id="summarycitation-reference1-----heres-a-heading-1"
+                  id="summarycitation-reference1--heres-a-heading-1"
                 >
                   <button
                     class="vuiSummaryCitation"
                   >
                     1
                   </button>
-                      Here's a heading 1
+                   Here's a heading 1
                 </h1>
                 <h2
-                  id="summarycitation-reference1-----heres-a-heading-2"
+                  id="summarycitation-reference1--heres-a-heading-2"
                 >
                   <button
                     class="vuiSummaryCitation"
                   >
                     1
                   </button>
-                      Here's a heading 2
+                   Here's a heading 2
                 </h2>
                 <h3
-                  id="summarycitation-reference1-----heres-a-heading-3"
+                  id="summarycitation-reference1--heres-a-heading-3"
                 >
                   <button
                     class="vuiSummaryCitation"
                   >
                     1
                   </button>
-                      Here's a heading 3
+                   Here's a heading 3
                 </h3>
                 <h4
-                  id="summarycitation-reference1-----heres-a-heading-4"
+                  id="summarycitation-reference1--heres-a-heading-4"
                 >
                   <button
                     class="vuiSummaryCitation"
                   >
                     1
                   </button>
-                      Here's a heading 4
+                   Here's a heading 4
                 </h4>
                 <p>
                   With some 
@@ -234,7 +234,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   >
                     3
                   </button>
-                      and 
+                   and 
                   <em>
                     emphasized
                   </em>
@@ -248,7 +248,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   >
                     3
                   </button>
-                      test. Here is a 
+                   test. Here is a 
                   <a
                     href="https://www.vectara.com"
                   >
@@ -264,11 +264,11 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   >
                     3
                   </button>
-                   .
+                  .
                 </p>
                 <ul>
                   <li>
-                    An  
+                    An 
                     <button
                       class="vuiSummaryCitation"
                     >
@@ -281,7 +281,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                     </button>
                   </li>
                   <li>
-                    Unordered  
+                    Unordered 
                     <button
                       class="vuiSummaryCitation"
                     >
@@ -294,7 +294,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                     </button>
                   </li>
                   <li>
-                    List  
+                    List 
                     <button
                       class="vuiSummaryCitation"
                     >
@@ -311,7 +311,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                   start="1"
                 >
                   <li>
-                    An  
+                    An 
                     <button
                       class="vuiSummaryCitation"
                     >
@@ -324,7 +324,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                     </button>
                   </li>
                   <li>
-                    Ordered  
+                    Ordered 
                     <button
                       class="vuiSummaryCitation"
                     >
@@ -337,7 +337,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                     </button>
                   </li>
                   <li>
-                    List  
+                    List 
                     <button
                       class="vuiSummaryCitation"
                     >
@@ -367,7 +367,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                         Header
                       </td>
                       <td>
-                        Title  
+                        Title 
                         <button
                           class="vuiSummaryCitation"
                         >
@@ -420,11 +420,37 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                 >
                   1
                 </button>
-                <pre>
-                  <code>
-                    Beginning of summary.  &lt;SummaryCitation reference={2} /&gt;    &lt;SummaryCitation reference={3} /&gt;    Multiple at beginning of sentence, and before comma  &lt;SummaryCitation reference={4} /&gt; , single at middle  &lt;SummaryCitation reference={5} /&gt;    of sentence. At end of sentence  &lt;SummaryCitation reference={6} /&gt; .
-                  </code>
-                </pre>
+                 Beginning of summary. 
+                <button
+                  class="vuiSummaryCitation"
+                >
+                  2
+                </button>
+                <button
+                  class="vuiSummaryCitation"
+                >
+                  3
+                </button>
+                 Multiple at beginning of sentence, and before comma 
+                <button
+                  class="vuiSummaryCitation"
+                >
+                  4
+                </button>
+                , single at middle 
+                <button
+                  class="vuiSummaryCitation"
+                >
+                  5
+                </button>
+                 of sentence. At end of sentence 
+                <button
+                  class="vuiSummaryCitation"
+                >
+                  6
+                </button>
+                .
+
               </div>
             </div>
           </div>
@@ -446,7 +472,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
               class="vuiText vuiText--m"
             >
               <p>
-                End of summary.  
+                End of summary. 
                 <button
                   class="vuiSummaryCitation"
                 >
@@ -473,7 +499,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
               class="vuiText vuiText--m"
             >
               <p>
-                Two citations  
+                Two citations 
                 <button
                   class="vuiSummaryCitation"
                 >
@@ -484,7 +510,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                 >
                   2
                 </button>
-                    and seven citations  
+                 and seven citations 
                 <button
                   class="vuiSummaryCitation"
                 >
@@ -520,7 +546,7 @@ With some **bold** [2][3] and _emphasized_ [2][3] test. Here is a [link](https:/
                 >
                   7
                 </button>
-                 .
+                .
               </p>
             </div>
           </div>

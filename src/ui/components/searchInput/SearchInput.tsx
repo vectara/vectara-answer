@@ -1,6 +1,5 @@
 import { ChangeEventHandler, FormEventHandler } from "react";
 import classNames from "classnames";
-import { BiChat } from "react-icons/bi";
 
 const SIZE = ["m", "l"] as const;
 
@@ -40,10 +39,6 @@ export const VuiSearchInput = ({
           onChange={onChange}
           {...rest}
         />
-
-        <button className="vuiSearchInput__submitButton" onClick={onSubmit}>
-          <BiChat size="20px" />
-        </button>
       </div>
     </form>
   );

@@ -11,17 +11,32 @@
   }
 }
 
+.vuiBaseButtonLinkWrapper--fullWidth {
+  width: 100%;
+}
+
 .vuiBaseButton {
   white-space: nowrap;
   border-radius: $sizeXxs;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   font-weight: 500;
   box-shadow: $shadowSmallStart;
   transition: all $transitionSpeed;
   line-height: 1;
   cursor: pointer;
+}
+
+.vuiBaseButton--alignLeft {
+  justify-content: flex-start;
+}
+
+.vuiBaseButton--alignCenter {
+  justify-content: center;
+}
+
+.vuiBaseButton--alignRight {
+  justify-content: flex-end;
 }
 
 .vuiBaseButton-isInert,
@@ -70,4 +85,10 @@
   font-size: $fontSizeMedium;
   padding: $sizeXs $size;
   height: 34px;
+}
+
+.vuiBaseButton--l {
+  font-size: $fontSizeMedium;
+  padding: $sizeS $sizeL;
+  height: 47px;
 }

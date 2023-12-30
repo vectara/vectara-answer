@@ -4,10 +4,11 @@ type Props = {
   reference: string;
   isSelected?: boolean;
   onClick?: () => void;
+  className?: string;
 };
 
-export const VuiSummaryCitation = ({ reference, isSelected, onClick, ...rest }: Props) => {
-  const classes = classNames("vuiSummaryCitation", {
+export const VuiSummaryCitation = ({ reference, isSelected, onClick, className, ...rest }: Props) => {
+  const classes = classNames("vuiSummaryCitation", className, {
     "vuiSummaryCitation-isSelected": isSelected
   });
 

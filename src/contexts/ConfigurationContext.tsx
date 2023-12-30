@@ -21,6 +21,7 @@ interface Config {
   config_corpus_id?: string;
   config_customer_id?: string;
   config_api_key?: string;
+  config_hf_token?: string;
 
   // App
   config_ux?: UxMode;
@@ -57,12 +58,14 @@ interface Config {
   // Analytics
   config_google_analytics_tracking_code?: string;
   config_full_story_org_id?: string;
+  config_gtm_container_id?: string;
 
   // Summary
   config_summary_default_language?: string;
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
+  config_summary_enable_hem?: string;
 
   // hybrid search
   config_hybrid_search_num_words?: number;
@@ -125,6 +128,8 @@ type Summary = {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  hfToken: string;
+  summaryEnableHem: boolean;
 };
 
 type SearchHeader = {
@@ -144,6 +149,7 @@ type Auth = { isEnabled: boolean; googleClientId?: string };
 type Analytics = {
   googleAnalyticsTrackingCode?: string;
   fullStoryOrgId?: string;
+  gtmContainerId?: string;
 };
 type Rerank = {
   isEnabled: boolean;
@@ -205,7 +211,14 @@ const fetchConfig = async () => {
   return result;
 };
 
-const isTrue = (value: string | undefined) => value === "True";
+const isTrue = (value: string | undefined) => {
+  if (typeof value !== "string") {
+    return false;
+  }
+
+  const normalizedValue = value.trim().toLowerCase();
+  return normalizedValue === "true";
+};
 
 // Prefix config vars to avoid collision with other variables.
 const prefixConfig = (
@@ -278,6 +291,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryNumResults: 7,
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
+    hfToken: "",
+    summaryEnableHem: false,
   });
 
   useEffect(() => {
@@ -324,6 +339,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_corpus_id,
         config_customer_id,
         config_api_key,
+        config_hf_token,
 
         // App
         config_ux,
@@ -360,6 +376,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         // Analytics
         config_google_analytics_tracking_code,
         config_full_story_org_id,
+        config_gtm_container_id,
 
         // rerank
         config_rerank,
@@ -380,6 +397,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
+        config_summary_enable_hem,
       } = config;
 
       setUxMode(config_ux ?? "summary");
@@ -436,8 +454,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setFilters({
         isEnabled: isFilteringEnabled,
         allSources: allSources,
-        sources,
-        sourceValueToLabelMap,
+        sources: sources,
+        sourceValueToLabelMap: sourceValueToLabelMap,
       });
 
       setSummary({
@@ -449,6 +467,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
+        hfToken: config_hf_token ?? "",
+        summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
       });
 
       setSearchHeader({
@@ -471,6 +491,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setAnalytics({
         googleAnalyticsTrackingCode: config_google_analytics_tracking_code,
         fullStoryOrgId: config_full_story_org_id,
+        gtmContainerId: config_gtm_container_id,
       });
 
       setRerank({

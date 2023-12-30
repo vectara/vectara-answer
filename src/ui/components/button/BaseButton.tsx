@@ -5,10 +5,17 @@ import { Link } from "react-router-dom";
 import { getTrackingProps } from "../../utils/getTrackingProps";
 import { BUTTON_SIZE } from "./types";
 
+const alignToClassMap = {
+  left: "vuiBaseButton--alignLeft",
+  center: "vuiBaseButton--alignCenter",
+  right: "vuiBaseButton--alignRight"
+};
+
 export type Props = {
   children?: ReactNode;
   icon?: ReactElement | null;
   iconSide?: "left" | "right";
+  align?: "left" | "center" | "right";
   className?: string;
   size?: (typeof BUTTON_SIZE)[number];
   fullWidth?: boolean;
@@ -30,6 +37,7 @@ export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(
       children,
       icon,
       iconSide = "left",
+      align = "center",
       className,
       size,
       fullWidth,
@@ -45,7 +53,7 @@ export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(
     }: Props,
     ref
   ) => {
-    const classes = classNames("vuiBaseButton", className, `vuiBaseButton--${size}`, {
+    const classes = classNames("vuiBaseButton", className, `vuiBaseButton--${size}`, alignToClassMap[align], {
       "vuiBaseButton-isInert": isInert,
       "vuiBaseButton-isDisabled": isDisabled,
       "vuiBaseButton--fullWidth": fullWidth,
@@ -66,9 +74,13 @@ export const BaseButton = forwardRef<HTMLButtonElement | null, Props>(
     }
 
     if (href) {
+      const wrapperClasses = classNames("vuiBaseButtonLinkWrapper", {
+        "vuiBaseButtonLinkWrapper--fullWidth": fullWidth
+      });
+
       return (
         <Link
-          className="vuiBaseButtonLinkWrapper"
+          className={wrapperClasses}
           to={href}
           onClick={onClick}
           target={target}

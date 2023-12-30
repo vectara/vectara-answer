@@ -9,14 +9,16 @@ type Props = {
   children?: React.ReactNode;
   columns?: Columns;
   spacing?: FlexSpacing;
+  className?: string;
 };
 
-export const VuiGrid = ({ children, columns = 2, spacing = "m", ...rest }: Props) => {
-  const classes = classNames("vuiGrid", `vuiGrid--${spacing}`, `vuiGrid--columns${columns}`);
+export const VuiGrid = ({ children, columns = 2, spacing = "m", className, ...rest }: Props) => {
+  const classes = classNames("vuiGridContainer", className);
+  const contentClasses = classNames("vuiGrid", `vuiGrid--${spacing}`, `vuiGrid--columns${columns}`);
 
   return (
-    <div className="vuiGridContainer" {...rest}>
-      <div className={classes}>{children}</div>
+    <div className={classes} {...rest}>
+      <div className={contentClasses}>{children}</div>
     </div>
   );
 };

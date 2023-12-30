@@ -1,26 +1,27 @@
 import classNames from "classnames";
-import { VuiSpacer } from "../spacer/Spacer";
-import { VuiTextColor } from "../typography/TextColor";
-import { VuiTitle } from "../typography/Title";
-
+import { VuiSpacer, VuiTextColor, VuiTitle } from "../../../ui";
 type Props = {
   children?: React.ReactNode;
   className?: string;
   href?: string;
-  onClick?: () => void;
+  onClick: () => void;
   title?: string;
-  fullWidth?: boolean;
 };
 
-export const VuiTopicButton = ({ children, className, href, onClick, title, fullWidth, ...rest }: Props) => {
-  const classes = classNames("vuiTopicButton", className, {
-    "vuiTopicButton--fullWidth": fullWidth
-  });
+export const ExampleQuestion = ({
+  children,
+  className,
+  href,
+  onClick,
+  title,
+  ...rest
+}: Props) => {
+  const classes = classNames("exampleQuestion", className);
   const content = (
     <>
       {title && (
         <>
-          <VuiTitle size="s">
+          <VuiTitle size="xs">
             <p>
               <VuiTextColor color="primary">{title}</VuiTextColor>
             </p>

@@ -3,16 +3,23 @@ export const applyCitationOrder = (
   unorderedSummary: string
 ) => {
   const orderedSearchResults: any[] = [];
-  const allCitations = unorderedSummary.match(/\[\d+\]/g) || [];
+  const citations = unorderedSummary.match(/\[\d+\]/g) || [];
+  const addedCitations = new Set<string>();
 
-  const addedIndices = new Set<number>();
-  for (let i = 0; i < allCitations.length; i++) {
-    const citation = allCitations[i];
-    const index = Number(citation.slice(1, citation.length - 1)) - 1;
+  for (let i = 0; i < citations.length; i++) {
+    const citation = citations[i];
 
-    if (addedIndices.has(index)) continue;
-    orderedSearchResults.push(searchResults[index]);
-    addedIndices.add(index);
+    // Ignore citations that have already been added.
+    if (addedCitations.has(citation)) continue;
+
+    // Extract index from [INDEX] format.
+    const citationIndex = Number(citation.slice(1, citation.length - 1)) - 1;
+
+    // Ignore citations that are out of range of the search results.
+    if (citationIndex < 0 || citationIndex >= searchResults.length) continue;
+
+    orderedSearchResults.push(searchResults[citationIndex]);
+    addedCitations.add(citation);
   }
 
   return orderedSearchResults;
