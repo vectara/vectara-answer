@@ -11,6 +11,7 @@
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "express": "^4.16.1",
+    "nth-check": ">=2.0.1",
     "http-proxy-middleware": "^2.0.6"
   }
 }
