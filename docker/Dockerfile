@@ -1,9 +1,9 @@
-FROM --platform=linux/amd64 node:20.2-slim AS deps
+FROM --platform=linux/amd64 node:21.2-slim AS deps
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm ci
+RUN npm ci --maxsockets 1
 
-FROM deps AS builder
+FROM --platform=linux/amd64 deps AS builder
 COPY ../public ./public
 COPY ../img ./img
 COPY ../src ./src
@@ -12,9 +12,9 @@ COPY ../.eslintrc.js ./
 RUN npm run build
 RUN rm -r node_modules
 COPY docker/package.json docker/package-lock.json ./
-RUN npm ci
+RUN npm ci --maxsockets 1
 
-FROM --platform=linux/amd64 node:20.2-slim AS runner
+FROM --platform=linux/amd64 node:21.2-slim AS runner
 WORKDIR /usr/src/app
 COPY --from=builder build ./build
 COPY --from=builder node_modules ./node_modules
