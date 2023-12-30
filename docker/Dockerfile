@@ -1,19 +1,24 @@
-FROM --platform=linux/amd64 node:20.2-slim
+FROM --platform=linux/amd64 node:20.2-slim AS deps
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm ci
 
-COPY docker/package.json ./
-RUN npm install
+FROM deps AS builder
+COPY ../public ./public
+COPY ../img ./img
+COPY ../src ./src
+COPY ../tsconfig.json ./
+COPY ../.eslintrc.js ./
+RUN npm run build
+RUN rm -r node_modules
+COPY docker/package.json docker/package-lock.json ./
+RUN npm ci
 
+FROM --platform=linux/amd64 node:20.2-slim AS runner
 WORKDIR /usr/src/app
-
-# copy our code and create build folder in container
-COPY public ./public
-COPY img ./img
-COPY build ./build
-
-COPY docker/server ./server
-
+COPY --from=builder build ./build
+COPY --from=builder node_modules ./node_modules
+COPY server ./server
 EXPOSE 3000
-
 ENTRYPOINT ["/bin/bash", "-l", "-c"]
-CMD ["node server/index.js"]
-
+CMD ["PORT=3000 node server/index.js"]
