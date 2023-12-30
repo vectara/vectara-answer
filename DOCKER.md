@@ -11,6 +11,9 @@ We call this application `AskPG`.
 
 For Docker, you will first need to follow some additional installation steps:
 
+> [!IMPORTANT]   
+> For mac users, please ensure you Docker Desktop is version 4.26.1 or above.
+
 1. Install [Docker](https://docs.docker.com/engine/install/).
 2. Install [pyyaml](https://pypi.org/project/PyYAML/): `pip3 install pyyaml`.
 
@@ -27,9 +30,11 @@ Find and open the Docker Desktop application. When you run your application, it 
 
 Duplicate the `secrets.example.toml` file and rename the copy to `secrets.toml`. <br>Edit the `secrets.toml` file and change the `api_key` value under "default" to be your Vectara API key.
 
-Note: The use of `secrets.toml` allows you to create multiple profiles, and store a differnet API key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel. As you can see in the included `secrets.toml` file we've included the API keys (query only) for the existing datasets that are part of the Quickstart: Feynman, vectara.com and vectara docs. Some secrets are shared among all profiles, and in order to avoid having to copy that secret under each profile, the code designates a special profile called "general" - each secret under this profile will be used in any profile (in addition to the profile-specific secrets).
+> [!NOTE]   
+> The use of `secrets.toml` allows you to create multiple profiles, and store a differnet API key under each profile. This may be helpful if you are working with multiple Vectara Answer apps in parallel. As you can see in the included `secrets.toml` file we've included the API keys (query only) for the existing datasets that are part of the Quickstart: Feynman, vectara.com and vectara docs. Some secrets are shared among all profiles, and in order to avoid having to copy that secret under each profile, the code designates a special profile called "general" — each secret under this profile will be used in any profile (in addition to the profile-specific secrets).
 
-Note: when computing the Hughes Hallucination Evaluation Model (HEM), the code calls the HEM Hugging Face [model](https://huggingface.co/vectara/hallucination_evaluation_model). If you sign up for a Hugging Face account, you can include your [HF token](https://huggingface.co/docs/hub/security-tokens) under the "general" profile as follows:
+> [!NOTE]   
+> When computing the Hughes Hallucination Evaluation Model (HEM), the code calls the HEM Hugging Face [model](https://huggingface.co/vectara/hallucination_evaluation_model). If you sign up for a Hugging Face account, you can include your [HF token](https://huggingface.co/docs/hub/security-tokens) under the "general" profile as follows:
 
 hf*token="<hf*...>"
 

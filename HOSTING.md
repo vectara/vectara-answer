@@ -27,7 +27,7 @@ To deploy the application on [Render](https://render.com/), using the `.env` and
 2. Create New Service: Once you're logged in, click on the "New" button usually found on the dashboard and select "Web Service".
 3. Choose "Deploy an existing image from a registry" and click "Next"
 4. Specify Docker Image: In the "Image URL" fill in "vectara/vectara-answer" and click "Next"
-5. Choose a name for your deployment (e.g. "vectara-answer"), and if you need to pick a region or leave the default. Then pick you instance type.
+5. Choose a name for your deployment (e.g. "vectara-answer"), and if you need to pick a region or leave the default. Then pick your instance type.
 6. Click "Create Web Service"
 7. Click "Environment", then "Add Secret File": name the file `.env`, and copy the contents of your local `.env` file
 8. Now click "Add Secret File" again and this time name the file `queries.json`, and copy the contents of your local `queries.json` file
@@ -184,4 +184,5 @@ Render provides APIs to manage its services, which allow us to deploy vectara-an
    ```
     - Execute `node command.js` 
 
-  #### Note: You can't create free-tier services with the Render API. Please check out the Render plans for more details. 
+> [!IMPORTANT]   
+> You can't create free-tier services with the Render API. Please check out the Render plans for more details. 
