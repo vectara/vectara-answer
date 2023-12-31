@@ -11,6 +11,11 @@
 **Breaking changes**
 
 ...
+## `1.5.8`
+
+**Non-breaking changes**
+- Added gtmContainerId config and Analytics package
+
 ## `1.5.7`
 
 **Non-breaking changes**
