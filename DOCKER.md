@@ -62,8 +62,7 @@ bash docker/run.sh config/pg-search default
 
 The `run.sh` script performs the following steps:
 1 Runs the `prepare_config.py` python script which creates the `.env` file using the `config.yaml` and `secrets.toml` files
-2 Creates the [Docker container](https://www.docker.com/resources/what-container/) and runs this container in your local Docker Desktop instance. 
-The `queries.json` file is loaded dynamically as a Docker volume file.
+2 Creates the [Docker container](https://www.docker.com/resources/what-container/) and runs this container in your local Docker Desktop instance. The `queries.json` file is loaded dynamically as a Docker volume file.
 3 Exposes the app that runs inside the container, under `localhost:80`
 4 Waits 5 seconds (for the docker container to initialize), and open up a browser at `localhost:80`.
 
