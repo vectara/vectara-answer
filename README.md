@@ -105,7 +105,7 @@ and instead you can use a logo instead, but not that currently the `logo.png` fi
 under the `config_images` folder.
 
 ```yaml
-# Define the title of your appliation (renders next to the logo, if exists).
+# Define the title of your application (renders next to the logo, if exists).
 search_title: "My application"
 
 # Define the description to render opposite the logo and title.
