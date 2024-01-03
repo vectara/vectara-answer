@@ -119,6 +119,7 @@ export const sendSearchRequest = async ({
         Accept: "application/json",
         "customer-id": customerId,
         "x-api-key": apiKey,
+        "x-source": "vectara-answer",
         "grpc-timeout": "60S",
       },
     };
