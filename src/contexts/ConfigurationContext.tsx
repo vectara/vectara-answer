@@ -500,7 +500,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
           ? (config_mmr_num_results || 50)
           : config_rerank_num_results ?? rerank.numResults,
         id: isTrue(config_mmr) ? mmr_reranker_id : normal_reranker_id,
-        diversityBias: (config_mmr_diversity_bias || 0.3) ?? rerank.diversityBias,
+        diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3,
       });
 
       setHybrid({
