@@ -497,7 +497,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       setRerank({
         isEnabled: isTrue(config_mmr) || isTrue(config_rerank),
         numResults: isTrue(config_mmr)
-          ? (config_mmr_num_results || 50)
+          ? (config_mmr_num_results ?? 50)
           : config_rerank_num_results ?? rerank.numResults,
         id: isTrue(config_mmr) ? mmr_reranker_id : normal_reranker_id,
         diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3,
