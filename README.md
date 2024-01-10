@@ -47,7 +47,8 @@ Congratulations! You've just setup and run a sample app powered by Vectara!
 
 ### Under the hood
 
-The bootstrap command installs dependencies, runs the configuration script to generate an .env file, and spins up the local application.
+The `bootstrap` command installs dependencies, runs the configuration script to generate an `.env` file 
+(which includes all the needed configuration parameters), and spins up the local application.
 
 If you would like to run the setup steps individually, you can run:
 
@@ -97,11 +98,15 @@ corpus_id: "123,234,345"
 
 ### Search header (optional)
 
-These configuration parameters enable you to configure the look and feel of the search header, including the logo.
+These configuration parameters enable you to configure the look and feel of the search header.
+The search header may include a logo, a title (text) and a description. 
+Most commonly we just have to define a title and description. If required, the title can be disable 
+and instead you can use a logo instead, but not that currently the `logo.png` file must be added to the codebase
+under the `config_images` folder.
 
 ```yaml
-# Define the title to render above the search bar (next to the logo if it exists)
-search_title: "Search your data"
+# Define the title of your application (renders next to the logo, if exists).
+search_title: "My application"
 
 # Define the description to render opposite the logo and title.
 # Note that this description is rendered as markdown, to enable for example link to a website
@@ -123,7 +128,7 @@ search_logo_alt: "Vectara logo"
 search_logo_height: 20
 ```
 
-### Summary parameters (optional)
+### Summarization parameters (optional)
 
 The way summarization works can be configured as follows:
 
@@ -146,7 +151,7 @@ summary_num_results: 10
 # See https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer for available summarization prompts
 summary_prompt_name: vectara-summary-ext-v1.2.0
 
-# Whether to enable the Hughes Hallucination Evaluation Model (HEM)
+# Whether to enable the Hughes Hallucination Evaluation Model (HEM - https://github.com/vectara/hallucination-leaderboard)
 summary_enable_hem: False
 ```
 
@@ -162,9 +167,10 @@ hybrid_search_lambda_long: 0.0
 hybrid_search_lambda_short: 0.1
 ```
 
-### Application (optional)
+### Application header and footer (optional)
 
-Vectara Answer can display an application header and footer. These configuration parameters allow you to configure the look and feel of these header and footer.
+Vectara Answer can display an application header and footer for branding purposes. 
+These configuration parameters allow you to configure the look and feel of this header and footer.
 
 ```yaml
 # Hide or show the app header.
@@ -174,7 +180,7 @@ enable_app_header: False
 enable_app_footer: False
 
 # Define the title of your app to render in the browser tab.
-app_title: "Your title here"
+app_title: "Your application title here"
 
 # Define the URL the browser will redirect to when the user clicks the logo in the app header.
 app_header_logo_link: "https://www.vectara.com"
@@ -254,7 +260,7 @@ mmr_num_results: 50
 
 ### Authentication (optional)
 
-`vectara-answer` supports Google SSO authentication.
+`vectara-answer` supports Google SSO front-end authentication.
 
 ```yaml
 # Configure your app to require the user to log in with Google SSO.
