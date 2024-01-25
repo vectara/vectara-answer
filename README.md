@@ -19,9 +19,9 @@
 
 ## About
 
-Vectara Answer is a sample app for [Vectara](https://vectara.com/)-powered Summarized Semantic Search with advanced configuration options. For more user interface options and a simpler codebase, use [Create-UI](https://github.com/vectara/create-ui).
+Vectara Answer is a sample app for [Vectara](https://vectara.com/)-powered Summarized Semantic Search with advanced configuration options. For examples of what you can build with Vectara Answer, check out [Ask News](https://asknews.demo.vectara.com) and [LegalAid](https://legalaid.demo.vectara.com).
 
-For examples of what you can build with Vectara Answer, check out [Ask News](https://asknews.demo.vectara.com) and [LegalAid](https://legalaid.demo.vectara.com).
+**Note:** For more user interface options and a simpler codebase, use [Create-UI](https://github.com/vectara/create-ui).
 
 > [!TIP]
 >
