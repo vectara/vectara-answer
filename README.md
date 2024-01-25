@@ -19,9 +19,17 @@
 
 ## About
 
-Vectara Answer is an Open-Source React project that enables you to quickly configure GenAI user interfaces, powered by the [Vectara Platform](https://vectara.com/)'s semantic search and summarization APIs.
+Vectara Answer is a sample app for [Vectara](https://vectara.com/)-powered Summarized Semantic Search with advanced configuration options. For more user interface options and a simpler codebase, use [Create-UI](https://github.com/vectara/create-ui).
 
-For an example of what you'll be building, check out [Ask News](https://asknews.demo.vectara.com) or [LegalAid](https://legalaid.demo.vectara.com).
+For examples of what you can build with Vectara Answer, check out [Ask News](https://asknews.demo.vectara.com) and [LegalAid](https://legalaid.demo.vectara.com).
+
+> [!TIP]
+>
+> Looking for something else? Try another open-source project:
+>
+> - **[React-Search](https://github.com/vectara/react-search)**: Add Vectara semantic search to your React apps with a few lines of code.
+> - **[Create-UI](https://github.com/vectara/create-ui)**: The fastest way to generate a working React codebase for a range of generative and semantic search UIs.
+> - **[Vectara Ingest](https://github.com/vectara/vectara-ingest)**: Sample templates and crawlers for pulling data from many popular data sources.
 
 ## Quickstart
 
@@ -47,7 +55,7 @@ Congratulations! You've just setup and run a sample app powered by Vectara!
 
 ### Under the hood
 
-The `bootstrap` command installs dependencies, runs the configuration script to generate an `.env` file 
+The `bootstrap` command installs dependencies, runs the configuration script to generate an `.env` file
 (which includes all the needed configuration parameters), and spins up the local application.
 
 If you would like to run the setup steps individually, you can run:
@@ -99,8 +107,8 @@ corpus_id: "123,234,345"
 ### Search header (optional)
 
 These configuration parameters enable you to configure the look and feel of the search header.
-The search header may include a logo, a title (text) and a description. 
-Most commonly we just have to define a title and description. If required, the title can be disable 
+The search header may include a logo, a title (text) and a description.
+Most commonly we just have to define a title and description. If required, the title can be disable
 and instead you can use a logo instead, but not that currently the `logo.png` file must be added to the codebase
 under the `config_images` folder.
 
@@ -168,7 +176,7 @@ hybrid_search_lambda_short: 0.1
 
 ### Application header and footer (optional)
 
-Vectara Answer can display an application header and footer for branding purposes. 
+Vectara Answer can display an application header and footer for branding purposes.
 These configuration parameters allow you to configure the look and feel of this header and footer.
 
 ```yaml
