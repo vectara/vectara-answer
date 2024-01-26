@@ -14,7 +14,7 @@ const parseMetadata = (rawMetadata: DocMetadata[], matching_text: string) => {
   return {
     source: metadata.source as string,
     url: metadata.url,
-    title: metadata.title || matching_text.split(' ').slice(0, 5).join(' '),  // Use first 5 words if title not present
+    title: metadata.title || matching_text.split(' ').slice(0, 10).join(' '),  // Use first 10 words if title not present
     metadata
   };
 };
