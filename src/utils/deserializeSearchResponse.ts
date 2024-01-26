@@ -9,12 +9,12 @@ const convertMetadataToObject = (metadata: DocMetadata[]) => {
   return obj;
 };
 
-const parseMetadata = (rawMetadata: DocMetadata[], matching_text: string) => {
+const parseMetadata = (rawMetadata: DocMetadata[], matchingText: string) => {
   const metadata = convertMetadataToObject(rawMetadata);
   return {
     source: metadata.source as string,
     url: metadata.url,
-    title: metadata.title || matching_text.split(' ').slice(0, 10).join(' '),  // Use first 10 words if title not present
+    title: metadata.title || matchingText.split(' ').slice(0, 10).join(' '),  // Use first 10 words if title not present
     metadata
   };
 };
