@@ -18,6 +18,7 @@ import { useSearchContext } from "../../../contexts/SearchContext";
 import "./searchControls.scss";
 import { HistoryDrawer } from "./HistoryDrawer";
 import { OptionsDrawer } from "./OptionsDrawer";
+import Markdown from "markdown-to-jsx";
 
 type Props = {
   hasQuery: boolean;
@@ -102,11 +103,14 @@ export const SearchControls = ({ hasQuery }: Props) => {
             <VuiFlexContainer alignItems="center" spacing="m">
               {searchHeader.description && (
                 <VuiFlexItem grow={false}>
-                  <VuiTitle size="xxs" align="right">
+                  <VuiTitle size="xs" align="right">
                     <VuiTextColor color="subdued">
-                      <h2 style={{ whiteSpace: "pre-line" }}>
-                        {searchHeader.description.replaceAll("\\n", "\n")}
-                      </h2>
+                      <Markdown
+                        children={searchHeader.description}
+                        options={{
+                          forceBlock: true,
+                        }}
+                      />
                     </VuiTextColor>
                   </VuiTitle>
                 </VuiFlexItem>

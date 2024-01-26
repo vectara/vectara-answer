@@ -117,6 +117,7 @@ under the `config_images` folder.
 search_title: "My application"
 
 # Define the description to render opposite the logo and title.
+# Note that this description is rendered as markdown, to enable for example link to a website
 search_description: "Data that speaks for itself"
 
 # Define the placeholder text inside the search box.
@@ -311,6 +312,8 @@ To modify the request handlers, make changes to `/server/index.js`.
 By default, Vectara Answer runs locally on your machine using `npm run start`. There is also an option to use Vectara Answer with Docker, which also makes it easy to deploy Vectara Answer to a cloud environment.
 
 Please see these detailed [instructions](DOCKER.md) for more details on using Docker.
+
+Note: the latest release of Vectara Answer is hosted on [docker-hub](https://hub.docker.com/repository/docker/vectara/vectara-answer/general), so if you want to pull it locally (instead of building) you can always use that image.
 
 ## Author
 
