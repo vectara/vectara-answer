@@ -35,7 +35,8 @@
     "react-scripts": "^5.0.1",
     "underscore": "^1.13.6",
     "url": "^0.11.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "cross-env": "^7.0.3"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-react": "^7.33.0",
@@ -53,7 +55,7 @@
     "sass": "^1.58.0"
   },
   "scripts": {
-    "start": "PORT=4444 react-scripts start",
+    "start": "cross-env PORT=4444 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
