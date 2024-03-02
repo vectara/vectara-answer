@@ -17,6 +17,7 @@ type Config = {
   summaryNumResults?: number;
   summaryNumSentences?: number;
   summaryPromptName?: string;
+  summaryPromptText?: string;
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -38,6 +39,7 @@ export const sendSearchRequest = async ({
   summaryNumResults,
   summaryNumSentences,
   summaryPromptName,
+  summaryPromptText,
   customerId,
   corpusId,
   endpoint,
@@ -57,6 +59,12 @@ export const sendSearchRequest = async ({
       metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
     };
   });
+
+  if (summaryPromptText) {
+    console.info("Fixing backslashes in promptText, input is: " + summaryPromptText)
+    summaryPromptText = summaryPromptText.replaceAll("\\n", "\n");
+    summaryPromptText = summaryPromptText.replaceAll("\\\"", "\\\\\\\"");
+  }
 
   const body = {
     query: [
@@ -78,6 +86,7 @@ export const sendSearchRequest = async ({
                   responseLang: language,
                   maxSummarizedResults: summaryNumResults,
                   summarizerPromptName: summaryPromptName,
+                  promptText: summaryPromptText
                 },
               ],
             }
@@ -124,6 +133,7 @@ export const sendSearchRequest = async ({
       },
     };
   }
+  console.log("Prompt text:\n" + summaryPromptText)
   const result = await axios.post(url, body, headers);
 
   const status = result["data"]["responseSet"][0]["status"];
@@ -146,6 +156,14 @@ export const sendSearchRequest = async ({
       summaryStatus[0]["statusDetail"] === "Failed to retrieve summarizer."
     ) {
       throw new Error(`BAD REQUEST: summarizer ${summaryPromptName} is invalid for this account.`);
+    }
+    if (
+      summaryStatus.length > 0 &&
+      summaryStatus[0]["code"] !== "OK"
+    ) {
+      const statusDetail = summaryStatus[0]["statusDetail"];
+      const code = summaryStatus[0]["code"]
+      throw new Error(`BAD REQUEST: error code [${code}]: ${statusDetail}`);
     }
   }
 

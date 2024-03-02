@@ -65,6 +65,7 @@ interface Config {
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
+  config_summary_prompt_text?: string;
   config_summary_enable_hem?: string;
 
   // hybrid search
@@ -128,6 +129,7 @@ type Summary = {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  summaryPromptText: string;
   hfToken: string;
   summaryEnableHem: boolean;
 };
@@ -291,6 +293,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryNumResults: 7,
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
+    summaryPromptText: "",
     hfToken: "",
     summaryEnableHem: false,
   });
@@ -397,6 +400,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
+        config_summary_prompt_text,
         config_summary_enable_hem,
       } = config;
 
@@ -467,6 +471,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
+        summaryPromptText:
+          config_summary_prompt_text ?? "",
         hfToken: config_hf_token ?? "",
         summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
       });

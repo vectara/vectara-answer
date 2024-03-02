@@ -53,6 +53,7 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
+  summaryPromptText: string;
   summaryEnableHem: boolean;
   hfToken: string;
   history: HistoryItem[];
@@ -273,6 +274,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               summaryNumResults: summary.summaryNumResults,
               summaryNumSentences: summary.summaryNumSentences,
               summaryPromptName: summary.summaryPromptName,
+              summaryPromptText: summary.summaryPromptText,
               hybridNumWords: hybrid.numWords,
               hybridLambdaLong: hybrid.lambdaLong,
               hybridLambdaShort: hybrid.lambdaShort,
@@ -344,6 +346,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
+        summaryPromptText: summary.summaryPromptText,
         summaryEnableHem: summary.summaryEnableHem,
         hfToken: summary.hfToken,
         history,
