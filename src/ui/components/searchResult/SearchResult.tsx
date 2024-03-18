@@ -28,6 +28,7 @@ type Props = {
 };
 
 const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;
+const recommendedUrl = (text: string) => `http://localhost:4444?mode=recommend&query=${text}`;
 
 export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
   ({ result, position, isSelected, subTitle, children, className, snippetProps, ...rest }: Props, ref) => {
@@ -79,6 +80,9 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
             {date && <VuiTextColor color="subdued">{date} &#8212; </VuiTextColor>}
             {pre} <strong>{text}</strong> {post}
           </p>
+          <VuiLink href={recommendedUrl(text)} target="_blank">
+            <i><h5>+ Explore this concept more</h5></i>
+          </VuiLink><p>&nbsp;</p>
         </VuiText>
 
         {children && (
