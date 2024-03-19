@@ -28,7 +28,7 @@ type Props = {
 };
 
 const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;
-const recommendedUrl = (text: string) => `http://localhost:4444?mode=recommend&query=${text}`;
+const recommendedUrl = (text: string) => `mode=recommend&query=${text}`;
 
 export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
   ({ result, position, isSelected, subTitle, children, className, snippetProps, ...rest }: Props, ref) => {
