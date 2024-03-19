@@ -12,6 +12,7 @@ type Props<T> = Pick<PopoverProps, "isOpen" | "setIsOpen"> &
     selected: T[];
     onSelect: (selected: T[]) => void;
     isMultiSelect?: boolean;
+    search?: boolean;
   };
 
 // https://github.com/typescript-eslint/typescript-eslint/issues/4062
@@ -24,7 +25,8 @@ export const VuiSearchSelect = <T extends unknown = unknown>({
   options,
   onSelect,
   isMultiSelect = true,
-  selected = []
+  selected = [],
+  search = false
 }: Props<T>) => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<T[]>();
@@ -107,8 +109,9 @@ export const VuiSearchSelect = <T extends unknown = unknown>({
     return false;
   });
 
-  return (
-    <VuiPopover isOpen={selectedOptions !== undefined} setIsOpen={updateOpen} button={children} header={title}>
+  let textInput;
+  if (search) {
+    textInput = (
       <div className="vuiSearchSelect__search">
         <VuiTextInput
           placeholder="Search"
@@ -117,6 +120,16 @@ export const VuiSearchSelect = <T extends unknown = unknown>({
         />
         <VuiSpacer size="xxs" />
       </div>
+    );
+  } else {
+    textInput = (
+      <div />
+        );
+  }
+
+  return (
+    <VuiPopover isOpen={selectedOptions !== undefined} setIsOpen={updateOpen} button={children} header={title}>
+      {textInput}
 
       <VuiOptionsList
         isSelectable
