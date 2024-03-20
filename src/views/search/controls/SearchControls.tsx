@@ -100,18 +100,6 @@ export const SearchControls = ({ hasQuery }: Props) => {
 
           <VuiFlexItem grow={false}>
             <VuiFlexContainer alignItems="center" spacing="m">
-              {searchHeader.description && (
-                <VuiFlexItem grow={false}>
-                  <VuiTitle size="xxs" align="right">
-                    <VuiTextColor color="subdued">
-                      <h2 style={{ whiteSpace: "pre-line" }}>
-                        {searchHeader.description.replaceAll("\\n", "\n")}
-                      </h2>
-                    </VuiTextColor>
-                  </VuiTitle>
-                </VuiFlexItem>
-              )}
-
               <VuiFlexItem grow={false}>
                 <VuiButtonSecondary
                   color="neutral"
@@ -146,6 +134,25 @@ export const SearchControls = ({ hasQuery }: Props) => {
             </VuiFlexContainer>
           </VuiFlexItem>
         </VuiFlexContainer>
+        {searchHeader.description && (
+        <VuiFlexContainer alignItems="center" justifyContent="spaceBetween">
+          <VuiFlexItem grow={false}>
+            <VuiFlexContainer alignItems="center">
+
+                <VuiFlexItem grow={false}>
+                  <VuiTitle size="xxs" align="left">
+                    <VuiTextColor color="subdued">
+                      <h2 style={{ whiteSpace: "pre-line" }}>
+                        {searchHeader.description.replaceAll("\\n", "\n")}
+                      </h2>
+                    </VuiTextColor>
+                  </VuiTitle>
+                </VuiFlexItem>
+            </VuiFlexContainer>
+          </VuiFlexItem>
+        </VuiFlexContainer>
+        )}
+
 
         <VuiSpacer size="m" />
 
