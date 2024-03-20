@@ -18,15 +18,6 @@ type Position = {
   right: number;
 };
 
-const getPosition = (button: HTMLElement | null): Position | undefined => {
-  if (!button) return undefined;
-  const { bottom, right } = button.getBoundingClientRect();
-  return {
-    top: bottom + 2 + document.documentElement.scrollTop,
-    right: window.innerWidth - right
-  };
-};
-
 export const VuiPopover = ({
   button: originalButton,
   children,
@@ -87,16 +78,20 @@ export const VuiPopover = ({
     }, 0);
   };
 
-  // Always keep menu position up to date. If we tried to cache this inside
-  // a useEffect based on isOpen then there'd be a flicker if the width
-  // of the button changes.
-  const position = getPosition(buttonRef.current);
-
   const classes = classNames("vuiPopover", className);
 
   const contentClasses = classNames("vuiPopoverContent", {
     "vuiPopoverContent--padding": padding
   });
+
+  let position;
+
+  if (buttonRef.current) {
+    const { bottom, left } = buttonRef.current.getBoundingClientRect();
+    position = {top: bottom, left: left};
+  } else {
+    position = {top: 0, left:  0};
+  }
 
   return (
     <>
@@ -117,7 +112,7 @@ export const VuiPopover = ({
             // Enable scrolling of the page.
             preventScrollOnFocus={false}
           >
-            <div className={classes} style={{ top: `${position.top}px`, right: `${position.right}px` }} {...rest}>
+            <div className={classes} style={{ top: `${position.top}px`, left: `${position.left}px` }} {...rest}>
               {header && typeof header === "string" ? <div className="vuiPopoverTitle">{header}</div> : header}
               {children && <div className={contentClasses}>{children}</div>}
             </div>
