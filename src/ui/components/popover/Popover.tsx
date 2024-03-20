@@ -18,16 +18,6 @@ type Position = {
   right: number;
 };
 
-// See here: https://stackoverflow.com/questions/36862334/get-viewport-window-height-in-reactjs
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height
-  };
-}
-
-
 export const VuiPopover = ({
   button: originalButton,
   children,
@@ -87,11 +77,6 @@ export const VuiPopover = ({
       setIsOpen(false);
     }, 0);
   };
-
-  // Always keep menu position up to date. If we tried to cache this inside
-  // a useEffect based on isOpen then there'd be a flicker if the width
-  // of the button changes.
-  //const position = getPosition(buttonRef.current);
 
   const classes = classNames("vuiPopover", className);
 
