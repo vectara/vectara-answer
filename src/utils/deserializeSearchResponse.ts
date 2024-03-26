@@ -9,12 +9,12 @@ const convertMetadataToObject = (metadata: DocMetadata[]) => {
   return obj;
 };
 
-const parseMetadata = (rawMetadata: DocMetadata[]) => {
+const parseMetadata = (rawMetadata: DocMetadata[], matchingText: string) => {
   const metadata = convertMetadataToObject(rawMetadata);
   return {
     source: metadata.source as string,
     url: metadata.url,
-    title: metadata.title || "Untitled",
+    title: metadata.title || matchingText.split(' ').slice(0, 10).join(' '),  // Use first 10 words if title not present
     metadata
   };
 };
@@ -32,7 +32,7 @@ export const deserializeSearchResponse = (
     const { pre, post, text } = parseSnippet(rawText);
     const document = documents[Number(documentIndex)];
     const { id, metadata: rawMetadata } = document;
-    const { source, url, title, metadata } = parseMetadata(rawMetadata);
+    const { source, url, title, metadata } = parseMetadata(rawMetadata, text);
 
     results.push({
       id,
