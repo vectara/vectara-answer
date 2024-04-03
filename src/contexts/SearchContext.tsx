@@ -23,6 +23,8 @@ import {
   retrieveHistory,
 } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
+import { streamQuery } from "@vectara/stream-query-client";
+import { StreamUpdate } from "@vectara/stream-query-client/lib/types";
 
 interface SearchContextType {
   filterValue: string;
@@ -30,11 +32,11 @@ interface SearchContextType {
   searchValue: string;
   setSearchValue: (value: string) => void;
   onSearch: ({
-    value,
-    filter,
-    language,
-    isPersistable,
-  }: {
+               value,
+               filter,
+               language,
+               isPersistable,
+             }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
@@ -47,7 +49,7 @@ interface SearchContextType {
   searchTime: number;
   isSummarizing: boolean;
   summarizationError: SearchError | undefined;
-  summarizationResponse: SearchResponse | undefined;
+  summarizationResponse: string | undefined;
   summaryTime: number;
   factualConsistencyScore: number;
   language: SummaryLanguage;
@@ -82,7 +84,7 @@ let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
   const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
-    useConfigContext();
+      useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
   const [searchValue, setSearchValue] = useState<string>("");
@@ -105,17 +107,17 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<
-    SearchError | undefined
+      SearchError | undefined
   >();
   const [summarizationResponse, setSummarizationResponse] =
-    useState<SearchResponse>();
+      useState<string>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
   const [factualConsistencyScore, setFactualConsistencyScore] = useState<number>(0);
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
   const [selectedSearchResultPosition, setSelectedSearchResultPosition] =
-    useState<number>();
+      useState<number>();
 
   useEffect(() => {
     setHistory(retrieveHistory());
@@ -136,8 +138,8 @@ export const SearchContextProvider = ({ children }: Props) => {
       value: getQueryParam(urlParams, "query") ?? "",
       filter: getQueryParam(urlParams, "filter"),
       language: getQueryParam(urlParams, "language") as
-        | SummaryLanguage
-        | undefined,
+          | SummaryLanguage
+          | undefined,
       isPersistable: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,8 +150,8 @@ export const SearchContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (searchResults) {
       searchResultsRef.current = searchResultsRef.current.slice(
-        0,
-        searchResults.length
+          0,
+          searchResults.length
       );
     } else {
       searchResultsRef.current = [];
@@ -163,8 +165,8 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   const selectSearchResultAt = (position: number) => {
     if (
-      !searchResultsRef.current[position] ||
-      selectedSearchResultPosition === position
+        !searchResultsRef.current[position] ||
+        selectedSearchResultPosition === position
     ) {
       // Reset selected position.
       setSelectedSearchResultPosition(undefined);
@@ -179,14 +181,14 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const getLanguage = (): SummaryLanguage =>
-    (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
+      (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
   const onSearch = async ({
-    value = searchValue,
-    filter = filterValue,
-    language = getLanguage(),
-    isPersistable = true,
-  }: {
+                            value = searchValue,
+                            filter = filterValue,
+                            language = getLanguage(),
+                            isPersistable = true,
+                          }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
@@ -206,11 +208,11 @@ export const SearchContextProvider = ({ children }: Props) => {
       // search that was persisted remains in the URL if the search doesn't execute.
       if (isPersistable) {
         setSearchParams(
-          new URLSearchParams(
-            `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
-              filter
-            )}&language=${encodeURIComponent(language)}`
-          )
+            new URLSearchParams(
+                `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
+                    filter
+                )}&language=${encodeURIComponent(language)}`
+            )
         );
       }
 
@@ -305,6 +307,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             setIsSummarizing(false);
             setSummarizationError(error as SearchError);
             setSummarizationResponse(undefined);
+            return
           }
         } else {
           setIsSummarizing(false);
@@ -374,7 +377,7 @@ export const useSearchContext = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
     throw new Error(
-      "useSearchContext must be used within a SearchContextProvider"
+        "useSearchContext must be used within a SearchContextProvider"
     );
   }
   return context;
