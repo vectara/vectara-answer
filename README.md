@@ -104,15 +104,6 @@ In such a case, the format is a comma-separated list of corpus IDs, for example:
 corpus_id: "123,234,345"
 ```
 
-#### Enable Stream Query (optional)
-
-To stream the results, set the following parameter to `True`.
-
-```yaml
-# hybrid search
-enable_stream_query: True
-```
-
 ### Search header (optional)
 
 These configuration parameters enable you to configure the look and feel of the search header.
@@ -172,6 +163,14 @@ summary_enable_factual_consistency_score: True
 
 # show factual consistency score as a badge with confidence level instead of actual number
 summary_show_fcs_badge: True
+```
+#### Enable summary response streaming (optional)
+
+To stream the results, set the following parameter to `True`.
+
+```yaml
+# Streaming on/off for summarization
+enable_stream_query: True
 ```
 
 #### Hybrid Search (optional)

@@ -98,7 +98,7 @@ type Search = {
   corpusId?: string;
   customerId?: string;
   apiKey?: string;
-  EnableStreamQuery?: boolean
+  enableStreamQuery?: boolean
 };
 
 type App = {
@@ -423,7 +423,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         corpusId: config_corpus_id,
         customerId: config_customer_id,
         apiKey: config_api_key,
-        EnableStreamQuery: isTrue(config_enable_stream_query)
+        enableStreamQuery: isTrue(config_enable_stream_query)
       });
 
       setApp({
