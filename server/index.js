@@ -64,7 +64,9 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
-    summary_enable_hem,
+    summary_enable_factual_consistency_score,
+    summary_show_fcs_badge,
+    enable_stream_query,
 
     // Rerank
     rerank,
@@ -134,7 +136,9 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
-    summary_enable_hem,
+    summary_enable_factual_consistency_score,
+    summary_show_fcs_badge,
+    enable_stream_query,
 
     // Hybrid search
     hybrid_search_num_words,

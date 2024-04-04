@@ -270,7 +270,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         if (initialSearchResponse.response.length > 0) {
           const startTime = Date.now();
           try {
-            if(search.EnableStreamQuery) {
+            if(search.enableStreamQuery) {
                 const onStreamUpdate = (update: StreamUpdate) => {
                     // If we send multiple requests in rapid succession, we only want to
                     // display the results of the most recent request.
@@ -389,7 +389,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationError,
         summarizationResponse,
         summaryTime,
-        enableStreamQuery: search.EnableStreamQuery,
+        enableStreamQuery: search.enableStreamQuery,
         factualConsistencyScore,
         language: getLanguage(),
         summaryNumResults: summary.summaryNumResults,
