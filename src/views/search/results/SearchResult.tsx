@@ -28,11 +28,11 @@ export const SearchResult = forwardRef<HTMLDivElement | null, Props>(
 
     const {
       source,
-      title,
       url,
+      id,
       snippet: { pre, post, text },
     } = result;
-
+    const title = result.title ?? id
     return (
       <VuiSearchResult
         ref={ref}
