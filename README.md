@@ -159,7 +159,10 @@ summary_num_results: 10
 summary_prompt_name: vectara-summary-ext-v1.2.0
 
 # Whether to enable the Hughes Hallucination Evaluation Model (HEM - https://github.com/vectara/hallucination-leaderboard)
-summary_enable_hem: False
+summary_enable_factual_consistency_score: True
+
+# show factual consistency score as a badge with confidence level instead of actual number
+summary_show_fcs_badge: True
 ```
 
 #### Hybrid Search (optional)

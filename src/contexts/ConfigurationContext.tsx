@@ -67,6 +67,8 @@ interface Config {
   config_summary_prompt_name?: string;
   config_summary_prompt_text?: string;
   config_summary_enable_hem?: string;
+  config_summary_enable_factual_consistency_score?: string
+  config_summary_show_fcs_badge?: string
 
   // hybrid search
   config_hybrid_search_num_words?: number;
@@ -132,6 +134,8 @@ type Summary = {
   summaryPromptText: string;
   hfToken: string;
   summaryEnableHem: boolean;
+  summaryEnableFactualConsistencyScore: boolean
+  summaryShowFcsBadge: boolean
 };
 
 type SearchHeader = {
@@ -296,6 +300,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryPromptText: "",
     hfToken: "",
     summaryEnableHem: false,
+    summaryEnableFactualConsistencyScore: true,
+    summaryShowFcsBadge: false
   });
 
   useEffect(() => {
@@ -402,6 +408,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_prompt_name,
         config_summary_prompt_text,
         config_summary_enable_hem,
+        config_summary_enable_factual_consistency_score,
+        config_summary_show_fcs_badge
       } = config;
 
       setUxMode(config_ux ?? "summary");
@@ -475,6 +483,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
           config_summary_prompt_text ?? "",
         hfToken: config_hf_token ?? "",
         summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
+        summaryEnableFactualConsistencyScore: isTrue(config_summary_enable_factual_consistency_score) ?? true,
+        summaryShowFcsBadge: isTrue(config_summary_show_fcs_badge) ?? false
       });
 
       setSearchHeader({
