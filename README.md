@@ -104,6 +104,15 @@ In such a case, the format is a comma-separated list of corpus IDs, for example:
 corpus_id: "123,234,345"
 ```
 
+#### Enable Stream Query (optional)
+
+To stream the results, set the following parameter to `True`.
+
+```yaml
+# hybrid search
+enable_stream_query: True
+```
+
 ### Search header (optional)
 
 These configuration parameters enable you to configure the look and feel of the search header.

@@ -23,6 +23,8 @@ import {
   retrieveHistory,
 } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
+import { streamQuery } from "@vectara/stream-query-client";
+import { StreamUpdate } from "@vectara/stream-query-client/lib/types";
 
 interface SearchContextType {
   filterValue: string;
@@ -30,11 +32,11 @@ interface SearchContextType {
   searchValue: string;
   setSearchValue: (value: string) => void;
   onSearch: ({
-    value,
-    filter,
-    language,
-    isPersistable,
-  }: {
+               value,
+               filter,
+               language,
+               isPersistable,
+             }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
@@ -45,9 +47,10 @@ interface SearchContextType {
   searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
   searchTime: number;
+  enableStreamQuery: boolean | undefined;
   isSummarizing: boolean;
   summarizationError: SearchError | undefined;
-  summarizationResponse: SearchResponse | undefined;
+  summarizationResponse: string | undefined;
   summaryTime: number;
   factualConsistencyScore: number;
   language: SummaryLanguage;
@@ -82,7 +85,7 @@ let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
   const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
-    useConfigContext();
+      useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
   const [searchValue, setSearchValue] = useState<string>("");
@@ -105,17 +108,17 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<
-    SearchError | undefined
+      SearchError | undefined
   >();
   const [summarizationResponse, setSummarizationResponse] =
-    useState<SearchResponse>();
+      useState<string>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
   const [factualConsistencyScore, setFactualConsistencyScore] = useState<number>(0);
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
   const [selectedSearchResultPosition, setSelectedSearchResultPosition] =
-    useState<number>();
+      useState<number>();
 
   useEffect(() => {
     setHistory(retrieveHistory());
@@ -136,8 +139,8 @@ export const SearchContextProvider = ({ children }: Props) => {
       value: getQueryParam(urlParams, "query") ?? "",
       filter: getQueryParam(urlParams, "filter"),
       language: getQueryParam(urlParams, "language") as
-        | SummaryLanguage
-        | undefined,
+          | SummaryLanguage
+          | undefined,
       isPersistable: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,8 +151,8 @@ export const SearchContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (searchResults) {
       searchResultsRef.current = searchResultsRef.current.slice(
-        0,
-        searchResults.length
+          0,
+          searchResults.length
       );
     } else {
       searchResultsRef.current = [];
@@ -163,8 +166,8 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   const selectSearchResultAt = (position: number) => {
     if (
-      !searchResultsRef.current[position] ||
-      selectedSearchResultPosition === position
+        !searchResultsRef.current[position] ||
+        selectedSearchResultPosition === position
     ) {
       // Reset selected position.
       setSelectedSearchResultPosition(undefined);
@@ -179,14 +182,14 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const getLanguage = (): SummaryLanguage =>
-    (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
+      (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
   const onSearch = async ({
-    value = searchValue,
-    filter = filterValue,
-    language = getLanguage(),
-    isPersistable = true,
-  }: {
+                            value = searchValue,
+                            filter = filterValue,
+                            language = getLanguage(),
+                            isPersistable = true,
+                          }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
@@ -206,11 +209,11 @@ export const SearchContextProvider = ({ children }: Props) => {
       // search that was persisted remains in the URL if the search doesn't execute.
       if (isPersistable) {
         setSearchParams(
-          new URLSearchParams(
-            `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
-              filter
-            )}&language=${encodeURIComponent(language)}`
-          )
+            new URLSearchParams(
+                `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
+                    filter
+                )}&language=${encodeURIComponent(language)}`
+            )
         );
       }
 
@@ -267,44 +270,82 @@ export const SearchContextProvider = ({ children }: Props) => {
         if (initialSearchResponse.response.length > 0) {
           const startTime = Date.now();
           try {
-            const response = await sendSearchRequest({
-              filter,
-              query_str: value,
-              summaryMode: true,
-              rerank: rerank.isEnabled,
-              rerankNumResults: rerank.numResults,
-              rerankerId: rerank.id,
-              rerankDiversityBias: rerank.diversityBias,
-              summaryNumResults: summary.summaryNumResults,
-              summaryNumSentences: summary.summaryNumSentences,
-              summaryPromptName: summary.summaryPromptName,
-              summaryPromptText: summary.summaryPromptText,
-              summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
-              hybridNumWords: hybrid.numWords,
-              hybridLambdaLong: hybrid.lambdaLong,
-              hybridLambdaShort: hybrid.lambdaShort,
-              language,
-              customerId: search.customerId!,
-              corpusId: search.corpusId!,
-              endpoint: search.endpoint!,
-              apiKey: search.apiKey!,
-            });
-            const totalTime = Date.now() - startTime;
+            if(search.EnableStreamQuery) {
+                const onStreamUpdate = (update: StreamUpdate) => {
+                    // If we send multiple requests in rapid succession, we only want to
+                    // display the results of the most recent request.
+                    if (searchId === searchCount) {
+                        if (update.isDone) {
+                            setIsSummarizing(false);
+                            setSummaryTime(Date.now() - startTime);
+                        }
+                        setSummarizationError(undefined);
+                        setSummarizationResponse(update.updatedText ?? undefined);
+                    }
+                };
 
-            // If we send multiple requests in rapid succession, we only want to
-            // display the results of the most recent request.
-            if (searchId === searchCount) {
-              setIsSummarizing(false);
-              setSummarizationError(undefined);
-              setSummarizationResponse(response);
-              setSummaryTime(totalTime);
-              setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
+                streamQuery(
+                    {
+                        filter,
+                        queryValue: value,
+                        rerank: rerank.isEnabled,
+                        rerankNumResults: rerank.numResults,
+                        rerankerId: rerank.id,
+                        rerankDiversityBias: rerank.diversityBias,
+                        summaryNumResults: 7,
+                        summaryNumSentences: 3,
+                        summaryPromptName: "vectara-summary-ext-v1.2.0",
+                        language,
+                        customerId: search.customerId!,
+                        corpusIds: search.corpusId!.split(","),
+                        endpoint: search.endpoint!,
+                        apiKey: search.apiKey!
+                    },
+                    onStreamUpdate
+                );
+            }
+            else {
+                const response = await sendSearchRequest({
+                    filter,
+                    query_str: value,
+                    summaryMode: true,
+                    rerank: rerank.isEnabled,
+                    rerankNumResults: rerank.numResults,
+                    rerankerId: rerank.id,
+                    rerankDiversityBias: rerank.diversityBias,
+                    summaryNumResults: summary.summaryNumResults,
+                    summaryNumSentences: summary.summaryNumSentences,
+                    summaryPromptName: summary.summaryPromptName,
+                    summaryPromptText: summary.summaryPromptText,
+                    summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
+                    hybridNumWords: hybrid.numWords,
+                    hybridLambdaLong: hybrid.lambdaLong,
+                    hybridLambdaShort: hybrid.lambdaShort,
+                    language,
+                    customerId: search.customerId!,
+                    corpusId: search.corpusId!,
+                    endpoint: search.endpoint!,
+                    apiKey: search.apiKey!,
+                });
+                const totalTime = Date.now() - startTime;
+
+                // If we send multiple requests in rapid succession, we only want to
+                // display the results of the most recent request.
+                if (searchId === searchCount) {
+                    setIsSummarizing(false);
+                    setSummarizationError(undefined);
+                    setSummarizationResponse(response.summary[0]?.text);
+                    setSummaryTime(totalTime);
+                    setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
+
+                }
             }
           } catch (error) {
             console.log("Summary error", error);
             setIsSummarizing(false);
             setSummarizationError(error as SearchError);
             setSummarizationResponse(undefined);
+            return
           }
         } else {
           setIsSummarizing(false);
@@ -348,6 +389,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationError,
         summarizationResponse,
         summaryTime,
+        enableStreamQuery: search.EnableStreamQuery,
         factualConsistencyScore,
         language: getLanguage(),
         summaryNumResults: summary.summaryNumResults,
@@ -374,7 +416,7 @@ export const useSearchContext = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
     throw new Error(
-      "useSearchContext must be used within a SearchContextProvider"
+        "useSearchContext must be used within a SearchContextProvider"
     );
   }
   return context;

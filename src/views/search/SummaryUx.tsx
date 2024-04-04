@@ -21,22 +21,21 @@ export const SummaryUx = () => {
     selectedSearchResultPosition,
     summaryEnableFactualConsistencyScore,
     factualConsistencyScore,
-    summaryShowFcsBadge
-
+    summaryShowFcsBadge,
+    enableStreamQuery
   } = useSearchContext();
 
-  const rawSummary = summarizationResponse?.summary[0]?.text;
+  const rawSummary = summarizationResponse;
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
   let summarySearchResults: DeserializedSearchResult[] = [];
-
-  if (!isSummarizing && unorderedSummary) {
+  const processCitations =  (unorderedSummary: string) => {
     summary = reorderCitations(unorderedSummary);
     if (searchResults) {
       summarySearchResults = applyCitationOrder(
-        searchResults,
-        unorderedSummary
+          searchResults,
+          unorderedSummary
       );
     }
 
@@ -47,7 +46,13 @@ export const SummaryUx = () => {
       summary = unorderedSummary.replace(/\[\d+\]/g, "");
     }
   }
-
+  if(enableStreamQuery && unorderedSummary) {
+    processCitations(unorderedSummary)
+  }
+  else if(!isSummarizing && unorderedSummary)
+  {
+    processCitations(unorderedSummary)
+  }
   return (
     <>
       <ProgressReport isSearching={isSearching} isSummarizing={isSummarizing} />
