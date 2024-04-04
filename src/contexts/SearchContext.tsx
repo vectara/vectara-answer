@@ -334,7 +334,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 if (searchId === searchCount) {
                     setIsSummarizing(false);
                     setSummarizationError(undefined);
-                    setSummarizationResponse(response);
+                    setSummarizationResponse(response.summary[0]?.text);
                     setSummaryTime(totalTime);
                     setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
 
