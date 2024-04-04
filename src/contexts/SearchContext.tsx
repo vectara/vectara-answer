@@ -47,6 +47,7 @@ interface SearchContextType {
   searchError: SearchError | undefined;
   searchResults: DeserializedSearchResult[] | undefined;
   searchTime: number;
+  enableStreamQuery: boolean | undefined;
   isSummarizing: boolean;
   summarizationError: SearchError | undefined;
   summarizationResponse: string | undefined;
@@ -269,38 +270,75 @@ export const SearchContextProvider = ({ children }: Props) => {
         if (initialSearchResponse.response.length > 0) {
           const startTime = Date.now();
           try {
-            const response = await sendSearchRequest({
-              filter,
-              query_str: value,
-              summaryMode: true,
-              rerank: rerank.isEnabled,
-              rerankNumResults: rerank.numResults,
-              rerankerId: rerank.id,
-              rerankDiversityBias: rerank.diversityBias,
-              summaryNumResults: summary.summaryNumResults,
-              summaryNumSentences: summary.summaryNumSentences,
-              summaryPromptName: summary.summaryPromptName,
-              summaryPromptText: summary.summaryPromptText,
-              summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
-              hybridNumWords: hybrid.numWords,
-              hybridLambdaLong: hybrid.lambdaLong,
-              hybridLambdaShort: hybrid.lambdaShort,
-              language,
-              customerId: search.customerId!,
-              corpusId: search.corpusId!,
-              endpoint: search.endpoint!,
-              apiKey: search.apiKey!,
-            });
-            const totalTime = Date.now() - startTime;
+            if(search.EnableStreamQuery) {
+                const onStreamUpdate = (update: StreamUpdate) => {
+                    // If we send multiple requests in rapid succession, we only want to
+                    // display the results of the most recent request.
+                    if (searchId === searchCount) {
+                        if (update.isDone) {
+                            setIsSummarizing(false);
+                            setSummaryTime(Date.now() - startTime);
+                        }
+                        setSummarizationError(undefined);
+                        setSummarizationResponse(update.updatedText ?? undefined);
+                    }
+                };
 
-            // If we send multiple requests in rapid succession, we only want to
-            // display the results of the most recent request.
-            if (searchId === searchCount) {
-              setIsSummarizing(false);
-              setSummarizationError(undefined);
-              setSummarizationResponse(response);
-              setSummaryTime(totalTime);
-              setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
+                streamQuery(
+                    {
+                        filter,
+                        queryValue: value,
+                        rerank: rerank.isEnabled,
+                        rerankNumResults: rerank.numResults,
+                        rerankerId: rerank.id,
+                        rerankDiversityBias: rerank.diversityBias,
+                        summaryNumResults: 7,
+                        summaryNumSentences: 3,
+                        summaryPromptName: "vectara-summary-ext-v1.2.0",
+                        language,
+                        customerId: search.customerId!,
+                        corpusIds: search.corpusId!.split(","),
+                        endpoint: search.endpoint!,
+                        apiKey: search.apiKey!
+                    },
+                    onStreamUpdate
+                );
+            }
+            else {
+                const response = await sendSearchRequest({
+                    filter,
+                    query_str: value,
+                    summaryMode: true,
+                    rerank: rerank.isEnabled,
+                    rerankNumResults: rerank.numResults,
+                    rerankerId: rerank.id,
+                    rerankDiversityBias: rerank.diversityBias,
+                    summaryNumResults: summary.summaryNumResults,
+                    summaryNumSentences: summary.summaryNumSentences,
+                    summaryPromptName: summary.summaryPromptName,
+                    summaryPromptText: summary.summaryPromptText,
+                    summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
+                    hybridNumWords: hybrid.numWords,
+                    hybridLambdaLong: hybrid.lambdaLong,
+                    hybridLambdaShort: hybrid.lambdaShort,
+                    language,
+                    customerId: search.customerId!,
+                    corpusId: search.corpusId!,
+                    endpoint: search.endpoint!,
+                    apiKey: search.apiKey!,
+                });
+                const totalTime = Date.now() - startTime;
+
+                // If we send multiple requests in rapid succession, we only want to
+                // display the results of the most recent request.
+                if (searchId === searchCount) {
+                    setIsSummarizing(false);
+                    setSummarizationError(undefined);
+                    setSummarizationResponse(response);
+                    setSummaryTime(totalTime);
+                    setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
+
+                }
             }
           } catch (error) {
             console.log("Summary error", error);
@@ -351,6 +389,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationError,
         summarizationResponse,
         summaryTime,
+        enableStreamQuery: search.EnableStreamQuery,
         factualConsistencyScore,
         language: getLanguage(),
         summaryNumResults: summary.summaryNumResults,

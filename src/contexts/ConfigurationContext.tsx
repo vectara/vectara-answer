@@ -22,6 +22,7 @@ interface Config {
   config_customer_id?: string;
   config_api_key?: string;
   config_hf_token?: string;
+  config_enable_stream_query? : string
 
   // App
   config_ux?: UxMode;
@@ -97,6 +98,7 @@ type Search = {
   corpusId?: string;
   customerId?: string;
   apiKey?: string;
+  EnableStreamQuery?: boolean
 };
 
 type App = {
@@ -309,6 +311,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       let config: Config;
       if (isProduction) {
         const result = await fetchConfig();
+        console.log("Results", result.data)
         config = prefixConfig(result.data);
 
         if (config.config_questions) {
@@ -349,6 +352,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_customer_id,
         config_api_key,
         config_hf_token,
+        config_enable_stream_query,
 
         // App
         config_ux,
@@ -419,6 +423,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         corpusId: config_corpus_id,
         customerId: config_customer_id,
         apiKey: config_api_key,
+        EnableStreamQuery: isTrue(config_enable_stream_query)
       });
 
       setApp({
