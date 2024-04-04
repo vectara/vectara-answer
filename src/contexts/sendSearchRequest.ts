@@ -18,6 +18,7 @@ type Config = {
   summaryNumSentences?: number;
   summaryPromptName?: string;
   summaryPromptText?: string;
+  summaryEnableFactualConsistencyScore?: boolean
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -40,6 +41,7 @@ export const sendSearchRequest = async ({
   summaryNumSentences,
   summaryPromptName,
   summaryPromptText,
+  summaryEnableFactualConsistencyScore,
   customerId,
   corpusId,
   endpoint,
@@ -86,7 +88,8 @@ export const sendSearchRequest = async ({
                   responseLang: language,
                   maxSummarizedResults: summaryNumResults,
                   summarizerPromptName: summaryPromptName,
-                  promptText: summaryPromptText
+                  promptText: summaryPromptText,
+                  factualConsistencyScore: summaryEnableFactualConsistencyScore ?? true
                 },
               ],
             }

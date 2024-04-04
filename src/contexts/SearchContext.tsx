@@ -49,12 +49,15 @@ interface SearchContextType {
   summarizationError: SearchError | undefined;
   summarizationResponse: SearchResponse | undefined;
   summaryTime: number;
+  factualConsistencyScore: number;
   language: SummaryLanguage;
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
   summaryPromptText: string;
   summaryEnableHem: boolean;
+  summaryEnableFactualConsistencyScore: boolean
+  summaryShowFcsBadge: boolean
   hfToken: string;
   history: HistoryItem[];
   clearHistory: () => void;
@@ -107,6 +110,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [summarizationResponse, setSummarizationResponse] =
     useState<SearchResponse>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
+  const [factualConsistencyScore, setFactualConsistencyScore] = useState<number>(0);
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -275,6 +279,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               summaryNumSentences: summary.summaryNumSentences,
               summaryPromptName: summary.summaryPromptName,
               summaryPromptText: summary.summaryPromptText,
+              summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
               hybridNumWords: hybrid.numWords,
               hybridLambdaLong: hybrid.lambdaLong,
               hybridLambdaShort: hybrid.lambdaShort,
@@ -293,6 +298,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               setSummarizationError(undefined);
               setSummarizationResponse(response);
               setSummaryTime(totalTime);
+              setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
             }
           } catch (error) {
             console.log("Summary error", error);
@@ -342,12 +348,15 @@ export const SearchContextProvider = ({ children }: Props) => {
         summarizationError,
         summarizationResponse,
         summaryTime,
+        factualConsistencyScore,
         language: getLanguage(),
         summaryNumResults: summary.summaryNumResults,
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
         summaryPromptText: summary.summaryPromptText,
         summaryEnableHem: summary.summaryEnableHem,
+        summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
+        summaryShowFcsBadge: summary.summaryShowFcsBadge,
         hfToken: summary.hfToken,
         history,
         clearHistory,
