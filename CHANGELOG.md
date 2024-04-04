@@ -10,6 +10,15 @@
 
 **Breaking changes**
 
+## `1.5.9`
+
+**Non-breaking changes**
+- Ignore citations that don't correspond to search results
+- Updated README, HOSTING.MD and other docs
+- Added instruction to deploy directly and using Docker, via render "create service api"
+- feat(docker): Added Multi-Stage build support for Vectara-Answer by @SaptarshiSarkar12
+- Some updates to Dockerfile
+
 ...
 ## `1.5.8`
 
