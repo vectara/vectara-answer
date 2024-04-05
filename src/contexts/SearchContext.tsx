@@ -289,8 +289,6 @@ export const SearchContextProvider = ({ children }: Props) => {
                     }
                 };
 
-                console.log(summary.summaryEnableFactualConsistencyScore)
-
                 streamQuery(
                     {
                         filter,
