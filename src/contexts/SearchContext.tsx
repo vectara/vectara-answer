@@ -23,7 +23,7 @@ import {
   retrieveHistory,
 } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
-import { streamQuery } from "@vectara/stream-query-client";
+import {FactualConsistencyDetail, streamQuery} from "@vectara/stream-query-client";
 import { StreamUpdate } from "@vectara/stream-query-client/lib/types";
 
 interface SearchContextType {
@@ -274,6 +274,10 @@ export const SearchContextProvider = ({ children }: Props) => {
                 const onStreamUpdate = (update: StreamUpdate) => {
                     // If we send multiple requests in rapid succession, we only want to
                     // display the results of the most recent request.
+                    const fcsDetail = update.details?.find(
+                        (detail) => detail.type === "factualConsistency") as
+                        | FactualConsistencyDetail
+
                     if (searchId === searchCount) {
                         if (update.isDone) {
                             setIsSummarizing(false);
@@ -281,8 +285,11 @@ export const SearchContextProvider = ({ children }: Props) => {
                         }
                         setSummarizationError(undefined);
                         setSummarizationResponse(update.updatedText ?? undefined);
+                        setFactualConsistencyScore(fcsDetail?.data?.score)
                     }
                 };
+
+                console.log(summary.summaryEnableFactualConsistencyScore)
 
                 streamQuery(
                     {
@@ -295,6 +302,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                         summaryNumResults: 7,
                         summaryNumSentences: 3,
                         summaryPromptName: "vectara-summary-ext-v1.2.0",
+                        enableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
                         language,
                         customerId: search.customerId!,
                         corpusIds: search.corpusId!.split(","),
@@ -317,7 +325,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     summaryNumSentences: summary.summaryNumSentences,
                     summaryPromptName: summary.summaryPromptName,
                     summaryPromptText: summary.summaryPromptText,
-                    summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
+                    enableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
                     hybridNumWords: hybrid.numWords,
                     hybridLambdaLong: hybrid.lambdaLong,
                     hybridLambdaShort: hybrid.lambdaShort,
