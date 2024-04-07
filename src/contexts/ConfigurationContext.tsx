@@ -21,7 +21,6 @@ interface Config {
   config_corpus_id?: string;
   config_customer_id?: string;
   config_api_key?: string;
-  config_hf_token?: string;
   config_enable_stream_query? : string
 
   // App
@@ -134,7 +133,6 @@ type Summary = {
   summaryNumSentences: number;
   summaryPromptName: string;
   summaryPromptText: string;
-  hfToken: string;
   summaryEnableHem: boolean;
   summaryEnableFactualConsistencyScore: boolean
   summaryShowFcsBadge: boolean
@@ -300,7 +298,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
     summaryPromptText: "",
-    hfToken: "",
     summaryEnableHem: false,
     summaryEnableFactualConsistencyScore: true,
     summaryShowFcsBadge: false
@@ -311,7 +308,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
       let config: Config;
       if (isProduction) {
         const result = await fetchConfig();
-        console.log("Results", result.data)
         config = prefixConfig(result.data);
 
         if (config.config_questions) {
@@ -351,7 +347,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_corpus_id,
         config_customer_id,
         config_api_key,
-        config_hf_token,
         config_enable_stream_query,
 
         // App
@@ -486,7 +481,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
         summaryPromptText:
           config_summary_prompt_text ?? "",
-        hfToken: config_hf_token ?? "",
         summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
         summaryEnableFactualConsistencyScore: isTrue(config_summary_enable_factual_consistency_score) ?? true,
         summaryShowFcsBadge: isTrue(config_summary_show_fcs_badge) ?? false

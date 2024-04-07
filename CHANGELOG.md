@@ -10,6 +10,16 @@
 
 **Breaking changes**
 
+## `1.6.0`
+
+**Non-breaking changes**
+- Bug fix with MMR
+- Updates to documentation, cross-linking to other project and other changes
+- Added argument summary prompt text
+- Changed popover to display from left of parent
+- Show doc_id as title if title missing
+- Support for streaming response and FCS
+
 ## `1.5.9`
 
 **Non-breaking changes**

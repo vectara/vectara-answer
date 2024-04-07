@@ -38,7 +38,6 @@ app.post("/config", (req, res) => {
     corpus_id,
     customer_id,
     api_key,
-    hf_token,
 
     // App
     ux,
@@ -110,7 +109,6 @@ app.post("/config", (req, res) => {
     corpus_id,
     customer_id,
     api_key,
-    hf_token,
 
     // App
     ux,
