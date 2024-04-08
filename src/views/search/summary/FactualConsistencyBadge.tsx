@@ -26,7 +26,6 @@ const getConfidenceLevel = (score: number): ConfidenceLevel => {
 export const FactualConsistencyBadge = ({ score, summaryShowFcsBadge }: Props) => {
     let badge;
     const fcsLDocsLink = "https://docs.vectara.com/docs/api-reference/search-apis/search?#factual-consistency-score"
-    console.log("score", score);
     if (score === undefined) {
         badge = <VuiBadge color="accent">Calculating Factual Consistency Score…</VuiBadge>;
     } else {
