@@ -61,7 +61,6 @@ interface SearchContextType {
   summaryEnableHem: boolean;
   summaryEnableFactualConsistencyScore: boolean
   summaryShowFcsBadge: boolean
-  hfToken: string;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -405,7 +404,6 @@ export const SearchContextProvider = ({ children }: Props) => {
         summaryEnableHem: summary.summaryEnableHem,
         summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
         summaryShowFcsBadge: summary.summaryShowFcsBadge,
-        hfToken: summary.hfToken,
         history,
         clearHistory,
         searchResultsRef,

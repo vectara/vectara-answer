@@ -136,7 +136,6 @@ export const sendSearchRequest = async ({
       },
     };
   }
-  console.log("Prompt text:\n" + summaryPromptText)
   const result = await axios.post(url, body, headers);
 
   const status = result["data"]["responseSet"][0]["status"];
