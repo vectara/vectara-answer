@@ -165,11 +165,10 @@ summary_num_results: 10
 # See https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer for available summarization prompts. Note that some prompts are only available to Vectara scale customers.
 summary_prompt_name: vectara-summary-ext-v1.2.0
 
-# Whether to enable the HHEMv2 (based on https://huggingface.co/vectara/hallucination_evaluation_model), also known as factual consistency score.
-summary_enable_factual_consistency_score: True
+# Whether to disable or enable factual consistency score as (score or badge) based on the HHEMv2 (based on https://huggingface.co/vectara/hallucination_evaluation_model).
+# default value is disable. To enable it set it to score or badge.
+summary_fcs_mode: score
 
-# Whether to show factual consistency score as a badge with confidence level instead of actual value.
-summary_show_fcs_badge: True
 ```
 #### Enable summary response streaming (optional)
 

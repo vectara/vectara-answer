@@ -19,9 +19,8 @@ export const SummaryUx = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
-    summaryEnableFactualConsistencyScore,
+    fcsMode,
     factualConsistencyScore,
-    summaryShowFcsBadge,
     enableStreamQuery
   } = useSearchContext();
 
@@ -73,10 +72,10 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          {summaryEnableFactualConsistencyScore && (
+          {fcsMode !== "disable" && (
             <FactualConsistencyBadge
               score={factualConsistencyScore}
-              summaryShowFcsBadge={summaryShowFcsBadge}
+              fcsMode={fcsMode}
             />
           )}
 
