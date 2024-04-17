@@ -13,6 +13,7 @@ import {
   UxMode,
   normal_reranker_id,
   mmr_reranker_id,
+  FcsMode, FCS_MODE,
 } from "../views/search/types";
 
 interface Config {
@@ -66,9 +67,7 @@ interface Config {
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
   config_summary_prompt_text?: string;
-  config_summary_enable_hem?: string;
-  config_summary_enable_factual_consistency_score?: string
-  config_summary_show_fcs_badge?: string
+  config_summary_fcs_mode?: string | undefined
 
   // hybrid search
   config_hybrid_search_num_words?: number;
@@ -133,9 +132,6 @@ type Summary = {
   summaryNumSentences: number;
   summaryPromptName: string;
   summaryPromptText: string;
-  summaryEnableHem: boolean;
-  summaryEnableFactualConsistencyScore: boolean
-  summaryShowFcsBadge: boolean
 };
 
 type SearchHeader = {
@@ -170,6 +166,8 @@ interface ConfigContextType {
   missingConfigProps: string[];
   uxMode: UxMode;
   setUxMode: (uxMode: UxMode) => void;
+  fcsMode: FcsMode;
+  setFcsMode: (fcsMode: FcsMode) => void
   search: Search;
   app: App;
   appHeader: AppHeader;
@@ -254,10 +252,21 @@ const validateLanguage = (
   return defaultLanguage;
 };
 
+const validateFcsMode = (
+    mode: string,
+    defaultMode: FcsMode
+): FcsMode => {
+  if ((FCS_MODE as readonly string[]).includes(mode)) {
+    return mode as FcsMode;
+  }
+  return defaultMode;
+};
+
 export const ConfigContextProvider = ({ children }: Props) => {
   const [isConfigLoaded, setIsConfigLoaded] = useState(false);
   const [missingConfigProps, setMissingConfigProps] = useState<string[]>([]);
   const [uxMode, setUxMode] = useState<UxMode>("summary");
+  const [fcsMode, setFcsMode] = useState<FcsMode>("disable");
   const [search, setSearch] = useState<Search>({});
   const [app, setApp] = useState<App>({
     isHeaderEnabled: false,
@@ -298,9 +307,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryNumSentences: 3,
     summaryPromptName: "vectara-summary-ext-v1.2.0",
     summaryPromptText: "",
-    summaryEnableHem: false,
-    summaryEnableFactualConsistencyScore: true,
-    summaryShowFcsBadge: false
   });
 
   useEffect(() => {
@@ -406,12 +412,11 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_sentences,
         config_summary_prompt_name,
         config_summary_prompt_text,
-        config_summary_enable_hem,
-        config_summary_enable_factual_consistency_score,
-        config_summary_show_fcs_badge
+        config_summary_fcs_mode
       } = config;
 
       setUxMode(config_ux ?? "summary");
+      setFcsMode(validateFcsMode(config_summary_fcs_mode as FcsMode, "disable"));
 
       setSearch({
         endpoint: config_endpoint,
@@ -480,10 +485,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryPromptName:
           config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
         summaryPromptText:
-          config_summary_prompt_text ?? "",
-        summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
-        summaryEnableFactualConsistencyScore: isTrue(config_summary_enable_factual_consistency_score) ?? true,
-        summaryShowFcsBadge: isTrue(config_summary_show_fcs_badge) ?? false
+          config_summary_prompt_text ?? ""
       });
 
       setSearchHeader({
@@ -535,6 +537,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         missingConfigProps,
         uxMode,
         setUxMode,
+        fcsMode,
+        setFcsMode,
         search,
         app,
         appHeader,

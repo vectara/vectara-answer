@@ -9,10 +9,10 @@ import {
 } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  DeserializedSearchResult,
-  SearchResponse,
-  SummaryLanguage,
-  SearchError,
+    DeserializedSearchResult,
+    SearchResponse,
+    SummaryLanguage,
+    SearchError, FcsMode,
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -35,11 +35,13 @@ interface SearchContextType {
                value,
                filter,
                language,
+               modifiedFcsMode,
                isPersistable,
              }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
+    modifiedFcsMode?: FcsMode,
     isPersistable?: boolean;
   }) => void;
   reset: () => void;
@@ -58,9 +60,7 @@ interface SearchContextType {
   summaryNumSentences: number;
   summaryPromptName: string;
   summaryPromptText: string;
-  summaryEnableHem: boolean;
-  summaryEnableFactualConsistencyScore: boolean
-  summaryShowFcsBadge: boolean
+  fcsMode: FcsMode;
   history: HistoryItem[];
   clearHistory: () => void;
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
@@ -83,7 +83,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
+  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode, fcsMode } =
       useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
@@ -187,11 +187,13 @@ export const SearchContextProvider = ({ children }: Props) => {
                             value = searchValue,
                             filter = filterValue,
                             language = getLanguage(),
+                            modifiedFcsMode = fcsMode,
                             isPersistable = true,
                           }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
+    modifiedFcsMode?: FcsMode
     isPersistable?: boolean;
   }) => {
     const searchId = ++searchCount;
@@ -199,6 +201,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     setSearchValue(value);
     setFilterValue(filter);
     setLanguageValue(language);
+    const isFactualConsistentScoreEnabled = modifiedFcsMode === "score" || modifiedFcsMode === "badge"
 
     if (value?.trim()) {
       // Save to history.
@@ -296,10 +299,10 @@ export const SearchContextProvider = ({ children }: Props) => {
                         rerankNumResults: rerank.numResults,
                         rerankerId: rerank.id,
                         rerankDiversityBias: rerank.diversityBias,
-                        summaryNumResults: 7,
-                        summaryNumSentences: 3,
-                        summaryPromptName: "vectara-summary-ext-v1.2.0",
-                        enableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
+                        summaryNumResults: summary.summaryNumResults,
+                        summaryNumSentences: summary.summaryNumSentences,
+                        summaryPromptName: summary.summaryPromptName,
+                        enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
                         language,
                         customerId: search.customerId!,
                         corpusIds: search.corpusId!.split(","),
@@ -322,7 +325,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     summaryNumSentences: summary.summaryNumSentences,
                     summaryPromptName: summary.summaryPromptName,
                     summaryPromptText: summary.summaryPromptText,
-                    enableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
+                    enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
                     hybridNumWords: hybrid.numWords,
                     hybridLambdaLong: hybrid.lambdaLong,
                     hybridLambdaShort: hybrid.lambdaShort,
@@ -385,6 +388,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         searchValue,
         setSearchValue,
         onSearch,
+        fcsMode,
         reset,
         isSearching,
         searchError,
@@ -401,9 +405,6 @@ export const SearchContextProvider = ({ children }: Props) => {
         summaryNumSentences: summary.summaryNumSentences,
         summaryPromptName: summary.summaryPromptName,
         summaryPromptText: summary.summaryPromptText,
-        summaryEnableHem: summary.summaryEnableHem,
-        summaryEnableFactualConsistencyScore: summary.summaryEnableFactualConsistencyScore,
-        summaryShowFcsBadge: summary.summaryShowFcsBadge,
         history,
         clearHistory,
         searchResultsRef,

@@ -132,6 +132,26 @@ export const humanizeLanguage = (language: SummaryLanguage): string => {
   return codeToLanguageMap[language];
 };
 
+export const FCS_MODE = [
+  "disable",
+  "score",
+  "badge"
+] as const;
+
+export type FcsMode = (typeof FCS_MODE)[number];
+
+const codeToUiText: Record<FcsMode, string> = {
+  disable: "Disable",
+  score: "Score",
+  badge: "Badge",
+} as const;
+
+export const UiText = (mode: FcsMode): string => {
+  return codeToUiText[mode];
+};
+
+
+
 export const normal_reranker_id = 272725717
 export const mmr_reranker_id = 272725718
 
