@@ -38,7 +38,7 @@ export const SummaryUx = () => {
     }
 
     // If there aren't any search results, we can safely sanitize the
-    // summary of any source text citations that might might be contaminating
+    // summary of any source text citations that might be contaminating
     // it.
     if (summarySearchResults.length === 0) {
       summary = unorderedSummary.replace(/\[\d+\]/g, "");
