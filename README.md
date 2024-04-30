@@ -289,7 +289,7 @@ gtm_container_id: "GTM-1234567"
 Customize the result display, this provides options to tailor the presentation of the results shown.
 
 ```yaml
-# Enable result exploration
+# Enable the "explore related content" link, which does a search for content related to the text in each results's matching snippet
 explore_enabled: True
 ```
 
