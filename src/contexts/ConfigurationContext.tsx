@@ -84,6 +84,9 @@ interface Config {
 
   // questions
   config_questions?: string;
+
+  // Results
+  config_explore_enabled?: string
 }
 
 type ConfigProp = keyof Config;
@@ -134,6 +137,10 @@ type Summary = {
   summaryEnableHem: boolean;
 };
 
+type Results = {
+  exploreEnabled: boolean;
+};
+
 type SearchHeader = {
   logo: {
     link?: string;
@@ -171,6 +178,7 @@ interface ConfigContextType {
   appHeader: AppHeader;
   filters: Filters;
   summary: Summary;
+  results: Results;
   rerank: Rerank;
   hybrid: Hybrid;
   searchHeader: SearchHeader;
@@ -298,6 +306,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryEnableHem: false,
   });
 
+  const [results, setResults] = useState<Results>({
+    exploreEnabled: false,
+  })
+
   useEffect(() => {
     const loadConfig = async () => {
       let config: Config;
@@ -402,6 +414,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_prompt_name,
         config_summary_prompt_text,
         config_summary_enable_hem,
+
+        // Results
+        config_explore_enabled ,
       } = config;
 
       setUxMode(config_ux ?? "summary");
@@ -477,6 +492,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryEnableHem: isTrue(config_summary_enable_hem) ?? false,
       });
 
+      setResults({
+        exploreEnabled: isTrue(config_explore_enabled) ?? false
+      });
+
       setSearchHeader({
         logo: {
           link: config_search_logo_link,
@@ -531,6 +550,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         appHeader,
         filters,
         summary,
+        results,
         rerank,
         hybrid,
         searchHeader,

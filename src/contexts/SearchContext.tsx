@@ -65,6 +65,7 @@ interface SearchContextType {
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
   selectedSearchResultPosition: number | undefined;
   selectSearchResultAt: (position: number) => void;
+  exploreEnabled: boolean;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -82,7 +83,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode } =
+  const { isConfigLoaded, search, summary, results,  rerank, hybrid, uxMode } =
     useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
@@ -367,6 +368,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         searchResultsRef,
         selectedSearchResultPosition,
         selectSearchResultAt,
+        exploreEnabled: results.exploreEnabled,
       }}
     >
       {children}
