@@ -173,15 +173,12 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
           <VuiButtonPrimary
             color="primary"
             onClick={() => {
-              if (newLanguage !== language) {
-                onSearch({
-                  language: newLanguage as SummaryLanguage,
-                });
-              }
               setUxMode(newUxMode);
               setFcsMode(newFcsMode)
-              if(fcsMode === "disable") {
-                onSearch({modifiedFcsMode: newFcsMode as FcsMode})
+              if (newLanguage !== language || newFcsMode !== fcsMode) {
+                onSearch({
+                  language: newLanguage as SummaryLanguage, modifiedFcsMode: newFcsMode as FcsMode
+                });
               }
               onClose();
             }}
