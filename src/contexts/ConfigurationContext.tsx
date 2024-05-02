@@ -66,7 +66,7 @@ interface Config {
   config_summary_num_results?: number;
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
-  config_summary_prompt_text?: string;
+  config_summary_prompt_text_filename?: string;
   config_summary_fcs_mode?: string | undefined
 
   // hybrid search
@@ -197,10 +197,22 @@ const fetchQueries = async () => {
         Accept: "application/json",
       },
     });
+    console.log("fetch queries: ", result)
     const data = await result.json();
     return data;
   } catch (e) {
     console.log("Could not load queries.json Detail: " + e);
+  }
+};
+
+const fetchPromptText = async (filename: string) => {
+  try {
+    const result = await fetch(filename)
+    console.log("fetch prompt: ", result)
+    const data = await result.json();
+    return data;
+  } catch (e) {
+    console.log("Could not load prompt.txt Detail: " + e);
   }
 };
 
@@ -305,7 +317,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     defaultLanguage: "auto",
     summaryNumResults: 7,
     summaryNumSentences: 3,
-    summaryPromptName: "vectara-summary-ext-v1.2.0",
+    summaryPromptName: "vectara-experimental-summary-ext-2023-12-11-sml",
     summaryPromptText: "",
   });
 
@@ -411,7 +423,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_num_results,
         config_summary_num_sentences,
         config_summary_prompt_name,
-        config_summary_prompt_text,
+        config_summary_prompt_text_filename,
         config_summary_fcs_mode
       } = config;
 
@@ -483,9 +495,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
         summaryNumResults: config_summary_num_results ?? 7,
         summaryNumSentences: config_summary_num_sentences ?? 3,
         summaryPromptName:
-          config_summary_prompt_name ?? "vectara-summary-ext-v1.2.0",
-        summaryPromptText:
-          config_summary_prompt_text ?? ""
+          config_summary_prompt_name ?? "vectara-experimental-summary-ext-2023-12-11-sml",
+        summaryPromptText: config_summary_prompt_text_filename ? 
+        (await fetchPromptText(config_summary_prompt_text_filename)) : ""
       });
 
       setSearchHeader({
@@ -529,6 +541,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
     loadConfig();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(summary)
 
   return (
     <ConfigContext.Provider

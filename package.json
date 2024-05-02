@@ -1,6 +1,6 @@
 {
   "name": "vectara-answer",
-  "version": "1.6.0",
+  "version": "1.6.2",
   "private": true,
   "dependencies": {
     "@analytics/google-tag-manager": "^0.5.5",
