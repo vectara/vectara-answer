@@ -21,7 +21,9 @@ const proxyOptions = {
     proxyReq.setHeader("x-api-key", process.env.api_key);
     proxyReq.setHeader("grpc-timeout", "60S");
     proxyReq.setHeader("X-Source", "vectara-answer");
-    
+
+    console.log("Vectara Answer - user query: ", req.body.query)
+
     if (req.body) {
       const bodyData = JSON.stringify(req.body);
       proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyData));
