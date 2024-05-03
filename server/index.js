@@ -7,6 +7,7 @@ const port = process.env.PORT || 4444; // default port 4444 for local developmen
 app.use(express.json());
 
 app.use("/", express.static("build"));
+
 app.get("/", function (req, res) {
   res.render("build/index.html");
 });

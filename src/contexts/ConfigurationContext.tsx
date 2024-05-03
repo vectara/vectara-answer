@@ -224,6 +224,7 @@ const fetchConfig = async () => {
     },
   };
   const result = await axios.post("/config", undefined, headers);
+  console.log("fetch config: ", result.data)
   return result;
 };
 
