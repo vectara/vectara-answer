@@ -63,7 +63,6 @@ export const sendSearchRequest = async ({
   });
 
   if (summaryPromptText) {
-    console.info("Fixing backslashes in promptText, input is: " + summaryPromptText)
     summaryPromptText = summaryPromptText.replaceAll("\\n", "\n");
     summaryPromptText = summaryPromptText.replaceAll("\\\"", "\\\\\\\"");
   }
