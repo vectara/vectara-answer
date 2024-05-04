@@ -165,6 +165,11 @@ summary_num_results: 10
 # See https://docs.vectara.com/docs/learn/grounded-generation/select-a-summarizer for available summarization prompts. Note that some prompts are only available to Vectara scale customers.
 summary_prompt_name: vectara-summary-ext-v1.2.0
 
+# Filename for a local file (same folder as your config.yaml file) which includes the text for a custom prompt
+# If specified, used to replace the prompt text used by the prompt_name.
+# Note this is a Scale only feature.
+summary_prompt_text_filename: prompt.txt
+
 # Whether to disable or enable factual consistency score as (score or badge) based on the HHEMv2 (based on https://huggingface.co/vectara/hallucination_evaluation_model).
 # default value is disable. To enable it set it to score or badge.
 summary_fcs_mode: score
