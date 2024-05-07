@@ -166,7 +166,7 @@ summary_num_results: 10
 summary_prompt_name: vectara-summary-ext-v1.2.0
 
 # Filename for a local file (same folder as your config.yaml file) which includes the text for a custom prompt
-# If specified, used to replace the prompt text used by the prompt_name.
+# If specified, used to replace the prompt text used by the prompt_name. You can see an example prompt.txt file in the config/ask-feynman folder.
 # Note this is a Scale only feature.
 summary_prompt_text_filename: prompt.txt
 
