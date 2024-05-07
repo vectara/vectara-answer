@@ -98,6 +98,9 @@ app.post("/config", (req, res) => {
     full_story_org_id,
     gtm_container_id,
 
+    // recommendation
+    explore_enabled,
+
     // Questions
     questions,
   } = process.env;
@@ -167,6 +170,9 @@ app.post("/config", (req, res) => {
     google_analytics_tracking_code,
     full_story_org_id,
     gtm_container_id,
+
+    // recommendation
+    explore_enabled,
 
     // Questions
     questions,
