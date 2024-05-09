@@ -1,9 +1,11 @@
 const express = require("express");
+
 const { createProxyMiddleware } = require("http-proxy-middleware");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 4444; // default port 4444 for local development and 3000 for docker
 app.use(express.json());
+
 app.use("/", express.static("build"));
 
 app.get("/", function (req, res) {
@@ -65,6 +67,7 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
+    summary_prompt_text_filename,
     summary_fcs_mode,
     enable_stream_query,
 
@@ -135,6 +138,7 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
+    summary_prompt_text_filename,
     summary_fcs_mode,
     enable_stream_query,
 

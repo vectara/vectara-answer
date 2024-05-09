@@ -59,7 +59,7 @@ interface SearchContextType {
   summaryNumResults: number;
   summaryNumSentences: number;
   summaryPromptName: string;
-  summaryPromptText: string;
+  summaryPromptText?: string;
   fcsMode: FcsMode;
   history: HistoryItem[];
   clearHistory: () => void;
@@ -129,10 +129,10 @@ export const SearchContextProvider = ({ children }: Props) => {
     // Search params are updated as part of calling onSearch, so we don't
     // want to trigger another search when the search params change if that
     // search is already in progress.
+
     if (!isConfigLoaded || isSearching) return;
 
     const urlParams = new URLSearchParams(searchParams);
-
     onSearch({
       // Set to an empty string to wipe out any existing search value.
       value: getQueryParam(urlParams, "query") ?? "",
@@ -143,7 +143,7 @@ export const SearchContextProvider = ({ children }: Props) => {
       isPersistable: false,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConfigLoaded, searchParams]); // TODO: Add onSearch and fix infinite render loop
+  }, [isConfigLoaded, searchParams]);
 
   const searchResults = deserializeSearchResponse(searchResponse);
 

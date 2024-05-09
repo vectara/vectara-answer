@@ -10,6 +10,17 @@
 
 **Breaking changes**
 
+## `1.6.2`
+
+**Non-breaking changes**
+- Fixed language bug for summary
+
+## `1.6.1`
+
+**Non-breaking changes**
+- Added streaming and FCS.
+- Added FCS in the option drawer
+
 ## `1.6.0`
 
 **Non-breaking changes**

@@ -1,0 +1,9 @@
+[
+  {"role": "system", "content": "You are a helpful search assistant. 
+                                 Make sure you base your response only on the search results provided."},
+  #foreach ($qResult in $vectaraQueryResults)
+     {"role": "user", "content": "Give me the $vectaraIdxWord[$foreach.index] search result."},
+     {"role": "assistant", "content": "${qResult.getText()}" },
+  #end
+  {"role": "user", "content": "Generate a summary for the query '${vectaraQuery}' based on the above results, in bullet points form."}
+]
