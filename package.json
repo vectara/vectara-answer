@@ -1,6 +1,6 @@
 {
   "name": "vectara-answer",
-  "version": "1.5.8",
+  "version": "1.6.2",
   "private": true,
   "dependencies": {
     "@analytics/google-tag-manager": "^0.5.5",
@@ -17,9 +17,11 @@
     "@types/prismjs": "^1.26.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "@vectara/stream-query-client": "^1.0.0",
     "analytics": "^0.8.9",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
@@ -43,6 +45,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-react": "^7.33.0",
@@ -53,7 +56,7 @@
     "sass": "^1.58.0"
   },
   "scripts": {
-    "start": "PORT=4444 react-scripts start",
+    "start": "cross-env PORT=4444 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

@@ -19,12 +19,17 @@ import {
   VuiTextColor,
   VuiTitle,
 } from "../../../ui";
-import { SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage } from "../types";
+import {SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage, FCS_MODE, UiText, FcsMode} from "../types";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
 
 const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
   value: code,
   label: humanizeLanguage(code),
+}));
+
+const FcsOptions = FCS_MODE.map((code) => ({
+  value: code,
+  label: UiText(code),
 }));
 
 type Props = {
@@ -33,12 +38,14 @@ type Props = {
 };
 
 export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
-  const { uxMode, setUxMode } = useConfigContext();
+  const { uxMode, setUxMode, fcsMode, setFcsMode } = useConfigContext();
   const { language, onSearch } = useSearchContext();
 
   const [newUxMode, setNewUxMode] = useState(uxMode);
   const [isLanguageMenuOpen, seIisLanguageMenuOpen] = useState(false);
+  const [isFcsOpen, setIsFcsOpen] = useState(false);
   const [newLanguage, setNewLanguage] = useState<SummaryLanguage>(language);
+  const [newFcsMode, setNewFcsMode] = useState<FcsMode>(fcsMode);
 
   return (
     <VuiDrawer
@@ -117,6 +124,38 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
         </>
       </VuiFormGroup>
 
+      <VuiSpacer size="m"></VuiSpacer>
+
+      <VuiLabel>Factual Consistency Score Mode</VuiLabel>
+
+      <VuiSpacer size="xs" />
+
+      <VuiSearchSelect
+          isOpen={isFcsOpen}
+          setIsOpen={setIsFcsOpen}
+          onSelect={(value: string[]) => {
+            setNewFcsMode(value[0] as FcsMode);
+          }}
+          selected={[newFcsMode]}
+          options={FcsOptions}
+          isMultiSelect={false}
+      >
+        <VuiButtonSecondary color="neutral" size="m">
+          {UiText(newFcsMode)}
+        </VuiButtonSecondary>
+      </VuiSearchSelect>
+
+      <VuiSpacer size="xs" />
+
+      <VuiText size="xs">
+        <VuiTextColor color="subdued">
+          <p>Shows factual consistency score based on HHEMv2.</p>
+        </VuiTextColor>
+      </VuiText>
+
+      <VuiSpacer size="xs" />
+      <VuiSpacer size="m" />
+
       <VuiSpacer size="l" />
 
       <VuiHorizontalRule />
@@ -134,13 +173,13 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
           <VuiButtonPrimary
             color="primary"
             onClick={() => {
-              if (newLanguage !== language) {
+              setUxMode(newUxMode);
+              setFcsMode(newFcsMode)
+              if (newLanguage !== language || newFcsMode !== fcsMode) {
                 onSearch({
-                  language: newLanguage as SummaryLanguage,
+                  language: newLanguage as SummaryLanguage, modifiedFcsMode: newFcsMode as FcsMode
                 });
               }
-
-              setUxMode(newUxMode);
               onClose();
             }}
           >

@@ -1,10 +1,10 @@
 corpus_id: 3
-customer_id: 1366999410
+customer_id: 1169579801
 app_title: "Ask Feynman"
 search_title: "Ask Feynman"
 search_description: "All of Richard Feynman's Lectures"
 enable_source_filters: False
-source:
 summary_default_language: eng
-summary_num_sentences: 3
+summary_num_sentences: 2
 summary_num_results: 7
+summary_prompt_text_filename: prompt.txt

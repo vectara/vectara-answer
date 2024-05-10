@@ -9,7 +9,7 @@ import { SearchResultList } from "./results/SearchResultList";
 import { ProgressReport } from "./progressReport/ProgressReport";
 import { SummaryCitation } from "./summary/SummaryCitation";
 import { DeserializedSearchResult } from "./types";
-import { ConfidenceScore } from "./summary/ConfidenceScore";
+import {FactualConsistencyBadge} from "./summary/FactualConsistencyBadge";
 
 export const SummaryUx = () => {
   const {
@@ -19,21 +19,22 @@ export const SummaryUx = () => {
     summarizationResponse,
     searchResultsRef,
     selectedSearchResultPosition,
-    summaryEnableHem,
+    fcsMode,
+    factualConsistencyScore,
+    enableStreamQuery
   } = useSearchContext();
 
-  const rawSummary = summarizationResponse?.summary[0]?.text;
+  const rawSummary = summarizationResponse;
   const unorderedSummary = sanitizeCitations(rawSummary);
 
   let summary = "";
   let summarySearchResults: DeserializedSearchResult[] = [];
-
-  if (!isSummarizing && unorderedSummary) {
+  const processCitations =  (unorderedSummary: string) => {
     summary = reorderCitations(unorderedSummary);
     if (searchResults) {
       summarySearchResults = applyCitationOrder(
-        searchResults,
-        unorderedSummary
+          searchResults,
+          unorderedSummary
       );
     }
 
@@ -44,7 +45,13 @@ export const SummaryUx = () => {
       summary = unorderedSummary.replace(/\[\d+\]/g, "");
     }
   }
-
+  if(enableStreamQuery && unorderedSummary) {
+    processCitations(unorderedSummary)
+  }
+  else if(!isSummarizing && unorderedSummary)
+  {
+    processCitations(unorderedSummary)
+  }
   return (
     <>
       <ProgressReport isSearching={isSearching} isSummarizing={isSummarizing} />
@@ -65,10 +72,10 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          {summaryEnableHem && (
-            <ConfidenceScore
-              rawSummary={rawSummary}
-              summarySearchResults={summarySearchResults}
+          {fcsMode !== "disable" && (
+            <FactualConsistencyBadge
+              score={factualConsistencyScore}
+              fcsMode={fcsMode}
             />
           )}
 

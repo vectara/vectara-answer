@@ -19,6 +19,10 @@ WORKDIR /usr/src/app
 COPY --from=builder build ./build
 COPY --from=builder node_modules ./node_modules
 COPY server ./server
+
 EXPOSE 3000
-ENTRYPOINT ["/bin/bash", "-l", "-c"]
-CMD ["PORT=3000 node server/index.js"]
+
+COPY docker/entrypoint.sh ./
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["node", "server/index.js"]
