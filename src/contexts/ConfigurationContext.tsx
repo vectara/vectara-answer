@@ -87,7 +87,7 @@ interface Config {
   config_questions?: string;
 
   // Results
-  config_explore_enabled?: string
+  config_related_content?: string
 }
 
 type ConfigProp = keyof Config;
@@ -432,7 +432,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       config_summary_prompt_name,
       config_summary_prompt_text_filename,
       config_summary_fcs_mode,
-      config_explore_enabled
+      config_related_content
     } = config;
 
     setUxMode(config_ux ?? "summary");
@@ -547,7 +547,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     });
 
     setResults({
-      exploreEnabled: isTrue(config_explore_enabled) ?? false
+      exploreEnabled: isTrue(config_related_content) ?? false
     });
 
     setIsConfigLoaded(true);

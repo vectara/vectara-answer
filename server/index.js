@@ -104,7 +104,7 @@ app.post("/config", (req, res) => {
     gtm_container_id,
 
     // recommendation
-    explore_enabled,
+    related_content,
 
     // Questions
     questions,
@@ -178,7 +178,7 @@ app.post("/config", (req, res) => {
     gtm_container_id,
 
     // recommendation
-    explore_enabled,
+    related_content,
 
     // Questions
     questions,

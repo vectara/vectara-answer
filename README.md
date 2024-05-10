@@ -311,7 +311,7 @@ Customize the result display, this provides options to tailor the presentation o
 
 ```yaml
 # Enable the "explore related content" link, which does a search for content related to the text in each results's matching snippet
-explore_enabled: True
+related_content: True
 ```
 
 ### Full Story (optional)
