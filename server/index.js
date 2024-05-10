@@ -1,9 +1,11 @@
 const express = require("express");
+
 const { createProxyMiddleware } = require("http-proxy-middleware");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 4444; // default port 4444 for local development and 3000 for docker
 app.use(express.json());
+
 app.use("/", express.static("build"));
 
 app.get("/", function (req, res) {
@@ -21,7 +23,9 @@ const proxyOptions = {
     proxyReq.setHeader("x-api-key", process.env.api_key);
     proxyReq.setHeader("grpc-timeout", "60S");
     proxyReq.setHeader("X-Source", "vectara-answer");
-    
+
+    console.log("Vectara Answer - user query: ", req.body.query)
+
     if (req.body) {
       const bodyData = JSON.stringify(req.body);
       proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyData));
@@ -38,7 +42,6 @@ app.post("/config", (req, res) => {
     corpus_id,
     customer_id,
     api_key,
-    hf_token,
 
     // App
     ux,
@@ -64,7 +67,9 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
-    summary_enable_hem,
+    summary_prompt_text_filename,
+    summary_fcs_mode,
+    enable_stream_query,
 
     // Rerank
     rerank,
@@ -108,7 +113,6 @@ app.post("/config", (req, res) => {
     corpus_id,
     customer_id,
     api_key,
-    hf_token,
 
     // App
     ux,
@@ -134,7 +138,9 @@ app.post("/config", (req, res) => {
     summary_num_results,
     summary_num_sentences,
     summary_prompt_name,
-    summary_enable_hem,
+    summary_prompt_text_filename,
+    summary_fcs_mode,
+    enable_stream_query,
 
     // Hybrid search
     hybrid_search_num_words,

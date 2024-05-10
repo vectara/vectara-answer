@@ -18,6 +18,7 @@ type Config = {
   summaryNumSentences?: number;
   summaryPromptName?: string;
   summaryPromptText?: string;
+  enableFactualConsistencyScore?: boolean
   customerId: string;
   corpusId: string;
   endpoint: string;
@@ -40,6 +41,7 @@ export const sendSearchRequest = async ({
   summaryNumSentences,
   summaryPromptName,
   summaryPromptText,
+  enableFactualConsistencyScore,
   customerId,
   corpusId,
   endpoint,
@@ -61,7 +63,6 @@ export const sendSearchRequest = async ({
   });
 
   if (summaryPromptText) {
-    console.info("Fixing backslashes in promptText, input is: " + summaryPromptText)
     summaryPromptText = summaryPromptText.replaceAll("\\n", "\n");
     summaryPromptText = summaryPromptText.replaceAll("\\\"", "\\\\\\\"");
   }
@@ -86,7 +87,8 @@ export const sendSearchRequest = async ({
                   responseLang: language,
                   maxSummarizedResults: summaryNumResults,
                   summarizerPromptName: summaryPromptName,
-                  promptText: summaryPromptText
+                  promptText: summaryPromptText,
+                  factualConsistencyScore: enableFactualConsistencyScore ?? false
                 },
               ],
             }
@@ -128,12 +130,10 @@ export const sendSearchRequest = async ({
         Accept: "application/json",
         "customer-id": customerId,
         "x-api-key": apiKey,
-//        "X-Source": "vectara-answer",
         "grpc-timeout": "60S",
       },
     };
   }
-  console.log("Prompt text:\n" + summaryPromptText)
   const result = await axios.post(url, body, headers);
 
   const status = result["data"]["responseSet"][0]["status"];

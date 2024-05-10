@@ -10,6 +10,36 @@
 
 **Breaking changes**
 
+## `1.6.2`
+
+**Non-breaking changes**
+- Fixed language bug for summary
+
+## `1.6.1`
+
+**Non-breaking changes**
+- Added streaming and FCS.
+- Added FCS in the option drawer
+
+## `1.6.0`
+
+**Non-breaking changes**
+- Bug fix with MMR
+- Updates to documentation, cross-linking to other project and other changes
+- Added argument summary prompt text
+- Changed popover to display from left of parent
+- Show doc_id as title if title missing
+- Support for streaming response and FCS
+
+## `1.5.9`
+
+**Non-breaking changes**
+- Ignore citations that don't correspond to search results
+- Updated README, HOSTING.MD and other docs
+- Added instruction to deploy directly and using Docker, via render "create service api"
+- feat(docker): Added Multi-Stage build support for Vectara-Answer by @SaptarshiSarkar12
+- Some updates to Dockerfile
+
 ...
 ## `1.5.8`
 
