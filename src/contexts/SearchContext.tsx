@@ -69,7 +69,7 @@ interface SearchContextType {
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
   selectedSearchResultPosition: number | undefined;
   selectSearchResultAt: (position: number) => void;
-  exploreEnabled: boolean;
+  relatedContent: boolean;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -421,7 +421,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         searchResultsRef,
         selectedSearchResultPosition,
         selectSearchResultAt,
-        exploreEnabled: results.exploreEnabled,
+        relatedContent: results.relatedContent,
       }}
     >
       {children}

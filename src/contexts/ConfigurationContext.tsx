@@ -138,7 +138,7 @@ type Summary = {
 };
 
 type Results = {
-  exploreEnabled: boolean;
+  relatedContent: boolean;
 };
 
 type SearchHeader = {
@@ -328,7 +328,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
   });
 
   const [results, setResults] = useState<Results>({
-    exploreEnabled: false,
+    relatedContent: false,
   })
 
   const loadConfig = async () => {
@@ -547,7 +547,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     });
 
     setResults({
-      exploreEnabled: isTrue(config_related_content) ?? false
+      relatedContent: isTrue(config_related_content) ?? false
     });
 
     setIsConfigLoaded(true);

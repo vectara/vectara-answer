@@ -25,14 +25,14 @@ type Props = {
   children?: React.ReactNode;
   className?: string;
   snippetProps?: any;
-  exploreEnabled?: boolean;
+  relatedContent?: boolean;
 };
 
 const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;
 const recommendedUrl = (text: string) => `?mode=recommend&query=${text}`;
 
 export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
-  ({ result, position, isSelected, subTitle, children, className, snippetProps, exploreEnabled, ...rest }: Props, ref) => {
+  ({ result, position, isSelected, subTitle, children, className, snippetProps, relatedContent, ...rest }: Props, ref) => {
     const {
       title,
       url,
@@ -83,7 +83,7 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
             {pre} <strong>{text}</strong> {post}
           </p>
 
-          {exploreEnabled && (
+          {relatedContent && (
             <><VuiLink href={recommendedUrl(text)} target="_blank">
               <i><h5>+ Explore this concept more</h5></i>
             </VuiLink><p>&nbsp;</p></>

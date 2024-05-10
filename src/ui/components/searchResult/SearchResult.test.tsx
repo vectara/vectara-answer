@@ -20,7 +20,7 @@ describe("VuiSearchResult", () => {
           snippetProps={{
             className: "snippetCustomClass"
           }}
-          exploreEnabled={true}
+          relatedContent={true}
         >
           <div>children</div>
         </VuiSearchResult>,
