@@ -266,7 +266,7 @@ Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference
 
 ```yaml
 # choose a reranker from the following choices
-reranker_name: default | slingshot | mmr
+reranker_name: normal | slingshot | mmr
 
 # number of results to use for reranking
 rerank_num_results: 50

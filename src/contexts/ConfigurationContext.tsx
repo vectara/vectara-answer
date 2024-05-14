@@ -476,7 +476,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     }
 
     const isRankerEnabled = (rerankerName: string | undefined) => {
-      return rerankerName === "default" || rerankerName === "slingshot"
+      return rerankerName === "normal" || rerankerName === "slingshot"
         || rerankerName === "mmr" || false
     }
     const getRerankerId = (rerankerName: string | undefined) => {
