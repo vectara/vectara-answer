@@ -72,12 +72,10 @@ app.post("/config", (req, res) => {
     enable_stream_query,
 
     // Rerank
-    rerank,
     rerank_num_results,
-    reranker_id,
+    reranker_name,
 
     // MMR
-    mmr,
     mmr_num_results,
     mmr_diversity_bias,
 
@@ -149,12 +147,10 @@ app.post("/config", (req, res) => {
     hybrid_search_lambda_short,
 
     // Rerank
-    rerank,
     rerank_num_results,
-    reranker_id,
+    reranker_name,
 
     // MMR
-    mmr,
     mmr_num_results,
     mmr_diversity_bias,
 

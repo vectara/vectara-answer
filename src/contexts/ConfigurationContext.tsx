@@ -13,7 +13,7 @@ import {
   UxMode,
   normal_reranker_id,
   mmr_reranker_id,
-  FcsMode, FCS_MODE,
+  FcsMode, FCS_MODE, slingshot_reranker_id
 } from "../views/search/types";
 
 interface Config {
@@ -75,13 +75,11 @@ interface Config {
   config_hybrid_search_lambda_short?: number;
 
   // rerank
-  config_rerank?: string;
   config_rerank_num_results?: number;
-  config_reranker_id?: number
+  config_reranker_name?: string
 
 
   // MMR
-  config_mmr?: string;
   config_mmr_num_results?: number;
   config_mmr_diversity_bias?: number;
 
@@ -403,12 +401,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
       config_gtm_container_id,
 
       // rerank
-      config_rerank,
       config_rerank_num_results,
-      config_reranker_id,
+      config_reranker_name,
 
       // MMR
-      config_mmr,
       config_mmr_diversity_bias,
       config_mmr_num_results,
 
@@ -479,6 +475,23 @@ export const ConfigContextProvider = ({ children }: Props) => {
       );
     }
 
+    const isRankerEnabled = (rerankerName: string | undefined) => {
+      return rerankerName === "default" || rerankerName === "slingshot"
+        || rerankerName === "mmr" || false
+    }
+    const getRerankerId = (rerankerName: string | undefined) => {
+      if (rerankerName === "mmr")  return mmr_reranker_id
+      else if (rerankerName === "slingshot") return slingshot_reranker_id
+      else return normal_reranker_id
+
+    }
+
+    const getRerankerDiversty = (rerankerNname: string | undefined) => {
+      if (rerankerNname === "mmr")  return config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3
+      else return rerank.diversityBias ?? 0.3
+
+    }
+
     setFilters({
       isEnabled: isFilteringEnabled,
       allSources: allSources,
@@ -523,12 +536,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
     });
 
     setRerank({
-      isEnabled: isTrue(config_mmr) || isTrue(config_rerank),
-      numResults: isTrue(config_mmr)
+      isEnabled: isRankerEnabled(config_reranker_name),
+      numResults: config_reranker_name === "mmr"
         ? (config_mmr_num_results ?? 50)
         : config_rerank_num_results ?? rerank.numResults,
-      id: isTrue(config_mmr) ? mmr_reranker_id : config_reranker_id || normal_reranker_id,
-      diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3,
+      id: getRerankerId(config_reranker_name),
+      diversityBias: getRerankerDiversty(config_reranker_name),
     });
 
     setHybrid({
