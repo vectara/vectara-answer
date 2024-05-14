@@ -77,6 +77,8 @@ interface Config {
   // rerank
   config_rerank?: string;
   config_rerank_num_results?: number;
+  config_reranker_id?: number
+
 
   // MMR
   config_mmr?: string;
@@ -403,6 +405,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       // rerank
       config_rerank,
       config_rerank_num_results,
+      config_reranker_id,
 
       // MMR
       config_mmr,
@@ -524,7 +527,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       numResults: isTrue(config_mmr)
         ? (config_mmr_num_results ?? 50)
         : config_rerank_num_results ?? rerank.numResults,
-      id: isTrue(config_mmr) ? mmr_reranker_id : normal_reranker_id,
+      id: isTrue(config_mmr) ? mmr_reranker_id : config_reranker_id || normal_reranker_id,
       diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3,
     });
 

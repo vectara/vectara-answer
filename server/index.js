@@ -74,6 +74,7 @@ app.post("/config", (req, res) => {
     // Rerank
     rerank,
     rerank_num_results,
+    reranker_id,
 
     // MMR
     mmr,
@@ -150,6 +151,7 @@ app.post("/config", (req, res) => {
     // Rerank
     rerank,
     rerank_num_results,
+    reranker_id,
 
     // MMR
     mmr,
