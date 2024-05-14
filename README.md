@@ -265,20 +265,16 @@ This means the user will only be able to select a specific source for each query
 Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "False".
 
 ```yaml
-# Reranking enabled: True or False
-rerank: False
+# choose a reranker from the following choices
+reranker_name: normal | slingshot | mmr
 
 # number of results to use for reranking
 rerank_num_results: 50
 ```
 
-Whether to use Vectara's MMR (Maximum Marginal Relevance) functionality.
-Note that if `mmr=true`, it will disable `rerank=true`, as both cannot co-exist.
+To use Vectara's MMR (Maximum Marginal Relevance) functionality please set the `reranker_name = mmr`.
 
 ```yaml
-# mmr enabled: True or False
-mmr: True
-
 # Diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
 mmr_diversity_bias: 0.3
 
