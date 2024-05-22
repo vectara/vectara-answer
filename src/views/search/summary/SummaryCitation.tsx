@@ -19,6 +19,7 @@ export const SummaryCitation = ({ reference }: Props) => {
     <>
       {" "}
       <VuiSummaryCitation
+        className="vuiSummaryCitationColor"
         reference={reference}
         onClick={() => selectSearchResultAt(position - 1)}
         isSelected={isSelected}

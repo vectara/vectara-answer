@@ -24,6 +24,11 @@
 }
 
 .vuiListNumber-isComplete {
-  background-color: $colorAccentLightShade;
-  color: $colorAccent;
+  background-color: $colorLightShade;
+  color: $colorSubdued;
+}
+
+.vuiSummaryCitationColor {
+  background-color: $colorAccentLightShade !important;
+  color: $colorAccent !important;
 }

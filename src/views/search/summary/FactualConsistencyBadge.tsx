@@ -1,6 +1,8 @@
-import {VuiBadge, VuiFlexContainer, VuiFlexItem, VuiLinkInternal, VuiText} from "../../../ui";
+import { VuiBadge, VuiFlexContainer, VuiFlexItem, VuiLinkInternal } from "../../../ui";
 import {ConfidenceBadge} from "./ConfidenceBadge";
 import {FcsMode} from "../types";
+import { useState } from "react";
+import { HemDrawer } from "./HemDrawer";
 
 interface Props {
     score?: number;
@@ -26,7 +28,7 @@ const getConfidenceLevel = (score: number): ConfidenceLevel => {
 };
 export const FactualConsistencyBadge = ({ score, fcsMode }: Props) => {
     let badge;
-    const fcsLDocsLink = "https://docs.vectara.com/docs/api-reference/search-apis/search?#factual-consistency-score"
+    const [isHemDrawerOpen, setIsHemDrawerOpen] = useState(false);
     if (score !== undefined) {
         // badge = <VuiBadge color="accent">Calculating Factual Consistency Score…</VuiBadge>;
         const sanitizedScore = parseFloat(score.toFixed(2));
@@ -37,24 +39,29 @@ export const FactualConsistencyBadge = ({ score, fcsMode }: Props) => {
         );
 
         return (
-            <VuiFlexContainer alignItems="center" data-testid="factualConsistencyBadge">
-                {/*{score === undefined && <VuiSpinner size="s" />}*/}
-                <VuiFlexItem>
-                    {
-                        fcsMode === "badge" ? <ConfidenceBadge confidenceLevel={getConfidenceLevel(score ?? -1)} />
+          <>
+              <VuiFlexContainer alignItems="center" data-testid="factualConsistencyBadge">
+                  {/*{score === undefined && <VuiSpinner size="s" />}*/}
+                  <VuiFlexItem>
+                      {
+                          fcsMode === "badge" ? <ConfidenceBadge confidenceLevel={getConfidenceLevel(score ?? -1)} />
                             : badge
-                    }
-                </VuiFlexItem>
-                <VuiFlexItem>
-                    <VuiText size="xs">
-                        <p>
-                            <VuiLinkInternal href={fcsLDocsLink} target="_blank">
-                                What's this?
-                            </VuiLinkInternal>
-                        </p>
-                    </VuiText>
-                </VuiFlexItem>
-            </VuiFlexContainer>
+                      }
+                  </VuiFlexItem>
+                  <VuiFlexItem grow={false} shrink={false}>
+                      <VuiLinkInternal
+                        onClick={() => setIsHemDrawerOpen(true)}
+                      >
+                          What's this?
+                      </VuiLinkInternal>
+                  </VuiFlexItem>
+              </VuiFlexContainer>
+              <HemDrawer
+                isOpen={isHemDrawerOpen}
+                onClose={() => setIsHemDrawerOpen(false)}
+              />
+          </>
+
         );
     }
 
