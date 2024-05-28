@@ -24,9 +24,14 @@ const proxyOptions = {
     proxyReq.setHeader("grpc-timeout", "60S");
     proxyReq.setHeader("X-Source", "vectara-answer");
 
-    console.log("Vectara Answer - user query: ", req.body.query)
+    if (req.body.logQuery) {
+      // Accessing the domain name from the request headers
+      const hostHeader = req.headers.host;
+      console.log(`${hostHeader} - user query: `, req.body.query[0].query)
+    }
 
     if (req.body) {
+      delete req.body.logQuery // remove the logQuery flag from request body
       const bodyData = JSON.stringify(req.body);
       proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyData));
       proxyReq.write(bodyData);

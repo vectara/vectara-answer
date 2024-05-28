@@ -242,6 +242,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
           apiKey: search.apiKey!,
+          logQuery: true
         });
         const totalTime = Date.now() - startTime;
 

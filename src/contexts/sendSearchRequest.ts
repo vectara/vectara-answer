@@ -23,6 +23,7 @@ type Config = {
   corpusId: string;
   endpoint: string;
   apiKey: string;
+  logQuery?: boolean;
 };
 
 export const sendSearchRequest = async ({
@@ -46,6 +47,7 @@ export const sendSearchRequest = async ({
   corpusId,
   endpoint,
   apiKey,
+  logQuery=false
 }: Config) => {
   const lambda =
     typeof query_str === "undefined" || query_str.trim().split(" ").length > hybridNumWords
@@ -68,6 +70,7 @@ export const sendSearchRequest = async ({
   }
 
   const body = {
+    logQuery: logQuery, // passing request middleware to decide log the query or not
     query: [
       {
         query: query_str,
