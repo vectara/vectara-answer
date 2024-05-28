@@ -4,6 +4,7 @@ export type HistoryItem = {
   query: string;
   filter: string;
   language: SummaryLanguage;
+  mode: string;
   date: string;
 };
 
@@ -15,14 +16,15 @@ export const addHistoryItem = (
     query,
     filter,
     language,
-  }: { query: string; filter: string; language: SummaryLanguage },
+    mode,
+  }: { query: string; filter: string; language: SummaryLanguage; mode: string },
   history: HistoryItem[]
 ) => {
   const date = new Intl.DateTimeFormat("en", {
     dateStyle: "medium",
     timeStyle: "medium",
   }).format(new Date());
-  const newHistoryItem = { query, filter, language, date };
+  const newHistoryItem = { query, filter, language, mode, date };
   const newHistory = [
     newHistoryItem,
     ...history.filter((item) => item.query !== query),

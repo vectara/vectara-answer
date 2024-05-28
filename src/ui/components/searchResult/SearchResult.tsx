@@ -25,18 +25,21 @@ type Props = {
   children?: React.ReactNode;
   className?: string;
   snippetProps?: any;
+  relatedContent?: boolean;
 };
 
 const highlightUrl = (url: string, text: string) => `${url}#:~:text=${text}`;
+const recommendedUrl = (text: string) => `?mode=recommend&query=${text}`;
 
 export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
-  ({ result, position, isSelected, subTitle, children, className, snippetProps, ...rest }: Props, ref) => {
+  ({ result, position, isSelected, subTitle, children, className, snippetProps, relatedContent, ...rest }: Props, ref) => {
     const {
       title,
       url,
       date,
       snippet: { pre, post, text }
     } = result;
+
 
     // Protect users' privacy in FullStory.
     // https://help.fullstory.com/hc/en-us/articles/360020623574-How-do-I-protect-my-users-privacy-in-FullStory-#01F5DPW1AJHZHR8TBM9YQEDRMH
@@ -79,7 +82,14 @@ export const VuiSearchResult = forwardRef<HTMLDivElement | null, Props>(
             {date && <VuiTextColor color="subdued">{date} &#8212; </VuiTextColor>}
             {pre} <strong>{text}</strong> {post}
           </p>
+
+          {relatedContent && (
+            <><VuiLink href={recommendedUrl(text)} target="_blank">
+              <i><h5>+ Explore this concept more</h5></i>
+            </VuiLink><p>&nbsp;</p></>
+          )}
         </VuiText>
+
 
         {children && (
           <>

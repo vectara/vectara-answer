@@ -31,6 +31,8 @@ interface SearchContextType {
   setFilterValue: (source: string) => void;
   searchValue: string;
   setSearchValue: (value: string) => void;
+  modeValue: string;
+  setModeValue: (value: string) => void;
   onSearch: ({
                value,
                filter,
@@ -43,6 +45,7 @@ interface SearchContextType {
     language?: SummaryLanguage;
     modifiedFcsMode?: FcsMode,
     isPersistable?: boolean;
+    mode?: string;
   }) => void;
   reset: () => void;
   isSearching: boolean;
@@ -66,6 +69,7 @@ interface SearchContextType {
   searchResultsRef: React.MutableRefObject<HTMLElement[] | null[]>;
   selectedSearchResultPosition: number | undefined;
   selectSearchResultAt: (position: number) => void;
+  relatedContent: boolean;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
@@ -83,12 +87,13 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, rerank, hybrid, uxMode, fcsMode } =
-      useConfigContext();
+  const { isConfigLoaded, search, summary, results, rerank, hybrid, uxMode, fcsMode } =
+    useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [filterValue, setFilterValue] = useState("");
+  const [modeValue, setModeValue] = useState("");
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -141,6 +146,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           | SummaryLanguage
           | undefined,
       isPersistable: false,
+      mode: getQueryParam(urlParams, "mode") ?? "",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConfigLoaded, searchParams]);
@@ -184,38 +190,41 @@ export const SearchContextProvider = ({ children }: Props) => {
       (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
   const onSearch = async ({
-                            value = searchValue,
-                            filter = filterValue,
-                            language = getLanguage(),
-                            modifiedFcsMode = fcsMode,
-                            isPersistable = true,
-                          }: {
+    value = searchValue,
+    filter = filterValue,
+    language = getLanguage(),
+    modifiedFcsMode = fcsMode,
+    isPersistable = true,
+    mode = modeValue,
+  }: {
     value?: string;
     filter?: string;
     language?: SummaryLanguage;
     modifiedFcsMode?: FcsMode
     isPersistable?: boolean;
+    mode?: string;
   }) => {
     const searchId = ++searchCount;
 
     setSearchValue(value);
     setFilterValue(filter);
     setLanguageValue(language);
+    setModeValue(mode);
     const isFactualConsistentScoreEnabled = modifiedFcsMode === "score" || modifiedFcsMode === "badge"
 
     if (value?.trim()) {
       // Save to history.
-      setHistory(addHistoryItem({ query: value, filter, language }, history));
+      setHistory(addHistoryItem({ query: value, filter, language, mode }, history));
 
       // Persist to URL, only if the search executes. This way the prior
       // search that was persisted remains in the URL if the search doesn't execute.
       if (isPersistable) {
         setSearchParams(
-            new URLSearchParams(
-                `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
-                    filter
-                )}&language=${encodeURIComponent(language)}`
-            )
+          new URLSearchParams(
+            `?query=${encodeURIComponent(value)}&filter=${encodeURIComponent(
+              filter
+            )}&language=${encodeURIComponent(language)}&mode=${encodeURIComponent(mode)}`
+          )
         );
       }
 
@@ -238,6 +247,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           hybridNumWords: hybrid.numWords,
           hybridLambdaLong: hybrid.lambdaLong,
           hybridLambdaShort: hybrid.lambdaShort,
+          mode: mode,
           customerId: search.customerId!,
           corpusId: search.corpusId!,
           endpoint: search.endpoint!,
@@ -280,7 +290,6 @@ export const SearchContextProvider = ({ children }: Props) => {
                     const fcsDetail = update.details?.find(
                         (detail) => detail.type === "factualConsistency") as
                         | FactualConsistencyDetail
-
                     if (searchId === searchCount) {
                         if (update.isDone) {
                             setIsSummarizing(false);
@@ -378,7 +387,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   const reset = () => {
     // Specifically don't reset language because that's more of a
     // user preference.
-    onSearch({ value: "", filter: "" });
+    onSearch({ value: "", filter: "", mode: "" });
   };
 
   return (
@@ -386,6 +395,8 @@ export const SearchContextProvider = ({ children }: Props) => {
       value={{
         filterValue,
         setFilterValue,
+        modeValue,
+        setModeValue,
         searchValue,
         setSearchValue,
         onSearch,
@@ -411,6 +422,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         searchResultsRef,
         selectedSearchResultPosition,
         selectSearchResultAt,
+        relatedContent: results.relatedContent,
       }}
     >
       {children}

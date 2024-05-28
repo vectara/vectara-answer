@@ -12,7 +12,7 @@ describe("VuiSearchResult", () => {
             title: "title",
             url: "url",
             date: "date",
-            snippet: { pre: "pre", text: "text", post: "" }
+            snippet: { pre: "pre", text: "text", post: "" },
           }}
           position={1}
           subTitle={<div>subTitle</div>}
@@ -20,64 +20,86 @@ describe("VuiSearchResult", () => {
           snippetProps={{
             className: "snippetCustomClass"
           }}
+          relatedContent={true}
         >
           <div>children</div>
         </VuiSearchResult>,
         { wrapper: MemoryRouter }
       );
 
-      expect(asFragment()).toMatchInlineSnapshot(`
-        <DocumentFragment>
-          <div
-            class="vuiSearchResult fs-mask customClass"
-          >
-            <div
-              class="vuiSearchResultPosition"
-              data-testid="searchResultCitation-1"
-            >
-              1
-            </div>
-            <a
-              class="vuiLink vuiTitle vuiTitle--s"
-              href="/url#:~:text=text"
-              rel="noopener"
-              target="_blank"
-            >
-              <h3>
-                title
-              </h3>
-            </a>
-            <div
-              class="vuiSpacer vuiSpacer--xs"
-            />
-            <div>
-              subTitle
-            </div>
-            <div
-              class="vuiText vuiText--s snippetCustomClass"
-            >
-              <p>
-                <span
-                  class="vuiTextColor vuiTextColor--subdued"
-                >
-                  date — 
-                </span>
-                pre 
-                <strong>
-                  text
-                </strong>
-                 
-              </p>
-            </div>
-            <div
-              class="vuiSpacer vuiSpacer--s"
-            />
-            <div>
-              children
-            </div>
-          </div>
-        </DocumentFragment>
-      `);
+      const expected  = `
+<DocumentFragment>
+  <div
+    class="vuiSearchResult fs-mask customClass"
+  >
+    <div
+      class="vuiSearchResultPosition"
+      data-testid="searchResultCitation-1"
+    >
+      1
+    </div>
+    <a
+      class="vuiLink vuiTitle vuiTitle--s"
+      href="/url#:~:text=text"
+      rel="noopener"
+      target="_blank"
+    >
+      <h3>
+        title
+      </h3>
+    </a>
+    <div
+      class="vuiSpacer vuiSpacer--xs"
+    />
+    <div>
+      subTitle
+    </div>
+    <div
+      class="vuiText vuiText--s snippetCustomClass"
+    >
+      <p>
+        <span
+          class="vuiTextColor vuiTextColor--subdued"
+        >
+          date — 
+        </span>
+        pre 
+        <strong>
+          text
+        </strong>
+         
+      </p>
+      <a
+        class="vuiLink"
+        href="/?mode=recommend&query=text"
+        rel="noopener"
+        target="_blank"
+      >
+        <i>
+          <h5>
+            + Explore this concept more
+          </h5>
+        </i>
+      </a>
+      <p>
+         
+      </p>
+    </div>
+    <div
+      class="vuiSpacer vuiSpacer--s"
+    />
+    <div>
+      children
+    </div>
+  </div>
+</DocumentFragment>
+`
+      const output : DocumentFragment = asFragment()
+
+
+      console.log("Output is:\n" + output.textContent);
+
+      expect(output).toMatchInlineSnapshot(expected);
     });
 
     test("missing optional props", () => {

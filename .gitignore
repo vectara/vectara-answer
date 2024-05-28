@@ -162,4 +162,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-.idea/
+# Remove Pycharm .idea from commit
+.idea

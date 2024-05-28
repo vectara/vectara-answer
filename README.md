@@ -302,6 +302,14 @@ google_analytics_tracking_code: "123456789"
 gtm_container_id: "GTM-1234567"
 ```
 
+### Results (optional)
+Customize the result display, this provides options to tailor the presentation of the results shown.
+
+```yaml
+# Enable the "explore related content" link, which does a search for content related to the text in each results's matching snippet
+related_content: True
+```
+
 ### Full Story (optional)
 
 ```yaml

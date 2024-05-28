@@ -14,6 +14,7 @@ type Config = {
   hybridNumWords: number;
   hybridLambdaShort?: number;
   hybridLambdaLong?: number;
+  mode?: string;
   summaryNumResults?: number;
   summaryNumSentences?: number;
   summaryPromptName?: string;
@@ -38,6 +39,7 @@ export const sendSearchRequest = async ({
   hybridNumWords,
   hybridLambdaShort,
   hybridLambdaLong,
+  mode,
   summaryNumResults,
   summaryNumSentences,
   summaryPromptName,
@@ -61,6 +63,7 @@ export const sendSearchRequest = async ({
         lambda: lambda,
       },
       metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
+      "semantics": mode ? `RESPONSE` : undefined,
     };
   });
 

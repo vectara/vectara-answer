@@ -85,6 +85,9 @@ interface Config {
 
   // questions
   config_questions?: string;
+
+  // Results
+  config_related_content?: string
 }
 
 type ConfigProp = keyof Config;
@@ -134,6 +137,10 @@ type Summary = {
   summaryPromptText?: string;
 };
 
+type Results = {
+  relatedContent: boolean;
+};
+
 type SearchHeader = {
   logo: {
     link?: string;
@@ -173,6 +180,7 @@ interface ConfigContextType {
   appHeader: AppHeader;
   filters: Filters;
   summary: Summary;
+  results: Results;
   rerank: Rerank;
   hybrid: Hybrid;
   searchHeader: SearchHeader;
@@ -319,6 +327,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
     summaryPromptText: "",
   });
 
+  const [results, setResults] = useState<Results>({
+    relatedContent: false,
+  })
 
   const loadConfig = async () => {
     let config: Config;
@@ -419,7 +430,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       config_summary_num_sentences,
       config_summary_prompt_name,
       config_summary_prompt_text_filename,
-      config_summary_fcs_mode
+      config_summary_fcs_mode,
+      config_related_content
     } = config;
 
     setUxMode(config_ux ?? "summary");
@@ -550,8 +562,13 @@ export const ConfigContextProvider = ({ children }: Props) => {
       lambdaShort: config_hybrid_search_lambda_short ?? hybrid.lambdaShort,
     });
 
+    setResults({
+      relatedContent: isTrue(config_related_content) ?? false
+    });
+
     setIsConfigLoaded(true);
   };
+
 
   useEffect(() => {
     loadConfig();
@@ -572,6 +589,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         appHeader,
         filters,
         summary,
+        results,
         rerank,
         hybrid,
         searchHeader,
