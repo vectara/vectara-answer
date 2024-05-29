@@ -273,7 +273,7 @@ reranker_name: normal | slingshot | mmr
 rerank_num_results: 50
 ```
 
-To use Vectara's MMR (Maximum Marginal Relevance) functionality please set the `reranker_name = mmr`.
+To use Vectara's MMR (Maximum Marginal Relevance) functionality please set the `reranker_name = mmr`, and add a `mmr_diversity_bias` value.
 
 ```yaml
 # Diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
