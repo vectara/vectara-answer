@@ -80,7 +80,6 @@ interface Config {
 
 
   // MMR
-  config_mmr_num_results?: number;
   config_mmr_diversity_bias?: number;
 
   // questions
@@ -417,7 +416,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
       // MMR
       config_mmr_diversity_bias,
-      config_mmr_num_results,
 
       // hybrid search
       config_hybrid_search_num_words,
@@ -549,9 +547,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     setRerank({
       isEnabled: isRankerEnabled(config_reranker_name),
-      numResults: config_reranker_name === "mmr"
-        ? (config_mmr_num_results ?? 50)
-        : config_rerank_num_results ?? rerank.numResults,
+      numResults: config_rerank_num_results ?? rerank.numResults,
       id: getRerankerId(config_reranker_name),
       diversityBias: getRerankerDiversty(config_reranker_name),
     });
