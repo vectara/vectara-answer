@@ -81,7 +81,6 @@ app.post("/config", (req, res) => {
     reranker_name,
 
     // MMR
-    mmr_num_results,
     mmr_diversity_bias,
 
     // Hybrid search
@@ -159,7 +158,6 @@ app.post("/config", (req, res) => {
     reranker_name,
 
     // MMR
-    mmr_num_results,
     mmr_diversity_bias,
 
     // Search header

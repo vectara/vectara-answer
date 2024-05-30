@@ -68,7 +68,7 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          <VuiSummary summary={summary} SummaryCitation={SummaryCitation} />
+          <VuiSummary summary={summary} SummaryCitation={SummaryCitation} className="vuiSummaryWidth" />
 
           <VuiSpacer size="s" />
 

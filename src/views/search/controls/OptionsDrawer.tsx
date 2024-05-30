@@ -22,10 +22,13 @@ import {
 import {SUMMARY_LANGUAGES, SummaryLanguage, humanizeLanguage, FCS_MODE, UiText, FcsMode} from "../types";
 import { useConfigContext } from "../../../contexts/ConfigurationContext";
 
-const languageOptions = SUMMARY_LANGUAGES.map((code) => ({
-  value: code,
-  label: humanizeLanguage(code),
-}));
+const languageOptions  = SUMMARY_LANGUAGES.reduce<{ value: string; label: string }[]>((langInfo, code) => {
+  const label = humanizeLanguage(code);
+  if (!langInfo.some(option => option.label === label)) {
+    langInfo.push({ value: code, label });
+  }
+  return langInfo;
+}, []);
 
 const FcsOptions = FCS_MODE.map((code) => ({
   value: code,

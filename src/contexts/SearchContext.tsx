@@ -23,8 +23,8 @@ import {
   retrieveHistory,
 } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
-import {FactualConsistencyDetail, streamQuery} from "@vectara/stream-query-client";
 import { StreamUpdate } from "@vectara/stream-query-client/lib/types";
+import { streamQuery } from "@vectara/stream-query-client";
 
 interface SearchContextType {
   filterValue: string;
@@ -57,7 +57,7 @@ interface SearchContextType {
   summarizationError: SearchError | undefined;
   summarizationResponse: string | undefined;
   summaryTime: number;
-  factualConsistencyScore: number;
+  factualConsistencyScore: number | undefined;
   language: SummaryLanguage;
   summaryNumResults: number;
   summaryNumSentences: number;
@@ -117,7 +117,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   const [summarizationResponse, setSummarizationResponse] =
       useState<string>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
-  const [factualConsistencyScore, setFactualConsistencyScore] = useState<number>(0);
+  const [factualConsistencyScore, setFactualConsistencyScore] = useState<number | undefined>();
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
@@ -287,9 +287,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 const onStreamUpdate = (update: StreamUpdate) => {
                     // If we send multiple requests in rapid succession, we only want to
                     // display the results of the most recent request.
-                    const fcsDetail = update.details?.find(
-                        (detail) => detail.type === "factualConsistency") as
-                        | FactualConsistencyDetail
+                    const fcsDetail = update.details?.factualConsistency
                     if (searchId === searchCount) {
                         if (update.isDone) {
                             setIsSummarizing(false);
@@ -297,7 +295,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                         }
                         setSummarizationError(undefined);
                         setSummarizationResponse(update.updatedText ?? undefined);
-                        setFactualConsistencyScore(fcsDetail?.data?.score)
+                        setFactualConsistencyScore(fcsDetail?.score)
                     }
                 };
 
@@ -317,7 +315,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                         customerId: search.customerId!,
                         corpusIds: search.corpusId!.split(","),
                         endpoint: search.endpoint!,
-                        apiKey: search.apiKey!
+                        apiKey: search.apiKey!,
                     },
                     onStreamUpdate
                 );

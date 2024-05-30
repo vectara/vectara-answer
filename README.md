@@ -152,6 +152,7 @@ The way summarization works can be configured as follows:
 ux: "summary"
 
 # Default language for summary response (if not specified defaults to "auto"). 
+# accepts two-letter code (en) or three-letter code (eng) 
 summary_default_language: "eng"
 
 # Number of sentences before and after relevant text segment used for summarization.
@@ -272,14 +273,11 @@ reranker_name: normal | slingshot | mmr
 rerank_num_results: 50
 ```
 
-To use Vectara's MMR (Maximum Marginal Relevance) functionality please set the `reranker_name = mmr`.
+To use Vectara's MMR (Maximum Marginal Relevance) functionality please set the `reranker_name = mmr`, and add a `mmr_diversity_bias` value.
 
 ```yaml
 # Diversity bias factor (0..1) for MMR reranker. The higher the value, the more MMR is preferred over relevance.
 mmr_diversity_bias: 0.3
-
-# number of results to use for reranking
-mmr_num_results: 50
 ```
 
 ### Authentication (optional)
