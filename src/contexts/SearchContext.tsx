@@ -299,6 +299,9 @@ export const SearchContextProvider = ({ children }: Props) => {
                     }
                 };
 
+                const hybridLambda = value === "undefined" || value.trim().split(" ").length > hybrid.numWords
+                    ? hybrid.lambdaLong
+                    : hybrid.lambdaShort;
                 streamQuery(
                     {
                         filter,
@@ -311,6 +314,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                         summaryNumSentences: summary.summaryNumSentences,
                         summaryPromptName: summary.summaryPromptName,
                         enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                        lambda: hybridLambda,
                         language,
                         customerId: search.customerId!,
                         corpusIds: search.corpusId!.split(","),
