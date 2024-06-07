@@ -16,11 +16,11 @@ const getConfidenceLevel = (score: number): ConfidenceLevel => {
         return "unavailable";
     }
 
-    if (score <= 0.25) {
+    if (score <= 0.20) {
         return "low";
     }
 
-    if (score <= 0.50) {
+    if (score >= 0.20 && score <= 0.40) {
         return "medium";
     }
 
