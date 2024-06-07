@@ -72,7 +72,7 @@ export const SummaryUx = () => {
 
           <VuiSpacer size="s" />
 
-          {fcsMode !== "disable" && (
+          {(fcsMode !== "disable" && factualConsistencyScore !== 0) && (
             <FactualConsistencyBadge
               score={factualConsistencyScore}
               fcsMode={fcsMode}
