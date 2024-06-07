@@ -38,7 +38,7 @@ export const HemDrawer = ({ isOpen, onClose }: Props) => {
           render: (
             <VuiText>
               <p>
-                <strong>0–0.33.</strong> The answer is not grounded in the
+                <strong>0–0.20.</strong> The answer is not grounded in the
                 retrieved results. It's largely hallucinated.
               </p>
             </VuiText>
@@ -55,7 +55,7 @@ export const HemDrawer = ({ isOpen, onClose }: Props) => {
           render: (
             <VuiText>
               <p>
-                <strong>0.33–0.66.</strong> The answer is partially grounded in
+                <strong>0.20–0.40.</strong> The answer is partially grounded in
                 the retrieved results, but probably contains some
                 hallucinations.
               </p>
@@ -73,7 +73,7 @@ export const HemDrawer = ({ isOpen, onClose }: Props) => {
           render: (
             <VuiText>
               <p>
-                <strong>0.66–1.</strong> The answer is grounded in the retrieved
+                <strong>0.40–1.</strong> The answer is grounded in the retrieved
                 results and contains few if any hallucinations.
               </p>
             </VuiText>
