@@ -9,10 +9,10 @@ import {
 } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-    DeserializedSearchResult,
-    SearchResponse,
-    SummaryLanguage,
-    SearchError, FcsMode,
+  DeserializedSearchResult,
+  SearchResponse,
+  SummaryLanguage,
+  SearchError, FcsMode, mmr_reranker_id, ApiV2SearchResponse
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -23,8 +23,10 @@ import {
   retrieveHistory,
 } from "./history";
 import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
-import { StreamUpdate } from "@vectara/stream-query-client/lib/types";
-import { streamQuery } from "@vectara/stream-query-client";
+
+import { ApiV2, ApiV1, streamQueryV1, streamQueryV2 } from "@vectara/stream-query-client";
+import { apiV2sendSearchRequest } from "./apiV2sendSearchRequest";
+import { END_TAG, START_TAG } from "../utils/parseSnippet";
 
 interface SearchContextType {
   filterValue: string;
@@ -46,7 +48,6 @@ interface SearchContextType {
     modifiedFcsMode?: FcsMode,
     isPersistable?: boolean;
     mode?: string;
-    promptName?: string
   }) => void;
   reset: () => void;
   isSearching: boolean;
@@ -107,23 +108,23 @@ export const SearchContextProvider = ({ children }: Props) => {
   // Basic search
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<SearchError | undefined>();
-  const [searchResponse, setSearchResponse] = useState<SearchResponse>();
+  const [searchResponse, setSearchResponse] = useState<SearchResponse | ApiV2.Query.SearchResult[]>();
   const [searchTime, setSearchTime] = useState<number>(0);
 
   // Summarization
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [summarizationError, setSummarizationError] = useState<
-      SearchError | undefined
+    SearchError | undefined
   >();
   const [summarizationResponse, setSummarizationResponse] =
-      useState<string>();
+    useState<string>();
   const [summaryTime, setSummaryTime] = useState<number>(0);
   const [factualConsistencyScore, setFactualConsistencyScore] = useState<number | undefined>();
 
   // Citation selection
   const searchResultsRef = useRef<HTMLElement[] | null[]>([]);
   const [selectedSearchResultPosition, setSelectedSearchResultPosition] =
-      useState<number>();
+    useState<number>();
 
   useEffect(() => {
     setHistory(retrieveHistory());
@@ -144,8 +145,8 @@ export const SearchContextProvider = ({ children }: Props) => {
       value: getQueryParam(urlParams, "query") ?? "",
       filter: getQueryParam(urlParams, "filter"),
       language: getQueryParam(urlParams, "language") as
-          | SummaryLanguage
-          | undefined,
+        | SummaryLanguage
+        | undefined,
       isPersistable: false,
       mode: getQueryParam(urlParams, "mode") ?? "",
     });
@@ -157,8 +158,8 @@ export const SearchContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (searchResults) {
       searchResultsRef.current = searchResultsRef.current.slice(
-          0,
-          searchResults.length
+        0,
+        searchResults.length
       );
     } else {
       searchResultsRef.current = [];
@@ -172,8 +173,8 @@ export const SearchContextProvider = ({ children }: Props) => {
 
   const selectSearchResultAt = (position: number) => {
     if (
-        !searchResultsRef.current[position] ||
-        selectedSearchResultPosition === position
+      !searchResultsRef.current[position] ||
+      selectedSearchResultPosition === position
     ) {
       // Reset selected position.
       setSelectedSearchResultPosition(undefined);
@@ -188,7 +189,7 @@ export const SearchContextProvider = ({ children }: Props) => {
   };
 
   const getLanguage = (): SummaryLanguage =>
-      (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
+    (languageValue ?? summary.defaultLanguage) as SummaryLanguage;
 
   const onSearch = async ({
     value = searchValue,
@@ -236,103 +237,233 @@ export const SearchContextProvider = ({ children }: Props) => {
       setIsSearching(true);
       setIsSummarizing(true);
       setSelectedSearchResultPosition(undefined);
+      if (search.corpusKey) {
+        if (search.enableStreamQuery) {
+          try {
+            const startTime = Date.now();
+            const onStreamEvent = (event: ApiV2.StreamEvent) => {
+              if (searchId === searchCount) {
+                switch (event.type) {
+                  case "requestError":
+                  case "genericError":
+                  case "error":
+                    setIsSearching(false);
+                    setSearchResponse(undefined);
+                    break;
 
-      let initialSearchResponse;
+                  case "searchResults":
+                    setSearchResponse(event.searchResults)
+                    setIsSearching(false);
+                    setSearchTime(Date.now() - startTime);
 
-      try {
-        const startTime = Date.now();
-        initialSearchResponse = await sendSearchRequest({
-          filter,
-          query_str: value,
-          rerank: rerank.isEnabled,
-          rerankNumResults: rerank.numResults,
-          rerankerId: rerank.id,
-          rerankDiversityBias: rerank.diversityBias,
-          hybridNumWords: hybrid.numWords,
-          hybridLambdaLong: hybrid.lambdaLong,
-          hybridLambdaShort: hybrid.lambdaShort,
-          mode: mode,
-          customerId: search.customerId!,
-          corpusId: search.corpusId!,
-          endpoint: search.endpoint!,
-          apiKey: search.apiKey!,
-          logQuery: true
-        });
-        const totalTime = Date.now() - startTime;
+                    break;
 
-        // If we send multiple requests in rapid succession, we only want to
-        // display the results of the most recent request.
-        if (searchId === searchCount) {
-          setIsSearching(false);
-          setSearchTime(totalTime);
-          setSearchResponse(initialSearchResponse);
+                  case "generationChunk":
+                    setSummarizationError(undefined);
+                    setSummarizationResponse(event.updatedText ?? undefined);
+                    break;
 
-          if (initialSearchResponse.response.length > 0) {
-            setSearchError(undefined);
-          } else {
-            setSearchError({
-              message: "There weren't any results for your search.",
-            });
+                  case "factualConsistencyScore":
+                    setFactualConsistencyScore(event.factualConsistencyScore > 0 ? event.factualConsistencyScore : undefined)
+                    break;
+
+                  case "end":
+                    setIsSummarizing(false);
+                    setSummaryTime(Date.now() - startTime);
+                    break;
+                }
+              }
+            };
+
+            const streamQueryConfig: ApiV2.StreamQueryConfig = {
+              apiKey: search.apiKey!,
+              customerId: search.customerId!,
+              query: value,
+              corpusKey: search.corpusKey!,
+              domain: `https://${search.endpoint!}`,
+              search: {
+                offset: 0,
+                metadataFilter: filter,
+                lexicalInterpolation:
+                  value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
+                reranker: rerank.isEnabled ? (rerank.id === mmr_reranker_id
+                  ? {
+                    type: "mmr",
+                    diversityBias: rerank.diversityBias || 0
+                  }
+                  : {
+                    type: "customer_reranker",
+                    // rnk_ prefix needed for conversion from API v1 to v2.
+                    rerankerId: `rnk_${rerank.id}`
+                  }) : { type: "none" },
+                contextConfiguration: {
+                  sentencesBefore: summary.summaryNumSentences,
+                  sentencesAfter: summary.summaryNumSentences,
+                  startTag: START_TAG,
+                  endTag: END_TAG
+                }
+              },
+              generation: {
+                promptName: promptName,
+                promptText: summary.summaryPromptText,
+                maxUsedSearchResults: summary.summaryNumResults,
+                enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                responseLanguage: language
+
+              }
+            };
+
+            await streamQueryV2({ streamQueryConfig, onStreamEvent })
+
+          } catch (error) {
+            console.log("Summary error", error);
+            console.log("Search error", error);
+            setIsSearching(false);
+            setSearchError(error as SearchError);
+            setSearchResponse(undefined);
+            setIsSummarizing(false);
+            setSummarizationError(error as SearchError);
+            setSummarizationResponse(undefined);
+            return;
           }
         }
-      } catch (error) {
-        console.log("Search error", error);
-        setIsSearching(false);
-        setSearchError(error as SearchError);
-        setSearchResponse(undefined);
-      }
-
-      // Second call - search and summarize (if summary is enabled); this may take a while to return results
-      if (isSummaryEnabled) {
-        if (initialSearchResponse.response.length > 0) {
-          const startTime = Date.now();
+        else {
           try {
-            if(search.enableStreamQuery) {
-                const onStreamUpdate = (update: StreamUpdate) => {
-                    // If we send multiple requests in rapid succession, we only want to
-                    // display the results of the most recent request.
-                    const fcsDetail = update.details?.factualConsistency
-                    if (searchId === searchCount) {
-                        if (update.isDone) {
-                            setIsSummarizing(false);
-                            setSummaryTime(Date.now() - startTime);
-                        }
-                        setSummarizationError(undefined);
-                        setSummarizationResponse(update.updatedText ?? undefined);
-                        setFactualConsistencyScore(fcsDetail?.score)
+            const startTime = Date.now();
+            const response: ApiV2SearchResponse = await apiV2sendSearchRequest({
+              apiKey: search.apiKey!,
+              customerId: search.customerId!,
+              query: value,
+              corpusKey: search.corpusKey!,
+              endpoint: search.endpoint!,
+              search: {
+                offset: 0,
+                metadataFilter: filter,
+                lexicalInterpolation:
+                  value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
+                reranker: rerank.isEnabled ? (rerank.id === mmr_reranker_id
+                  ? {
+                    type: "mmr",
+                    diversityBias: rerank.diversityBias || 0
+                  }
+                  : {
+                    type: "customer_reranker",
+                    // rnk_ prefix needed for conversion from API v1 to v2.
+                    rerankerId: `rnk_${rerank.id}`
+                  }) : { type: "none" },
+                contextConfiguration: {
+                  sentencesBefore: summary.summaryNumSentences,
+                  sentencesAfter: summary.summaryNumSentences,
+                  startTag: START_TAG,
+                  endTag: END_TAG
+                }
+              },
+              generation: {
+                promptName: promptName,
+                promptText: summary.summaryPromptText,
+                maxUsedSearchResults: summary.summaryNumResults,
+                enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                responseLanguage: language
+
+              }
+            })
+            const totalTime = Date.now() - startTime;
+            if (searchId === searchCount) {
+              setSearchResponse(response.search_results)
+              setIsSearching(false);
+              setSearchTime(totalTime);
+              setIsSummarizing(false);
+              setSummarizationError(undefined);
+              setSummarizationResponse(response.summary);
+              setSummaryTime(totalTime);
+              setFactualConsistencyScore(response.factual_consistency_score > 0 ? response.factual_consistency_score : undefined)
+
+            }
+          }catch (error) {
+            console.log("Search error", error);
+            setIsSearching(false);
+            setSearchError(error as SearchError);
+            setSearchResponse(undefined);
+            setIsSummarizing(false);
+            setSummarizationError(error as SearchError);
+            setSummarizationResponse(undefined);
+          }
+        }
+
+      }
+      else {
+        let initialSearchResponse;
+        try {
+          const startTime = Date.now();
+          initialSearchResponse = await sendSearchRequest({
+            filter,
+            query_str: value,
+            rerank: rerank.isEnabled,
+            rerankNumResults: rerank.numResults,
+            rerankerId: rerank.id,
+            rerankDiversityBias: rerank.diversityBias,
+            hybridNumWords: hybrid.numWords,
+            hybridLambdaLong: hybrid.lambdaLong,
+            hybridLambdaShort: hybrid.lambdaShort,
+            mode: mode,
+            customerId: search.customerId!,
+            corpusId: search.corpusId!,
+            endpoint: search.endpoint!,
+            apiKey: search.apiKey!,
+            logQuery: true
+          });
+          const totalTime = Date.now() - startTime;
+
+          // If we send multiple requests in rapid succession, we only want to
+          // display the results of the most recent request.
+          if (searchId === searchCount) {
+            setIsSearching(false);
+            setSearchTime(totalTime);
+            setSearchResponse(initialSearchResponse);
+
+            if (initialSearchResponse.response.length > 0) {
+              setSearchError(undefined);
+            } else {
+              setSearchError({
+                message: "There weren't any results for your search.",
+              });
+            }
+          }
+        } catch (error) {
+          console.log("Search error", error);
+          setIsSearching(false);
+          setSearchError(error as SearchError);
+          setSearchResponse(undefined);
+        }
+
+        // Second call - search and summarize (if summary is enabled); this may take a while to return results
+        if (isSummaryEnabled) {
+          if (initialSearchResponse.response.length > 0) {
+            const startTime = Date.now();
+            try {
+              if(search.enableStreamQuery) {
+                const onStreamUpdate = (update: ApiV1.StreamUpdate) => {
+                  // If we send multiple requests in rapid succession, we only want to
+                  // display the results of the most recent request.
+                  const fcsDetail = update.details?.factualConsistency
+                  if (searchId === searchCount) {
+                    if (update.isDone) {
+                      setIsSummarizing(false);
+                      setSummaryTime(Date.now() - startTime);
                     }
+                    setSummarizationError(undefined);
+                    setSummarizationResponse(update.updatedText ?? undefined);
+                    setFactualConsistencyScore(fcsDetail?.score)
+                  }
                 };
 
                 const hybridLambda = value === "undefined" || value.trim().split(" ").length > hybrid.numWords
-                    ? hybrid.lambdaLong
-                    : hybrid.lambdaShort;
-                streamQuery(
-                    {
-                        filter,
-                        queryValue: value,
-                        rerank: rerank.isEnabled,
-                        rerankNumResults: rerank.numResults,
-                        rerankerId: rerank.id,
-                        rerankDiversityBias: rerank.diversityBias,
-                        summaryNumResults: summary.summaryNumResults,
-                        summaryNumSentences: summary.summaryNumSentences,
-                        summaryPromptName: promptName,
-                        enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
-                        lambda: hybridLambda,
-                        language,
-                        customerId: search.customerId!,
-                        corpusIds: search.corpusId!.split(","),
-                        endpoint: search.endpoint!,
-                        apiKey: search.apiKey!,
-                    },
-                    onStreamUpdate
-                );
-            }
-            else {
-                const response = await sendSearchRequest({
+                  ? hybrid.lambdaLong
+                  : hybrid.lambdaShort;
+                streamQueryV1(
+                  {
                     filter,
-                    query_str: value,
-                    summaryMode: true,
+                    queryValue: value,
                     rerank: rerank.isEnabled,
                     rerankNumResults: rerank.numResults,
                     rerankerId: rerank.id,
@@ -340,43 +471,67 @@ export const SearchContextProvider = ({ children }: Props) => {
                     summaryNumResults: summary.summaryNumResults,
                     summaryNumSentences: summary.summaryNumSentences,
                     summaryPromptName: promptName,
-                    summaryPromptText: summary.summaryPromptText,
                     enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
-                    hybridNumWords: hybrid.numWords,
-                    hybridLambdaLong: hybrid.lambdaLong,
-                    hybridLambdaShort: hybrid.lambdaShort,
+                    lambda: hybridLambda,
                     language,
                     customerId: search.customerId!,
-                    corpusId: search.corpusId!,
+                    corpusIds: search.corpusId!.split(","),
                     endpoint: search.endpoint!,
                     apiKey: search.apiKey!,
+                  },
+                  onStreamUpdate
+                );
+              }
+              else {
+                const response = await sendSearchRequest({
+                  filter,
+                  query_str: value,
+                  summaryMode: true,
+                  rerank: rerank.isEnabled,
+                  rerankNumResults: rerank.numResults,
+                  rerankerId: rerank.id,
+                  rerankDiversityBias: rerank.diversityBias,
+                  summaryNumResults: summary.summaryNumResults,
+                  summaryNumSentences: summary.summaryNumSentences,
+                  summaryPromptName: promptName,
+                  summaryPromptText: summary.summaryPromptText,
+                  enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                  hybridNumWords: hybrid.numWords,
+                  hybridLambdaLong: hybrid.lambdaLong,
+                  hybridLambdaShort: hybrid.lambdaShort,
+                  language,
+                  customerId: search.customerId!,
+                  corpusId: search.corpusId!,
+                  endpoint: search.endpoint!,
+                  apiKey: search.apiKey!,
                 });
                 const totalTime = Date.now() - startTime;
 
                 // If we send multiple requests in rapid succession, we only want to
                 // display the results of the most recent request.
                 if (searchId === searchCount) {
-                    setIsSummarizing(false);
-                    setSummarizationError(undefined);
-                    setSummarizationResponse(response.summary[0]?.text);
-                    setSummaryTime(totalTime);
-                    setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
+                  setIsSummarizing(false);
+                  setSummarizationError(undefined);
+                  setSummarizationResponse(response.summary[0]?.text);
+                  setSummaryTime(totalTime);
+                  setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
 
                 }
+              }
+            } catch (error) {
+              console.log("Summary error", error);
+              setIsSummarizing(false);
+              setSummarizationError(error as SearchError);
+              setSummarizationResponse(undefined);
+              return
             }
-          } catch (error) {
-            console.log("Summary error", error);
+          } else {
             setIsSummarizing(false);
-            setSummarizationError(error as SearchError);
+            setSummarizationError({
+              message: "No search results to summarize",
+            });
             setSummarizationResponse(undefined);
-            return
           }
-        } else {
-          setIsSummarizing(false);
-          setSummarizationError({
-            message: "No search results to summarize",
-          });
-          setSummarizationResponse(undefined);
         }
       }
     } else {
@@ -440,7 +595,7 @@ export const useSearchContext = () => {
   const context = useContext(SearchContext);
   if (context === undefined) {
     throw new Error(
-        "useSearchContext must be used within a SearchContextProvider"
+      "useSearchContext must be used within a SearchContextProvider"
     );
   }
   return context;

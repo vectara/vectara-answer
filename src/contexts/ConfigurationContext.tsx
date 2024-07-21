@@ -19,6 +19,7 @@ import {
 interface Config {
   // Search
   config_endpoint?: string;
+  config_corpus_key?: string;
   config_corpus_id?: string;
   config_customer_id?: string;
   config_api_key?: string;
@@ -63,7 +64,7 @@ interface Config {
 
   // Summary
   config_summary_default_language?: string;
-  config_summary_num_results?: number;
+  config_summary_num_results?: number
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
   config_summary_prompt_text_filename?: string;
@@ -96,6 +97,7 @@ const requiredConfigVars = ["corpus_id", "customer_id", "api_key", "endpoint"];
 
 type Search = {
   endpoint?: string;
+  corpusKey?: string;
   corpusId?: string;
   customerId?: string;
   apiKey?: string;
@@ -371,6 +373,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     const {
       // Search
       config_endpoint,
+      config_corpus_key,
       config_corpus_id,
       config_customer_id,
       config_api_key,
@@ -441,6 +444,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     setSearch({
       endpoint: config_endpoint,
+      corpusKey: config_corpus_key,
       corpusId: config_corpus_id,
       customerId: config_customer_id,
       apiKey: config_api_key,
