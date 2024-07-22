@@ -1,11 +1,9 @@
 corpus_id: 1
-summary_num_results: adsda
-customer_id: 1366999410
+customer_id: 246431873
 app_title: "Vectara Docs Search"
 search_title: "Vectara Docs Search"
-search_description: "All of Vectaras Platform Documentation"
+search_description: "All of Vectara's Platform Documentation"
 enable_source_filters: False
 summary_default_language: eng
 summary_num_sentences: 3
-rerank_num_results: 10
-summary_prompt_options: vectara-summary-ext-24-05-sml, vectara-summary-ext-24-05-med-omni, vectara-summary-ext-24-05-med,vectara-summary-ext-24-05-large,Mockingbird-1.0-2024-07-16
+summary_num_results: 7
