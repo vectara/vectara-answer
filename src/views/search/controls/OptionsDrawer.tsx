@@ -203,7 +203,6 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
             onClick={() => {
               setUxMode(newUxMode);
               setFcsMode(newFcsMode)
-              // setSummary({...summary, summaryPromptName: newPrompt})
               if (newLanguage !== language || newFcsMode !== fcsMode || newPrompt!== summary.summaryPromptName) {
                 onSearch({
                   language: newLanguage as SummaryLanguage, modifiedFcsMode: newFcsMode as FcsMode, promptName: newPrompt
