@@ -100,23 +100,24 @@ Note that the variables in the `.env` file all have the `REACT_APP` prefix, as i
 
 ```yaml
 # These config vars are required for connecting to your Vectara data and issuing requests.
-corpus_id: 5
 customer_id: 123456789
+corpus_id: 5
 corpus_key: vectara_docs_1
 api_key: "zqt_abcdef..."
 ```
 
-Note that `corpud_id` can be a set of corpora in which case each query runs against all those corpora.
-In such a case, the format is a comma-separated list of corpus IDs, for example:
+Notes:
+* Vectara APIV2 uses `corpus_key`, but the older `corpus_id` is also supported for backwards compatibility. We encourage you to use `corpus_key` as we may deprecate support for V1 in the future. 
+* `corpus_key` (or `corpus_id`) can be a set of corpora in which case each query runs against all those corpora. In such a case, the format is a comma-separated list of corpus keys or corpus IDs, for example:
 
 ```yaml
 corpus_id: "123,234,345"
 ```
 
-Please note that Vectara APIV2 uses corpus_key. We encourage you to use this as we may deprecate support for V1 in the future.
+OR
 
 ```yaml
-corpus_key: "vectara_docs_1"
+corpus_key: "vectara_docs_1,vectara_website_3"
 ```
 
 ### Search header (optional)
