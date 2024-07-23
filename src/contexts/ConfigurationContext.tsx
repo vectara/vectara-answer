@@ -13,7 +13,7 @@ import {
   UxMode,
   normal_reranker_id,
   mmr_reranker_id,
-  FcsMode, FCS_MODE, slingshot_reranker_id
+  FcsMode, FCS_MODE, slingshot_reranker_id, promptOptions
 } from "../views/search/types";
 
 interface Config {
@@ -520,9 +520,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
       ),
       summaryNumResults: config_summary_num_results ?? 7,
       summaryNumSentences: config_summary_num_sentences ?? 3,
-      summaryPromptOptions: config_summary_prompt_options?.split(","),
+      summaryPromptOptions: config_summary_prompt_options?.split(",") ?? promptOptions,
       summaryPromptName:
-        config_summary_prompt_name ?? "vectara-experimental-summary-ext-2023-12-11-sml",
+        config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml",
       summaryPromptText: config_summary_prompt_text_filename ?
       await fetchPromptText(config_summary_prompt_text_filename) : ""
     });
