@@ -163,7 +163,7 @@ export const apiV2sendSearchRequest = async ({
       citations,
       enableFactualConsistencyScore
     } = generation;
-    console.log(maxUsedSearchResults)
+
     body.generation = {
       prompt_name: promptName,
       max_used_search_results: maxUsedSearchResults,

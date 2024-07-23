@@ -93,7 +93,7 @@ interface Config {
 
 type ConfigProp = keyof Config;
 
-const requiredConfigVars = ["corpus_id", "customer_id", "api_key", "endpoint"];
+const requiredConfigVars = ["corpus_key", "corpus_id", "customer_id", "api_key", "endpoint"];
 
 type Search = {
   endpoint?: string;
@@ -131,7 +131,7 @@ type Filters = {
   sourceValueToLabelMap?: Record<string, string>;
 };
 
-interface Summary  {
+type Summary = {
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;
@@ -360,14 +360,22 @@ export const ConfigContextProvider = ({ children }: Props) => {
       }
     }
 
-    const missingConfigProps = requiredConfigVars.reduce(
-      (accum, configVarName) => {
-        if (config[`config_${configVarName}` as ConfigProp] === undefined)
-          accum.push(configVarName);
+    const missingConfigProps = requiredConfigVars.reduce((accum, configVarName) => {
+      if (configVarName === "corpus_key" || configVarName === "corpus_id" ) {
+        // Skip this check and handle it separately
         return accum;
-      },
-      [] as string[]
-    );
+      }  else {
+        if (config[`config_${configVarName}` as ConfigProp] === undefined) {
+          accum.push(configVarName);
+        }
+      }
+      return accum;
+    }, [] as string[]);
+
+    if (config.config_corpus_key === undefined && config.config_corpus_id === undefined) {
+      missingConfigProps.push("corpus_key or corpus_id");
+    }
+
     setMissingConfigProps(missingConfigProps);
 
     const {
