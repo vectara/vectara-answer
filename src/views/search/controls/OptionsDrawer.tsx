@@ -41,7 +41,7 @@ type Props = {
 };
 
 export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
-  const { uxMode, setUxMode, fcsMode, setFcsMode, summary, setSummary } = useConfigContext();
+  const { uxMode, setUxMode, fcsMode, setFcsMode, summary } = useConfigContext();
   const { language, onSearch } = useSearchContext();
 
   const [newUxMode, setNewUxMode] = useState(uxMode);
@@ -203,10 +203,10 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
             onClick={() => {
               setUxMode(newUxMode);
               setFcsMode(newFcsMode)
-              setSummary({...summary, summaryPromptName: newPrompt})
+              // setSummary({...summary, summaryPromptName: newPrompt})
               if (newLanguage !== language || newFcsMode !== fcsMode || newPrompt!== summary.summaryPromptName) {
                 onSearch({
-                  language: newLanguage as SummaryLanguage, modifiedFcsMode: newFcsMode as FcsMode
+                  language: newLanguage as SummaryLanguage, modifiedFcsMode: newFcsMode as FcsMode, promptName: newPrompt
                 });
               }
               onClose();

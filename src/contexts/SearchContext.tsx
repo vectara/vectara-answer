@@ -46,6 +46,7 @@ interface SearchContextType {
     modifiedFcsMode?: FcsMode,
     isPersistable?: boolean;
     mode?: string;
+    promptName?: string
   }) => void;
   reset: () => void;
   isSearching: boolean;
@@ -196,6 +197,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     modifiedFcsMode = fcsMode,
     isPersistable = true,
     mode = modeValue,
+    promptName = summary.summaryPromptName
   }: {
     value?: string;
     filter?: string;
@@ -203,6 +205,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     modifiedFcsMode?: FcsMode
     isPersistable?: boolean;
     mode?: string;
+    promptName?: string
   }) => {
     const searchId = ++searchCount;
 
@@ -312,7 +315,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                         rerankDiversityBias: rerank.diversityBias,
                         summaryNumResults: summary.summaryNumResults,
                         summaryNumSentences: summary.summaryNumSentences,
-                        summaryPromptName: summary.summaryPromptName,
+                        summaryPromptName: promptName,
                         enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
                         lambda: hybridLambda,
                         language,
@@ -335,7 +338,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     rerankDiversityBias: rerank.diversityBias,
                     summaryNumResults: summary.summaryNumResults,
                     summaryNumSentences: summary.summaryNumSentences,
-                    summaryPromptName: summary.summaryPromptName,
+                    summaryPromptName: promptName,
                     summaryPromptText: summary.summaryPromptText,
                     enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
                     hybridNumWords: hybrid.numWords,

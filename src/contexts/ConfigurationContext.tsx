@@ -188,7 +188,6 @@ interface ConfigContextType {
   exampleQuestions: ExampleQuestions;
   auth: Auth;
   analytics: Analytics;
-  setSummary: (summary: Summary) => void
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
@@ -597,7 +596,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
         exampleQuestions,
         auth,
         analytics,
-        setSummary
       }}
     >
       {children}
