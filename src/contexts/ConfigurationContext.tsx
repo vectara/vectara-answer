@@ -131,7 +131,7 @@ type Filters = {
   sourceValueToLabelMap?: Record<string, string>;
 };
 
-type Summary = {
+interface Summary  {
   defaultLanguage: string;
   summaryNumResults: number;
   summaryNumSentences: number;

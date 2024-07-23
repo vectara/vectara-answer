@@ -281,9 +281,9 @@ export type ApiV2SearchResponse = {
 }
 
 export const normal_reranker_id = 272725717
-
-export const slingshot_reranker_id = 272725719
 export const mmr_reranker_id = 272725718
+export const slingshot_reranker_id = 272725719
+
 
 export type UxMode = "search" | "summary";
 
