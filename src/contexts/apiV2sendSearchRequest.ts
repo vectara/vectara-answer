@@ -132,7 +132,7 @@ export const apiV2sendSearchRequest = async ({
       corpora: corpusKey.split(",").map((key) => (
           {
             corpus_key: key,
-            metadata_filter: metadataFilter,
+            metadata_filter: metadataFilter ? `doc.source = '${metadataFilter}'`: undefined,
             lexical_interpolation: lexicalInterpolation,
             custom_dimensions: customDimensions,
             semantics
