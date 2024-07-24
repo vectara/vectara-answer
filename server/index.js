@@ -75,6 +75,7 @@ app.post("/config", (req, res) => {
     summary_prompt_text_filename,
     summary_fcs_mode,
     enable_stream_query,
+    summary_prompt_options,
 
     // Rerank
     rerank_num_results,
@@ -147,6 +148,7 @@ app.post("/config", (req, res) => {
     summary_prompt_text_filename,
     summary_fcs_mode,
     enable_stream_query,
+    summary_prompt_options,
 
     // Hybrid search
     hybrid_search_num_words,

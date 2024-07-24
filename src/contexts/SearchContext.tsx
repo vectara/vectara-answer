@@ -46,6 +46,7 @@ interface SearchContextType {
     modifiedFcsMode?: FcsMode,
     isPersistable?: boolean;
     mode?: string;
+    promptName?: string
   }) => void;
   reset: () => void;
   isSearching: boolean;
@@ -87,7 +88,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, results, rerank, hybrid, uxMode, fcsMode } =
+  const { isConfigLoaded, search, summary, setSummary, results, rerank, hybrid, uxMode, fcsMode } =
     useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
@@ -196,6 +197,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     modifiedFcsMode = fcsMode,
     isPersistable = true,
     mode = modeValue,
+    promptName = summary.summaryPromptName
   }: {
     value?: string;
     filter?: string;
@@ -203,6 +205,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     modifiedFcsMode?: FcsMode
     isPersistable?: boolean;
     mode?: string;
+    promptName?: string
   }) => {
     const searchId = ++searchCount;
 
@@ -210,6 +213,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     setFilterValue(filter);
     setLanguageValue(language);
     setModeValue(mode);
+    setSummary({...summary, summaryPromptName: promptName})
     const isFactualConsistentScoreEnabled = modifiedFcsMode === "score" || modifiedFcsMode === "badge"
 
     if (value?.trim()) {
@@ -312,7 +316,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                         rerankDiversityBias: rerank.diversityBias,
                         summaryNumResults: summary.summaryNumResults,
                         summaryNumSentences: summary.summaryNumSentences,
-                        summaryPromptName: summary.summaryPromptName,
+                        summaryPromptName: promptName,
                         enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
                         lambda: hybridLambda,
                         language,
@@ -335,7 +339,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     rerankDiversityBias: rerank.diversityBias,
                     summaryNumResults: summary.summaryNumResults,
                     summaryNumSentences: summary.summaryNumSentences,
-                    summaryPromptName: summary.summaryPromptName,
+                    summaryPromptName: promptName,
                     summaryPromptText: summary.summaryPromptText,
                     enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
                     hybridNumWords: hybrid.numWords,

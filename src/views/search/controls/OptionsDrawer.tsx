@@ -41,14 +41,16 @@ type Props = {
 };
 
 export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
-  const { uxMode, setUxMode, fcsMode, setFcsMode } = useConfigContext();
+  const { uxMode, setUxMode, fcsMode, setFcsMode, summary } = useConfigContext();
   const { language, onSearch } = useSearchContext();
 
   const [newUxMode, setNewUxMode] = useState(uxMode);
   const [isLanguageMenuOpen, seIisLanguageMenuOpen] = useState(false);
   const [isFcsOpen, setIsFcsOpen] = useState(false);
+  const [isPromptOpen, setIsPromptOpen] = useState(false);
   const [newLanguage, setNewLanguage] = useState<SummaryLanguage>(language);
   const [newFcsMode, setNewFcsMode] = useState<FcsMode>(fcsMode);
+  const [newPrompt, setNewPrompt] = useState<string>(summary.summaryPromptName);
 
   return (
     <VuiDrawer
@@ -155,6 +157,29 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
           <p>Shows factual consistency score based on HHEMv2.</p>
         </VuiTextColor>
       </VuiText>
+      {
+        summary.summaryPromptOptions && (
+
+          <><VuiSpacer size="m"></VuiSpacer><VuiLabel>Summary Prompts Options</VuiLabel><VuiSpacer size="xs" /><VuiSearchSelect
+            isOpen={isPromptOpen}
+            setIsOpen={setIsPromptOpen}
+            onSelect={(value: string[]) => {
+              setNewPrompt(value[0]);
+            }}
+            selected={[newPrompt]}
+            options={summary.summaryPromptOptions.map((prompt: string) => ({
+              value: prompt,
+              label: prompt
+            }))}
+            isMultiSelect={false}
+          >
+            <VuiButtonSecondary color="neutral" size="m">
+              {newPrompt}
+            </VuiButtonSecondary>
+          </VuiSearchSelect><VuiSpacer size="xs" /></>
+
+        )
+      }
 
       <VuiSpacer size="xs" />
       <VuiSpacer size="m" />
@@ -178,9 +203,9 @@ export const OptionsDrawer = ({ isOpen, onClose }: Props) => {
             onClick={() => {
               setUxMode(newUxMode);
               setFcsMode(newFcsMode)
-              if (newLanguage !== language || newFcsMode !== fcsMode) {
+              if (newLanguage !== language || newFcsMode !== fcsMode || newPrompt!== summary.summaryPromptName) {
                 onSearch({
-                  language: newLanguage as SummaryLanguage, modifiedFcsMode: newFcsMode as FcsMode
+                  language: newLanguage as SummaryLanguage, modifiedFcsMode: newFcsMode as FcsMode, promptName: newPrompt
                 });
               }
               onClose();

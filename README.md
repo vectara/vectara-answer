@@ -175,6 +175,9 @@ summary_prompt_text_filename: prompt.txt
 # default value is disable. To enable it set it to score or badge.
 summary_fcs_mode: score
 
+# Add multiple prompts option for the summary.
+summary_prompt_options: vectara-summary-ext-24-05-med-omni,vectara-summary-ext-24-05-sml
+
 ```
 #### Enable summary response streaming (optional)
 

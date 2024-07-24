@@ -13,7 +13,7 @@ import {
   UxMode,
   normal_reranker_id,
   mmr_reranker_id,
-  FcsMode, FCS_MODE, slingshot_reranker_id
+  FcsMode, FCS_MODE, slingshot_reranker_id, promptOptions
 } from "../views/search/types";
 
 interface Config {
@@ -68,6 +68,7 @@ interface Config {
   config_summary_prompt_name?: string;
   config_summary_prompt_text_filename?: string;
   config_summary_fcs_mode?: string | undefined
+  config_summary_prompt_options?: string
 
   // hybrid search
   config_hybrid_search_num_words?: number;
@@ -134,6 +135,7 @@ type Summary = {
   summaryNumSentences: number;
   summaryPromptName: string;
   summaryPromptText?: string;
+  summaryPromptOptions?: string[]
 };
 
 type Results = {
@@ -186,6 +188,7 @@ interface ConfigContextType {
   exampleQuestions: ExampleQuestions;
   auth: Auth;
   analytics: Analytics;
+  setSummary: (summary: Summary) => void
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
@@ -429,7 +432,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       config_summary_prompt_name,
       config_summary_prompt_text_filename,
       config_summary_fcs_mode,
-      config_related_content
+      config_related_content,
+      config_summary_prompt_options
     } = config;
 
     setUxMode(config_ux ?? "summary");
@@ -509,6 +513,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
       sourceValueToLabelMap: sourceValueToLabelMap,
     });
 
+    const getPromptOptions = () => {
+      const options = config_summary_prompt_options?.split(",") ?? promptOptions
+      const summaryPromptName =  config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml"
+      if (!options.includes(summaryPromptName)) {
+        options.unshift(summaryPromptName)
+      }
+
+      return options
+    }
     setSummary({
       defaultLanguage: validateLanguage(
         config_summary_default_language as SummaryLanguage,
@@ -516,8 +529,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
       ),
       summaryNumResults: config_summary_num_results ?? 7,
       summaryNumSentences: config_summary_num_sentences ?? 3,
+      summaryPromptOptions: getPromptOptions(),
       summaryPromptName:
-        config_summary_prompt_name ?? "vectara-experimental-summary-ext-2023-12-11-sml",
+        config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml",
       summaryPromptText: config_summary_prompt_text_filename ?
       await fetchPromptText(config_summary_prompt_text_filename) : ""
     });
@@ -585,6 +599,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         appHeader,
         filters,
         summary,
+        setSummary,
         results,
         rerank,
         hybrid,
