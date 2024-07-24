@@ -88,7 +88,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, results, rerank, hybrid, uxMode, fcsMode } =
+  const { isConfigLoaded, search, summary, setSummary, results, rerank, hybrid, uxMode, fcsMode } =
     useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
@@ -213,6 +213,7 @@ export const SearchContextProvider = ({ children }: Props) => {
     setFilterValue(filter);
     setLanguageValue(language);
     setModeValue(mode);
+    setSummary({...summary, summaryPromptName: promptName})
     const isFactualConsistentScoreEnabled = modifiedFcsMode === "score" || modifiedFcsMode === "badge"
 
     if (value?.trim()) {

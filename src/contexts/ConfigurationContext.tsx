@@ -188,6 +188,7 @@ interface ConfigContextType {
   exampleQuestions: ExampleQuestions;
   auth: Auth;
   analytics: Analytics;
+  setSummary: (summary: Summary) => void
 }
 
 const ConfigContext = createContext<ConfigContextType | undefined>(undefined);
@@ -512,6 +513,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
       sourceValueToLabelMap: sourceValueToLabelMap,
     });
 
+    const getPromptOptions = () => {
+      const options = config_summary_prompt_options?.split(",") ?? promptOptions
+      const summaryPromptName =  config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml"
+      if (!options.includes(summaryPromptName)) {
+        options.unshift(summaryPromptName)
+      }
+
+      return options
+    }
     setSummary({
       defaultLanguage: validateLanguage(
         config_summary_default_language as SummaryLanguage,
@@ -519,7 +529,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       ),
       summaryNumResults: config_summary_num_results ?? 7,
       summaryNumSentences: config_summary_num_sentences ?? 3,
-      summaryPromptOptions: config_summary_prompt_options?.split(",") ?? promptOptions,
+      summaryPromptOptions: getPromptOptions(),
       summaryPromptName:
         config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml",
       summaryPromptText: config_summary_prompt_text_filename ?
@@ -589,6 +599,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         appHeader,
         filters,
         summary,
+        setSummary,
         results,
         rerank,
         hybrid,
