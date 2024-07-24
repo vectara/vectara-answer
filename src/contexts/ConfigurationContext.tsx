@@ -539,8 +539,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_default_language as SummaryLanguage,
         "auto"
       ),
-      summaryNumResults: config_summary_num_results ?? 7,
-      summaryNumSentences: config_summary_num_sentences ?? 3,
+      summaryNumResults: Number(config_summary_num_results) ?? 7,
+      summaryNumSentences: Number(config_summary_num_sentences) ?? 3,
       summaryPromptOptions: getPromptOptions(),
       summaryPromptName:
         config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml",

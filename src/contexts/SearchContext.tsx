@@ -48,6 +48,7 @@ interface SearchContextType {
     modifiedFcsMode?: FcsMode,
     isPersistable?: boolean;
     mode?: string;
+    promptName?: string
   }) => void;
   reset: () => void;
   isSearching: boolean;
