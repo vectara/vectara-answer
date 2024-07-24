@@ -183,4 +183,4 @@ export const mmr_reranker_id = 272725718
 export type UxMode = "search" | "summary";
 
 export const promptOptions = ["vectara-summary-ext-24-05-sml", "vectara-summary-ext-24-05-med-omni",
-  "vectara-summary-ext-24-05-med", "vectara-summary-ext-24-05-large", "Mockingbird-1.0-2024-07-16"]
+  "vectara-summary-ext-24-05-med", "vectara-summary-ext-24-05-large", "mockingbird-1.0-2024-07-16"]
