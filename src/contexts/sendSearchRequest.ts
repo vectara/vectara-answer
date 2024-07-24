@@ -51,6 +51,7 @@ export const sendSearchRequest = async ({
   apiKey,
   logQuery=false
 }: Config) => {
+  console.log(filter)
   const lambda =
     typeof query_str === "undefined" || query_str.trim().split(" ").length > hybridNumWords
       ? hybridLambdaLong

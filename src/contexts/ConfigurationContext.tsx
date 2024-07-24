@@ -513,7 +513,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     }
 
     const getRerankerDiversty = (rerankerNname: string | undefined) => {
-      if (rerankerNname === "mmr")  return config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3
+      if (rerankerNname === "mmr")  return Number(config_mmr_diversity_bias) ?? rerank.diversityBias ?? 0.3
       else return rerank.diversityBias ?? 0.3
 
     }
@@ -573,15 +573,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     setRerank({
       isEnabled: isRankerEnabled(config_reranker_name),
-      numResults: config_rerank_num_results ?? rerank.numResults,
+      numResults: Number(config_rerank_num_results) ?? rerank.numResults,
       id: getRerankerId(config_reranker_name),
       diversityBias: getRerankerDiversty(config_reranker_name),
     });
 
     setHybrid({
-      numWords: config_hybrid_search_num_words ?? hybrid.numWords,
-      lambdaLong: config_hybrid_search_lambda_long ?? hybrid.lambdaLong,
-      lambdaShort: config_hybrid_search_lambda_short ?? hybrid.lambdaShort,
+      numWords: Number(config_hybrid_search_num_words) ?? hybrid.numWords,
+      lambdaLong: Number(config_hybrid_search_lambda_long) ?? hybrid.lambdaLong,
+      lambdaShort: Number(config_hybrid_search_lambda_short) ?? hybrid.lambdaShort,
     });
 
     setResults({
