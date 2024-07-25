@@ -513,7 +513,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     }
 
     const getRerankerDiversty = (rerankerNname: string | undefined) => {
-      if (rerankerNname === "mmr")  return Number(config_mmr_diversity_bias) ?? rerank.diversityBias ?? 0.3
+      if (rerankerNname === "mmr")  return Number(config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3)
       else return rerank.diversityBias ?? 0.3
 
     }
@@ -539,8 +539,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_default_language as SummaryLanguage,
         "auto"
       ),
-      summaryNumResults: Number(config_summary_num_results) ?? 7,
-      summaryNumSentences: Number(config_summary_num_sentences) ?? 3,
+      summaryNumResults: Number(config_summary_num_results ?? 7),
+      summaryNumSentences: Number(config_summary_num_sentences ?? 3),
       summaryPromptOptions: getPromptOptions(),
       summaryPromptName:
         config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml",
@@ -579,9 +579,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
     });
 
     setHybrid({
-      numWords: Number(config_hybrid_search_num_words) ?? hybrid.numWords,
-      lambdaLong: Number(config_hybrid_search_lambda_long) ?? hybrid.lambdaLong,
-      lambdaShort: Number(config_hybrid_search_lambda_short) ?? hybrid.lambdaShort,
+      numWords: Number(config_hybrid_search_num_words ?? hybrid.numWords),
+      lambdaLong: Number(config_hybrid_search_lambda_long ?? hybrid.lambdaLong),
+      lambdaShort: Number(config_hybrid_search_lambda_short ?? hybrid.lambdaShort),
     });
 
     setResults({
