@@ -573,7 +573,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     setRerank({
       isEnabled: isRankerEnabled(config_reranker_name),
-      numResults: Number(config_rerank_num_results) ?? rerank.numResults,
+      numResults: Number(config_rerank_num_results ?? rerank.numResults),
       id: getRerankerId(config_reranker_name),
       diversityBias: getRerankerDiversty(config_reranker_name),
     });
