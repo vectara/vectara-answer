@@ -477,7 +477,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     language,
                     customerId: search.customerId!,
                     corpusIds: search.corpusId!.split(","),
-                    endpoint: search.endpoint!,
+                    endpoint: `https://${search.endpoint!}/v1/stream-query`,
                     apiKey: search.apiKey!,
                   },
                   onStreamUpdate
