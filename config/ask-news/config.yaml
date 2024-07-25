@@ -1,20 +1,16 @@
-corpus_id: "226,227,228,229,230"
-#corpus_key: "ofer-bm-cnn_226,ofer-bm-cnbc_227,ofer-bm-npr_228,ofer-bm-fox_229,ofer-bm-bcc_230"
+corpus_id: "151,152,153,154,155"
 customer_id: 1526022105
-app_title: "Sample App"
+
+app_title: "AskNews"
 app_header_learn_more_link: "https://vectara.com/developers/sample-apps/"
-search_description: "Ask questions about the news"
+search_description: "Sample news aggregator built using Vectara"
 search_logo_src: "images/asknews_logo.png" ## could be URL
 search_logo_alt: "AskNews logo"
 search_logo_height: "20"
+
 summary_default_language: "eng"
-summary_num_sentences: 2
-summary_num_results: 5
-summary_prompt_name: "vectara-summary-ext-24-05-med-omni"
-reranker_name: "mmr"
-rerank_num_results: 50
-mmr_diversity_bias: 0.3
+summary_num_sentences: 3
+summary_num_results: 7
+
 enable_source_filters: True
-sources: "CNN,CNBC,NPR,FOX,BBC"
-all_sources: True
-enable_stream_query: True
+sources: "BBC,NPR,FOX,CNBC,CNN"
