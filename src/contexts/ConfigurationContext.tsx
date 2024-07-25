@@ -19,6 +19,7 @@ import {
 interface Config {
   // Search
   config_endpoint?: string;
+  config_corpus_key?: string;
   config_corpus_id?: string;
   config_customer_id?: string;
   config_api_key?: string;
@@ -63,7 +64,7 @@ interface Config {
 
   // Summary
   config_summary_default_language?: string;
-  config_summary_num_results?: number;
+  config_summary_num_results?: number
   config_summary_num_sentences?: number;
   config_summary_prompt_name?: string;
   config_summary_prompt_text_filename?: string;
@@ -92,10 +93,11 @@ interface Config {
 
 type ConfigProp = keyof Config;
 
-const requiredConfigVars = ["corpus_id", "customer_id", "api_key", "endpoint"];
+const requiredConfigVars = ["corpus_key", "corpus_id", "customer_id", "api_key", "endpoint"];
 
 type Search = {
   endpoint?: string;
+  corpusKey?: string;
   corpusId?: string;
   customerId?: string;
   apiKey?: string;
@@ -358,19 +360,28 @@ export const ConfigContextProvider = ({ children }: Props) => {
       }
     }
 
-    const missingConfigProps = requiredConfigVars.reduce(
-      (accum, configVarName) => {
-        if (config[`config_${configVarName}` as ConfigProp] === undefined)
-          accum.push(configVarName);
+    const missingConfigProps = requiredConfigVars.reduce((accum, configVarName) => {
+      if (configVarName === "corpus_key" || configVarName === "corpus_id" ) {
+        // Skip this check and handle it separately
         return accum;
-      },
-      [] as string[]
-    );
+      }  else {
+        if (config[`config_${configVarName}` as ConfigProp] === undefined) {
+          accum.push(configVarName);
+        }
+      }
+      return accum;
+    }, [] as string[]);
+
+    if (config.config_corpus_key === undefined && config.config_corpus_id === undefined) {
+      missingConfigProps.push("corpus_key or corpus_id");
+    }
+
     setMissingConfigProps(missingConfigProps);
 
     const {
       // Search
       config_endpoint,
+      config_corpus_key,
       config_corpus_id,
       config_customer_id,
       config_api_key,
@@ -441,6 +452,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     setSearch({
       endpoint: config_endpoint,
+      corpusKey: config_corpus_key,
       corpusId: config_corpus_id,
       customerId: config_customer_id,
       apiKey: config_api_key,
@@ -501,7 +513,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     }
 
     const getRerankerDiversty = (rerankerNname: string | undefined) => {
-      if (rerankerNname === "mmr")  return config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3
+      if (rerankerNname === "mmr")  return Number(config_mmr_diversity_bias) ?? rerank.diversityBias ?? 0.3
       else return rerank.diversityBias ?? 0.3
 
     }
@@ -527,8 +539,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
         config_summary_default_language as SummaryLanguage,
         "auto"
       ),
-      summaryNumResults: config_summary_num_results ?? 7,
-      summaryNumSentences: config_summary_num_sentences ?? 3,
+      summaryNumResults: Number(config_summary_num_results) ?? 7,
+      summaryNumSentences: Number(config_summary_num_sentences) ?? 3,
       summaryPromptOptions: getPromptOptions(),
       summaryPromptName:
         config_summary_prompt_name ?? "vectara-summary-ext-24-05-sml",
@@ -561,15 +573,15 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     setRerank({
       isEnabled: isRankerEnabled(config_reranker_name),
-      numResults: config_rerank_num_results ?? rerank.numResults,
+      numResults: Number(config_rerank_num_results ?? rerank.numResults),
       id: getRerankerId(config_reranker_name),
       diversityBias: getRerankerDiversty(config_reranker_name),
     });
 
     setHybrid({
-      numWords: config_hybrid_search_num_words ?? hybrid.numWords,
-      lambdaLong: config_hybrid_search_lambda_long ?? hybrid.lambdaLong,
-      lambdaShort: config_hybrid_search_lambda_short ?? hybrid.lambdaShort,
+      numWords: Number(config_hybrid_search_num_words) ?? hybrid.numWords,
+      lambdaLong: Number(config_hybrid_search_lambda_long) ?? hybrid.lambdaLong,
+      lambdaShort: Number(config_hybrid_search_lambda_short) ?? hybrid.lambdaShort,
     });
 
     setResults({

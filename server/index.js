@@ -45,6 +45,7 @@ app.post("/config", (req, res) => {
     // Search
     endpoint,
     corpus_id,
+    corpus_key,
     customer_id,
     api_key,
 
@@ -118,6 +119,7 @@ app.post("/config", (req, res) => {
     // Search
     endpoint,
     corpus_id,
+    corpus_key,
     customer_id,
     api_key,
 
