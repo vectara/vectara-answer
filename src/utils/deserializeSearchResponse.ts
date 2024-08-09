@@ -69,7 +69,7 @@ export const deserializeSearchResponse = (
         },
         source: document.document_metadata.source,
         url: document.document_metadata.url,
-        title: document.document_metadata.title,
+        title: document.document_metadata.title || text.split(' ').slice(0, 10).join(' '),
         metadata: document.document_metadata
       } as DeserializedSearchResult);
     });
