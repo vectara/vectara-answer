@@ -283,6 +283,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               corpusKey: search.corpusKey!,
               domain: `https://${search.endpoint!}`,
               search: {
+                limit: rerank.numResults,
                 offset: 0,
                 metadataFilter: filter,
                 lexicalInterpolation:
@@ -338,6 +339,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               corpusKey: search.corpusKey!,
               endpoint: search.endpoint!,
               search: {
+                limit: rerank.numResults,
                 offset: 0,
                 metadataFilter: filter,
                 lexicalInterpolation:
