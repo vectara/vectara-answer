@@ -13,7 +13,7 @@ import {
   UxMode,
   normal_reranker_id,
   mmr_reranker_id,
-  FcsMode, FCS_MODE, slingshot_reranker_id, promptOptions
+  FcsMode, FCS_MODE, slingshot_reranker_id, promptOptions, user_function_reranker_id
 } from "../views/search/types";
 
 interface Config {
@@ -79,6 +79,7 @@ interface Config {
   // rerank
   config_rerank_num_results?: number;
   config_reranker_name?: string
+  config_user_function?: string
 
 
   // MMR
@@ -168,6 +169,7 @@ type Rerank = {
   numResults?: number;
   id?: number;
   diversityBias?: number;
+  userFunction?: string;
 };
 type Hybrid = { numWords: number; lambdaLong: number; lambdaShort: number };
 
@@ -316,6 +318,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     numResults: 50,
     id: 272725718,
     diversityBias: 0.3,
+    userFunction: undefined,
   });
   const [hybrid, setHybrid] = useState<Hybrid>({
     numWords: 2,
@@ -427,6 +430,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       // rerank
       config_rerank_num_results,
       config_reranker_name,
+      config_user_function,
 
       // MMR
       config_mmr_diversity_bias,
@@ -503,11 +507,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     const isRankerEnabled = (rerankerName: string | undefined) => {
       return rerankerName === "normal" || rerankerName === "slingshot"
-        || rerankerName === "mmr" || false
+        || rerankerName === "mmr" || rerankerName === "userfn" ||  false
     }
     const getRerankerId = (rerankerName: string | undefined) => {
       if (rerankerName === "mmr")  return mmr_reranker_id
       else if (rerankerName === "slingshot") return slingshot_reranker_id
+      else if (rerankerName === "userfn") return user_function_reranker_id
       else return normal_reranker_id
 
     }
@@ -576,6 +581,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       numResults: Number(config_rerank_num_results ?? rerank.numResults),
       id: getRerankerId(config_reranker_name),
       diversityBias: getRerankerDiversty(config_reranker_name),
+      userFunction: config_user_function,
     });
 
     setHybrid({

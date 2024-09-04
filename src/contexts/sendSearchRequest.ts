@@ -24,6 +24,7 @@ type Config = {
   corpusId: string;
   endpoint: string;
   apiKey: string;
+  userFunction?: string;
   logQuery?: boolean;
 };
 
@@ -49,6 +50,7 @@ export const sendSearchRequest = async ({
   corpusId,
   endpoint,
   apiKey,
+  userFunction,
   logQuery=false
 }: Config) => {
   const lambda =
@@ -62,8 +64,8 @@ export const sendSearchRequest = async ({
       lexicalInterpolationConfig: {
         lambda: lambda,
       },
-      metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
-      "semantics": mode ? `RESPONSE` : undefined,
+      metadataFilter: undefined,
+      semantics: mode ? `RESPONSE` : undefined,
     };
   });
 
@@ -103,6 +105,7 @@ export const sendSearchRequest = async ({
           ? {
               rerankingConfig: {
                 rerankerId: rerankerId,
+                userFunction: userFunction,
                 ...(rerankerId === mmr_reranker_id ? {
                       mmrConfig: {
                         diversityBias: rerankDiversityBias,

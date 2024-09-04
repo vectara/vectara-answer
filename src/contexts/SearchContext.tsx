@@ -331,6 +331,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         }
         else {
           try {
+            console.log(rerank)
             const startTime = Date.now();
             const response: ApiV2SearchResponse = await apiV2sendSearchRequest({
               apiKey: search.apiKey!,
@@ -349,11 +350,15 @@ export const SearchContextProvider = ({ children }: Props) => {
                     type: "mmr",
                     diversityBias: rerank.diversityBias || 0
                   }
-                  : {
+                  : ( rerank.userFunction ? {
+                      type: "userfn",
+                      function: rerank.userFunction
+                    } :
+                    {
                     type: "customer_reranker",
                     // rnk_ prefix needed for conversion from API v1 to v2.
                     rerankerId: `rnk_${rerank.id}`
-                  }) : { type: "none" },
+                  })) : { type: "none" },
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -413,6 +418,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             corpusId: search.corpusId!,
             endpoint: search.endpoint!,
             apiKey: search.apiKey!,
+            userFunction: rerank.userFunction,
             logQuery: true
           });
           const totalTime = Date.now() - startTime;

@@ -81,6 +81,7 @@ app.post("/config", (req, res) => {
     // Rerank
     rerank_num_results,
     reranker_name,
+    user_function,
 
     // MMR
     mmr_diversity_bias,
@@ -160,6 +161,7 @@ app.post("/config", (req, res) => {
     // Rerank
     rerank_num_results,
     reranker_name,
+    user_function,
 
     // MMR
     mmr_diversity_bias,
