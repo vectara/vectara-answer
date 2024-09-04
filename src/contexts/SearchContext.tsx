@@ -292,12 +292,15 @@ export const SearchContextProvider = ({ children }: Props) => {
                   ? {
                     type: "mmr",
                     diversityBias: rerank.diversityBias || 0
-                  }
-                  : {
+                  } : ( rerank.userFunction ? {
+                      type: "userfn",
+                      userFunction: rerank.userFunction
+                  } :
+                  {
                     type: "customer_reranker",
                     // rnk_ prefix needed for conversion from API v1 to v2.
                     rerankerId: `rnk_${rerank.id}`
-                  }) : { type: "none" },
+                  })) : { type: "none" },
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -306,7 +309,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 }
               },
               generation: {
-                promptName: promptName,
+                generationPresetName: promptName,
                 promptText: summary.summaryPromptText,
                 maxUsedSearchResults: summary.summaryNumResults,
                 enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
@@ -331,7 +334,6 @@ export const SearchContextProvider = ({ children }: Props) => {
         }
         else {
           try {
-            console.log(rerank)
             const startTime = Date.now();
             const response: ApiV2SearchResponse = await apiV2sendSearchRequest({
               apiKey: search.apiKey!,
@@ -352,7 +354,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   }
                   : ( rerank.userFunction ? {
                       type: "userfn",
-                      function: rerank.userFunction
+                      userFunction: rerank.userFunction
                     } :
                     {
                     type: "customer_reranker",
@@ -500,6 +502,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   rerankNumResults: rerank.numResults,
                   rerankerId: rerank.id,
                   rerankDiversityBias: rerank.diversityBias,
+                  userFunction: rerank.userFunction,
                   summaryNumResults: summary.summaryNumResults,
                   summaryNumSentences: summary.summaryNumSentences,
                   summaryPromptName: promptName,

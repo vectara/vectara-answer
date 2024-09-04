@@ -53,7 +53,7 @@ type Config = {
       diversityBias: number;
     } | {
       type: "userfn";
-      function: string;
+      userFunction: string;
     }
     ;
   };
@@ -76,7 +76,7 @@ const convertReranker = (reranker?: Config["search"]["reranker"]) => {
   if (reranker.type === "userfn") {
     return {
       type: reranker.type,
-      function: reranker.function
+      user_function: reranker.userFunction
     };
   }
 

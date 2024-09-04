@@ -64,7 +64,7 @@ export const sendSearchRequest = async ({
       lexicalInterpolationConfig: {
         lambda: lambda,
       },
-      metadataFilter: undefined,
+      metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
       semantics: mode ? `RESPONSE` : undefined,
     };
   });

@@ -197,7 +197,7 @@ export type CustomerSpecificReranker = {
 
 export type UserFunctionReranker = {
   type: "userfn";
-  function: string;
+  user_function: string;
 }
 
 export type MmrReranker = {
