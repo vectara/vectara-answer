@@ -280,7 +280,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               apiKey: search.apiKey!,
               customerId: search.customerId!,
               query: value,
-              corpusKey: search.corpusKey!,
+              corpusKey: filter ? filter: search.corpusKey!,
               domain: `https://${search.endpoint!}`,
               search: {
                 limit: rerank.numResults,
@@ -336,7 +336,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               apiKey: search.apiKey!,
               customerId: search.customerId!,
               query: value,
-              corpusKey: search.corpusKey!,
+              corpusKey: filter? filter: search.corpusKey!,
               endpoint: search.endpoint!,
               search: {
                 limit: rerank.numResults,
