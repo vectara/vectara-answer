@@ -195,6 +195,11 @@ export type CustomerSpecificReranker = {
   reranker_id: string;
 };
 
+export type UserFunctionReranker = {
+  type: "userfn";
+  user_function: string;
+}
+
 export type MmrReranker = {
   type: "mmr";
   diversity_bias: number;
@@ -218,7 +223,7 @@ export type SearchConfiguration = {
     start_tag?: string;
     end_tag?: string;
   };
-  reranker?: NoneReranker | CustomerSpecificReranker | MmrReranker;
+  reranker?: NoneReranker | CustomerSpecificReranker | MmrReranker | UserFunctionReranker;
 };
 
 export type NoneCitations = {
@@ -283,6 +288,8 @@ export type ApiV2SearchResponse = {
 export const normal_reranker_id = 272725717
 export const mmr_reranker_id = 272725718
 export const slingshot_reranker_id = 272725719
+
+export const user_function_reranker_id = 272725722
 
 
 export type UxMode = "search" | "summary";

@@ -51,7 +51,11 @@ type Config = {
     } | {
       type: "mmr";
       diversityBias: number;
-    };
+    } | {
+      type: "userfn";
+      userFunction: string;
+    }
+    ;
   };
   generation?: GenerationConfig;
   chat?: {
@@ -66,6 +70,13 @@ const convertReranker = (reranker?: Config["search"]["reranker"]) => {
   if (reranker.type === "none") {
     return {
       type: reranker.type
+    };
+  }
+
+  if (reranker.type === "userfn") {
+    return {
+      type: reranker.type,
+      user_function: reranker.userFunction
     };
   }
 

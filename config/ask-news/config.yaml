@@ -14,3 +14,6 @@ summary_num_results: 7
 
 enable_source_filters: True
 sources: "BBC,NPR,FOX,CNBC,CNN"
+
+# if difference between now and crawl date is less than month then update the score otherwise not
+user_function: "if ((to_unix_timestamp(now()) - get('$.document_metadata.crawl_date_int')) < 2592000) get('$.score') + 1 else get('$.score')"

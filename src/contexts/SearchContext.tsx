@@ -292,12 +292,15 @@ export const SearchContextProvider = ({ children }: Props) => {
                   ? {
                     type: "mmr",
                     diversityBias: rerank.diversityBias || 0
-                  }
-                  : {
+                  } : ( rerank.userFunction ? {
+                      type: "userfn",
+                      userFunction: rerank.userFunction
+                  } :
+                  {
                     type: "customer_reranker",
                     // rnk_ prefix needed for conversion from API v1 to v2.
                     rerankerId: `rnk_${rerank.id}`
-                  }) : { type: "none" },
+                  })) : { type: "none" },
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -306,7 +309,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 }
               },
               generation: {
-                promptName: promptName,
+                generationPresetName: promptName,
                 promptText: summary.summaryPromptText,
                 maxUsedSearchResults: summary.summaryNumResults,
                 enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
@@ -349,11 +352,15 @@ export const SearchContextProvider = ({ children }: Props) => {
                     type: "mmr",
                     diversityBias: rerank.diversityBias || 0
                   }
-                  : {
+                  : ( rerank.userFunction ? {
+                      type: "userfn",
+                      userFunction: rerank.userFunction
+                    } :
+                    {
                     type: "customer_reranker",
                     // rnk_ prefix needed for conversion from API v1 to v2.
                     rerankerId: `rnk_${rerank.id}`
-                  }) : { type: "none" },
+                  })) : { type: "none" },
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -413,6 +420,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             corpusId: filter ? filter: search.corpusId!,
             endpoint: search.endpoint!,
             apiKey: search.apiKey!,
+            userFunction: rerank.userFunction,
             logQuery: true
           });
           const totalTime = Date.now() - startTime;
@@ -494,6 +502,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   rerankNumResults: rerank.numResults,
                   rerankerId: rerank.id,
                   rerankDiversityBias: rerank.diversityBias,
+                  userFunction: rerank.userFunction,
                   summaryNumResults: summary.summaryNumResults,
                   summaryNumSentences: summary.summaryNumSentences,
                   summaryPromptName: promptName,
