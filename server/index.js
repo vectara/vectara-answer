@@ -48,6 +48,7 @@ app.post("/config", (req, res) => {
     corpus_key,
     customer_id,
     api_key,
+    metadata_filter,
 
     // App
     ux,
@@ -122,6 +123,7 @@ app.post("/config", (req, res) => {
     corpus_key,
     customer_id,
     api_key,
+    metadata_filter,
 
     // App
     ux,

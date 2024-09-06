@@ -280,12 +280,12 @@ export const SearchContextProvider = ({ children }: Props) => {
               apiKey: search.apiKey!,
               customerId: search.customerId!,
               query: value,
-              corpusKey: search.corpusKey!,
+              corpusKey: filter ? filter: search.corpusKey!,
               domain: `https://${search.endpoint!}`,
               search: {
                 limit: rerank.numResults,
                 offset: 0,
-                metadataFilter: filter,
+                metadataFilter: search.metadataFilter || "",
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
                 reranker: rerank.isEnabled ? (rerank.id === mmr_reranker_id
@@ -336,12 +336,12 @@ export const SearchContextProvider = ({ children }: Props) => {
               apiKey: search.apiKey!,
               customerId: search.customerId!,
               query: value,
-              corpusKey: search.corpusKey!,
+              corpusKey: filter? filter: search.corpusKey!,
               endpoint: search.endpoint!,
               search: {
                 limit: rerank.numResults,
                 offset: 0,
-                metadataFilter: filter,
+                metadataFilter: search.metadataFilter,
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
                 reranker: rerank.isEnabled ? (rerank.id === mmr_reranker_id
@@ -399,7 +399,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         try {
           const startTime = Date.now();
           initialSearchResponse = await sendSearchRequest({
-            filter,
+            metadataFilter: search.metadataFilter,
             query_str: value,
             rerank: rerank.isEnabled,
             rerankNumResults: rerank.numResults,
@@ -410,7 +410,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             hybridLambdaShort: hybrid.lambdaShort,
             mode: mode,
             customerId: search.customerId!,
-            corpusId: search.corpusId!,
+            corpusId: filter ? filter: search.corpusId!,
             endpoint: search.endpoint!,
             apiKey: search.apiKey!,
             logQuery: true
@@ -465,7 +465,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   : hybrid.lambdaShort;
                 streamQueryV1(
                   {
-                    filter,
+                    filter: search.metadataFilter,
                     queryValue: value,
                     rerank: rerank.isEnabled,
                     rerankNumResults: rerank.numResults,
@@ -478,7 +478,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     lambda: hybridLambda,
                     language,
                     customerId: search.customerId!,
-                    corpusIds: search.corpusId!.split(","),
+                    corpusIds: filter ? [filter] :search.corpusId!.split(","),
                     endpoint: `https://${search.endpoint!}/v1/stream-query`,
                     apiKey: search.apiKey!,
                   },
@@ -487,7 +487,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               }
               else {
                 const response = await sendSearchRequest({
-                  filter,
+                  metadataFilter: search.metadataFilter,
                   query_str: value,
                   summaryMode: true,
                   rerank: rerank.isEnabled,
@@ -504,7 +504,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   hybridLambdaShort: hybrid.lambdaShort,
                   language,
                   customerId: search.customerId!,
-                  corpusId: search.corpusId!,
+                  corpusId: filter ? filter : search.corpusId!,
                   endpoint: search.endpoint!,
                   apiKey: search.apiKey!,
                 });

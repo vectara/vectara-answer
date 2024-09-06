@@ -24,6 +24,7 @@ interface Config {
   config_customer_id?: string;
   config_api_key?: string;
   config_enable_stream_query? : string
+  config_metadata_filter?: string
 
   // App
   config_ux?: UxMode;
@@ -101,6 +102,7 @@ type Search = {
   corpusId?: string;
   customerId?: string;
   apiKey?: string;
+  metadataFilter?: string
   enableStreamQuery?: boolean
 };
 
@@ -124,11 +126,10 @@ type AppHeader = {
 };
 
 type Source = { value: string; label: string };
-type Filters = {
+type FilterBySource = {
   isEnabled: boolean;
   sources: Source[];
   allSources: boolean;
-  sourceValueToLabelMap?: Record<string, string>;
 };
 
 type Summary = {
@@ -181,7 +182,7 @@ interface ConfigContextType {
   search: Search;
   app: App;
   appHeader: AppHeader;
-  filters: Filters;
+  filterBySource: FilterBySource;
   summary: Summary;
   results: Results;
   rerank: Rerank;
@@ -299,11 +300,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
     logo: {},
     learnMore: {},
   });
-  const [filters, setFilters] = useState<Filters>({
+  const [filterBySource, setFilterBySource] = useState<FilterBySource>({
     isEnabled: false,
     sources: [],
     allSources: true,
-    sourceValueToLabelMap: {},
   });
   const [searchHeader, setSearchHeader] = useState<SearchHeader>({ logo: {} });
   const [exampleQuestions, setExampleQuestions] = useState<ExampleQuestions>(
@@ -386,6 +386,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       config_customer_id,
       config_api_key,
       config_enable_stream_query,
+      config_metadata_filter,
 
       // App
       config_ux,
@@ -456,6 +457,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       corpusId: config_corpus_id,
       customerId: config_customer_id,
       apiKey: config_api_key,
+      metadataFilter: config_metadata_filter,
       enableStreamQuery: isTrue(config_enable_stream_query)
     });
 
@@ -482,18 +484,12 @@ export const ConfigContextProvider = ({ children }: Props) => {
     const allSources =
       config_all_sources === undefined ? true : isTrue(config_all_sources);
 
+    const corpuses = config_corpus_id ? config_corpus_id?.split(',') : config_corpus_key?.split(',') || []
     const sources =
-      config_sources?.split(",").map((source) => ({
-        value: source.toLowerCase(),
+      config_sources?.split(",").map((source, index) => ({
+        value: corpuses[index],
         label: source,
       })) ?? [];
-
-    const sourceValueToLabelMap = sources.length
-      ? sources.reduce((accum, { label, value }) => {
-          accum[value] = label;
-          return accum;
-        }, {} as Record<string, string>)
-      : undefined;
 
     if (isFilteringEnabled && sources.length === 0) {
       console.error(
@@ -518,11 +514,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     }
 
-    setFilters({
+    setFilterBySource({
       isEnabled: isFilteringEnabled,
       allSources: allSources,
       sources: sources,
-      sourceValueToLabelMap: sourceValueToLabelMap,
     });
 
     const getPromptOptions = () => {
@@ -609,7 +604,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
         search,
         app,
         appHeader,
-        filters,
+        filterBySource,
         summary,
         setSummary,
         results,
