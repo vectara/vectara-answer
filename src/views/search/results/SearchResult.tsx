@@ -4,7 +4,7 @@ import {
   VuiTextColor,
   VuiFlexContainer,
   VuiFlexItem,
-  VuiSearchResult,
+  VuiSearchResult, VuiBadge
 } from "../../../ui";
 import { truncateEnd, truncateStart } from "../../../ui/utils/truncateString";
 import { useSearchContext } from "../../../contexts/SearchContext";
@@ -26,6 +26,7 @@ export const SearchResult = forwardRef<HTMLDivElement | null, Props>(
     const { relatedContent } = useSearchContext();
 
     const {
+      source,
       url,
       id,
       snippet: { pre, post, text },
@@ -53,6 +54,17 @@ export const SearchResult = forwardRef<HTMLDivElement | null, Props>(
               spacing="xs"
               className="searchResultFilterGroup"
             >
+              {source && (
+                <VuiFlexItem>
+                  {/* eslint-disable-next-line react/jsx-no-undef */}
+                  <VuiBadge
+                    aria-label={`Filter by source ${source}`}
+                    color="neutral"
+                  >
+                    {source}
+                  </VuiBadge>
+                </VuiFlexItem>
+              )}
               {url && (
                 <VuiFlexItem grow={1}>
                   <VuiText size="s" className="searchResultSiteCategory">
