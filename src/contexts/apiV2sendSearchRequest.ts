@@ -29,7 +29,7 @@ type Config = {
   query: string;
   corpusKey: string;
   search: {
-    metadataFilter: string;
+    metadataFilter?: string;
     lexicalInterpolation?: number;
     customDimensions?: Record<string, number>;
     semantics?: "default" | "query" | "response";

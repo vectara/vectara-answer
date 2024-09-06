@@ -3,7 +3,7 @@ import { START_TAG, END_TAG } from "../utils/parseSnippet";
 import { SummaryLanguage, mmr_reranker_id } from "../views/search/types";
 
 type Config = {
-  filter: string;
+  metadataFilter?: string;
   query_str?: string;
   language?: SummaryLanguage;
   summaryMode?: boolean;
@@ -29,7 +29,7 @@ type Config = {
 };
 
 export const sendSearchRequest = async ({
-  filter,
+  metadataFilter,
   query_str,
   language,
   summaryMode,
@@ -64,7 +64,7 @@ export const sendSearchRequest = async ({
       lexicalInterpolationConfig: {
         lambda: lambda,
       },
-      metadataFilter: filter ? `doc.source = '${filter}'` : undefined,
+      metadataFilter: metadataFilter,
       semantics: mode ? `RESPONSE` : undefined,
     };
   });

@@ -26,7 +26,7 @@ type Props = {
 export const SearchControls = ({ hasQuery }: Props) => {
   const { filterValue, setFilterValue, searchValue, setSearchValue, onSearch, reset } =
     useSearchContext();
-  const { searchHeader, filters } = useConfigContext();
+  const { searchHeader, filterBySource } = useConfigContext();
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
@@ -41,8 +41,8 @@ export const SearchControls = ({ hasQuery }: Props) => {
 
   const filterOptions: Array<{ value: string; text: string }> = [];
 
-  if (filters.isEnabled) {
-    if (filters.allSources) {
+  if (filterBySource.isEnabled) {
+    if (filterBySource.allSources) {
       filterOptions.push({
         text: "All sources",
         value: "",
@@ -51,11 +51,11 @@ export const SearchControls = ({ hasQuery }: Props) => {
 
     // if allSources is false, then we set the filterValue is set to the first source
     // In this case the "All sources" button is not there, and the first source is selected by default
-    if (!filters.allSources && filterValue === "") {
-      setFilterValue(filters.sources[0].value)
+    if (!filterBySource.allSources && filterValue === "") {
+      setFilterValue(filterBySource.sources[0].label)
     }
 
-    filters.sources.forEach(({ value, label }) => {
+    filterBySource.sources.forEach(({ value, label }) => {
       filterOptions.push({ text: label, value });
     });
   }
@@ -168,7 +168,7 @@ export const SearchControls = ({ hasQuery }: Props) => {
         <VuiSpacer size="m" />
 
         <VuiFlexContainer alignItems="center" justifyContent="spaceBetween">
-          {filters.isEnabled && (
+          {filterBySource.isEnabled && (
             <VuiFlexItem grow={false}>
               <fieldset>
                 <VuiFlexContainer
