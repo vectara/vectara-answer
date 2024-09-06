@@ -282,6 +282,9 @@ reranker_name: normal | slingshot | mmr
 
 # number of results to use for reranking
 rerank_num_results: 50
+
+# enables users to define custom reranking functions using document-level metadata, part-level metadata.
+user_function: "if (now() < iso_datetime_parse('2024-12-04T10:14:50Z')) 1 else 2" 
 ```
 
 To use Vectara's MMR (Maximum Marginal Relevance) functionality please set the `reranker_name = mmr`, and add a `mmr_diversity_bias` value.
