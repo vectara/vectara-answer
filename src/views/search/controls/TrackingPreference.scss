@@ -1,0 +1,23 @@
+@import "../../../ui/styleUtils/index.scss";
+
+.Toastify__toast-container {
+ width: 440px;
+}
+.Toastify__toast-body {
+ padding: 10px;
+ font-family: inherit;
+ font-weight: inherit;
+}
+.toastMessage {
+margin-bottom: 10px;
+}
+
+.toastButtons {
+ display: flex;
+ justify-content: space-around;
+ margin-bottom: 10px;
+}
+
+.buttonWidth {
+ width: 120px;
+}
