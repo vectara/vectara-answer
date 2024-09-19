@@ -22,7 +22,7 @@ const uxModeToComponentMap = {
 } as const;
 
 export const SearchView = () => {
-  const { isConfigLoaded, app, uxMode } = useConfigContext();
+  const { isConfigLoaded, app, uxMode, analytics } = useConfigContext();
 
   const {
     isSearching,
@@ -84,7 +84,7 @@ export const SearchView = () => {
 
         {app.isFooterEnabled && <AppFooter />}
       </VuiFlexContainer>
-      <TrackingPreference />
+      {analytics.amplitudeApiKey && <TrackingPreference />}
     </>
   );
 };

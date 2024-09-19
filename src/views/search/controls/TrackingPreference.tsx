@@ -4,7 +4,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import * as amplitude from '@amplitude/analytics-browser';
 import { VuiButtonPrimary, VuiButtonSecondary, VuiFlexContainer, VuiLink } from "../../../ui";
 import "./TrackingPreference.scss"
-import { useConfigContext } from "../../../contexts/ConfigurationContext";
 
 
 // Helper function to set a cookie
@@ -29,7 +28,6 @@ const getCookie = (name: string) => {
 
 const TrackingPreference = () => {
 
-  const { analytics } = useConfigContext();
   const handleUserChoice = (allowTracking: boolean) => {
     setCookie('VECTARA_ANSWER_ALLOW_TRACKING', JSON.stringify(allowTracking), 365);
 
@@ -76,12 +74,7 @@ const TrackingPreference = () => {
     }
   }, []);
 
-  if (analytics.amplitudeApiKey) {
   return <ToastContainer />;
-  }
-  else {
-    return null
-  }
 };
 
 export default TrackingPreference;
