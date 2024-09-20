@@ -27,6 +27,7 @@ import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
 import { ApiV2, ApiV1, streamQueryV1, streamQueryV2 } from "@vectara/stream-query-client";
 import { apiV2sendSearchRequest } from "./apiV2sendSearchRequest";
 import { END_TAG, START_TAG } from "../utils/parseSnippet";
+import { getRerankerConfigForApiV1StreamQuery, getRerankerConfigForApiV2StreamQuery } from "../utils/getRerankerConfig";
 
 interface SearchContextType {
   filterValue: string;
@@ -288,7 +289,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 metadataFilter: search.metadataFilter || "",
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
-                reranker: rerank,
+                reranker: getRerankerConfigForApiV2StreamQuery(rerank),
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -447,7 +448,10 @@ export const SearchContextProvider = ({ children }: Props) => {
                   {
                     filter: search.metadataFilter,
                     queryValue: value,
-                    reranker: rerank,
+                    rerank: rerank.isEnabled,
+                    rerankNumResults: rerank.numResults,
+                    rerankerId: getRerankerConfigForApiV1StreamQuery(rerank),
+                    rerankDiversityBias: rerank.diversityBias,
                     summaryNumResults: summary.summaryNumResults,
                     summaryNumSentences: summary.summaryNumSentences,
                     summaryPromptName: promptName,
