@@ -168,10 +168,6 @@ export const sendSearchRequest = async ({
     ],
   };
 
-  console.log(reranker)
-  console.log(body)
-  console.log(convertReranker(reranker))
-
   let headers = {};
   let url = "";
   if (process.env.NODE_ENV === "production") {
