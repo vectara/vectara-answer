@@ -109,6 +109,7 @@ app.post("/config", (req, res) => {
     google_analytics_tracking_code,
     full_story_org_id,
     gtm_container_id,
+    amplitude_api_key,
 
     // recommendation
     related_content,
@@ -185,6 +186,7 @@ app.post("/config", (req, res) => {
     google_analytics_tracking_code,
     full_story_org_id,
     gtm_container_id,
+    amplitude_api_key,
 
     // recommendation
     related_content,
