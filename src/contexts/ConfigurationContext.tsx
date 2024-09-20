@@ -11,9 +11,7 @@ import {
   SummaryLanguage,
   SUMMARY_LANGUAGES,
   UxMode,
-  normal_reranker_id,
-  mmr_reranker_id,
-  FcsMode, FCS_MODE, slingshot_reranker_id, promptOptions, user_function_reranker_id
+  FcsMode, FCS_MODE, promptOptions
 } from "../views/search/types";
 
 interface Config {
@@ -170,7 +168,7 @@ type Analytics = {
 type Rerank = {
   isEnabled: boolean;
   numResults?: number;
-  id?: number;
+  names?: string;
   diversityBias?: number;
   userFunction?: string;
 };
@@ -318,7 +316,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [rerank, setRerank] = useState<Rerank>({
     isEnabled: false,
     numResults: 50,
-    id: 272725718,
+    names: "normal",
     diversityBias: 0.3,
     userFunction: undefined,
   });
@@ -504,24 +502,6 @@ export const ConfigContextProvider = ({ children }: Props) => {
       );
     }
 
-    const isRankerEnabled = (rerankerName: string | undefined) => {
-      return rerankerName === "normal" || rerankerName === "slingshot"
-        || rerankerName === "mmr" || rerankerName === "userfn" ||  false
-    }
-    const getRerankerId = (rerankerName: string | undefined) => {
-      if (rerankerName === "mmr")  return mmr_reranker_id
-      else if (rerankerName === "slingshot") return slingshot_reranker_id
-      else if (rerankerName === "userfn") return user_function_reranker_id
-      else return normal_reranker_id
-
-    }
-
-    const getRerankerDiversty = (rerankerNname: string | undefined) => {
-      if (rerankerNname === "mmr")  return Number(config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3)
-      else return rerank.diversityBias ?? 0.3
-
-    }
-
     setFilterBySource({
       isEnabled: isFilteringEnabled,
       allSources: allSources,
@@ -576,10 +556,10 @@ export const ConfigContextProvider = ({ children }: Props) => {
     });
 
     setRerank({
-      isEnabled: isRankerEnabled(config_reranker_name),
+      isEnabled: !!config_reranker_name,
       numResults: Number(config_rerank_num_results ?? rerank.numResults),
-      id: getRerankerId(config_reranker_name),
-      diversityBias: getRerankerDiversty(config_reranker_name),
+      names: config_reranker_name,
+      diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3,
       userFunction: config_user_function,
     });
 

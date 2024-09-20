@@ -205,6 +205,11 @@ export type MmrReranker = {
   diversity_bias: number;
 };
 
+export type ChainReranker = {
+  type: string;
+  rerankers: (CustomerSpecificReranker | UserFunctionReranker | MmrReranker | NoneReranker)[];
+};
+
 export type SearchConfiguration = {
   corpora: {
     corpus_key: string;
@@ -223,7 +228,7 @@ export type SearchConfiguration = {
     start_tag?: string;
     end_tag?: string;
   };
-  reranker?: NoneReranker | CustomerSpecificReranker | MmrReranker | UserFunctionReranker;
+  reranker?: NoneReranker | ChainReranker;
 };
 
 export type NoneCitations = {
@@ -288,7 +293,6 @@ export type ApiV2SearchResponse = {
 export const normal_reranker_id = 272725717
 export const mmr_reranker_id = 272725718
 export const slingshot_reranker_id = 272725719
-
 export const user_function_reranker_id = 272725722
 
 

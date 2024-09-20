@@ -13,7 +13,7 @@ import {
   DeserializedSearchResult,
   SearchResponse,
   SummaryLanguage,
-  SearchError, FcsMode, mmr_reranker_id, ApiV2SearchResponse
+  SearchError, FcsMode, ApiV2SearchResponse
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -295,19 +295,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 metadataFilter: search.metadataFilter || "",
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
-                reranker: rerank.isEnabled ? (rerank.id === mmr_reranker_id
-                  ? {
-                    type: "mmr",
-                    diversityBias: rerank.diversityBias || 0
-                  } : ( rerank.userFunction ? {
-                      type: "userfn",
-                      userFunction: rerank.userFunction
-                  } :
-                  {
-                    type: "customer_reranker",
-                    // rnk_ prefix needed for conversion from API v1 to v2.
-                    rerankerId: `rnk_${rerank.id}`
-                  })) : { type: "none" },
+                reranker: rerank,
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -354,20 +342,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 metadataFilter: search.metadataFilter,
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
-                reranker: rerank.isEnabled ? (rerank.id === mmr_reranker_id
-                  ? {
-                    type: "mmr",
-                    diversityBias: rerank.diversityBias || 0
-                  }
-                  : ( rerank.userFunction ? {
-                      type: "userfn",
-                      userFunction: rerank.userFunction
-                    } :
-                    {
-                    type: "customer_reranker",
-                    // rnk_ prefix needed for conversion from API v1 to v2.
-                    rerankerId: `rnk_${rerank.id}`
-                  })) : { type: "none" },
+                reranker: rerank,
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -421,10 +396,7 @@ export const SearchContextProvider = ({ children }: Props) => {
           initialSearchResponse = await sendSearchRequest({
             metadataFilter: search.metadataFilter,
             query_str: value,
-            rerank: rerank.isEnabled,
-            rerankNumResults: rerank.numResults,
-            rerankerId: rerank.id,
-            rerankDiversityBias: rerank.diversityBias,
+            reranker: rerank,
             hybridNumWords: hybrid.numWords,
             hybridLambdaLong: hybrid.lambdaLong,
             hybridLambdaShort: hybrid.lambdaShort,
@@ -494,10 +466,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   {
                     filter: search.metadataFilter,
                     queryValue: value,
-                    rerank: rerank.isEnabled,
-                    rerankNumResults: rerank.numResults,
-                    rerankerId: rerank.id,
-                    rerankDiversityBias: rerank.diversityBias,
+                    reranker: rerank,
                     summaryNumResults: summary.summaryNumResults,
                     summaryNumSentences: summary.summaryNumSentences,
                     summaryPromptName: promptName,
@@ -517,10 +486,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   metadataFilter: search.metadataFilter,
                   query_str: value,
                   summaryMode: true,
-                  rerank: rerank.isEnabled,
-                  rerankNumResults: rerank.numResults,
-                  rerankerId: rerank.id,
-                  rerankDiversityBias: rerank.diversityBias,
+                  reranker: rerank,
                   userFunction: rerank.userFunction,
                   summaryNumResults: summary.summaryNumResults,
                   summaryNumSentences: summary.summaryNumSentences,

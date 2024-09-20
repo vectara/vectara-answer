@@ -1,4 +1,12 @@
-import { SummaryLanguage, QueryBody, QueryRequestHeaders } from "../views/search/types";
+import {
+  SummaryLanguage,
+  QueryBody,
+  QueryRequestHeaders,
+  normal_reranker_id,
+  slingshot_reranker_id,
+  ChainReranker,
+  NoneReranker,
+} from "../views/search/types";
 
 type GenerationConfig = {
   promptName?: string;
@@ -44,18 +52,12 @@ type Config = {
       endTag?: string;
     };
     reranker?: {
-      type: "none";
-    } | {
-      type: "customer_reranker";
-      rerankerId: string;
-    } | {
-      type: "mmr";
-      diversityBias: number;
-    } | {
-      type: "userfn";
-      userFunction: string;
+      isEnabled?: boolean,
+      numResults?: number,
+      names?: string,
+      diversityBias?: number,
+      userFunction?: string
     }
-    ;
   };
   generation?: GenerationConfig;
   chat?: {
@@ -64,34 +66,50 @@ type Config = {
   };
 };
 
-const convertReranker = (reranker?: Config["search"]["reranker"]) => {
-  if (!reranker) return;
-
-  if (reranker.type === "none") {
+const convertReranker = (reranker?: Config["search"]["reranker"]): NoneReranker | ChainReranker => {
+  if (reranker?.isEnabled) {
     return {
-      type: reranker.type
-    };
+      type: "chain",
+      rerankers: reranker?.names?.split(",").map((name: string) => {
+
+        switch (name) {
+          case "slingshot":
+            return {
+              type: "customer_reranker",
+              reranker_id: `rnk_${slingshot_reranker_id}`
+            };
+
+          case "normal":
+            return {
+              type: "customer_reranker",
+              reranker_id: `rnk_${normal_reranker_id}`
+            };
+
+          case "mmr":
+            return {
+              type: name,
+              diversity_bias: reranker.diversityBias
+            };
+
+          case "userfn":
+            return {
+              type: name,
+              user_function: reranker.userFunction
+            };
+
+          default:
+            return {
+              type: "none"
+            }
+        }
+      })
+    } as ChainReranker;
+
   }
-
-  if (reranker.type === "userfn") {
+  else {
     return {
-      type: reranker.type,
-      user_function: reranker.userFunction
-    };
-  }
-
-  if (reranker.type === "customer_reranker") {
-    return {
-      type: reranker.type,
-      reranker_id: reranker.rerankerId
-    };
-  }
-
-  if (reranker.type === "mmr") {
-    return {
-      type: reranker.type,
-      diversity_bias: reranker.diversityBias
-    };
+      type: "none"
+    } as NoneReranker;
   }
 };
 
