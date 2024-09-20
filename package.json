@@ -17,7 +17,7 @@
     "@types/prismjs": "^1.26.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
-    "@vectara/stream-query-client": "^4.1.0",
+    "@vectara/stream-query-client": "^4.2.0",
     "analytics": "^0.8.9",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
