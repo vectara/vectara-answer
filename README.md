@@ -277,8 +277,10 @@ This means the user will only be able to select a specific source for each query
 Whether to use Vectara's [reranking](https://docs.vectara.com/docs/api-reference/search-apis/reranking) functionality. Note that reranking currently works for English language only, so if the documents in your corpus are in other languages, it's recommended to set this to "False".
 
 ```yaml
-# choose a reranker from the following choices
-reranker_name: normal | slingshot | mmr
+# choose a reranker from the following choices, You can use single or multiple rerankers with coma separated. e.g `slingshot,mmr`
+# if you are using multiple reranker please make sure slingshot should be first if you are using it. For more details [chain reranking](https://docs.vectara.com/docs/learn/chain-reranker)
+reranker_name: normal | slingshot | mmr | userfn | slingshot,mmr,userfn 
+
 
 # number of results to use for reranking
 rerank_num_results: 50
