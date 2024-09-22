@@ -13,6 +13,7 @@ import {
 } from "./contexts/AuthenticationContext";
 import { ConfigContextProvider } from "./contexts/ConfigurationContext";
 import * as FullStory from "@fullstory/browser";
+import * as amplitude from '@amplitude/analytics-browser';
 import "./App.scss";
 
 const AppRoutes = () => {
@@ -25,6 +26,13 @@ const AppRoutes = () => {
     if (isAuthEnabled) {
       const authToken = localStorage.getItem("AuthToken");
       logIn(authToken);
+    }
+
+    if (analytics.amplitudeApiKey) {
+      amplitude.init(analytics.amplitudeApiKey, {
+        autocapture: false,
+      });
+      amplitude.track("Page View")
     }
 
     if (analytics.googleAnalyticsTrackingCode) {

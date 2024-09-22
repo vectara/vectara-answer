@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
 } from "react";
+import * as amplitude from '@amplitude/analytics-browser';
 import { useSearchParams } from "react-router-dom";
 import {
   DeserializedSearchResult,
@@ -91,7 +92,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, setSummary, results, rerank, hybrid, uxMode, fcsMode } =
+  const { isConfigLoaded, search, summary, setSummary, results, rerank, hybrid, uxMode, fcsMode, app } =
     useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
@@ -272,6 +273,12 @@ export const SearchContextProvider = ({ children }: Props) => {
                   case "end":
                     setIsSummarizing(false);
                     setSummaryTime(Date.now() - startTime);
+                    amplitude.track("Query", {
+                      "Space Name": app.title,
+                      query: value,
+                      summary: summary,
+                      searchResult: searchResults
+                    })
                     break;
                 }
               }
@@ -363,6 +370,12 @@ export const SearchContextProvider = ({ children }: Props) => {
               setSummarizationResponse(response.summary);
               setSummaryTime(totalTime);
               setFactualConsistencyScore(response.factual_consistency_score > 0 ? response.factual_consistency_score : undefined)
+              amplitude.track("Query", {
+                "Space Name": app.title,
+                query: value,
+                summary: summary,
+                searchResult: searchResults
+              })
 
             }
           }catch (error) {
@@ -434,6 +447,12 @@ export const SearchContextProvider = ({ children }: Props) => {
                     if (update.isDone) {
                       setIsSummarizing(false);
                       setSummaryTime(Date.now() - startTime);
+                      amplitude.track("Query", {
+                        "Space Name": app.title,
+                        query: value,
+                        summary: summary,
+                        searchResult: searchResults
+                      })
                     }
                     setSummarizationError(undefined);
                     setSummarizationResponse(update.updatedText ?? undefined);
@@ -497,6 +516,12 @@ export const SearchContextProvider = ({ children }: Props) => {
                   setSummarizationResponse(response.summary[0]?.text);
                   setSummaryTime(totalTime);
                   setFactualConsistencyScore(response?.summary[0]?.factualConsistency?.score)
+                  amplitude.track("Query", {
+                    "Space Name": app.title,
+                    query: value,
+                    summary: summary,
+                    searchResult: searchResults
+                  })
 
                 }
               }

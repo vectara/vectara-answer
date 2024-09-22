@@ -60,6 +60,7 @@ interface Config {
   config_google_analytics_tracking_code?: string;
   config_full_story_org_id?: string;
   config_gtm_container_id?: string;
+  config_amplitude_api_key? : string;
 
   // Summary
   config_summary_default_language?: string;
@@ -159,6 +160,7 @@ type SearchHeader = {
 type ExampleQuestions = string[];
 type Auth = { isEnabled: boolean; googleClientId?: string };
 type Analytics = {
+  amplitudeApiKey?: string
   googleAnalyticsTrackingCode?: string;
   fullStoryOrgId?: string;
   gtmContainerId?: string;
@@ -425,6 +427,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       config_google_analytics_tracking_code,
       config_full_story_org_id,
       config_gtm_container_id,
+      config_amplitude_api_key,
 
       // rerank
       config_rerank_num_results,
@@ -546,6 +549,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     });
 
     setAnalytics({
+      amplitudeApiKey: config_amplitude_api_key,
       googleAnalyticsTrackingCode: config_google_analytics_tracking_code,
       fullStoryOrgId: config_full_story_org_id,
       gtmContainerId: config_gtm_container_id,
