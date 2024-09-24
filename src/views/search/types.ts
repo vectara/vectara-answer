@@ -228,7 +228,7 @@ export type SearchConfiguration = {
     start_tag?: string;
     end_tag?: string;
   };
-  reranker?: NoneReranker | ChainReranker;
+  reranker?: NoneReranker | CustomerSpecificReranker | MmrReranker | UserFunctionReranker | ChainReranker;
 };
 
 export type NoneCitations = {

@@ -2,11 +2,13 @@ import {
   SummaryLanguage,
   QueryBody,
   QueryRequestHeaders,
-  normal_reranker_id,
-  slingshot_reranker_id,
   ChainReranker,
-  NoneReranker,
 } from "../views/search/types";
+
+export type Reranker = {type: "none"}
+  | { type: "customer_reranker"; rerankerId: string }
+  | { type: "mmr"; diversityBias: number }
+  | { type: "userfn"; userFunction?: string };
 
 type GenerationConfig = {
   promptName?: string;
@@ -51,12 +53,26 @@ type Config = {
       startTag?: string;
       endTag?: string;
     };
-    reranker?: {
-      isEnabled?: boolean,
-      numResults?: number,
-      names?: string,
-      diversityBias?: number,
-      userFunction?: string
+    reranker?:
+      | { type: "none" }
+      | {
+      type: "customer_reranker";
+      rerankerId: string;
+    }
+      | {
+      type: "mmr";
+      // Diversity bias ranges from 0 to 1.
+      // 0 will optimize for results that are as closely related to the query as possible.
+      // 1 will optimize for results that are as diverse as possible.
+      diversityBias: number;
+    }
+      | {
+      type: "userfn";
+      userFunction?: string;
+    }
+      | {
+      type: "chain";
+      rerankers: Reranker[]
     }
   };
   generation?: GenerationConfig;
@@ -66,51 +82,38 @@ type Config = {
   };
 };
 
-const convertReranker = (reranker?: Config["search"]["reranker"]): NoneReranker | ChainReranker => {
-  if (reranker?.isEnabled) {
+const convertSingleReranker = (reranker?: Reranker) => {
+  if (!reranker) return;
+
+  switch (reranker.type) {
+    case "none":
+      return { type: reranker.type };
+    case "customer_reranker":
+      return { type: reranker.type, reranker_id: reranker.rerankerId };
+    case "mmr":
+      return { type: reranker.type, diversity_bias: reranker.diversityBias };
+    case "userfn":
+      // The user function reranker needs a function to run.
+      // If the user hasn't supplied it, don't send the reranker as part of the request.
+      return reranker.userFunction
+        ? { type: reranker.type, user_function: reranker.userFunction }
+        : undefined;
+    default:
+      return;
+  }
+};
+
+const convertReranker = (reranker?: Config["search"]["reranker"]) => {
+  if (!reranker) return;
+
+  if (reranker.type === "chain") {
     return {
-      type: "chain",
-      rerankers: reranker?.names?.split(",").map((name: string) => {
-
-        switch (name) {
-          case "slingshot":
-            return {
-              type: "customer_reranker",
-              reranker_id: `rnk_${slingshot_reranker_id}`
-            };
-
-          case "normal":
-            return {
-              type: "customer_reranker",
-              reranker_id: `rnk_${normal_reranker_id}`
-            };
-
-          case "mmr":
-            return {
-              type: name,
-              diversity_bias: reranker.diversityBias
-            };
-
-          case "userfn":
-            return {
-              type: name,
-              user_function: reranker.userFunction
-            };
-
-          default:
-            return {
-              type: "none"
-            }
-        }
-      })
+      type: reranker.type,
+      rerankers: reranker.rerankers.map(convertSingleReranker).filter(Boolean)
     } as ChainReranker;
+  }
 
-  }
-  else {
-    return {
-      type: "none"
-    } as NoneReranker;
-  }
+  return convertSingleReranker(reranker);
 };
 
 const convertCitations = (citations?: GenerationConfig["citations"]) => {

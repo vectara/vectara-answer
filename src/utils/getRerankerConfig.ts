@@ -60,7 +60,7 @@ const getSingleReranker = (name: string, reranker: Reranker) => {
       }
   }
 }
-export const getRerankerConfigForApiV2StreamQuery = (reranker: Reranker) : NoneReranker | CustomerSpecificReranker |
+export const getRerankerConfigForApiV2 = (reranker: Reranker) : NoneReranker | CustomerSpecificReranker |
   MmrReranker | UserFunctionReranker | ChainReranker => {
   const rerankers = reranker.names?.split(",") || []
   if (rerankers?.length > 1) {

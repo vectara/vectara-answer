@@ -28,7 +28,7 @@ import { deserializeSearchResponse } from "../utils/deserializeSearchResponse";
 import { ApiV2, ApiV1, streamQueryV1, streamQueryV2 } from "@vectara/stream-query-client";
 import { apiV2sendSearchRequest } from "./apiV2sendSearchRequest";
 import { END_TAG, START_TAG } from "../utils/parseSnippet";
-import { getRerankerConfigForApiV1StreamQuery, getRerankerConfigForApiV2StreamQuery } from "../utils/getRerankerConfig";
+import { getRerankerConfigForApiV1StreamQuery, getRerankerConfigForApiV2 } from "../utils/getRerankerConfig";
 
 interface SearchContextType {
   filterValue: string;
@@ -264,6 +264,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   case "generationChunk":
                     setSummarizationError(undefined);
                     setSummarizationResponse(event.updatedText ?? undefined);
+                    setFactualConsistencyScore(undefined)
                     break;
 
                   case "factualConsistencyScore":
@@ -296,7 +297,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 metadataFilter: search.metadataFilter || "",
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
-                reranker: getRerankerConfigForApiV2StreamQuery(rerank),
+                reranker: getRerankerConfigForApiV2(rerank),
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -343,7 +344,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 metadataFilter: search.metadataFilter,
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
-                reranker: rerank,
+                reranker: getRerankerConfigForApiV2(rerank),
                 contextConfiguration: {
                   sentencesBefore: summary.summaryNumSentences,
                   sentencesAfter: summary.summaryNumSentences,
@@ -453,10 +454,11 @@ export const SearchContextProvider = ({ children }: Props) => {
                         summary: summary,
                         searchResult: searchResults
                       })
+                      setFactualConsistencyScore(fcsDetail?.score)
                     }
                     setSummarizationError(undefined);
                     setSummarizationResponse(update.updatedText ?? undefined);
-                    setFactualConsistencyScore(fcsDetail?.score)
+                    setFactualConsistencyScore(undefined)
                   }
                 };
 
