@@ -559,7 +559,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
       isEnabled: !!config_reranker_name,
       numResults: Number(config_rerank_num_results ?? rerank.numResults),
       names: config_reranker_name,
-      diversityBias: config_mmr_diversity_bias ?? rerank.diversityBias ?? 0.3,
+      diversityBias: Number(config_mmr_diversity_bias) ?? rerank.diversityBias ?? 0.3,
       userFunction: config_user_function,
     });
 
