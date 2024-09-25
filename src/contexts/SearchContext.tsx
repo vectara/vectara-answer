@@ -249,9 +249,15 @@ export const SearchContextProvider = ({ children }: Props) => {
                 switch (event.type) {
                   case "requestError":
                   case "genericError":
-                  case "error":
                     setIsSearching(false);
                     setSearchResponse(undefined);
+                    break;
+
+                  case "error":
+                    if (!event.messages[0].includes("QRY__PARTIAL_RERANK: reranked")) {
+                      setIsSearching(false);
+                      setSearchResponse(undefined);
+                    }
                     break;
 
                   case "searchResults":
