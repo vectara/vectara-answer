@@ -13,7 +13,7 @@ import {
   DeserializedSearchResult,
   SearchResponse,
   SummaryLanguage,
-  SearchError, FcsMode, ApiV2SearchResponse
+  SearchError, FcsMode, ApiV2SearchResponse, FCS_SUPPORTED_LANGUAGES
 } from "../views/search/types";
 import { useConfigContext } from "./ConfigurationContext";
 import { sendSearchRequest } from "./sendSearchRequest";
@@ -315,7 +315,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 generationPresetName: promptName,
                 promptText: summary.summaryPromptText,
                 maxUsedSearchResults: summary.summaryNumResults,
-                enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                enableFactualConsistencyScore: FCS_SUPPORTED_LANGUAGES.includes(language) ? isFactualConsistentScoreEnabled : false,
                 responseLanguage: language
 
               }
@@ -362,7 +362,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                 promptName: promptName,
                 promptText: summary.summaryPromptText,
                 maxUsedSearchResults: summary.summaryNumResults,
-                enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                enableFactualConsistencyScore: FCS_SUPPORTED_LANGUAGES.includes(language) ? isFactualConsistentScoreEnabled : false,
                 responseLanguage: language
 
               }
@@ -482,7 +482,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     summaryNumResults: summary.summaryNumResults,
                     summaryNumSentences: summary.summaryNumSentences,
                     summaryPromptName: promptName,
-                    enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                    enableFactualConsistencyScore: FCS_SUPPORTED_LANGUAGES.includes(language) ? isFactualConsistentScoreEnabled : false,
                     lambda: hybridLambda,
                     language,
                     customerId: search.customerId!,
@@ -504,7 +504,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   summaryNumSentences: summary.summaryNumSentences,
                   summaryPromptName: promptName,
                   summaryPromptText: summary.summaryPromptText,
-                  enableFactualConsistencyScore: isFactualConsistentScoreEnabled,
+                  enableFactualConsistencyScore: FCS_SUPPORTED_LANGUAGES.includes(language) ? isFactualConsistentScoreEnabled : false,
                   hybridNumWords: hybrid.numWords,
                   hybridLambdaLong: hybrid.lambdaLong,
                   hybridLambdaShort: hybrid.lambdaShort,
