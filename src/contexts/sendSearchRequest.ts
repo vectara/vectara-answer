@@ -59,28 +59,28 @@ const convertReranker = (reranker?: Reranker) => {
         return {
           reranker_name: "User_Defined_Function_Reranker",
           user_function: reranker.userFunction ?? "",
-          next_reranking_config: buildRerankingConfig(index + 1)
+          ...(index + 1 < rerankerNames.length && {next_reranking_config: buildRerankingConfig(index + 1)})
         };
 
       case "slingshot":
         return {
           reranker_name: "vectara-rrk-v1.0.0",
           reranker_id: slingshot_reranker_id,
-          next_reranking_config: buildRerankingConfig(index + 1)
+          ...(index + 1 < rerankerNames.length && {next_reranking_config: buildRerankingConfig(index + 1)})
         };
 
       case "normal":
         return {
           reranker_name: "Rerank_Multilingual_v1",
           reranker_id: normal_reranker_id,
-          next_reranking_config: buildRerankingConfig(index + 1)
+        ...(index + 1 < rerankerNames.length && {next_reranking_config: buildRerankingConfig(index + 1)})
         };
 
       case "mmr":
         return {
           reranker_name: "Maximum Marginal Relevance Reranker",
           diversity_bias: reranker.diversityBias ?? 0.3,
-          next_reranking_config: buildRerankingConfig(index + 1)
+          ...(index + 1 < rerankerNames.length && {next_reranking_config: buildRerankingConfig(index + 1)})
         };
 
       // Add other reranker types as needed
@@ -167,10 +167,6 @@ export const sendSearchRequest = async ({
       },
     ],
   };
-
-  console.log(reranker)
-  console.log(body)
-  console.log(convertReranker(reranker))
 
   let headers = {};
   let url = "";

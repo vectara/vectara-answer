@@ -452,6 +452,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   const fcsDetail = update.details?.factualConsistency
                   if (searchId === searchCount) {
                     if (update.isDone) {
+                      setFactualConsistencyScore(fcsDetail?.score)
                       setIsSummarizing(false);
                       setSummaryTime(Date.now() - startTime);
                       amplitude.track("Query", {
@@ -460,11 +461,12 @@ export const SearchContextProvider = ({ children }: Props) => {
                         summary: summary,
                         searchResult: searchResults
                       })
-                      setFactualConsistencyScore(fcsDetail?.score)
+                    }
+                    else {
+                      setFactualConsistencyScore(undefined)
                     }
                     setSummarizationError(undefined);
                     setSummarizationResponse(update.updatedText ?? undefined);
-                    setFactualConsistencyScore(undefined)
                   }
                 };
 
