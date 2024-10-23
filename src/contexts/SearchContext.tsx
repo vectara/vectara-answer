@@ -92,7 +92,7 @@ type Props = {
 let searchCount = 0;
 
 export const SearchContextProvider = ({ children }: Props) => {
-  const { isConfigLoaded, search, summary, setSummary, results, rerank, hybrid, uxMode, fcsMode, app } =
+  const { isConfigLoaded, search, summary, setSummary, results, rerank, hybrid, uxMode, fcsMode, app, filterBySource } =
     useConfigContext();
   const isSummaryEnabled = uxMode === "summary";
 
@@ -295,12 +295,12 @@ export const SearchContextProvider = ({ children }: Props) => {
               apiKey: search.apiKey!,
               customerId: search.customerId!,
               query: value,
-              corpusKey: filter ? filter: search.corpusKey!,
+              corpusKey: filterBySource.filterByCorpus && filter ? filter: search.corpusKey!,
               domain: `https://${search.endpoint!}`,
               search: {
                 limit: rerank.numResults,
                 offset: 0,
-                metadataFilter: search.metadataFilter || "",
+                metadataFilter: !filterBySource.filterByCorpus && filter ? `doc.source =  '${filter.toLowerCase()}'` : "",
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
                 reranker: getRerankerConfigForApiV2(rerank),
@@ -342,12 +342,12 @@ export const SearchContextProvider = ({ children }: Props) => {
               apiKey: search.apiKey!,
               customerId: search.customerId!,
               query: value,
-              corpusKey: filter? filter: search.corpusKey!,
+              corpusKey: filterBySource.filterByCorpus && filter ? filter: search.corpusKey!,
               endpoint: search.endpoint!,
               search: {
                 limit: rerank.numResults,
                 offset: 0,
-                metadataFilter: search.metadataFilter,
+                metadataFilter: !filterBySource.filterByCorpus && filter ? `doc.source = '${filter.toLowerCase()}'` : "",
                 lexicalInterpolation:
                   value.trim().split(" ").length > hybrid.numWords ? hybrid.lambdaLong : hybrid.lambdaShort,
                 reranker: getRerankerConfigForApiV2(rerank),
@@ -402,7 +402,7 @@ export const SearchContextProvider = ({ children }: Props) => {
         try {
           const startTime = Date.now();
           initialSearchResponse = await sendSearchRequest({
-            metadataFilter: search.metadataFilter,
+            metadataFilter: !filterBySource.filterByCorpus && filter ? `doc.source = '${filter.toLowerCase()}'` : "",
             query_str: value,
             reranker: rerank,
             hybridNumWords: hybrid.numWords,
@@ -410,7 +410,7 @@ export const SearchContextProvider = ({ children }: Props) => {
             hybridLambdaShort: hybrid.lambdaShort,
             mode: mode,
             customerId: search.customerId!,
-            corpusId: filter ? filter: search.corpusId!,
+            corpusId: filterBySource.filterByCorpus && filter ? filter: search.corpusId!,
             endpoint: search.endpoint!,
             apiKey: search.apiKey!,
             userFunction: rerank.userFunction,
@@ -475,7 +475,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   : hybrid.lambdaShort;
                 streamQueryV1(
                   {
-                    filter: search.metadataFilter,
+                    filter: !filterBySource.filterByCorpus && filter ? `doc.source = '${filter.toLowerCase()}'` : "",
                     queryValue: value,
                     rerank: rerank.isEnabled,
                     rerankNumResults: rerank.numResults,
@@ -488,7 +488,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     lambda: hybridLambda,
                     language,
                     customerId: search.customerId!,
-                    corpusIds: filter ? [filter] :search.corpusId!.split(","),
+                    corpusIds: filterBySource.filterByCorpus && filter ? [filter]: search.corpusId!.split(","),
                     endpoint: `https://${search.endpoint!}/v1/stream-query`,
                     apiKey: search.apiKey!,
                   },
@@ -497,7 +497,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               }
               else {
                 const response = await sendSearchRequest({
-                  metadataFilter: search.metadataFilter,
+                  metadataFilter: !filterBySource.filterByCorpus && filter ? `doc.source = '${filter.toLowerCase()}'` : "",
                   query_str: value,
                   summaryMode: true,
                   reranker: rerank,
@@ -512,7 +512,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                   hybridLambdaShort: hybrid.lambdaShort,
                   language,
                   customerId: search.customerId!,
-                  corpusId: filter ? filter : search.corpusId!,
+                  corpusId: filterBySource.filterByCorpus && filter ? filter: search.corpusId!,
                   endpoint: search.endpoint!,
                   apiKey: search.apiKey!,
                 });

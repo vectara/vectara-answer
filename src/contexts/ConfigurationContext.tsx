@@ -129,6 +129,7 @@ type Source = { value: string; label: string };
 type FilterBySource = {
   isEnabled: boolean;
   sources: Source[];
+  filterByCorpus: boolean;
   allSources: boolean;
 };
 
@@ -305,6 +306,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
   const [filterBySource, setFilterBySource] = useState<FilterBySource>({
     isEnabled: false,
     sources: [],
+    filterByCorpus: false,
     allSources: true,
   });
   const [searchHeader, setSearchHeader] = useState<SearchHeader>({ logo: {} });
@@ -492,7 +494,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     const corpuses = config_corpus_id ? config_corpus_id?.split(',') : config_corpus_key?.split(',') || []
     const sources =
       config_sources?.split(",").map((source, index) => ({
-        value: corpuses[index],
+        value: corpuses.length === config_sources?.split(",").length ? corpuses[index]: source,
         label: source,
       })) ?? [];
 
@@ -505,6 +507,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     setFilterBySource({
       isEnabled: isFilteringEnabled,
       allSources: allSources,
+      filterByCorpus: corpuses.length === config_sources?.split(",").length,
       sources: sources,
     });
 
