@@ -29,7 +29,7 @@ export const AppFooter = () => {
               <p>
                 We made this to show off Vectara's conversational search
                 capabilities. But you can use Vectara to ask your own data
-                questions, too. Vectara is free to use so it's easy to get
+                questions, too. Vectara has a free trial, so it's easy to get
                 started.
               </p>
             </VuiText>
