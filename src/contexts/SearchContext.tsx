@@ -254,7 +254,8 @@ export const SearchContextProvider = ({ children }: Props) => {
                     break;
 
                   case "error":
-                    if (!event.messages[0].includes("QRY__PARTIAL_RERANK: reranked")) {
+                    if (!event.messages[0].includes("QRY__PARTIAL_RERANK: reranked") &&
+                        !event.messages[0].includes("QRY__SMRY__EVAL_FAILURE")) {
                       setIsSearching(false);
                       setSearchResponse(undefined);
                     }
