@@ -1,6 +1,6 @@
 import axios from "axios";
 import { START_TAG, END_TAG } from "../utils/parseSnippet";
-import { normal_reranker_id, slingshot_reranker_id, SummaryLanguage } from "../views/search/types";
+import { SummaryLanguage } from "../views/search/types";
 
 type  Reranker = {
   isEnabled?: boolean,
@@ -65,14 +65,12 @@ const convertReranker = (reranker?: Reranker) => {
       case "slingshot":
         return {
           reranker_name: "vectara-rrk-v1.0.0",
-          reranker_id: slingshot_reranker_id,
           ...(index + 1 < rerankerNames.length && {next_reranking_config: buildRerankingConfig(index + 1)})
         };
 
       case "normal":
         return {
           reranker_name: "Rerank_Multilingual_v1",
-          reranker_id: normal_reranker_id,
         ...(index + 1 < rerankerNames.length && {next_reranking_config: buildRerankingConfig(index + 1)})
         };
 
@@ -83,7 +81,6 @@ const convertReranker = (reranker?: Reranker) => {
           ...(index + 1 < rerankerNames.length && {next_reranking_config: buildRerankingConfig(index + 1)})
         };
 
-      // Add other reranker types as needed
       default:
         return {}
     }
