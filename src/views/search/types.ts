@@ -274,13 +274,6 @@ export type QueryBody = {
   generation?: GenerationConfiguration;
 };
 
-export type QueryRequestHeaders = {
-  ["customer-id"]: string;
-  ["Content-Type"]: string;
-  ["x-api-key"]?: string;
-  ["Authorization"]?: string;
-};
-
 export type ApiV2SearchResponse = {
   search_results: SearchResult[];
   factual_consistency_score: number;

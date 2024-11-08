@@ -1,9 +1,9 @@
 import {
   SummaryLanguage,
   QueryBody,
-  QueryRequestHeaders,
   ChainReranker,
 } from "../views/search/types";
+import axios from "axios";
 
 export type Reranker = {type: "none"}
   | { type: "customer_reranker"; rerankerId: string }
@@ -213,26 +213,38 @@ export const apiV2sendSearchRequest = async ({
     };
   }
 
-  const headers: QueryRequestHeaders = {
-    "customer-id": customerId,
-    "Content-Type": "application/json"
-  };
+  let headers = {};
+  let url = "";
+  if (process.env.NODE_ENV === "production") {
+    // Call proxy server if in production
+    url = `/v2/query`;
+    headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    };
+  } else {
+    // Call directly if in development
+    url = `https://${endpoint}/v2/query`;
+    headers = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "customer-id": customerId,
+        "x-api-key": apiKey,
+      },
+    };
+  }
 
-  if (apiKey) headers["x-api-key"] = apiKey;
-
-  const url = `https://${endpoint}/v2/query`;
-  const response = await fetch(url, {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify(body)
-  });
+  const response =  await axios.post(url, body, headers);
 
   if (response.status === 400 || response.status === 403 || response.status === 404) {
-    const result = await response.json();
+    const result = await response.data;
     throw new Error(`BAD REQUEST: ${result?.messages[0] ?? result.field_errors}`);
   }
 
   if (response.status !== 200) throw new Error(response.status.toString());
 
-  return await response.json()
+  return await response.data
 };
