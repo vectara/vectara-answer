@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const { legacyCreateProxyMiddleware:createProxyMiddleware } = require("http-proxy-middleware");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 4444; // default port 4444 for local development and 3000 for docker
@@ -15,7 +15,7 @@ app.get("/", function (req, res) {
 const proxyOptions = {
   target: `https://${process.env.endpoint}`,
   changeOrigin: true,
-  pathRewrite: { "^/v1/query": "/v1/query" },
+  pathRewrite: { "^/v1/query": "/v1/query", "^/v2/query": "/v2/query" },
   onProxyReq: (proxyReq, req) => {
     proxyReq.setHeader("Content-Type", "application/json");
     proxyReq.setHeader("Accept", "application/json");
@@ -39,6 +39,7 @@ const proxyOptions = {
   },
 };
 app.use("/v1/query", createProxyMiddleware(proxyOptions));
+app.use("/v2/query", createProxyMiddleware(proxyOptions));
 
 app.post("/config", (req, res) => {
   const {
