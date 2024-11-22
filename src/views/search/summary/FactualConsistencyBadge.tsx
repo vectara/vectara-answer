@@ -41,7 +41,7 @@ export const FactualConsistencyBadge = ({ score, fcsMode }: Props) => {
               {/*{score === undefined && <VuiSpinner size="s" />}*/}
               <VuiFlexItem>
                   {
-                      fcsMode === "badge" ? <ConfidenceBadge confidenceLevel={getConfidenceLevel(score ?? -1)} />
+                      fcsMode === "badge" && sanitizedScore !== "unavailable" ? <ConfidenceBadge confidenceLevel={getConfidenceLevel(score ?? -1)} />
                         : badge
                   }
               </VuiFlexItem>

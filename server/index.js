@@ -18,26 +18,37 @@ const proxyOptions = {
   pathRewrite: { "^/v1/query": "/v1/query", "^/v2/query": "/v2/query" },
   onProxyReq: (proxyReq, req) => {
     proxyReq.setHeader("Content-Type", "application/json");
-    proxyReq.setHeader("Accept", "application/json");
+    proxyReq.setHeader("Accept", "text/event-stream");
     proxyReq.setHeader("customer-id", process.env.customer_id);
     proxyReq.setHeader("x-api-key", process.env.api_key);
     proxyReq.setHeader("grpc-timeout", "60S");
     proxyReq.setHeader("X-Source", "vectara-answer");
 
-    if (req.body.logQuery) {
-      // Accessing the domain name from the request headers
+    if (req.body && req.body.logQuery) {
       const hostHeader = req.headers.host;
-      console.log(`${hostHeader} - user query: `, req.body.query[0].query)
+      console.log(`${hostHeader} - user query: `, req.body.query[0].query);
     }
 
     if (req.body) {
-      delete req.body.logQuery // remove the logQuery flag from request body
+      delete req.body.logQuery; // Remove the logQuery flag from request body
       const bodyData = JSON.stringify(req.body);
       proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyData));
       proxyReq.write(bodyData);
     }
   },
+  selfHandleResponse: true,
+  onProxyRes: (proxyRes, req, res) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    proxyRes.pipe(res);
+    proxyRes.on("error", (error) => {
+      console.error("Stream error:", error);
+      res.status(res.status).send(error);
+    });
+  },
 };
+
 app.use("/v1/query", createProxyMiddleware(proxyOptions));
 app.use("/v2/query", createProxyMiddleware(proxyOptions));
 
@@ -45,6 +56,7 @@ app.post("/config", (req, res) => {
   const {
     // Search
     endpoint,
+    proxy_server_url,
     corpus_id,
     corpus_key,
     customer_id,
@@ -122,6 +134,7 @@ app.post("/config", (req, res) => {
   res.send({
     // Search
     endpoint,
+    proxy_server_url,
     corpus_id,
     corpus_key,
     customer_id,
