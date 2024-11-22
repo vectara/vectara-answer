@@ -17,6 +17,7 @@ import {
 interface Config {
   // Search
   config_endpoint?: string;
+  config_proxy_server_url?: string;
   config_corpus_key?: string;
   config_corpus_id?: string;
   config_customer_id?: string;
@@ -98,6 +99,7 @@ const requiredConfigVars = ["corpus_key", "corpus_id", "customer_id", "api_key",
 
 type Search = {
   endpoint?: string;
+  proxyServerUrl?: string;
   corpusKey?: string;
   corpusId?: string;
   customerId?: string;
@@ -386,6 +388,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
     const {
       // Search
       config_endpoint,
+      config_proxy_server_url,
       config_corpus_key,
       config_corpus_id,
       config_customer_id,
@@ -460,6 +463,7 @@ export const ConfigContextProvider = ({ children }: Props) => {
 
     setSearch({
       endpoint: config_endpoint,
+      proxyServerUrl: config_proxy_server_url,
       corpusKey: config_corpus_key,
       corpusId: config_corpus_id,
       customerId: config_customer_id,
