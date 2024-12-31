@@ -241,7 +241,6 @@ export const SearchContextProvider = ({ children }: Props) => {
       setIsSummarizing(true);
       setSelectedSearchResultPosition(undefined);
       const getRerankerNumResults = () => {
-        console.log(filter)
         if (filter) {
               return 100
         }
@@ -305,7 +304,6 @@ export const SearchContextProvider = ({ children }: Props) => {
               query: value,
               corpusKey: filterBySource.filterByCorpus && filter ? filter: search.corpusKey!,
               domain: search.proxyServerUrl,
-              // domain: search.endpoint!,
               search: {
                 limit: getRerankerNumResults(),
                 offset: 0,
