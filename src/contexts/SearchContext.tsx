@@ -240,6 +240,12 @@ export const SearchContextProvider = ({ children }: Props) => {
       setIsSearching(true);
       setIsSummarizing(true);
       setSelectedSearchResultPosition(undefined);
+      const getRerankerNumResults = () => {
+        if (filter) {
+              return 100
+        }
+        else return rerank.numResults
+      }
       if (search.corpusKey) {
         if (search.enableStreamQuery) {
           try {
@@ -297,9 +303,9 @@ export const SearchContextProvider = ({ children }: Props) => {
               customerId: search.customerId!,
               query: value,
               corpusKey: filterBySource.filterByCorpus && filter ? filter: search.corpusKey!,
-              domain: `https://${search.endpoint!}`,
+              domain: search.proxyServerUrl,
               search: {
-                limit: rerank.numResults,
+                limit: getRerankerNumResults(),
                 offset: 0,
                 metadataFilter: !filterBySource.filterByCorpus && filter ? `doc.source =  '${filter.toLowerCase()}'` : "",
                 lexicalInterpolation:
@@ -346,7 +352,7 @@ export const SearchContextProvider = ({ children }: Props) => {
               corpusKey: filterBySource.filterByCorpus && filter ? filter: search.corpusKey!,
               endpoint: search.endpoint!,
               search: {
-                limit: rerank.numResults,
+                limit: getRerankerNumResults(),
                 offset: 0,
                 metadataFilter: !filterBySource.filterByCorpus && filter ? `doc.source = '${filter.toLowerCase()}'` : "",
                 lexicalInterpolation:
@@ -479,7 +485,7 @@ export const SearchContextProvider = ({ children }: Props) => {
                     filter: !filterBySource.filterByCorpus && filter ? `doc.source = '${filter.toLowerCase()}'` : "",
                     queryValue: value,
                     rerank: rerank.isEnabled,
-                    rerankNumResults: rerank.numResults,
+                    rerankNumResults: getRerankerNumResults(),
                     rerankerId: getRerankerConfigForApiV1StreamQuery(rerank),
                     rerankDiversityBias: rerank.diversityBias,
                     summaryNumResults: summary.summaryNumResults,
