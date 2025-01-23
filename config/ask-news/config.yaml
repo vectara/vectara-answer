@@ -1,8 +1,6 @@
 name: "asknews"
 
 corpus_key: "ofer-bm-cnn_226,ofer-bm-cnbc_227,ofer-bm-npr_228,ofer-bm-fox_229,ofer-bm-bcc_230"
-customer_id: "1526022105"
-api_key: "zwt_WvU_2fKdd6UKTk5QSBa5yGkeOiwlyEUB80j-sQ"
 all_sources: "True"
 enable_source_filters: "True"
 
