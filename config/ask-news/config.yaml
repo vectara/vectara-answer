@@ -1,19 +1,23 @@
-corpus_id: "151,152,153,154,155"
-customer_id: 1526022105
+name: "asknews"
 
-app_title: "AskNews"
-app_header_learn_more_link: "https://vectara.com/developers/sample-apps/"
-search_description: "Sample news aggregator built using Vectara"
-search_logo_src: "images/asknews_logo.png" ## could be URL
+corpus_key: "ofer-bm-cnn_226,ofer-bm-cnbc_227,ofer-bm-npr_228,ofer-bm-fox_229,ofer-bm-bcc_230"
+customer_id: "1526022105"
+api_key: "zwt_WvU_2fKdd6UKTk5QSBa5yGkeOiwlyEUB80j-sQ"
+all_sources: "True"
+enable_source_filters: "True"
+
+search_description: "Ask questions about the news"
+search_logo_src: "images/asknews_logo.png"
 search_logo_alt: "AskNews logo"
 search_logo_height: "20"
-
+enable_stream_query: "True"
 summary_default_language: "eng"
-summary_num_sentences: 3
-summary_num_results: 7
 
-enable_source_filters: True
-sources: "BBC,NPR,FOX,CNBC,CNN"
+summary_num_sentences: "2"
 
-# if difference between now and crawl date is less than month then update the score otherwise not
-user_function: "if ((to_unix_timestamp(now()) - get('$.document_metadata.crawl_date_int')) < 2592000) get('$.score') + 1 else get('$.score')"
+reranker_name: "slingshot,mmr"
+mmr_diversity_bias: 0.1
+rerank_num_results: "20"
+
+
+sources: "CNN,CNBC,NPR,FOX,BBC"
