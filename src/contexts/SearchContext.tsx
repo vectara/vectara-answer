@@ -299,8 +299,8 @@ export const SearchContextProvider = ({ children }: Props) => {
             };
 
             const streamQueryConfig: ApiV2.StreamQueryConfig = {
-              apiKey: search.apiKey!,
-              customerId: search.customerId!,
+              apiKey: search.proxyServerUrl ? ""  : search.apiKey!,
+              customerId: search.proxyServerUrl ? ""  : search.customerId!,
               query: value,
               corpusKey: filterBySource.filterByCorpus && filter ? filter: search.corpusKey!,
               domain: search.proxyServerUrl,
