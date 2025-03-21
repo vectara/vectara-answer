@@ -235,6 +235,15 @@ app_header_logo_alt: "Vectara logo"
 app_header_logo_height: 20
 ```
 
+### Intelligent query rewriting
+Vectara offers Intelligent Query Rewriting option which  enhances search precision by automatically generating metadata filter expressions from natural language queries. 
+This capability analyzes user queries, extracts relevant metadata filters, and rephrases the query to focus on the core information need. For more [details](https://docs.vectara.com/docs/search-and-retrieval/intelligent-query-rewriting).
+```yaml
+intelligent_query_rewriting: "True"
+```
+
+
+
 ### Source filters (optional)
 
 If your application uses more than one corpus, you can define source filters to enable the user to narrow their search to a specific corpus.

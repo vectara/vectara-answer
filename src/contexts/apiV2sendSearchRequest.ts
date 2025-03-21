@@ -80,6 +80,7 @@ type Config = {
     store?: boolean;
     conversationId?: string;
   };
+  intelligentQueryRewriting?: boolean
 };
 
 const convertSingleReranker = (reranker?: Reranker) => {
@@ -145,7 +146,8 @@ export const apiV2sendSearchRequest = async ({
   query,
   endpoint,
   search,
-  generation
+  generation,
+  intelligentQueryRewriting
 }: Config) => {
   const {
     metadataFilter,
@@ -212,6 +214,11 @@ export const apiV2sendSearchRequest = async ({
       enable_factual_consistency_score: enableFactualConsistencyScore
     };
   }
+
+  if (intelligentQueryRewriting) {
+    body.intelligent_query_rewriting = intelligentQueryRewriting
+  }
+
 
   let headers = {};
   let url = "";

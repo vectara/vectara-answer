@@ -372,7 +372,8 @@ export const SearchContextProvider = ({ children }: Props) => {
                 enableFactualConsistencyScore: FCS_SUPPORTED_LANGUAGES.includes(language) ? isFactualConsistentScoreEnabled : false,
                 responseLanguage: language
 
-              }
+              },
+              intelligentQueryRewriting: search.intelligentQueryRewriting
             })
             const totalTime = Date.now() - startTime;
             if (searchId === searchCount) {
