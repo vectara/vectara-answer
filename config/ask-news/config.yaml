@@ -1,29 +1,19 @@
-customer_id: 1169579801
-corpus_key: supermicro
+corpus_id: "151,152,153,154,155"
+customer_id: 1526022105
 
-app_title: "Sample App"
+app_title: "AskNews"
 app_header_learn_more_link: "https://vectara.com/developers/sample-apps/"
-search_title: "Ask SuperMicro"
-search_description: "Ask questions about SuperMicro"
-
-hybrid_search_num_words: 2
-hybrid_search_lambda_long: 0.005
-hybrid_search_lambda_short: 0.1
-
-summary_prompt_name: vectara-summary-table-md-query-ext-jan-2025-gpt-4o
+search_description: "Sample news aggregator built using Vectara"
+search_logo_src: "images/asknews_logo.png" ## could be URL
+search_logo_alt: "AskNews logo"
+search_logo_height: "20"
 
 summary_default_language: "eng"
 summary_num_sentences: 3
-summary_num_results: 10
+summary_num_results: 7
 
-reranker_name: slingshot
-#reranker_name: "slingshot,mmr"
-rerank_num_results: "50"
-#mmr_diversity_bias: "0.1"
-#endpoint: https://api.vectara.io
-#proxy_server_url: http://localhost
+enable_source_filters: True
+sources: "BBC,NPR,FOX,CNBC,CNN"
 
-enable_stream_query: "False"
-intelligent_query_rewriting: "False"
-enable_source_filters: False
-sources: ""
+# if difference between now and crawl date is less than month then update the score otherwise not
+user_function: "if ((to_unix_timestamp(now()) - get('$.document_metadata.crawl_date_int')) < 2592000) get('$.score') + 1 else get('$.score')"
