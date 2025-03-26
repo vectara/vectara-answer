@@ -23,23 +23,17 @@ const proxyOptions = {
     const acceptHeader = req.headers['accept'] || 'application/json';
     proxyReq.setHeader("Accept", acceptHeader);
 
+
     // Set other required headers
     proxyReq.setHeader("customer-id", process.env.customer_id);
     proxyReq.setHeader("x-api-key", process.env.api_key);
     proxyReq.setHeader("grpc-timeout", "60S");
     proxyReq.setHeader("X-Source", "vectara-answer");
 
-    if (req.body && req.body.logQuery) {
-      const hostHeader = req.headers.host;
-      console.log(`${hostHeader} - user query: `, req.body.query[0].query);
-    }
-
-    console.log(req.body)
-
     if (req.body) {
       const bodyData = { ...req.body };
       if (bodyData.logQuery) {
-        delete bodyData.logQuery; // Remove the logQuery flag from request body
+        delete bodyData.logQuery;
       }
       const bodyString = JSON.stringify(bodyData);
       proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyString));
@@ -48,9 +42,7 @@ const proxyOptions = {
   },
   selfHandleResponse: true,
   onProxyRes: (proxyRes, req, res) => {
-    // Get content type from response
     const contentType = proxyRes.headers['content-type'] || 'application/json';
-
     Object.keys(proxyRes.headers).forEach(key => {
       const lowerKey = key.toLowerCase();
       if (lowerKey !== 'content-length' && lowerKey !== 'transfer-encoding') {
@@ -59,51 +51,31 @@ const proxyOptions = {
     });
 
     res.statusCode = proxyRes.statusCode;
+    if (contentType.includes('text/event-stream')) {
 
-    const wantsStream = req.headers.accept && req.headers.accept.includes('text/event-stream');
-    const isStream = contentType.includes('text/event-stream');
-
-    if (isStream && wantsStream) {
       res.setHeader("Content-Type", "text/event-stream");
       res.setHeader("Transfer-Encoding", "chunked");
-      proxyRes.pipe(res);
-    } else {
-      let responseBody = Buffer.from('');
 
       proxyRes.on('data', (chunk) => {
-        responseBody = Buffer.concat([responseBody, chunk]);
+        res.write(chunk);
       });
 
       proxyRes.on('end', () => {
+        res.end();
+      });
 
-        if (isStream && !wantsStream) {
-          try {
-
-            const events = responseBody.toString().split('\n\n')
-              .filter(event => event.trim().startsWith('data:'))
-              .map(event => {
-                const data = event.trim().substring(5);
-                return JSON.parse(data);
-              });
-
-            res.setHeader("Content-Type", "application/json");
-            res.end(JSON.stringify(events.length === 1 ? events[0] : events));
-          } catch (e) {
-
-            res.setHeader("Content-Type", contentType);
-            res.end(responseBody);
-          }
-        } else {
-          res.setHeader("Content-Type", contentType);
-          res.end(responseBody);
-        }
+      proxyRes.on('error', (error) => {
+        console.error("Proxy response error (streaming):", error);
+        res.status(500).send({ error: "Proxy response error (streaming)" });
       });
     }
-
-    proxyRes.on("error", (error) => {
-      console.error("Response error:", error);
-      res.status(500).send({ error: "Proxy response error" });
-    });
+    else {
+      proxyRes.pipe(res);
+      proxyRes.on("error", (error) => {
+        console.error("Response error:", error);
+        res.status(500).send({ error: "Proxy response error" });
+      });
+    }
   }
 };
 

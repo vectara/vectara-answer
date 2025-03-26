@@ -320,12 +320,12 @@ export const SearchContextProvider = ({ children }: Props) => {
               },
               generation: {
                 generationPresetName: promptName,
-                promptText: summary.summaryPromptText,
+                promptTemplate: summary.summaryPromptText,
                 maxUsedSearchResults: summary.summaryNumResults,
                 enableFactualConsistencyScore: FCS_SUPPORTED_LANGUAGES.includes(language) ? isFactualConsistentScoreEnabled : false,
                 responseLanguage: language
-
-              }
+              },
+              intelligentQueryRewriting: search.intelligentQueryRewriting
             };
 
             await streamQueryV2({ streamQueryConfig, onStreamEvent })
