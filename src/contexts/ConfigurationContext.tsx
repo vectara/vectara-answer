@@ -24,6 +24,8 @@ interface Config {
   config_api_key?: string;
   config_enable_stream_query? : string
   config_metadata_filter?: string
+  config_intelligent_query_rewriting?: string
+  config_save_history?: string
 
   // App
   config_ux?: UxMode;
@@ -106,6 +108,8 @@ type Search = {
   apiKey?: string;
   metadataFilter?: string
   enableStreamQuery?: boolean
+  intelligentQueryRewriting?: boolean
+  saveHistory?: boolean
 };
 
 type App = {
@@ -395,6 +399,8 @@ export const ConfigContextProvider = ({ children }: Props) => {
       config_api_key,
       config_enable_stream_query,
       config_metadata_filter,
+      config_intelligent_query_rewriting,
+      config_save_history ,
 
       // App
       config_ux,
@@ -469,7 +475,9 @@ export const ConfigContextProvider = ({ children }: Props) => {
       customerId: config_customer_id,
       apiKey: config_api_key,
       metadataFilter: config_metadata_filter,
-      enableStreamQuery: isTrue(config_enable_stream_query)
+      enableStreamQuery: isTrue(config_enable_stream_query),
+      intelligentQueryRewriting: isTrue(config_intelligent_query_rewriting),
+      saveHistory: isTrue(config_save_history)
     });
 
     setApp({

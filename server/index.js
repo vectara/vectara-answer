@@ -17,36 +17,66 @@ const proxyOptions = {
   changeOrigin: true,
   pathRewrite: { "^/v1/query": "/v1/query", "^/v2/query": "/v2/query" },
   onProxyReq: (proxyReq, req) => {
-    proxyReq.setHeader("Content-Type", "application/json");
-    proxyReq.setHeader("Accept", "text/event-stream");
+    const contentType = req.headers['content-type'] || 'application/json';
+    proxyReq.setHeader("Content-Type", contentType);
+
+    const acceptHeader = req.headers['accept'] || 'application/json';
+    proxyReq.setHeader("Accept", acceptHeader);
+
+
+    // Set other required headers
     proxyReq.setHeader("customer-id", process.env.customer_id);
     proxyReq.setHeader("x-api-key", process.env.api_key);
     proxyReq.setHeader("grpc-timeout", "60S");
     proxyReq.setHeader("X-Source", "vectara-answer");
 
-    if (req.body && req.body.logQuery) {
-      const hostHeader = req.headers.host;
-      console.log(`${hostHeader} - user query: `, req.body.query[0].query);
-    }
-
     if (req.body) {
-      delete req.body.logQuery; // Remove the logQuery flag from request body
-      const bodyData = JSON.stringify(req.body);
-      proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyData));
-      proxyReq.write(bodyData);
+      const bodyData = { ...req.body };
+      if (bodyData.logQuery) {
+        delete bodyData.logQuery;
+      }
+      const bodyString = JSON.stringify(bodyData);
+      proxyReq.setHeader("Content-Length", Buffer.byteLength(bodyString));
+      proxyReq.write(bodyString);
     }
   },
   selfHandleResponse: true,
   onProxyRes: (proxyRes, req, res) => {
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Transfer-Encoding", "chunked");
-
-    proxyRes.pipe(res);
-    proxyRes.on("error", (error) => {
-      console.error("Stream error:", error);
-      res.status(res.status).send(error);
+    const contentType = proxyRes.headers['content-type'] || 'application/json';
+    Object.keys(proxyRes.headers).forEach(key => {
+      const lowerKey = key.toLowerCase();
+      if (lowerKey !== 'content-length' && lowerKey !== 'transfer-encoding') {
+        res.setHeader(key, proxyRes.headers[key]);
+      }
     });
-  },
+
+    res.statusCode = proxyRes.statusCode;
+    if (contentType.includes('text/event-stream')) {
+
+      res.setHeader("Content-Type", "text/event-stream");
+      res.setHeader("Transfer-Encoding", "chunked");
+
+      proxyRes.on('data', (chunk) => {
+        res.write(chunk);
+      });
+
+      proxyRes.on('end', () => {
+        res.end();
+      });
+
+      proxyRes.on('error', (error) => {
+        console.error("Proxy response error (streaming):", error);
+        res.status(500).send({ error: "Proxy response error (streaming)" });
+      });
+    }
+    else {
+      proxyRes.pipe(res);
+      proxyRes.on("error", (error) => {
+        console.error("Response error:", error);
+        res.status(500).send({ error: "Proxy response error" });
+      });
+    }
+  }
 };
 
 app.use("/v1/query", createProxyMiddleware(proxyOptions));
@@ -62,6 +92,8 @@ app.post("/config", (req, res) => {
     customer_id,
     api_key,
     metadata_filter,
+    intelligent_query_rewriting,
+    save_history,
 
     // App
     ux,
@@ -140,6 +172,8 @@ app.post("/config", (req, res) => {
     customer_id,
     api_key,
     metadata_filter,
+    intelligent_query_rewriting,
+    save_history,
 
     // App
     ux,

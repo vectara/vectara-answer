@@ -80,6 +80,8 @@ type Config = {
     store?: boolean;
     conversationId?: string;
   };
+  intelligentQueryRewriting?: boolean;
+  saveHistory?: boolean;
 };
 
 const convertSingleReranker = (reranker?: Reranker) => {
@@ -145,7 +147,9 @@ export const apiV2sendSearchRequest = async ({
   query,
   endpoint,
   search,
-  generation
+  generation,
+  intelligentQueryRewriting,
+  saveHistory
 }: Config) => {
   const {
     metadataFilter,
@@ -212,6 +216,14 @@ export const apiV2sendSearchRequest = async ({
       enable_factual_consistency_score: enableFactualConsistencyScore
     };
   }
+
+  if (intelligentQueryRewriting) {
+    body.intelligent_query_rewriting = intelligentQueryRewriting
+  }
+  if (saveHistory) {
+    body.save_history = saveHistory
+  }
+
 
   let headers = {};
   let url = "";
