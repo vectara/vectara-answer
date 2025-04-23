@@ -93,6 +93,7 @@ app.post("/config", (req, res) => {
     api_key,
     metadata_filter,
     intelligent_query_rewriting,
+    save_history,
 
     // App
     ux,
@@ -172,6 +173,7 @@ app.post("/config", (req, res) => {
     api_key,
     metadata_filter,
     intelligent_query_rewriting,
+    save_history,
 
     // App
     ux,

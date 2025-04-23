@@ -273,6 +273,7 @@ export type QueryBody = {
   stream_response?: boolean;
   generation?: GenerationConfiguration;
   intelligent_query_rewriting?: boolean
+  save_history?: boolean
 };
 
 export type ApiV2SearchResponse = {
