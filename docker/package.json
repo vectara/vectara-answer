@@ -8,7 +8,7 @@
     "start": "node server/index.js"
   },
   "dependencies": {
-    "axios": "^1.4.0",
+    "axios": "^1.9.0",
     "dotenv": "^16.0.3",
     "express": "^4.16.1",
     "nth-check": ">=2.0.1",
